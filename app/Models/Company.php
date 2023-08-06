@@ -43,4 +43,9 @@ class Company extends Model
     {
         return $this->hasOne(User::class);
     }
+
+    public function companyDetails(): HasOne
+    {
+        return $this->hasOne(CompanyDetails::class);
+    }
 }
