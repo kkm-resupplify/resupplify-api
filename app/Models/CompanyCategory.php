@@ -9,13 +9,14 @@ class CompanyCategory extends Model
 {
     use HasFactory;
 
-    public function companySubcategories()
-    {
-        $this -> hasMany(CompanySubcategory::class);
-    }
     protected $fillable = [
         'name',
         'slug',
         'description',
     ];
+
+    public function companySubcategories()
+    {
+        $this -> hasMany(CompanySubcategory::class);
+    }
 }

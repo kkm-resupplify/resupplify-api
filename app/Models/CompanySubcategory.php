@@ -8,17 +8,20 @@ use Illuminate\Database\Eloquent\Model;
 class CompanySubcategory extends Model
 {
     use HasFactory;
-    public function companyProduct()
-    {
-        return $this -> hasMany(CompanyProduct::class);
-    }
-    public function companyCategory()
-    {
-        return $this -> belongsTo(CompanyCategory::class);
-    }
+
     protected $fillable = [
         'name',
         'slug',
         'description',
     ];
+
+    public function companyProduct()
+    {
+        return $this->hasMany(CompanyProduct::class);
+    }
+
+    public function companyCategory()
+    {
+        return $this->belongsTo(CompanyCategory::class);
+    }
 }
