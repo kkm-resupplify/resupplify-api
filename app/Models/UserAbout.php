@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class UserAbout extends Model
 {
     use HasFactory;
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

@@ -29,6 +29,7 @@ class AuthController extends Controller
 
             if (Hash::check($request->input('password'), $user->password)) {
                 $token = $user->createToken('user_token')->plainTextToken;
+
                 return response()->json(
                     ['user' => $user, 'token' => $token],
                     200
