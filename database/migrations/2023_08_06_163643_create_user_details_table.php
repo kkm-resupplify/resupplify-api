@@ -21,6 +21,8 @@ return new class extends Migration {
             $table->date('birth_date');
             $table->string('sex');
             $table->timestamps();
+
+            $table->foreignId('user_id')->constrained();
         });
     }
 
