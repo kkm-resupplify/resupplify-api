@@ -15,12 +15,9 @@ return new class extends Migration {
             $table->string('name');
             $table->unsignedSmallInteger('permission_level');
             $table->unsignedBigInteger('company_id');
+            $table->foreignId('company_id')->constrained();
             $table->timestamps();
 
-            $table
-                ->foreign('company_id')
-                ->references('id')
-                ->on('companies');
         });
     }
 

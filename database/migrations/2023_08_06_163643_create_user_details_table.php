@@ -20,9 +20,8 @@ return new class extends Migration {
                 ->nullabe();
             $table->date('birth_date');
             $table->string('sex');
-            $table->timestamps();
-
             $table->foreignId('user_id')->constrained();
+            $table->timestamps();
         });
     }
 
