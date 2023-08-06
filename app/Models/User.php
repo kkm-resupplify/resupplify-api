@@ -18,35 +18,35 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    
-     protected $fillable = ['name', 'email', 'password'];
+
+    protected $fillable = ['email', 'password'];
 
     /**
      * The attributes that should be hidden for serialization.
      *
      * @var array<int, string>
      */
-    
-     protected $hidden = ['password', 'remember_token'];
+
+    protected $hidden = ['password', 'remember_token'];
 
     /**
      * The attributes that should be cast.
      *
      * @var array<string, string>
      */
-    
-     protected $casts = [
+
+    protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
-    
-    public function company(): HasOne
+
+    public function companyMember(): HasOne
     {
-        return $this->hasOne(Company::class);
+        return $this->hasOne(CompanyMember::class);
     }
 
-    public function userAbout(): HasOne
+    public function userDetails(): HasOne
     {
-        return $this->hasOne(UserAbout::class);
+        return $this->hasOne(UserDetails::class);
     }
 }
