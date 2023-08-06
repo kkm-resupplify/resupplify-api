@@ -13,13 +13,13 @@ class CompanyMember extends Model
 
     protected $fillable = ['user_id', 'company_role'];
 
-    public function company(): BelongsTo
-    {
-        return $this->belongsTo(Company::class);
-    }
-
     public function user(): HasOne
     {
         return $this->hasOne(User::class);
+    }
+
+    public function company(): BelongsTo
+    {
+        return $this->belongsTo(Company::class);
     }
 }
