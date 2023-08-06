@@ -17,6 +17,6 @@ class CompanyCategory extends Model
 
     public function companySubcategories()
     {
-        $this -> hasMany(CompanySubcategory::class);
+        $this->hasMany(CompanySubcategory::class);
     }
 }
