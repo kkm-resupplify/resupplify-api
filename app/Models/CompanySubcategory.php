@@ -16,4 +16,9 @@ class CompanySubcategory extends Model
     {
         return $this -> belongsTo(CompanyCategory::class);
     }
+    protected $fillable = [
+        'name',
+        'slug',
+        'description',
+    ];
 }

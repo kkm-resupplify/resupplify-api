@@ -11,6 +11,11 @@ class CompanyCategory extends Model
 
     public function companySubcategories()
     {
-        $this -> hasMany(CompanyCategory::class);
+        $this -> hasMany(CompanySubcategory::class);
     }
+    protected $fillable = [
+        'name',
+        'slug',
+        'description',
+    ];
 }
