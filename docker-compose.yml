@@ -53,6 +53,14 @@ services:
                 - '-p${DB_PASSWORD}'
             retries: 3
             timeout: 5s
+    phpmyadmin:
+        image: 'phpmyadmin:latest'
+        ports:
+            - 8082:80
+        networks:
+            - sail
+        environment:
+            - PMA_ARBITRARY=1
     redis:
         image: 'redis:alpine'
         ports:
