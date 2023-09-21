@@ -14,13 +14,15 @@ class LoginRequest extends FormRequest
   {
     return true;
   }
+
   public function rules(): array
   {
     return [
       'email' =>'required|email|string',
-      'password' =>'required|max_length:30|min_length:6',
+      'password' =>'required|max:30|min:6',
     ];
   }
+
   protected function failedValidation(Validator $validator)
   {
     if($this->expectsJson())
@@ -35,5 +37,16 @@ class LoginRequest extends FormRequest
       );
     }
     parent::failedValidation($validator);
+  }
+  
+  protected function successfulValidation(Validator $validator)
+  {
+    if($this->expectsJson())
+    {
+      throw new HttpResponseException(
+        response()->json(['message' => "test"])
+      );
+    }
+    parent::successfulValidation($validator);
   }
 }

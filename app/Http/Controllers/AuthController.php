@@ -8,6 +8,8 @@ use App\Http\Requests\Auth\RegisterRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\App\Exception\InvalidPasswordException;
 
 class AuthController extends Controller
 {
@@ -35,15 +37,44 @@ class AuthController extends Controller
                     200
                 );
             }
-
-            return response()->json([
-                'error' => 'Something went wrong in login',
-            ]);
-        } catch (\Exception $e) {
+            // else
+            // {
+            //     throw new InvalidPasswordException;
+            // }
+        } catch (ModelNotFoundException $e) {
             return response()->json(
                 [
-                    'error' => $e->getMessage(),
-                    'message' => 'Something went wrong in AuthController.login',
+                    'error' => [
+                        'code' => 'gen-0003',
+                        'message' => __("messages.loginNoUserFound"),
+                        'data' => $e->getMessage(),
+                    ]
+                ],
+                401
+            );
+        }
+        // catch (InvalidPasswordException $e) {
+        //     {
+        //         return response()->json(
+        //             [
+        //                 'error' => [
+        //                     'code' => 'gen-0003',
+        //                     'message' => __("messages.loginNoUserFound"),
+        //                     'data' => $e->getMessage(),
+        //                 ]
+        //             ],
+        //             401
+        //         );
+        //     }
+        // }
+        catch (\Exception $e) {
+            return response()->json(
+                [
+                    'error' => [
+                        'code' => 'gen-0002',
+                        'message' => __("messages.loginAuthControllerError"),
+                        'data' => $e->getMessage(),
+                    ]
                 ],
                 401
             );
