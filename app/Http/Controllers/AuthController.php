@@ -46,8 +46,8 @@ class AuthController extends Controller
             return response()->json(
                 [
                     'error' => [
-                        'code' => 'gen-0003',
-                        'message' => __("messages.loginNoUserFound"),
+                        'code' => 'gen-0002',
+                        'message' => __("login_messages.noUserFound"),
                         'data' => $e->getMessage(),
                     ]
                 ],
@@ -58,7 +58,7 @@ class AuthController extends Controller
                     [
                         'error' => [
                             'code' => 'gen-0003',
-                            'message' => __("messages.loginNoUserFound"),
+                            'message' => __("login_messages.noUserFound"),
                             'data' => $e->getMessage(),
                         ]
                     ],
@@ -69,8 +69,8 @@ class AuthController extends Controller
             return response()->json(
                 [
                     'error' => [
-                        'code' => 'gen-0002',
-                        'message' => __("messages.loginAuthControllerError"),
+                        'code' => 'gen-0004',
+                        'message' => __("login_messages.authControllerError"),
                         'data' => $e->getMessage(),
                     ]
                 ],
@@ -80,32 +80,45 @@ class AuthController extends Controller
     }
 
     public function register(RegisterRequest $request)
-    {
-        try {
-            $user = User::create([
-                'email' => $request->input('email'),
-                'password' => Hash::make($request->input('password')),
-            ]);
-            if ($user) {
-                $user = UserDetails::create([
-                    'first_name' => $request->input('first_name'),
-                    'last_name' => $request->input('last_name'),
-                ]);
-            }
-            $token = $user->createToken('user_token')->plainTextToken;
+{
+    try {
+        $user = User::create([
+            'email' => $request->input('email'),
+            'password' => Hash::make($request->input('password')),
+        ]);
 
-            return response()->json(['user' => $user, 'token' => $token], 200);
-        } catch (\Exception $e) {
-            return response()->json(
+        $userDetails = UserDetails::create([
+                'user_id' => $user->id,
+                'first_name' => $request->input('first_name'),
+                'last_name' => $request->input('last_name'),
+
+            ]);
+        
+        $token = $user->createToken('user_token')->plainTextToken;
+
+        return response()->json(
+            [
+                'message' => __("register_messages.userCreated"),
+                'data' => 
                 [
-                    'error' => $e->getMessage(),
-                    'message' =>
-                    'Something went wrong in AuthController.register',
+                    'token' => $token,
+                    'user' => $user,
+                    '$userDetails' => $userDetails
                 ],
-                401
-            );
-        }
+                'code' => 'gen-0005'
+            ], 200);
+    } catch (\Exception $e) {
+        return response()->json(
+            [
+                'error' => $e->getMessage(),
+                'message' =>
+                'Something went wrong in AuthController.register',
+            ],
+            401
+        );
     }
+}
+
 
     public function logout(LogoutRequest $request)
     {

@@ -31,7 +31,7 @@ class LoginRequest extends FormRequest
       $errors = Arr::flatten($errors);
       throw new HttpResponseException(
           response()->json(['error' => ['code' => 'gen-0001',
-          'message' => __("messages.loginValidationError"),
+          'message' => __("login_messages.validationError"),
           'data' => $errors,
           ]], 422)
       );
