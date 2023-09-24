@@ -28,7 +28,10 @@ class CompanyCategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return response()->json([
+            'test' => 'Hello, world!',
+            'request' => $request,
+        ]);
     }
 
     /**
