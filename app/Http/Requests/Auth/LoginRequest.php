@@ -10,6 +10,7 @@ use Illuminate\Support\Arr;
 
 class LoginRequest extends FormRequest
 {
+
   public function authorize(): bool
   {
     return true;
@@ -18,35 +19,24 @@ class LoginRequest extends FormRequest
   public function rules(): array
   {
     return [
-      'email' =>'required|email|string',
-      'password' =>'required|max:30|min:6',
+      'email' => 'required|email|string',
+      'password' => 'required|max:30|min:6',
     ];
   }
 
   protected function failedValidation(Validator $validator)
   {
-    if($this->expectsJson())
-    {
+    if ($this->expectsJson()) {
       $errors = (new ValidationException($validator))->errors();
       $errors = Arr::flatten($errors);
       throw new HttpResponseException(
-          response()->json(['error' => ['code' => 'gen-0001',
+        response()->json(['error' => [
+          'code' => 'gen-0001',
           'message' => __("login_messages.validationError"),
           'data' => $errors,
-          ]], 422)
+        ]], 422)
       );
     }
     parent::failedValidation($validator);
-  }
-  
-  protected function successfulValidation(Validator $validator)
-  {
-    if($this->expectsJson())
-    {
-      throw new HttpResponseException(
-        response()->json(['message' => "test"])
-      );
-    }
-    parent::successfulValidation($validator);
   }
 }
