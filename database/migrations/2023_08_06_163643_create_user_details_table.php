@@ -4,7 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      */
@@ -14,13 +15,10 @@ return new class extends Migration {
             $table->id();
             $table->string('first_name');
             $table->string('last_name');
-            $table
-                ->string('phone_number')
-                ->unique()
-                ->nullabe();
-            $table->date('birth_date');
-            $table->string('sex');
-            $table->foreignId('user_id')->constrained();
+            $table->string('phone_number')->nullable();
+            $table->date('birth_date')->nullable();
+            $table->string('sex')->nullable();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }
