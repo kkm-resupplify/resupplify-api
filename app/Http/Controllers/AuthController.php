@@ -10,6 +10,9 @@ use App\Http\Requests\Auth\RegisterRequest;
 use App\Models\User;
 use App\Models\UserDetails;
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -33,6 +36,7 @@ class AuthController extends Controller
             )->firstOrFail();
 
             if (Hash::check($request->input('password'), $user->password)) {
+                $user->tokens()->delete();
                 $token = $user->createToken('user_token')->plainTextToken;
 
                 return response()->json(
@@ -66,7 +70,7 @@ class AuthController extends Controller
                 [
                     'error' => [
                         'code' => $e->getCode(),
-                        'message' => __("login_messages.noUserFound"),
+                        'message' => __("login_messages.wrongPassword"),
                         'data' => $e->getMessage(),
                     ]
                 ],
@@ -129,14 +133,16 @@ class AuthController extends Controller
     }
 
 
-    public function logout(LogoutRequest $request)
+    public function logout(Request $request)
     {
         try {
-            $user = User::findOrFail($request->input('user_id'));
-
-            $user->tokens()->delete();
-
-            return response()->json('User logged out!', 200);
+            $request->user()->tokens()->delete();
+            return response()->json(
+                [
+                    'message' => __("login_messages.userLogout"),
+                ],
+                200
+            );
         } catch (\Exception $e) {
             return response()->json([
                 'error' => $e->getMessage(),
