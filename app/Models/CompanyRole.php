@@ -11,7 +11,7 @@ class CompanyRole extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'permision_level'];
+    protected $fillable = ['name', 'permission_level', 'company_id'];
 
     public function company(): BelongsTo
     {

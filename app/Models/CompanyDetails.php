@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class CompanyDetails extends Model
@@ -16,10 +17,11 @@ class CompanyDetails extends Model
         'phone_number',
         'external_website',
         'logo',
+        'company_id',
     ];
 
-    public function company(): HasOne
+    public function company(): BelongsTo
     {
-        return $this->hasOne(Company::class);
+        return $this->belongsTo(Company::class);
     }
 }

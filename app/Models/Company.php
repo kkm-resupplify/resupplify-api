@@ -17,6 +17,8 @@ class Company extends Model
         'name',
         'slug',
         'description',
+        'user_id',
+        'verificationStatus',
     ];
 
     public function companyCategories(): HasMany
@@ -39,9 +41,9 @@ class Company extends Model
         return $this->hasMany(CompanyMember::class);
     }
 
-    public function owner(): HasOne
+    public function owner(): BelongsTo
     {
-        return $this->hasOne(User::class);
+        return $this->belongsTo(User::class);
     }
 
     public function companyDetails(): HasOne

@@ -11,7 +11,7 @@ class CompanyMember extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'company_role'];
+    protected $fillable = ['user_id', 'company_id', 'company_role_id'];
 
     public function user(): HasOne
     {

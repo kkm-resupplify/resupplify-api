@@ -41,7 +41,7 @@ class AuthController extends Controller
 
                 return response()->json(
                     [
-                        'message' => __("login_messages.userLoginSuccess"),
+                        'message' => __("messages.loginMessages.userLoginSuccess"),
                         'data' =>
                         [
                             'token' => $token,
