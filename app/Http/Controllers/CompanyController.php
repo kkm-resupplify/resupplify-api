@@ -9,13 +9,20 @@ use App\Models\CompanyDetails;
 use App\Models\CompanyMember;
 use App\Models\CompanyRole;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class CompanyController extends Controller
 {
-    public function __construct()
+    protected $user;
+
+    public function __construct(Request $request)
     {
-        $this->middleware('auth');
+        $this->middleware(function ($request, $next) {
+            $this->user = Auth::user();
+
+            return $next($request);
+        });
     }
 
 
@@ -51,11 +58,19 @@ class CompanyController extends Controller
     public function index()
     {
         //
-        $user = Auth::user();
+        if ($this->user == null) {
+            return response()->json(
+                [
+                    'error' => 'no company found',
+                    'message' => 'Something went wrong in CompanyController.index',
+                ],
+                401
+            );
+        }
         return response()->json(
             [
                 'message' => 'Company info',
-                'data' => $user->companyMember->company
+                'data' => $this->user
             ]
         );
     }
@@ -78,21 +93,19 @@ class CompanyController extends Controller
      */
     public function store(StoreCompanyRequest $request)
     {
-        $user = Auth::user();
-        if ($user->companyMember) {
+        if ($this->checkIfUserDontHaveCompany($this->user)) {
             return response()->json(
                 [
                     'message' => 'You can only create one company',
-                    'data' => $user->companyMember
+                    'data' => $this->user->companyMember
                 ]
             );
         }
-
         try {
-            $company = $this->createCompany($request, $user);
+            $company = $this->createCompany($request);
             $companyAbout = $this->createCompanyDetails($company->id);
             $companyRoles = $this->createCompanyRoles($company->id);
-            $companyMember = $this->createCompanyMember($user->id, $company->id, $companyRoles->id);
+            $companyMember = $this->createCompanyMember($this->user->id, $company->id, $companyRoles->id);
 
             return response()->json([
                 'message' => 'Company created successfully',
@@ -118,14 +131,14 @@ class CompanyController extends Controller
     /**
      * Create a new company
      */
-    private function createCompany($request, $user)
+    private function createCompany($request)
     {
         return Company::create([
             'name' => $request->input('name'),
             'slug' => self::slugify($request->input('name')),
             'description' => $request->input('description'),
             'verificationStatus' => 'pending',
-            'user_id' => $user->id,
+            'user_id' => $this->user->id,
         ]);
     }
 
@@ -142,61 +155,194 @@ class CompanyController extends Controller
     }
 
     /**
+     * Get all companies
+     */
+    public function getCompanies()
+    {
+        return response()->json(
+            [
+                'message' => 'Returning all companies',
+                'data' => Company::all(),
+            ],
+            200
+        );
+    }
+
+    public function getCompany(int $company_id)
+    {
+        $company = Company::find($company_id);
+        if (!$company) {
+            return response()->json(
+                [
+                    'error' => "There is no company with company_id:{$company_id}",
+                    'message' => 'Something went wrong in CompanyController.getCompany',
+                ],
+                401
+            );
+        }
+        return response()->json(
+            [
+                'message' => 'Returning company',
+                'data' => Company::find($company_id),
+            ],
+            200
+        );
+    }
+    /**
      * Create company basic roles
      * @param int $companyId
      * @return CompanyRole
      */
-    private function createCompanyRoles($companyId)
+    private function createCompanyRoles(int $companyId)
     {
-        $ownerRole = CompanyRole::create([
-            'name' => 'owner',
-            'permission_level' => 1,
-            'company_id' => $companyId,
-        ]);
+        $roles = ['owner', 'admin', 'worker'];
+        $ownerRole = null;
 
-        CompanyRole::create([
-            'name' => 'admin',
-            'permission_level' => 1,
-            'company_id' => $companyId,
-        ]);
+        foreach ($roles as $role) {
+            $newRole = CompanyRole::create([
+                'name' => $role,
+                'permission_level' => 1,
+                'company_id' => $companyId,
+            ]);
 
-        CompanyRole::create([
-            'name' => 'worker',
-            'permission_level' => 1,
-            'company_id' => $companyId,
-        ]);
+            if ($role === 'owner') {
+                $ownerRole = $newRole;
+            }
+        }
 
         return $ownerRole;
     }
 
     /**
-     * Assign owner to the company 
-     * @param int $userId
-     * @param int $companyId
-     * @param int $roleId
-     * @return CompanyMember
+     * Assign user to the company
      */
-    private function createCompanyMember($userId, $companyId, $roleId)
+    private function createCompanyMember(int $userId, int $companyId, int $roleId)
     {
-        return CompanyMember::create([
-            'user_id' => $userId,
-            'company_id' => $companyId,
-            'company_role_id' => $roleId
-        ]);
+        if(!User::find($userId))
+        {
+            return response()->json(
+                [
+                    'error' => "There is no user :{$userId}",
+                    'message' => 'Something went wrong in CompanyController.createCompanyMember',
+                ],
+                401
+            );
+        }
+        if(!Company::find($companyId))
+        {
+            return response()->json(
+                [
+                    'error' => "There is no company :{$companyId}",
+                    'message' => 'Something went wrong in CompanyController.createCompanyMember',
+                ],
+                401
+            );
+        }
+        if(Company::find($companyId)->companyRoles->where('id', '=', $roleId)->isEmpty())
+        {
+            return response()->json(
+                [
+                    'error' => "There is no role :{$roleId} in this company: {$companyId}",
+                    'message' => 'Something went wrong in CompanyController.createCompanyMember',
+                ],
+                401
+            );
+        }
+        else
+        {
+            return CompanyMember::create([
+                'message' => 'User added successfully',
+                'user_id' => $userId,
+                'company_id' => $companyId,
+                'company_role_id' => $roleId,
+                'roles' => Company::find($companyId)->companyRoles->where('id', '=', $roleId)
+            ]);
+        }
     }
 
     /**
      * Add user to the company
      */
-    public function addUserToCompany()
+    public function addUserToCompany(Request $request, int $company_id)
     {
+        $user = User::where('id', $request->input('user_id'))->first();
+        if (!$user) {
+            return response()->json(
+                [
+                    'error' => "There is no user with user_id:{$request->input('user_id')}",
+                    'message' => 'Something went wrong in CompanyController.addUserToCompany',
+                ],
+                401
+            );
+        }
+        if(!Company::find($company_id))
+        {
+            return response()->json(
+                [
+                    'error' => "There is no company :{$company_id}",
+                    'message' => 'Something went wrong in CompanyController.createCompanyMember',
+                ],
+                401
+            );
+        }
+        if ($user->companyMember) {
+            return response()->json(
+                [
+                    'error' => "This user is already a company member",
+                    'message' => 'Something went wrong in CompanyController.addUserToCompany',
+                ],
+                401
+            );
+        }
+        if (count(Company::find($company_id)->companyMembers) > 6) {
+            return response()->json(
+                [
+                    'error' => "This user can't be added to the Company because it has more than 5 members",
+                    'message' => 'Something went wrong in CompanyController.addUserToCompany',
+                ],
+                401
+            );
+        }
+        return self::createCompanyMember($user->id, $company_id, $request->input('role_id'));
+         
+    }
+
+    private function checkRolePermission($user)
+    {
+    }
+
+
+    private function checkIfUserDontHaveCompany($user)
+    {
+        return $user->companyMember ? true : false;
     }
 
     /**
      * Return roles of the company
      */
-    public function getCompanyRoles()
+    public function getCompanyRoles(int $company_id)
     {
+        return response()->json(
+            [
+                'message' => "Returning company:{$company_id} roles",
+                'data' => Company::find($company_id)->companyRoles,
+            ],
+            200
+        );
+    }
+
+    /**
+     * Return company members
+     */
+    public function getCompanyMembers(int $company_id)
+    {
+        return response()->json(
+            [
+                'message' => "Returning company:{$company_id} members",
+                'data' => Company::find($company_id)->companyMembers,
+            ],
+            200
+        );
     }
 
     /**
@@ -282,6 +428,23 @@ class CompanyController extends Controller
         return response()->json(
             [
                 'message' => 'destroy'
+            ]
+        );
+    }
+
+    public function test(Request $request)
+    {
+        if(!Company::find($request->input('company_id'))->companyRoles->where('id', '=', $request->input('role_id')))
+        {
+            return response()->json(
+                [
+                    'message' => 'destroy'
+                ]
+            );
+        }
+        return response()->json(
+            [
+                'message' => 'xdy'
             ]
         );
     }

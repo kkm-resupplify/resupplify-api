@@ -50,4 +50,9 @@ class Company extends Model
     {
         return $this->hasOne(CompanyDetails::class);
     }
+
+    public function companyRoles(): HasMany
+    {
+        return $this->hasMany(CompanyRole::class);
+    }
 }
