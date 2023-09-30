@@ -18,8 +18,8 @@ class CompanyRole extends Model
         return $this->belongsTo(Company::class);
     }
 
-    public function companyMembers(): HasMany
+    public function companyMembers(): BelongsTo
     {
-        return $this->hasMany(CompanyMember::class);
+        return $this->belongsTo(CompanyMember::class);
     }
 }

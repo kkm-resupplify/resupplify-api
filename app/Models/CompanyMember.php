@@ -22,4 +22,9 @@ class CompanyMember extends Model
     {
         return $this->belongsTo(Company::class);
     }
+
+    public function companyRole(): BelongsTo
+    {
+        return $this->belongsTo(CompanyRole::class);
+    }
 }

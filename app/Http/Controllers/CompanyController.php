@@ -170,7 +170,7 @@ class CompanyController extends Controller
 
     public function getCompany(int $company_id)
     {
-        $company = Company::find($company_id);
+        $company = Company::find($company_id)->first();
         if (!$company) {
             return response()->json(
                 [
@@ -218,8 +218,7 @@ class CompanyController extends Controller
      */
     private function createCompanyMember(int $userId, int $companyId, int $roleId)
     {
-        if(!User::find($userId))
-        {
+        if (!User::find($userId)) {
             return response()->json(
                 [
                     'error' => "There is no user :{$userId}",
@@ -228,8 +227,7 @@ class CompanyController extends Controller
                 401
             );
         }
-        if(!Company::find($companyId))
-        {
+        if (!Company::find($companyId)) {
             return response()->json(
                 [
                     'error' => "There is no company :{$companyId}",
@@ -238,8 +236,7 @@ class CompanyController extends Controller
                 401
             );
         }
-        if(Company::find($companyId)->companyRoles->where('id', '=', $roleId)->isEmpty())
-        {
+        if (Company::find($companyId)->companyRoles->where('id', '=', $roleId)->isEmpty()) {
             return response()->json(
                 [
                     'error' => "There is no role :{$roleId} in this company: {$companyId}",
@@ -247,15 +244,13 @@ class CompanyController extends Controller
                 ],
                 401
             );
-        }
-        else
-        {
+        } else {
             return CompanyMember::create([
                 'message' => 'User added successfully',
                 'user_id' => $userId,
                 'company_id' => $companyId,
                 'company_role_id' => $roleId,
-                'roles' => Company::find($companyId)->companyRoles->where('id', '=', $roleId)
+                'roles' => Company::find($companyId)->companyRoles->where('id', '=', $roleId)->first()
             ]);
         }
     }
@@ -275,8 +270,7 @@ class CompanyController extends Controller
                 401
             );
         }
-        if(!Company::find($company_id))
-        {
+        if (!Company::find($company_id)) {
             return response()->json(
                 [
                     'error' => "There is no company :{$company_id}",
@@ -304,7 +298,6 @@ class CompanyController extends Controller
             );
         }
         return self::createCompanyMember($user->id, $company_id, $request->input('role_id'));
-         
     }
 
     private function checkRolePermission($user)
@@ -348,13 +341,73 @@ class CompanyController extends Controller
     /**
      * Delete user from the company
      */
-    public function deleteUserFromCompany()
+    //TODO: jeśli będzie działał już system rang i uprawnień to przerobić to tak żeby nie sprawdzało nazwy rang tylko ich uprawnienia
+    public function deleteUserFromCompany(int $user_id)
     {
+        $user = User::find($user_id);
+        if (!$user) {
+            return response()->json(
+                [
+                    'error' => "There is no user with this id:{$user_id}",
+                    'message' => 'Something went wrong in CompanyController.deleteUserFromCompany',
+                ],
+                401
+            );
+        }
+        if ($user->id == $this->user->id) {
+            return response()->json(
+                [
+                    'error' => "You cannot delete yourself from the company",
+                    'message' => 'Something went wrong in CompanyController.deleteUserFromCompany',
+                ],
+                401
+            );
+        }
+        if ($user->companyMember->company->id != $this->user->companyMember->company->id) {
+            return response()->json(
+                [
+                    'error' => "You cannot delete user that is not in your company",
+                    'message' => 'Something went wrong in CompanyController.deleteUserFromCompany',
+                ],
+                401
+            );
+        }
+        if ($this->user->companyMember->companyRole['permission_level'] > 1) {
+            return response()->json(
+                [
+                    'error' => "You don't have permission to delete company members from the company",
+                    'message' => 'Something went wrong in CompanyController.deleteUserFromCompany',
+                ],
+                401
+            );
+        }
+
+        if (
+            strtolower($user->companyMember->companyRole['name']) == 'owner' ||
+            ($user->companyMember->companyRole['name']) == 'admin' && ($this->user->companyMember->companyRole['name']) == 'admin'
+        ) {
+            return response()->json(
+                [
+                    'error' => "You cannot delete user that is higher or equal to your rank in the company",
+                    'message' => 'Something went wrong in CompanyController.deleteUserFromCompany',
+                ],
+                401
+            );
+        }
+        $user->companyMember->delete();
+        return response()->json(
+            [
+                'message' => "User deleted successfully",
+            ],
+            200
+        );
     }
+
 
     /**
      * Delete role of the company
      */
+    // Co jeśli jakiś użytkownik ma tą range
     public function deleteRoleFromCompany()
     {
     }
@@ -434,8 +487,7 @@ class CompanyController extends Controller
 
     public function test(Request $request)
     {
-        if(!Company::find($request->input('company_id'))->companyRoles->where('id', '=', $request->input('role_id')))
-        {
+        if (!Company::find($request->input('company_id'))->companyRoles->where('id', '=', $request->input('role_id'))) {
             return response()->json(
                 [
                     'message' => 'destroy'
