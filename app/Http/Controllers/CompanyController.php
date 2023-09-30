@@ -381,7 +381,7 @@ class CompanyController extends Controller
                 401
             );
         }
-
+        //TODO: dodać case że nie można usunąć właściciela 
         if (
             strtolower($user->companyMember->companyRole['name']) == 'owner' ||
             ($user->companyMember->companyRole['name']) == 'admin' && ($this->user->companyMember->companyRole['name']) == 'admin'
@@ -408,8 +408,45 @@ class CompanyController extends Controller
      * Delete role of the company
      */
     // Co jeśli jakiś użytkownik ma tą range
-    public function deleteRoleFromCompany()
+    public function deleteRoleFromCompany($role_id)
     {
+        $role = User::find($role_id);
+        if (!$role) {
+            return response()->json(
+                [
+                    'error' => "There is no role with this id:{$role}",
+                    'message' => 'Something went wrong in CompanyController.deleteRoleFromCompany',
+                ],
+                401
+            );
+        }
+        if ($this->user->companyMember->company['id'] != $role->company['id']) {
+            return response()->json(
+                [
+                    'error' => "You cannot delete roles not from your company",
+                    'message' => 'Something went wrong in CompanyController.deleteRoleFromCompany',
+                ],
+                401
+            );
+        }
+        if ($this->user->companyMember->companyRole['permission_level'] > 1) {
+            return response()->json(
+                [
+                    'error' => "You don't have permission to delete roles from the company",
+                    'message' => 'Something went wrong in CompanyController.deleteRoleFromCompany',
+                ],
+                401
+            );
+        }
+
+        //TODO: dodać case że nie można usunąć właściciela 
+        $role->delete();
+        return response()->json(
+            [
+                'message' => "Role deleted successfully",
+            ],
+            200
+        );
     }
 
     /**
