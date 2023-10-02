@@ -12,6 +12,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+use function PHPUnit\Framework\isEmpty;
+
 class CompanyController extends Controller
 {
     protected $user;
@@ -159,10 +161,21 @@ class CompanyController extends Controller
      */
     public function getCompanies()
     {
+        $companies = Company::all();
+        if($companies->isEmpty())
+        {
+            return response()->json(
+                [
+                    'error' => "No companies found",
+                    'message' => 'Something went wrong in CompanyController.getCompanies',
+                ],
+                401
+            );
+        }
         return response()->json(
             [
                 'message' => 'Returning all companies',
-                'data' => Company::all(),
+                'data' => $companies,
             ],
             200
         );
@@ -236,7 +249,8 @@ class CompanyController extends Controller
                 401
             );
         }
-        if (Company::find($companyId)->companyRoles->where('id', '=', $roleId)->isEmpty()) {
+        $role = Company::find($companyId)->companyRoles->where('id', '=', $roleId)->first();
+        if (!$role) {
             return response()->json(
                 [
                     'error' => "There is no role :{$roleId} in this company: {$companyId}",
@@ -244,15 +258,23 @@ class CompanyController extends Controller
                 ],
                 401
             );
-        } else {
-            return CompanyMember::create([
-                'message' => 'User added successfully',
-                'user_id' => $userId,
-                'company_id' => $companyId,
-                'company_role_id' => $roleId,
-                'roles' => Company::find($companyId)->companyRoles->where('id', '=', $roleId)->first()
-            ]);
         }
+        if(strtolower($role->name) == 'owner')
+        {
+            return response()->json(
+                [
+                    'error' => "There can be only one owner in company",
+                    'message' => 'Something went wrong in CompanyController.createCompanyMember',
+                ],
+                401
+            );
+        }
+        return CompanyMember::create([
+            'user_id' => $userId,
+            'company_id' => $companyId,
+            'company_role_id' => $roleId,
+            'roles' => $role
+        ]);
     }
 
     /**
@@ -315,6 +337,27 @@ class CompanyController extends Controller
      */
     public function getCompanyRoles(int $company_id)
     {
+        if(!Company::find($company_id))
+        {
+            return response()->json(
+                [
+                    'error' => "Company not found",
+                    'message' => 'Something went wrong in CompanyController.getCompanyRoles',
+                ],
+                401
+            );
+        }
+        $roles = Company::find($company_id)->companyRoles;
+        if($roles->isEmpty())
+        {
+            return response()->json(
+                [
+                    'error' => "No roles were found for company {$company_id}",
+                    'message' => 'Something went wrong in CompanyController.getCompanyRoles',
+                ],
+                401
+            );
+        }
         return response()->json(
             [
                 'message' => "Returning company:{$company_id} roles",
@@ -381,7 +424,16 @@ class CompanyController extends Controller
                 401
             );
         }
-        //TODO: dodać case że nie można usunąć właściciela 
+        if(strtolower($user->companyMember->companyRole['name']) == 'owner')
+        {
+            return response()->json(
+                [
+                    'error' => "You can't delete owner of the company",
+                    'message' => 'Something went wrong in CompanyController.deleteUserFromCompany',
+                ],
+                401
+            );
+        }
         if (
             strtolower($user->companyMember->companyRole['name']) == 'owner' ||
             ($user->companyMember->companyRole['name']) == 'admin' && ($this->user->companyMember->companyRole['name']) == 'admin'
@@ -438,8 +490,17 @@ class CompanyController extends Controller
                 401
             );
         }
-
-        //TODO: dodać case że nie można usunąć właściciela 
+        if(strtolower($this->user->companyMember->companyRole['name']) == 'owner')
+        {
+            return response()->json(
+                [
+                    'error' => "You can't delete owner role from the company",
+                    'message' => 'Something went wrong in CompanyController.deleteUserFromCompany',
+                ],
+                401
+            );
+        }
+        return $this->user->companyMember->companyRole;
         $role->delete();
         return response()->json(
             [
@@ -454,6 +515,7 @@ class CompanyController extends Controller
      */
     public function editRoleFromCompany()
     {
+
     }
 
     /**
