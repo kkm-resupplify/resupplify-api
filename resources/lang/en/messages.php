@@ -19,5 +19,10 @@ return [
   "company" =>
   [
     'validationError' => 'Error in company data validation',
-  ]
+  ],
+  "userDetailsRequest" =>
+  [
+    'validationError' => 'Error in user details request',
+    'success' => 'Successfully updated user details',
+  ],
 ];

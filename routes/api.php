@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController as AuthController;
 use App\Http\Controllers\CompanyController as CompanyController;
+use App\Http\Controllers\UserController as UserController;
 
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
@@ -17,6 +18,7 @@ Route::middleware('auth:sanctum')->group(function () {
   Route::get('company/{company_id}/members', [CompanyController::class, 'getCompanyMembers']);
   Route::post('company/{company_id}/add-user', [CompanyController::class, 'addUserToCompany']);
   Route::post('company/test', [CompanyController::class, 'test']);
+  Route::put('user/editUserDetails', [UserController::class, 'editUserDetails']);
   Route::delete('company/deleteUserFromCompany/{user_id}', [CompanyController::class, 'deleteUserFromCompany']);
   Route::resource('company', CompanyController::class);
 });
