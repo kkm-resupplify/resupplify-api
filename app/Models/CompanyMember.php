@@ -11,7 +11,7 @@ class CompanyMember extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'company_role'];
+    protected $fillable = ['user_id', 'company_id', 'company_role_id'];
 
     public function user(): HasOne
     {
@@ -21,5 +21,10 @@ class CompanyMember extends Model
     public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class);
+    }
+
+    public function companyRole(): BelongsTo
+    {
+        return $this->belongsTo(CompanyRole::class);
     }
 }

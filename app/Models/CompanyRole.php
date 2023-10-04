@@ -11,15 +11,15 @@ class CompanyRole extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'permision_level'];
+    protected $fillable = ['name', 'permission_level', 'company_id'];
 
     public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class);
     }
 
-    public function companyMembers(): HasMany
+    public function companyMembers(): BelongsTo
     {
-        return $this->hasMany(CompanyMember::class);
+        return $this->belongsTo(CompanyMember::class);
     }
 }
