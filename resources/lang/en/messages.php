@@ -1,6 +1,12 @@
 <?php
 
 return [
+  "exception" => [
+    'failedLogin' => 'Failed to login',
+    'failedRegister' => 'Failed to register',
+    'userAlreadyExists' => 'User with this email address already exists',
+    'validationFailed' => 'Field validation failed',
+  ],
   "loginMessages" =>
   [
     'validationError' => 'Error in login data validation',

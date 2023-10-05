@@ -60,6 +60,7 @@ trait JsonResponseTrait
         string $errorMsg,
         int $httpCode,
         string $errorCode,
+        string $errorUuid = '',
         $errorData = ''
     ): array {
         $array = [
@@ -68,6 +69,7 @@ trait JsonResponseTrait
             'error' => [
                 'code' => $errorCode,
                 'message' => $errorMsg,
+                'uuid' => $errorUuid,
             ],
         ];
 

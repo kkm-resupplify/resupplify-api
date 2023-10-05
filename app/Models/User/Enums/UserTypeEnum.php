@@ -13,8 +13,8 @@ final class UserTypeEnum extends Enum
     protected static function values(): array
     {
         return [
-            'PORTAL' => 'portal',
-            'BACK_OFFICE' => 'backOffice',
+            'PORTAL' => 1,
+            'BACK_OFFICE' => 2,
         ];
     }
 }

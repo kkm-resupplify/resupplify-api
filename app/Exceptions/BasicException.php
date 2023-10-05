@@ -29,13 +29,14 @@ abstract class BasicException extends \Exception
     public function __construct(
         $message = '',
         $code = 0,
-        \Throwable $previous = null
+        \Throwable $previous = null,
+        $errorData = '',
     ) {
         parent::__construct($message, $code, $previous);
 
         $this->init();
         $this->errorUuid = Str::uuid();
-
+        $this->errorData = $errorData;
         $this->message = class_basename($this);
     }
 
@@ -114,5 +115,13 @@ abstract class BasicException extends \Exception
             'key' => $this->translationKey,
             'params' => $this->translationParams,
         ];
+    }
+
+    public function __(string $key, array $params = []): string
+    {
+        $this->translationKey = $key;
+        $this->translationParams = $params;
+
+        return __($key, $params);
     }
 }
