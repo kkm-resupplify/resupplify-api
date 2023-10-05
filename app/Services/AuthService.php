@@ -14,12 +14,9 @@ class AuthService extends BasicService
 {
     public function login(LoginDto $request)
     {
-        
-
-
         $user = User::where('email', '=', $request->email)->first();
 
-        if (!$user || Hash::check($request->password, $user->password)) {
+        if (!$user || !Hash::check($request->password, $user->password)) {
             $this->throw(new FailedLoginException());
         }
 
