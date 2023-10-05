@@ -16,9 +16,11 @@ class AuthController extends Controller
         return $this->OK($authService->login($request));
     }
 
-    public function register(PortalRegisterDto $request)
-    {
-        
+    public function register(
+        PortalRegisterDto $request,
+        AuthService $authService
+    ): JsonResponse {
+        return $this->OK($authService->portalRegister($request));
     }
 
     public function logout(Request $request)
