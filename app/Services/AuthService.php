@@ -35,16 +35,16 @@ class AuthService extends BasicService
 
     public function portalRegister(PortalRegisterDto $request)
     {
+        if (User::where('email', $request->email)->exists()) {
+            $this->throw(new UserAlreadyExistsException());
+        }
+
         // TODO: Write custom rule
         $user = User::create([
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'type' => UserTypeEnum::PORTAL(),
         ]);
-
-        if (User::where('email', $request->email)->exists()) {
-            $this->throw(new UserAlreadyExistsException());
-        }
 
         $token = $user->createToken('user_token')->plainTextToken;
 

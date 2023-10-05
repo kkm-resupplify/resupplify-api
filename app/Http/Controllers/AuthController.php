@@ -9,18 +9,20 @@ use App\Http\Dto\User\PortalRegisterDto;
 
 class AuthController extends Controller
 {
+    
+
     public function login(
         LoginDto $request,
         AuthService $authService
     ): JsonResponse {
-        return $this->OK($authService->login($request));
+        return $this->ok($authService->login($request));
     }
 
     public function register(
         PortalRegisterDto $request,
         AuthService $authService
     ): JsonResponse {
-        return $this->OK($authService->portalRegister($request));
+        return $this->ok($authService->portalRegister($request));
     }
 
     public function logout(Request $request)
