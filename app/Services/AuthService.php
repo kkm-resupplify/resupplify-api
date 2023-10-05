@@ -14,13 +14,10 @@ class AuthService extends BasicService
 {
     public function login(LoginDto $request)
     {
-        if (!isset($userType)) {
-            $userType = UserTypeEnum::PORTAL();
-        }
+        
 
-        $user = User::where('email', '=', $request->email)
-            ->where('type', $userType)
-            ->first();
+
+        $user = User::where('email', '=', $request->email)->first();
 
         if (!$user || Hash::check($request->password, $user->password)) {
             $this->throw(new FailedLoginException());
@@ -42,7 +39,7 @@ class AuthService extends BasicService
         // TODO: Write custom rule
         $user = User::create([
             'email' => $request->email,
-            'password' => Hash::make($request->password),
+            'password' => $request->password,
             'type' => UserTypeEnum::PORTAL(),
         ]);
 
