@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Auth;
 
 use App\Models\User\Enums\UserTypeEnum;
 use App\Http\Dto\User\LoginDto;
@@ -9,6 +9,7 @@ use App\Models\User\User;
 use Illuminate\Support\Facades\Hash;
 use App\Exceptions\General\FailedLoginException;
 use App\Exceptions\General\UserAlreadyExistsException;
+use App\Services\BasicService;
 
 class AuthService extends BasicService
 {
