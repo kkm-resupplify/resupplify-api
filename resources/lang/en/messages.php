@@ -6,6 +6,7 @@ return [
     'failedRegister' => 'Failed to register',
     'userAlreadyExists' => 'User with this email address already exists',
     'validationFailed' => 'Field validation failed',
+    'companyNameTaken' => 'Company with this name is already registered',
   ],
   "loginMessages" =>
   [

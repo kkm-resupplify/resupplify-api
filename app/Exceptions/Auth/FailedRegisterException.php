@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Exceptions\General;
+namespace App\Exceptions\Auth;
 
 use App\Exceptions\BasicException;
 use App\Exceptions\CustomErrorCodes;

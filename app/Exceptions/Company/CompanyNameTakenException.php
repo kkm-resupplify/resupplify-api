@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Exceptions\Auth;
+namespace App\Exceptions\General;
 
 use App\Exceptions\BasicException;
 use App\Exceptions\CustomErrorCodes;
 use Symfony\Component\HttpFoundation\Response;
 
-class FailedLoginException extends BasicException
+class CompanyNameTakenException extends BasicException
 {
     protected function init()
     {
-        $this->errorCode = CustomErrorCodes::LOGIN_FAILED;
+        $this->errorCode = CustomErrorCodes::COMPANY_NAME_TAKEN;
         $this->errorHttpCode = Response::HTTP_UNPROCESSABLE_ENTITY;
-        $this->errorMsg = $this->__('messages.exception.failedLogin');
+        $this->errorMsg = $this->__('messages.exception.companyNameTaken');
 
         $errorData = $this->getErrorData();
 

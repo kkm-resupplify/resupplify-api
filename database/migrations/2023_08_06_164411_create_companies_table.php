@@ -16,8 +16,9 @@ return new class extends Migration
             $table->string('name')->unique();
             $table->string('slug');
             $table->string('description');
-            $table->string('verificationStatus');
-            $table->foreignId('user_id')->constrained()->onDelete('cascade')->onUpdate('cascade');;
+            $table->string('short_description');
+            $table->smallInteger('status');
+            $table->foreignId('owner_id')->constrained('user_id')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

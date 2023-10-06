@@ -7,8 +7,8 @@ use App\Http\Dto\User\LoginDto;
 use App\Http\Dto\User\PortalRegisterDto;
 use App\Models\User\User;
 use Illuminate\Support\Facades\Hash;
-use App\Exceptions\General\FailedLoginException;
-use App\Exceptions\General\UserAlreadyExistsException;
+use App\Exceptions\Auth\FailedLoginException;
+use App\Exceptions\User\UserAlreadyExistsException;
 use App\Services\BasicService;
 
 class AuthService extends BasicService
