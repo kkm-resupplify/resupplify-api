@@ -2,18 +2,16 @@
 
 namespace App\Services\Company;
 
-use App\Models\User\Enums\UserTypeEnum;
-use App\Http\Dto\User\LoginDto;
-use App\Http\Dto\User\PortalRegisterDto;
-use App\Models\User\User;
-use Illuminate\Support\Facades\Hash;
-use App\Exceptions\Auth\FailedLoginException;
-use App\Exceptions\User\UserAlreadyExistsException;
+use App\Exceptions\Comapny\CompanyNameTaken;
+use App\Http\Dto\Company\RegisterCompanyDto;
+use App\Models\Company;
 use App\Services\BasicService;
 
 class CompanyService extends BasicService
 {
-    public function createCompany()
+    public function createCompany(RegisterCompanyDto $request)
     {
+      $company = Company::where('name', '=', $request->name)->first();
+
     }
 }

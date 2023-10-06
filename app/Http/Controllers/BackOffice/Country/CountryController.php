@@ -1,38 +1,35 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\BackOffice\Country;
 
 use Illuminate\Http\Request;
 use App\Models\Country\Country;
-use App\Models\User\User;
+use App\Http\Dto\Country\CountryDto;
+use App\Http\Controllers\Controller;
 
 class CountryController extends Controller
 {
     //
     public function index()
     {
-        return response()->json(
-            [
-                'message' => 'Return all countries',
-                'data' => Country::all(),
-            ]
-            );
+        return response()->json([
+            'success' => true,
+            'data' => Country::all(),
+        ]);
     }
 
-    public function create(Request $request)
+    public function create(CountryDto $request)
     {
-        if($request->input('name') == '' || $request->input('name') == '')
-        {
-            return response()->json(
-                [
-                    'message' => 'Return all countries',
-                    'data' => Country::all(),
-                ]
-                );
-        }
-        Country::create([
-            'name' => $request->input('name'),
-            'code' => $request->input('code'),
+        $country = Country::create([
+            'name' => $request->name,
+            'code' => $request->code,
         ]);
+        return response()->json(
+            [
+                'success' => true,
+                'data' => $country,
+            ],
+            201
+        );
     }
 }
