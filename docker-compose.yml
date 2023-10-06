@@ -61,6 +61,8 @@ services:
             - sail
         environment:
             - PMA_ARBITRARY=1
+        depends_on:
+            - mysql
     redis:
         image: "redis:alpine"
         ports:

@@ -5,10 +5,12 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController as AuthController;
 use App\Http\Controllers\CompanyController as CompanyController;
 use App\Http\Controllers\UserController as UserController;
+use App\Http\Controllers\BackOffice\CountryController as CountryController;
 
 Route::post('register', [AuthController::class, 'register'])->name('register');
 Route::post('login', [AuthController::class, 'login']);
 Route::get('test', [CompanyCategoryController::class, 'store']);
+Route::resource('country', CountryController::class);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('logout', [AuthController::class, 'logout']);

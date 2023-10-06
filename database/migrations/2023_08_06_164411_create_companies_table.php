@@ -18,7 +18,8 @@ return new class extends Migration
             $table->string('description');
             $table->string('short_description');
             $table->smallInteger('status');
-            $table->foreignId('owner_id')->constrained('user_id')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('user_id')->constrained(indexName: 'owner_id')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('country_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }
