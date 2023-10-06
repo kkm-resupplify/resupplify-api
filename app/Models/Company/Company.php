@@ -15,7 +15,7 @@ class Company extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'slug', 'description', 'owner_id', 'status'];
+    protected $fillable = ['name', 'country_id', 'slug', 'description', 'owner_id', 'status'];
 
     protected $casts = [
         'status' => CompanyStatusEnum::class,
@@ -25,6 +25,11 @@ class Company extends Model
     public function owner(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+    
+    public function country(): BelongsTo
+    {
+        return $this->belongsTo(Country::class);
     }
 
     public function companyCategories(): HasMany

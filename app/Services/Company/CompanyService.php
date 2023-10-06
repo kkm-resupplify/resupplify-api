@@ -13,4 +13,7 @@ use App\Services\BasicService;
 
 class CompanyService extends BasicService
 {
+    public function createCompany()
+    {
+    }
 }

@@ -18,6 +18,7 @@ class CompanyDetails extends Model
         'external_website',
         'logo',
         'company_id',
+        'tax_number',
     ];
 
     public function company(): BelongsTo

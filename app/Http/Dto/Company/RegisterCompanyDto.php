@@ -16,4 +16,20 @@ class LoginDto extends BasicDto
 
     #[Max(300)]
     public string $description;
+
+    #[Max(100)]
+    public string $address;
+
+    #[Max(60)]
+    public string $email;
+
+    #[Max(300)]
+    public string $phoneNumber;
+
+    #[Max(60)]
+    public string $externalWebsite;
+
+    #[Max(100)]
+    public string $logo;
+
 }
