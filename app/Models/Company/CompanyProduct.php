@@ -25,6 +25,6 @@ class CompanyProduct extends Model
     
     public function companyProductDetails(): HasOne
     {
-        return $this->hasOne(CompanyProductDetail::class);
+        return $this->hasOne(CompanyProductDetails::class);
     }
 }

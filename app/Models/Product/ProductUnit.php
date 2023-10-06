@@ -14,6 +14,6 @@ class ProductUnit extends Model
 
     public function companyProduct(): BelongsTo
     {
-        return $this->belongsTo(CompanyProductDetail::class);
+        return $this->belongsTo(CompanyProductDetails::class);
     }
 }
