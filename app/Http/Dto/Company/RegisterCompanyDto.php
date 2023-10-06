@@ -5,8 +5,10 @@ namespace App\Http\Dto\Company;
 use App\Http\Dto\BasicDto;
 
 use Spatie\LaravelData\Attributes\Validation\Max;
+use Spatie\LaravelData\Attributes\Validation\Email;
+use Spatie\LaravelData\Attributes\Validation\Regex;
 
-class LoginDto extends BasicDto
+class RegisterCompanyDto extends BasicDto
 {
     #[Max(60)]
     public string $name;
@@ -20,10 +22,9 @@ class LoginDto extends BasicDto
     #[Max(100)]
     public string $address;
 
-    #[Max(60)]
+    #[Email]
     public string $email;
 
-    #[Max(300)]
     public string $phoneNumber;
 
     #[Max(60)]
@@ -31,5 +32,6 @@ class LoginDto extends BasicDto
 
     #[Max(100)]
     public string $logo;
-
+    
+    public string $countryId;
 }

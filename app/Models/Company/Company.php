@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Company;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -15,7 +15,15 @@ class Company extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'country_id', 'slug', 'description', 'owner_id', 'status'];
+    protected $fillable = [
+        'name',
+        'country_id',
+        'slug',
+        'description',
+        'short_description',
+        'owner_id',
+        'status',
+    ];
 
     protected $casts = [
         'status' => CompanyStatusEnum::class,
@@ -26,7 +34,7 @@ class Company extends Model
     {
         return $this->belongsTo(User::class);
     }
-    
+
     public function country(): BelongsTo
     {
         return $this->belongsTo(Country::class);
