@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\AuthService;
+use App\Services\Auth\AuthService;
 use Illuminate\Http\JsonResponse;
 use App\Http\Dto\User\LoginDto;
 use App\Http\Dto\User\PortalRegisterDto;
