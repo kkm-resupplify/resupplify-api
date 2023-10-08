@@ -27,11 +27,17 @@ class RegisterCompanyDto extends BasicDto
 
     public string $phoneNumber;
 
+    #[Max(300)]
+    public string $logo;
+
     #[Max(60)]
     public string $externalWebsite;
-
-    #[Max(100)]
-    public string $logo;
     
+    #[Max(60)]
     public string $countryId;
+
+    public string $companyId;
+
+    public string $companyCategoryId;
+    
 }

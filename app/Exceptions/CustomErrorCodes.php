@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 class CustomErrorCodes
 {
+    public const UNAUTHORIZED = 'general-0001';
     public const VALIDATION_FAILED = 'general-0002';
     public const LOGIN_FAILED = 'general-0003';
     public const REGISTER_FAILED = 'general-0004';
