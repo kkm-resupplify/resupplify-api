@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Company;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -18,7 +18,9 @@ class CompanyDetails extends Model
         'external_website',
         'logo',
         'company_id',
-        'tax_number',
+        'tin',
+        'country_id',
+        
     ];
 
     public function company(): BelongsTo
