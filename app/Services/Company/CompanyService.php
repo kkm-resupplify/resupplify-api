@@ -46,24 +46,6 @@ class CompanyService extends Controller
         return $createdCompany;
     }
 
-    // public function addBasicRolesToCompany()
-    // {
-    //     $newRole = CompanyRole::create([
-    //         'name' => 'Admin',
-    //         'permission_level' => [''],
-    //         'company_id' => $companyId,
-    //     ]);
-    // }
-    // public function addOwnerToCompany()
-    // {
-    //     CompanyMember::create([
-    //         'user_id' => Auth::user()->id,
-    //         'company_id' => $companyId,
-    //         'company_role_id' => $roleId,
-    //         'roles' => $role
-    //     ]);
-    // }
-
     public function createCompanyDetails(RegisterCompanyDetailsDto $request)
     {
         // if(!isset(Auth::user()->companyMember->company->id))
