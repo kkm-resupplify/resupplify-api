@@ -16,9 +16,15 @@ class UserDetails extends Model
         'phone_number',
         'birth_date',
         'sex',
-        'user_id',
-
     ];
+
+    /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array<int, string>
+     */
+
+    protected $hidden = ['user_id'];
 
     public function user(): BelongsTo
     {
