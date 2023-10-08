@@ -12,6 +12,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use App\Models\Company\Enums\CompanyStatusEnum;
 use App\Http\Controllers\Controller;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
+
 
 class CompanyService extends Controller
 {
@@ -20,36 +23,46 @@ class CompanyService extends Controller
         if (Company::where('name', '=', $request->name)->exists()) {
             throw(new CompanyNameTakenException());
         }
-
+        $user = Auth::user();
         $company = [
             'name' => $request->name,
             'short_description' => $request->shortDescription,
             'description' => $request->description,
             'slug' => Str::of($request->name)->snake(),
-            'owner_id' => Auth::user()->id,
+            'owner_id' => $user->id,
             'status' => CompanyStatusEnum::UNVERIFIED(),
         ];
         // TODO: Add CompanyDetails from the request
-        return Company::create($company);
+        $createdCompany = Company::create($company);
+        $role = [
+            Role::create(['name' => 'CompanyOwner', 'team_id' => $createdCompany->id, 'guard_name' => 'sanctum']),
+            Role::create(['name' => 'CompanyAdmin', 'team_id' => $createdCompany->id, 'guard_name' => 'sanctum']),
+            Role::create(['name' => 'CompanyMember', 'team_id' => $createdCompany->id, 'guard_name' => 'sanctum']),
+        ];
+        $role[0]->givePermissionTo(['view transactions in own company', 'manage own account settings','view products','purchase products','manage users in own company','manage products in own company','view products in own company','add products in own company']);
+        setPermissionsTeamId($createdCompany->id);
+        $user->assignRole($role[0]);
+        $user->save();
+        return $createdCompany;
     }
 
-    public function addBasicRolesToCompany()
-    {
-        $newRole = CompanyRole::create([
-            'name' => 'Admin',
-            'permission_level' => [''],
-            'company_id' => $companyId,
-        ]);
-    }
-    public function addOwnerToCompany()
-    {
-        CompanyMember::create([
-            'user_id' => Auth::user()->id,
-            'company_id' => $companyId,
-            'company_role_id' => $roleId,
-            'roles' => $role
-        ]);
-    }
+    // public function addBasicRolesToCompany()
+    // {
+    //     $newRole = CompanyRole::create([
+    //         'name' => 'Admin',
+    //         'permission_level' => [''],
+    //         'company_id' => $companyId,
+    //     ]);
+    // }
+    // public function addOwnerToCompany()
+    // {
+    //     CompanyMember::create([
+    //         'user_id' => Auth::user()->id,
+    //         'company_id' => $companyId,
+    //         'company_role_id' => $roleId,
+    //         'roles' => $role
+    //     ]);
+    // }
 
     public function createCompanyDetails(RegisterCompanyDetailsDto $request)
     {
@@ -71,6 +84,4 @@ class CompanyService extends Controller
         ];
         return CompanyDetails::create($companyDetails);
     }
-
-    public
 }
