@@ -10,8 +10,16 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use App\Models\Company\Enums\CompanyStatusEnum;
 use App\Models\Company\Enums\CompanyCategoryEnum;
+
 use App\Models\User\User;
 use App\Models\User\UserDetails;
+use App\Models\Company\CompanyCategory;
+use App\Models\Company\CompanyDetails;
+use App\Models\Company\CompanyProduct;
+use App\Models\Company\CompanyProductDetails;
+use App\Models\Company\CompanyRole;
+use App\Models\Country\Country;
+use App\Models\Country\CountryDetails;
 
 class Company extends Model
 {

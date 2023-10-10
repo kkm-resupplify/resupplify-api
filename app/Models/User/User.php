@@ -53,10 +53,7 @@ class User extends Authenticatable
     {
         return $this->hasOne(CompanyMember::class);
     }
-    public function company(): BelongsTo
-    {
-        return $this->belongsTo(Company::class);
-    }
+
     public function userDetails(): HasOne
     {
         return $this->hasOne(UserDetails::class);

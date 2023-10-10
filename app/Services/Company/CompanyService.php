@@ -7,6 +7,7 @@ use App\Http\Dto\Company\RegisterCompanyDto;
 use App\Http\Dto\Company\RegisterCompanyDetailsDto;
 use App\Models\Company\Company;
 use App\Models\Company\CompanyDetails;
+use App\Models\Company\CompanyMember;
 use App\Services\BasicService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -21,10 +22,10 @@ class CompanyService extends Controller
     public function createCompany(RegisterCompanyDto $request)
     {
         $user = Auth::user();
-        return $user->company;
-        // if (Company::where('name', '=', $request->name)->exists()) {
-        //     throw(new CompanyNameTakenException());
-        // }
+
+        if (Company::where('name', '=', $request->name)->exists()) {
+            throw(new CompanyNameTakenException());
+        }
 
         $company = [
             'name' => $request->name,
@@ -53,6 +54,12 @@ class CompanyService extends Controller
             Role::create(['name' => 'CompanyAdmin', 'team_id' => $createdCompany->id, 'guard_name' => 'sanctum']),
             Role::create(['name' => 'CompanyMember', 'team_id' => $createdCompany->id, 'guard_name' => 'sanctum']),
         ];
+        $companyMember = [
+            'user_id' => $user->id,
+            'company_id' => $createdCompany->id,
+            'role_id' => $role[0]->id,
+        ];
+        CompanyMember::create($companyMember);
         $role[0]->givePermissionTo(['view transactions in own company', 'manage own account settings','view products','purchase products','manage users in own company','manage products in own company','view products in own company','add products in own company']);
         setPermissionsTeamId($createdCompany->id);
         $user->assignRole($role[0]);
