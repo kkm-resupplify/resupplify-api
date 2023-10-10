@@ -20,10 +20,12 @@ class CompanyService extends Controller
 {
     public function createCompany(RegisterCompanyDto $request)
     {
-        if (Company::where('name', '=', $request->name)->exists()) {
-            throw(new CompanyNameTakenException());
-        }
         $user = Auth::user();
+        return $user->company;
+        // if (Company::where('name', '=', $request->name)->exists()) {
+        //     throw(new CompanyNameTakenException());
+        // }
+
         $company = [
             'name' => $request->name,
             'short_description' => $request->shortDescription,
@@ -34,6 +36,18 @@ class CompanyService extends Controller
         ];
         // TODO: Add CompanyDetails from the request
         $createdCompany = Company::create($company);
+        $companyDetails = [
+            'country_id' => $request->countryId,
+            'address' => $request->address,
+            'email' => $request->email,
+            'phone_number' => $request->phoneNumber,
+            'external_website' => $request->externalWebsite,
+            'logo' => $request->logo,
+            'company_id' => $createdCompany->id,
+            'company_category_id' => $request->companyCategoryId,
+            'tin' => $request->tin,
+        ];
+        $createdCompany = CompanyDetails::create($companyDetails);
         $role = [
             Role::create(['name' => 'CompanyOwner', 'team_id' => $createdCompany->id, 'guard_name' => 'sanctum']),
             Role::create(['name' => 'CompanyAdmin', 'team_id' => $createdCompany->id, 'guard_name' => 'sanctum']),

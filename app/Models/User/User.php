@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Models\User;
+namespace App\Models\User\User;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -51,7 +52,10 @@ class User extends Authenticatable
     {
         return $this->hasOne(CompanyMember::class);
     }
-
+    public function company(): BelongsTo
+    {
+        return $this->belongsTo(Company::class);
+    }
     public function userDetails(): HasOne
     {
         return $this->hasOne(UserDetails::class);
