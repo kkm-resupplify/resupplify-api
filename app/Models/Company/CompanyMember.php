@@ -22,7 +22,7 @@ class CompanyMember extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'company_id', 'company_role_id'];
+    protected $fillable = ['user_id', 'company_id', 'role_id'];
 
     public function user(): HasOne
     {

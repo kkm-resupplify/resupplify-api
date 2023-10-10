@@ -20,7 +20,8 @@ class CompanyDetails extends Model
         'company_id',
         'tin',
         'country_id',
-        
+        'company_category_id',
+
     ];
 
     public function company(): BelongsTo

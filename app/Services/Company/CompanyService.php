@@ -66,25 +66,4 @@ class CompanyService extends Controller
         $user->save();
         return $createdCompany;
     }
-
-    public function createCompanyDetails(RegisterCompanyDetailsDto $request)
-    {
-        // if(!isset(Auth::user()->companyMember->company->id))
-        // {
-        //     throw(new CompanyNameTakenException());
-        // }
-
-        $companyDetails = [
-            'country_id' => $request->countryId,
-            'address' => $request->address,
-            'email' => $request->email,
-            'phone_number' => $request->phoneNumber,
-            'external_website' => $request->externalWebsite,
-            'logo' => $request->logo,
-            'company_id' => Auth::user()->companyMember()->company->id,
-            'company_category_id' => $request->companyCategoryId,
-            'tin' => $request->tin,
-        ];
-        return CompanyDetails::create($companyDetails);
-    }
 }
