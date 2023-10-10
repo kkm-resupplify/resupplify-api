@@ -17,7 +17,7 @@ use App\Models\Company\CompanyMember;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
     protected $guard_name = 'sanctum';
 
