@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\User\User;
+namespace App\Models\User;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -12,11 +12,12 @@ use App\Models\User\Enums\UserTypeEnum;
 use Spatie\Permission\Traits\HasRoles;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
-
+use App\Models\Company\Company;
+use App\Models\Company\CompanyMember;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, HasRoles;
+    use HasApiTokens, HasFactory, Notifiable;
 
     protected $guard_name = 'sanctum';
 

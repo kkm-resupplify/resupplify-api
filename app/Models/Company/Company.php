@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Company\Company;
+namespace App\Models\Company;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use App\Models\Company\Enums\CompanyStatusEnum;
 use App\Models\Company\Enums\CompanyCategoryEnum;
+use App\Models\User\User;
+use App\Models\User\UserDetails;
 
 class Company extends Model
 {
