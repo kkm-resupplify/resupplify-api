@@ -8,6 +8,7 @@ return [
     'validationFailed' => 'Field validation failed',
     'companyNameTaken' => 'Company with this name is already registered',
     'unauthorized' => 'You are unauthorized to make this request',
+    'roleNotFound' => 'Role not found',
   ],
   "loginMessages" =>
   [

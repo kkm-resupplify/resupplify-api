@@ -9,7 +9,6 @@ use App\Http\Dto\User\PortalRegisterDto;
 
 class AuthController extends Controller
 {
-    
 
     public function login(
         LoginDto $request,
@@ -25,7 +24,7 @@ class AuthController extends Controller
         return $this->ok($authService->portalRegister($request));
     }
 
-    public function logout(Request $request)
-    {
-    }
+    // public function logout(Request $request)
+    // {
+    // }
 }

@@ -65,13 +65,13 @@ class Company extends Model
         return $this->hasMany(CompanyMember::class);
     }
 
-    public function companyRoles(): HasMany
-    {
-        return $this->hasMany(CompanyRole::class);
-    }
-
     public function companyProducts(): HasMany
     {
         return $this->hasMany(CompanyProduct::class);
+    }
+
+    public function invitationCodes(): HasMany
+    {
+        return $this->hasMany(InvitationCode::class);
     }
 }
