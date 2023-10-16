@@ -9,17 +9,6 @@ use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
-    //
-    protected $user;
-
-    public function __construct(Request $request)
-    {
-        $this->middleware(function ($request, $next) {
-            $this->user = Auth::user();
-
-            return $next($request);
-        });
-    }
     public function editUserDetails(UserDetailsRequest $request)
     {
         $userDetails = UserDetails::where(['user_id' => $this->user->id])->first();
