@@ -41,7 +41,7 @@ class UserDetailsService extends BasicService
         $userDetails->birth_date = $request->birthDate;
         $userDetails->sex = $request->sex;
         $userDetails->save();
-        return ['userDetails' => $userDetails, 'token' => $token];
+        return ['userDetails' => $userDetails];
     }
 
 }
