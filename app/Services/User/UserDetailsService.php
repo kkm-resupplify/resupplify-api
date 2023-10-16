@@ -20,7 +20,7 @@ class UserDetailsService extends BasicService
     public function creatUserData(UserDetailsDto $request)
     {
         $user = Auth::user();
-        $user = UserDetails::create([
+        $userDetails = UserDetails::create([
             'first_name' => $request->firstName,
             'last_name' => $request->lastName,
             'phone_number' => $request->phoneNumber,
@@ -28,10 +28,20 @@ class UserDetailsService extends BasicService
             'sex' => $request->sex,
             'user_id' => $user->id,
         ]);
+        return ['userDetails' => $userDetails];
+    }
 
-        $token = $user->createToken('user_token')->plainTextToken;
-
-        return ['user' => $user, 'token' => $token];
+    public function editUserData(UserDetailsDto $request)
+    {
+        $user = Auth::user();
+        $userDetails = UserDetails::where('user_id', $user->id)->first();
+        $userDetails->first_name = $request->firstName;
+        $userDetails->last_name = $request->lastName;
+        $userDetails->phone_number = $request->phoneNumber;
+        $userDetails->birth_date = $request->birthDate;
+        $userDetails->sex = $request->sex;
+        $userDetails->save();
+        return ['userDetails' => $userDetails, 'token' => $token];
     }
 
 }
