@@ -45,4 +45,6 @@ class RegisterCompanyDto extends BasicDto
     #[Numeric]
     public string $tin;
 
+    // public string $contactPerson;
+
 }

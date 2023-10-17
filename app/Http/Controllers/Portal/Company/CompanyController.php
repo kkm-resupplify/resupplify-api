@@ -15,9 +15,4 @@ class CompanyController extends Controller
     {
         return $this->ok([$companyService->createCompany($request)]);
     }
-
-    public function createCompanyDetails(RegisterCompanyDetailsDto $requestr, CompanyService $companyService): JsonResponse
-    {
-        return $this->ok([$companyService->createCompanyDetails($requestr)]);
-    }
 }

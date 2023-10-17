@@ -20,6 +20,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('companyDetails', [CompanyController::class, 'createCompanyDetails']);
     Route::post('country', [CountryController::class, 'create']);
     Route::post('createInvitationCode' , [InvitationCodeController::class, 'createInvitationCode']);
+    Route::get('companyCategories', [CompanyCategoryController::class, 'companyCategories']);
     // Route::post('logout', [AuthController::class, 'logout']);
     // Route::get('companies', [CompanyController::class, 'getCompanies']);
     // Route::get('company/{company_id}', [

@@ -13,31 +13,29 @@ class RegisterCompanyDetailsDto extends BasicDto
 {
   #[Max(100)]
   public string $address;
-  
+
   #[Email]
   public string $email;
-  
+
   #[Numeric]
   public string $phoneNumber;
-  
+
   #[Max(300)]
   public string $logo;
-  
+
   #[Max(60)]
   public string $externalWebsite;
-  
+
   #[Numeric]
   #[Max(60)]
   public string $countryId;
-  
+
   #[Numeric]
   public string $companyCategoryId;
 
   #[Numeric]
   public string $tin;
 
-
-    
 }
 
 
