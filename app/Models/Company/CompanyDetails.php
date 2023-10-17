@@ -21,6 +21,7 @@ class CompanyDetails extends Model
         'tin',
         'country_id',
         'company_category_id',
+        'conctact_person'
 
     ];
 

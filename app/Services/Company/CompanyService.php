@@ -47,6 +47,7 @@ class CompanyService extends Controller
             'company_id' => $createdCompany->id,
             'company_category_id' => $request->companyCategoryId,
             'tin' => $request->tin,
+            'conctact_person' => $request->conctact_person,
         ];
         $createdCompany = CompanyDetails::create($companyDetails);
         $role = [
