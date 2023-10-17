@@ -10,6 +10,7 @@ class CustomErrorCodes
     public const REGISTER_FAILED = 'general-0004';
     public const LOGOUT_FAILED = 'general-0005';
     public const USER_ALREADY_EXISTS = 'general-0006';
+    public const USER_DETAILS_ALREADY_EXISTS = 'general-0007';
 
     public const COMPANY_NAME_TAKEN = 'company-0001';
 }

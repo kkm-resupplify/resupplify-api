@@ -10,6 +10,7 @@ use Spatie\LaravelData\Attributes\Validation\Max;
 use Spatie\LaravelData\Attributes\Validation\Confirmed;
 use Spatie\LaravelData\Attributes\Validation\Required;
 
+
 class UserDetailsDto extends BasicDto
 {
     #[Required]
