@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController as AuthController;
+use App\Http\Controllers\Portal\User\UserController as UserController;
 use App\Http\Controllers\BackOffice\Country\CountryController as CountryController;
 use App\Http\Controllers\Portal\Company\CompanyController as CompanyController;
 
