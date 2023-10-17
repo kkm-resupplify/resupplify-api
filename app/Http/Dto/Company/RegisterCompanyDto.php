@@ -7,6 +7,7 @@ use App\Http\Dto\BasicDto;
 use Spatie\LaravelData\Attributes\Validation\Max;
 use Spatie\LaravelData\Attributes\Validation\Email;
 use Spatie\LaravelData\Attributes\Validation\Numeric;
+use Spatie\LaravelData\Attributes\Validation\Nullable;
 
 
 class RegisterCompanyDto extends BasicDto
@@ -29,6 +30,7 @@ class RegisterCompanyDto extends BasicDto
     #[Numeric]
     public string $phoneNumber;
 
+    #[Nullable]
     #[Max(300)]
     public string $logo;
 
@@ -44,7 +46,8 @@ class RegisterCompanyDto extends BasicDto
 
     #[Numeric]
     public string $tin;
-
-    // public string $contactPerson;
+    
+    #[Nullable]
+    public string $contactPerson;
 
 }

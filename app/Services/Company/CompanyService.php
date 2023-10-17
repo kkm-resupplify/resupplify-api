@@ -15,6 +15,8 @@ use App\Models\Company\Enums\CompanyStatusEnum;
 use App\Http\Controllers\Controller;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use App\Resources\Company\CompanyResource;
+
 
 
 class CompanyService extends Controller
@@ -47,9 +49,9 @@ class CompanyService extends Controller
             'company_id' => $createdCompany->id,
             'company_category_id' => $request->companyCategoryId,
             'tin' => $request->tin,
-            'conctact_person' => $request->conctact_person,
+            'contact_person' => $request->contactPerson,
         ];
-        $createdCompany = CompanyDetails::create($companyDetails);
+        $createdCompanyDetails = CompanyDetails::create($companyDetails);
         $role = [
             Role::create(['name' => 'CompanyOwner', 'team_id' => $createdCompany->id, 'guard_name' => 'sanctum']),
             Role::create(['name' => 'CompanyAdmin', 'team_id' => $createdCompany->id, 'guard_name' => 'sanctum']),
@@ -65,6 +67,8 @@ class CompanyService extends Controller
         setPermissionsTeamId($createdCompany->id);
         $user->assignRole($role[0]);
         $user->save();
-        return $createdCompany;
+        $mergedCompany = ['company' =>$createdCompany,'companyDetails' =>$createdCompanyDetails];
+       //return $mergedCompany = ['company' => $mergedCompany];
+        return new CompanyResource($mergedCompany);
     }
 }

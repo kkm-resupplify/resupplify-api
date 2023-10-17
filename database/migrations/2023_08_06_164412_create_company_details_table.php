@@ -18,7 +18,7 @@ return new class extends Migration {
             $table->string('external_website')->nullable();
             $table->string('logo')->nullable();
             $table->string('tin')->nullable();
-            $table->string('conctact_person')->nullable();
+            $table->string('contact_person')->nullable();
             $table->foreignId('company_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('country_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('company_category_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
