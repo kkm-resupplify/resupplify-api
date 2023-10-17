@@ -2,6 +2,7 @@
 
 namespace App\Services\User;
 
+use App\Exceptions\General\ValidationFailedException;
 use App\Models\User\Enums\UserTypeEnum;
 use App\Http\Dto\User\LoginDto;
 use App\Http\Dto\User\PortalRegisterDto;
@@ -39,6 +40,10 @@ class UserDetailsService extends BasicService
     {
         $user = Auth::user();
         $userDetails = UserDetails::where('user_id', $user->id)->first();
+        if(!isset($userDetails))
+        {
+            throw(new ValidationFailedException());
+        }
         $userDetails->first_name = $request->firstName;
         $userDetails->last_name = $request->lastName;
         $userDetails->phone_number = $request->phoneNumber;
