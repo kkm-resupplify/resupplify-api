@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
 use App\Http\Dto\User\UserDetailsDto;
 use App\Http\Controllers\Controller;
+use App\Resources\User\UserLoginResource;
+use Laravel\Sanctum\PersonalAccessToken;
 
 class UserController extends Controller
 {
@@ -21,5 +23,12 @@ class UserController extends Controller
     public function editUserDetails(UserDetailsDto $request, UserDetailsService $userDetailsService): JsonResponse
     {
         return $this->ok($userDetailsService->editUserData($request));
+    }
+
+    public function index()
+    {
+        $user = Auth::User();
+        $response = ['user' => $user, 'token' => $token = $user->createToken('marketify-token')->plainTextToken];
+        return $this->ok($response);
     }
 }

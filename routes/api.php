@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController as AuthController;
 use App\Http\Controllers\Portal\User\UserController as UserController;
 use App\Http\Controllers\BackOffice\Country\CountryController as CountryController;
 use App\Http\Controllers\Portal\Company\CompanyController as CompanyController;
+use App\Http\Controllers\BackOffice\Company\CompanyCategoryController as CompanyCategoryController;
 
 Route::post('register', [AuthController::class, 'register'])->name('register');
 Route::post('login', [AuthController::class, 'login']);
@@ -20,7 +21,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('companyDetails', [CompanyController::class, 'createCompanyDetails']);
     Route::post('country', [CountryController::class, 'create']);
     Route::post('createInvitationCode' , [InvitationCodeController::class, 'createInvitationCode']);
-    Route::get('companyCategories', [CompanyCategoryController::class, 'companyCategories']);
+    Route::resource('companyCategories', CompanyCategoryController::class);
+    Route::resource('user', UserController::class);
     // Route::post('logout', [AuthController::class, 'logout']);
     // Route::get('companies', [CompanyController::class, 'getCompanies']);
     // Route::get('company/{company_id}', [
