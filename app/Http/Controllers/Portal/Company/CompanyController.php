@@ -15,4 +15,10 @@ class CompanyController extends Controller
     {
         return $this->ok([$companyService->createCompany($request)]);
     }
+
+    //TODO: Return CompanyResource ($company,$companyDetails)
+    // public function index()
+    // {
+    //     return $this->ok(
+    // }
 }
