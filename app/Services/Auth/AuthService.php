@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Exceptions\Auth\FailedLoginException;
 use App\Exceptions\User\UserAlreadyExistsException;
 use App\Services\BasicService;
+use App\Resources\User\UserLoginResource;
 
 class AuthService extends BasicService
 {
@@ -24,8 +25,8 @@ class AuthService extends BasicService
         $user->tokens()->delete();
         $token = $user->createToken('marketify-token')->plainTextToken;
 
-        // TODO: Add LoginResource
-        return ['user' => $user, 'token' => $token];
+        $response = ['user' => $user, 'token' => $token];
+        return new UserLoginResource($response);
     }
 
     public function portalRegister(PortalRegisterDto $request)
