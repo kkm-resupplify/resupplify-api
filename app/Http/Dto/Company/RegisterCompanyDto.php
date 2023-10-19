@@ -8,6 +8,7 @@ use Spatie\LaravelData\Attributes\Validation\Max;
 use Spatie\LaravelData\Attributes\Validation\Email;
 use Spatie\LaravelData\Attributes\Validation\Numeric;
 use Spatie\LaravelData\Attributes\Validation\Nullable;
+use Spatie\LaravelData\Attributes\Validation\Required;
 
 
 class RegisterCompanyDto extends BasicDto
@@ -39,12 +40,12 @@ class RegisterCompanyDto extends BasicDto
 
     #[Numeric]
     #[Max(60)]
-    public string $countryId;
+    public int $countryId;
 
     #[Numeric]
-    public string $companyCategoryId;
+    public int $companyCategoryId;
 
-    #[Numeric]
+    #[Required]
     public string $tin;
     
     #[Nullable]
