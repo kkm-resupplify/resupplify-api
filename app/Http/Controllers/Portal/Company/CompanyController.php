@@ -16,6 +16,12 @@ class CompanyController extends Controller
         return $this->ok([$companyService->createCompany($request)]);
     }
 
+    public function index(CompanyService $companyService): JsonResponse
+    {
+        return $this->ok([$companyService->getCompany()]);
+    }
+
+
     //TODO: Return CompanyResource ($company,$companyDetails)
     // public function index()
     // {

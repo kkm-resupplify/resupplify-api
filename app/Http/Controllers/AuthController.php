@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User\User;
 use App\Services\Auth\AuthService;
 use Illuminate\Http\JsonResponse;
 use App\Http\Dto\User\LoginDto;
@@ -24,7 +25,9 @@ class AuthController extends Controller
         return $this->ok($authService->portalRegister($request));
     }
 
-    // public function logout(Request $request)
-    // {
-    // }
+    public function logout()
+    {
+        Auth()->user()->currentAccessToken()->delete();
+        return $this->ok();
+    }
 }

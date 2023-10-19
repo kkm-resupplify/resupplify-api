@@ -71,4 +71,9 @@ class CompanyService extends Controller
        //return $mergedCompany = ['company' => $mergedCompany];
         return new CompanyResource($mergedCompany);
     }
+
+    public function getCompany(int $companyId)
+    {
+        return new CompanyResource(['company' => $company = Company::find($companyId)->first(), 'companyDetails' => $company->companyDetails]);
+    }
 }

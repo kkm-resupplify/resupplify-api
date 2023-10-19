@@ -15,12 +15,14 @@ Route::post('login', [AuthController::class, 'login']);
 Route::get('country', [CountryController::class, 'index']);
 
 Route::middleware('auth:sanctum')->group(function () {
+    Route::post('logout', [AuthController::class, 'logout']);
     Route::resource('company', CompanyController::class);
     Route::post('user/userDetails', [UserController::class, 'createUserDetails']);
     Route::put('user/userDetails', [UserController::class, 'editUserDetails']);
     Route::post('companyDetails', [CompanyController::class, 'createCompanyDetails']);
     Route::post('country', [CountryController::class, 'create']);
     Route::post('createInvitationCode' , [InvitationCodeController::class, 'createInvitationCode']);
+    Route::get('company/{id}', [CompanyController::class, 'index']);
     Route::resource('companyCategories', CompanyCategoryController::class);
     //Route::resource('user', UserController::class);
     // Route::post('logout', [AuthController::class, 'logout']);

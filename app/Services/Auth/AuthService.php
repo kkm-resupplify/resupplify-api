@@ -6,6 +6,7 @@ use App\Models\User\Enums\UserTypeEnum;
 use App\Http\Dto\User\LoginDto;
 use App\Http\Dto\User\PortalRegisterDto;
 use App\Models\User\User;
+use App\Models\User\UserDetails;
 use Illuminate\Support\Facades\Hash;
 use App\Exceptions\Auth\FailedLoginException;
 use App\Exceptions\User\UserAlreadyExistsException;
@@ -24,7 +25,7 @@ class AuthService extends BasicService
 
         $user->tokens()->delete();
         $token = $user->createToken('marketify-token')->plainTextToken;
-
+        $user->details = UserDetails::where('user_id', '=', $user->id)->first();
         $response = ['user' => $user, 'token' => $token];
         return new UserLoginResource($response);
     }
