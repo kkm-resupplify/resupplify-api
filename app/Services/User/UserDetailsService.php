@@ -15,15 +15,13 @@ use App\Exceptions\User\UserDetailsAlreadyExistsException;
 use App\Services\BasicService;
 use Illuminate\Support\Facades\Auth;
 
-
 class UserDetailsService extends BasicService
 {
     public function creatUserData(UserDetailsDto $request)
     {
         $user = Auth::user();
-        if(UserDetails::where('user_id',$user->id)->exists())
-        {
-            throw(new UserDetailsAlreadyExistsException());
+        if (UserDetails::where('user_id', $user->id)->exists()) {
+            throw new UserDetailsAlreadyExistsException();
         }
         $userDetails = UserDetails::create([
             'first_name' => $request->firstName,
@@ -40,9 +38,8 @@ class UserDetailsService extends BasicService
     {
         $user = Auth::user();
         $userDetails = UserDetails::where('user_id', $user->id)->first();
-        if(!isset($userDetails))
-        {
-            throw(new ValidationFailedException());
+        if (!isset($userDetails)) {
+            throw new ValidationFailedException();
         }
         $userDetails->first_name = $request->firstName;
         $userDetails->last_name = $request->lastName;
@@ -52,5 +49,4 @@ class UserDetailsService extends BasicService
         $userDetails->save();
         return ['userDetails' => $userDetails];
     }
-
 }
