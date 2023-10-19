@@ -8,6 +8,7 @@ use App\Http\Dto\Company\RegisterCompanyDetailsDto;
 use App\Models\Company\Company;
 use App\Models\Company\CompanyDetails;
 use App\Models\Company\CompanyMember;
+use App\Resources\Company\CompanyCollection;
 use App\Services\BasicService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -74,6 +75,11 @@ class CompanyService extends Controller
 
     public function getCompany(int $companyId)
     {
-        return new CompanyResource(['company' => $company = Company::find($companyId)->first(), 'companyDetails' => $company->companyDetails]);
+        return new CompanyResource(Company::with("companyDetails")->findOrFail($companyId));
+    }
+
+    public function getCompanies()
+    {
+        return new CompanyCollection(Company::with("companyDetails")->get());
     }
 }

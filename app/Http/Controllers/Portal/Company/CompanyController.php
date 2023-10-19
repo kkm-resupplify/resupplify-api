@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 
 use App\Http\Dto\Company\RegisterCompanyDto;
 use App\Http\Dto\Company\RegisterCompanyDetailsDto;
+use Illuminate\Http\Request;
 
 class CompanyController extends Controller
 {
@@ -18,13 +19,11 @@ class CompanyController extends Controller
 
     public function index(CompanyService $companyService): JsonResponse
     {
-        return $this->ok([$companyService->getCompany()]);
+        return $this->ok($companyService->getCompanies());
     }
 
-
-    //TODO: Return CompanyResource ($company,$companyDetails)
-    // public function index()
-    // {
-    //     return $this->ok(
-    // }
+    public function show(int $id, CompanyService $companyService)
+    {
+        return $this->ok([$companyService->getCompany($id)]);
+    }
 }
