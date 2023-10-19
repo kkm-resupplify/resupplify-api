@@ -11,7 +11,6 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Dto\User\UserDetailsDto;
 use App\Http\Controllers\Controller;
 use App\Resources\User\UserLoginResource;
-use Laravel\Sanctum\PersonalAccessToken;
 
 class UserController extends Controller
 {
