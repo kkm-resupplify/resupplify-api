@@ -85,7 +85,7 @@ class CompanyService extends Controller
     public function getUserCompany()
     {
         $user = Auth::user();
-        $company = Company::where('owner_id', '=', $user->id)->first();
+        $company = $user->company;
         return new CompanyResource(Company::with("companyDetails")->findOrFail($company->id));
     }
 }
