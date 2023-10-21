@@ -3,6 +3,7 @@
 namespace App\Services\Company;
 
 use App\Exceptions\Company\CompanyNameTakenException;
+use App\Exceptions\Company\CompanyNotFoundException;
 use App\Http\Dto\Company\RegisterCompanyDto;
 use App\Http\Dto\Company\RegisterCompanyDetailsDto;
 use App\Models\Company\Company;
@@ -39,7 +40,9 @@ class CompanyService extends Controller
             'status' => CompanyStatusEnum::UNVERIFIED(),
         ];
         // TODO: Add CompanyDetails from the request
-        $createdCompany = Company::create($company);
+        $createdCompany = new Company($company);
+        $createdCompany -> owner()->associate($user);
+        $createdCompany->save();
         $companyDetails = [
             'country_id' => $request->countryId,
             'address' => $request->address,
@@ -52,7 +55,9 @@ class CompanyService extends Controller
             'tin' => $request->tin,
             'contact_person' => $request->contactPerson,
         ];
-        $createdCompanyDetails = CompanyDetails::create($companyDetails);
+        $createdCompanyDetails = new CompanyDetails($companyDetails);
+        $createdCompanyDetails -> company()->associate($createdCompany);
+        $createdCompanyDetails->save();
         $role = [
             Role::create(['name' => 'CompanyOwner', 'team_id' => $createdCompany->id, 'guard_name' => 'sanctum']),
             Role::create(['name' => 'CompanyAdmin', 'team_id' => $createdCompany->id, 'guard_name' => 'sanctum']),
@@ -63,12 +68,12 @@ class CompanyService extends Controller
             'company_id' => $createdCompany->id,
             'role_id' => $role[0]->id,
         ];
-        CompanyMember::create($companyMember);
+        $companyMember = new CompanyMember($companyMember);
         $role[0]->givePermissionTo(['view transactions in own company', 'manage own account settings','view products','purchase products','manage users in own company','manage products in own company','view products in own company','add products in own company']);
         setPermissionsTeamId($createdCompany->id);
         $user->assignRole($role[0]);
         $user->save();
-        $mergedCompany = ['company' =>$createdCompany,'companyDetails' =>$createdCompanyDetails];
+        $mergedCompany = $createdCompany->companyDetails;
        //return $mergedCompany = ['company' => $mergedCompany];
         return new CompanyResource($mergedCompany);
     }
@@ -85,7 +90,11 @@ class CompanyService extends Controller
     public function getUserCompany()
     {
         $user = Auth::user();
-        $company = $user->company;
+        $company = Company::where('owner_id', '=', $user->id)->first();
+        if(!isset($company))
+        {
+            throw new CompanyNotFoundException();
+        }
         return new CompanyResource(Company::with("companyDetails")->findOrFail($company->id));
     }
 }

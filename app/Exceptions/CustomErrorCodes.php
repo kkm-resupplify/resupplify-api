@@ -13,4 +13,5 @@ class CustomErrorCodes
     public const USER_DETAILS_ALREADY_EXISTS = 'general-0007';
 
     public const COMPANY_NAME_TAKEN = 'company-0001';
+    public const COMPANY_NOT_FOUND = 'company-0002';
 }

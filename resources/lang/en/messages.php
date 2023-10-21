@@ -10,6 +10,7 @@ return [
     'unauthorized' => 'You are unauthorized to make this request',
     'roleNotFound' => 'Role not found',
     'userDetailsExists' => 'UserDetails already exists',
+    'companyNotFound' => 'Company not found',
   ],
   "loginMessages" =>
   [

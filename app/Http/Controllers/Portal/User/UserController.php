@@ -11,6 +11,7 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Dto\User\UserDetailsDto;
 use App\Http\Controllers\Controller;
 use App\Resources\User\UserLoginResource;
+use App\Resources\User\UserResource;
 use Laravel\Sanctum\PersonalAccessToken;
 
 class UserController extends Controller
@@ -27,8 +28,6 @@ class UserController extends Controller
 
     public function index()
     {
-        $user = Auth::User();
-        $response = ['user' => $user, 'token' => $token = $user->createToken('marketify-token')->plainTextToken];
-        return $this->ok($response);
+        return $this->ok(new UserResource(User::with('userDetails')->findOrFail(Auth::User()->id)));
     }
 }

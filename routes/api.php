@@ -15,6 +15,7 @@ Route::post('login', [AuthController::class, 'login']);
 Route::get('country', [CountryController::class, 'index']);
 
 Route::middleware('auth:sanctum')->group(function () {
+    Route::get('user', [UserController::class, 'index']);
     Route::post('logout', [AuthController::class, 'logout']);
     Route::post('user/userDetails', [UserController::class, 'createUserDetails']);
     Route::put('user/userDetails', [UserController::class, 'editUserDetails']);
