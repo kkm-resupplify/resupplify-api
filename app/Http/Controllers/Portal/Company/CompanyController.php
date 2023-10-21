@@ -26,4 +26,9 @@ class CompanyController extends Controller
     {
         return $this->ok([$companyService->getCompany($id)]);
     }
+
+    public function getLoggedUserCompany(CompanyService $companyService): JsonResponse
+    {
+        return $this->ok([$companyService->getUserCompany()]);
+    }
 }

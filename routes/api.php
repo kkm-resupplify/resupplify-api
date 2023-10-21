@@ -22,7 +22,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('country', [CountryController::class, 'create']);
     Route::post('createInvitationCode' , [InvitationCodeController::class, 'createInvitationCode']);
     // Route::get('companies', [CompanyController::class, 'index']);
-   // Route::get('company/{id}', [CompanyController::class, 'show']);
+    Route::get('user/company', [CompanyController::class, 'getLoggedUserCompany']);
     Route::resource('company', CompanyController::class);
     Route::resource('companyCategories', CompanyCategoryController::class);
     //Route::resource('user', UserController::class);

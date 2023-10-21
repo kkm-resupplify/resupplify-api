@@ -82,4 +82,10 @@ class CompanyService extends Controller
     {
         return new CompanyCollection(Company::with("companyDetails")->get());
     }
+    public function getUserCompany()
+    {
+        $user = Auth::user();
+        $company = Company::where('owner_id', '=', $user->id)->first();
+        return new CompanyResource(Company::with("companyDetails")->findOrFail($company->id));
+    }
 }
