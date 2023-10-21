@@ -12,12 +12,16 @@ return new class extends Migration {
     {
         Schema::create('company_details', function (Blueprint $table) {
             $table->id();
-            $table->string('address');
-            $table->string('email');
-            $table->string('phone_number');
-            $table->string('external_website');
-            $table->string('logo');
-            $table->foreignId('company_id')->constrained();
+            $table->string('address')->nullable();
+            $table->string('email')->nullable();
+            $table->string('phone_number')->nullable();
+            $table->string('external_website')->nullable();
+            $table->string('logo')->nullable();
+            $table->string('tin')->nullable();
+            $table->string('contact_person')->nullable();
+            $table->foreignId('company_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('country_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('company_category_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

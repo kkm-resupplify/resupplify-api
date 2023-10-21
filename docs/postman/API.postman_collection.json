@@ -1,0 +1,2352 @@
+{
+	"info": {
+		"_postman_id": "3dfec3a7-5900-409c-98a1-0f5e1d6b10fa",
+		"name": "API",
+		"description": "This template contains a boilerplate for documentation that you can quickly customize and reuse.\n\n### How to use this template:\n\n- Replace the content given brackets (()) with your API's details.\n- Tips are formatted in `codespan` - feel free to read and remove them.\n    \n\n---\n\n`Start with a brief overview of what your API offers.`\n\nThe ((product name)) provides many API products, tools, and resources that enable you to ((add product value here)).\n\n`You can also list the APIs you offer, link to the relevant pages, or do both in this section.`\n\n## **Getting started guide**\n\n`List the steps or points required to start using your APIs. Make sure to cover everything required to reach success with your API as quickly as possible.`\n\nTo start using the ((add APIs here)), you need to -\n\n`The points given below are from The Postman API's documentation. You can reference it to write your own getting started guide.`\n\n- You must use a valid API Key to send requests to the API endpoints. You can get your API key from Postman's [integrations dashboard](https://go.postman.co/settings/me/api-keys).\n- The API has [rate and usage limits](https://postman.postman.co/workspace/Collection-Templates~6311738d-2e70-441f-ae12-78caf078c5b7/collection/22517504-e9c28f47-1253-44af-a2f3-20dce4da1f18?ctx=documentation#rate-and-usage-limits).\n- The API only responds to HTTPS-secured communications. Any requests sent via HTTP return an HTTP 301 redirect to the corresponding HTTPS resources.\n- The API returns request responses in JSON format. When an API request returns an error, it is sent in the JSON response as an error key.\n    \n\n## Authentication\n\n`Add details on the authorization keys/tokens required, steps that cover how to get them, and the relevant error codes.`\n\nThe ((product name)) API uses ((add your API's authorization type)) for authentication.\n\n`The details given below are from the Postman API's documentation. You can reference it to write your own authentication section.`\n\nPostman uses API keys for authentication. You can generate a Postman API key in the [API keys](https://postman.postman.co/settings/me/api-keys) section of your Postman account settings.\n\nYou must include an API key in each request to the Postman API with the X-Api-Key request header.\n\n### Authentication error response\n\nIf an API key is missing, malformed, or invalid, you will receive an HTTP 401 Unauthorized response code.\n\n## Rate and usage limits\n\n`Use this section to cover your APIs' terms of use. Include API limits, constraints, and relevant error codes, so consumers understand the permitted API usage and practices.`\n\n`The example given below is from The Postman API's documentation. Use it as a reference to write your APIs' terms of use.`\n\nAPI access rate limits apply at a per-API key basis in unit time. The limit is 300 requests per minute. Also, depending on your plan, you may have usage limits. If you exceed either limit, your request will return an HTTP 429 Too Many Requests status code.\n\nEach API response returns the following set of headers to help you identify your use status:\n\n| Header | Description |\n| --- | --- |\n| `X-RateLimit-Limit` | The maximum number of requests that the consumer is permitted to make per minute. |\n| `X-RateLimit-Remaining` | The number of requests remaining in the current rate limit window. |\n| `X-RateLimit-Reset` | The time at which the current rate limit window resets in UTC epoch seconds. |\n\n### 503 response\n\nAn HTTP `503` response from our servers indicates there is an unexpected spike in API access traffic. The server is usually operational within the next five minutes. If the outage persists or you receive any other form of an HTTP `5XX` error, [contact support](https://support.postman.com/hc/en-us/requests/new/).\n\n### **Need some help?**\n\n`Add links that customers can refer to whenever they need help.`\n\nIn case you have questions, go through our tutorials ((link to your video or help documentation here)). Or visit our FAQ page ((link to the relevant page)).\n\nOr you can check out our community forum, there’s a good chance our community has an answer for you. Visit our developer forum ((link to developer forum)) to review topics, ask questions, and learn from others.\n\n`You can also document or add links to libraries, code examples, and other resources needed to make a request.`",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "22675600",
+		"_collection_link": "https://red-meteor-604433.postman.co/workspace/KKM-Marketify~8b6734cb-f2f8-4fb7-a1ad-27c4b1ff9ab0/collection/25488500-3dfec3a7-5900-409c-98a1-0f5e1d6b10fa?action=share&source=collection_link&creator=22675600"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Register user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"pm.globals.set(\"token\", jsonData.data.token);\r",
+									"\r",
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Token is set\", function () {\r",
+									"    var token = pm.globals.get(\"token\");\r",
+									"    pm.expect(token).to.be.ok;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "email@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "password",
+									"type": "text"
+								},
+								{
+									"key": "password_confirmation",
+									"value": "password",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{ENV_HOST}}/register",
+							"host": [
+								"{{ENV_HOST}}"
+							],
+							"path": [
+								"register"
+							]
+						},
+						"description": "Gets information about the authenticated user."
+					},
+					"response": []
+				},
+				{
+					"name": "Login user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"pm.globals.set(\"token\", jsonData.data.token);\r",
+									"\r",
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Token is set\", function () {\r",
+									"    var token = pm.globals.get(\"token\");\r",
+									"    pm.expect(token).to.be.ok;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "email@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "password",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{ENV_HOST}}/login",
+							"host": [
+								"{{ENV_HOST}}"
+							],
+							"path": [
+								"login"
+							]
+						},
+						"description": "Gets information about the authenticated user."
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "email@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "password",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{ENV_HOST}}/login",
+							"host": [
+								"{{ENV_HOST}}"
+							],
+							"path": [
+								"login"
+							]
+						},
+						"description": "Gets information about the authenticated user."
+					},
+					"response": []
+				},
+				{
+					"name": "Create User Details",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "firstName",
+									"value": "First",
+									"type": "text"
+								},
+								{
+									"key": "lastName",
+									"value": "Last",
+									"type": "text"
+								},
+								{
+									"key": "phoneNumber",
+									"value": "+48536123708",
+									"type": "text"
+								},
+								{
+									"key": "birthDate",
+									"value": "26-10-2001",
+									"type": "text"
+								},
+								{
+									"key": "sex",
+									"value": "Male",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{ENV_HOST}}/user/userDetails",
+							"host": [
+								"{{ENV_HOST}}"
+							],
+							"path": [
+								"user",
+								"userDetails"
+							]
+						},
+						"description": "Gets information about the authenticated user."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Company",
+			"item": [
+				{
+					"name": "User",
+					"item": [
+						{
+							"name": "Add user to company",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "user_id",
+											"value": "7",
+											"type": "text"
+										},
+										{
+											"key": "role_id",
+											"value": "5",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{ENV_HOST}}/company/1/add-user/",
+									"host": [
+										"{{ENV_HOST}}"
+									],
+									"path": [
+										"company",
+										"1",
+										"add-user",
+										""
+									]
+								},
+								"description": "Gets information about the authenticated user."
+							},
+							"response": []
+						},
+						{
+							"name": "Delete user from company",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": []
+								},
+								"url": {
+									"raw": "{{ENV_HOST}}/company/deleteUserFromCompany/2",
+									"host": [
+										"{{ENV_HOST}}"
+									],
+									"path": [
+										"company",
+										"deleteUserFromCompany",
+										"2"
+									]
+								},
+								"description": "Gets information about the authenticated user."
+							},
+							"response": []
+						},
+						{
+							"name": "Get users from company",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "email",
+											"value": "email@gmail.com",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "password",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{ENV_HOST}}/company",
+									"host": [
+										"{{ENV_HOST}}"
+									],
+									"path": [
+										"company"
+									]
+								},
+								"description": "Gets information about the authenticated user."
+							},
+							"response": []
+						},
+						{
+							"name": "Get company members by id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": []
+								},
+								"url": {
+									"raw": "{{ENV_HOST}}/company/1/members",
+									"host": [
+										"{{ENV_HOST}}"
+									],
+									"path": [
+										"company",
+										"1",
+										"members"
+									]
+								},
+								"description": "Gets information about the authenticated user."
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Role",
+					"item": [
+						{
+							"name": "Delete role",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": []
+								},
+								"url": {
+									"raw": "{{ENV_HOST}}/company/deleteRoleFromCompany/1",
+									"host": [
+										"{{ENV_HOST}}"
+									],
+									"path": [
+										"company",
+										"deleteRoleFromCompany",
+										"1"
+									]
+								},
+								"description": "Gets information about the authenticated user."
+							},
+							"response": []
+						},
+						{
+							"name": "Get company roles by id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": []
+								},
+								"url": {
+									"raw": "{{ENV_HOST}}/company/1/roles",
+									"host": [
+										"{{ENV_HOST}}"
+									],
+									"path": [
+										"company",
+										"1",
+										"roles"
+									]
+								},
+								"description": "Gets information about the authenticated user."
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Company",
+					"item": [
+						{
+							"name": "Create company",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "name",
+											"value": "Company test",
+											"type": "text"
+										},
+										{
+											"key": "shortDescription",
+											"value": "Company short description",
+											"type": "text"
+										},
+										{
+											"key": "description",
+											"value": "Company test description",
+											"type": "text"
+										},
+										{
+											"key": "countryId",
+											"value": "1",
+											"type": "text"
+										},
+										{
+											"key": "address",
+											"value": "Paderewskiego 14",
+											"type": "text"
+										},
+										{
+											"key": "email",
+											"value": "email@business.com",
+											"type": "text"
+										},
+										{
+											"key": "phoneNumber",
+											"value": "536123708",
+											"type": "text"
+										},
+										{
+											"key": "logo",
+											"value": "https://cdn.discordapp.com/attachments/902260825203560518/1160264313999720561/12a247fb2f2729acf01760008023ceef.png?ex=65340759&is=65219259&hm=3119def411353e8a9f600e810c5e3228a39ce53a54bfb62c6514ecdc5545161e&",
+											"type": "text"
+										},
+										{
+											"key": "externalWebsite",
+											"value": "https://www.google.com/search?q=xdd",
+											"type": "text"
+										},
+										{
+											"key": "companyCategoryId",
+											"value": "1",
+											"type": "text"
+										},
+										{
+											"key": "tin",
+											"value": "5263154246",
+											"type": "text"
+										},
+										{
+											"key": "contactPerson",
+											"value": "Kamilek Szef",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{ENV_HOST}}/company",
+									"host": [
+										"{{ENV_HOST}}"
+									],
+									"path": [
+										"company"
+									]
+								},
+								"description": "Gets information about the authenticated user."
+							},
+							"response": []
+						},
+						{
+							"name": "Get company by id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": []
+								},
+								"url": {
+									"raw": "{{ENV_HOST}}/company/1",
+									"host": [
+										"{{ENV_HOST}}"
+									],
+									"path": [
+										"company",
+										"1"
+									]
+								},
+								"description": "Gets information about the authenticated user."
+							},
+							"response": []
+						},
+						{
+							"name": "Get companies",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": []
+								},
+								"url": {
+									"raw": "{{ENV_HOST}}/companies",
+									"host": [
+										"{{ENV_HOST}}"
+									],
+									"path": [
+										"companies"
+									]
+								},
+								"description": "Gets information about the authenticated user."
+							},
+							"response": []
+						},
+						{
+							"name": "Get companyCategories",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": []
+								},
+								"url": {
+									"raw": "{{ENV_HOST}}/companyCategories",
+									"host": [
+										"{{ENV_HOST}}"
+									],
+									"path": [
+										"companyCategories"
+									]
+								},
+								"description": "Gets information about the authenticated user."
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Country",
+					"item": [
+						{
+							"name": "Create country",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "name",
+											"value": "Company test",
+											"type": "text"
+										},
+										{
+											"key": "code",
+											"value": "Company test description",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{ENV_HOST}}/country",
+									"host": [
+										"{{ENV_HOST}}"
+									],
+									"path": [
+										"country"
+									]
+								},
+								"description": "Gets information about the authenticated user."
+							},
+							"response": []
+						},
+						{
+							"name": "Get country by id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": []
+								},
+								"url": {
+									"raw": "{{ENV_HOST}}/company/1",
+									"host": [
+										"{{ENV_HOST}}"
+									],
+									"path": [
+										"company",
+										"1"
+									]
+								},
+								"description": "Gets information about the authenticated user."
+							},
+							"response": []
+						},
+						{
+							"name": "Get countries",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": []
+								},
+								"url": {
+									"raw": "{{ENV_HOST}}/companies",
+									"host": [
+										"{{ENV_HOST}}"
+									],
+									"path": [
+										"companies"
+									]
+								},
+								"description": "Gets information about the authenticated user."
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "User",
+					"item": [
+						{
+							"name": "Get auth user",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = pm.response.json();\r",
+											"pm.globals.set(\"token\", jsonData.data.token);\r",
+											"\r",
+											"pm.test(\"Status test\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Token is set\", function () {\r",
+											"    var token = pm.globals.get(\"token\");\r",
+											"    pm.expect(token).to.be.ok;\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": []
+								},
+								"url": {
+									"raw": "{{ENV_HOST}}/user",
+									"host": [
+										"{{ENV_HOST}}"
+									],
+									"path": [
+										"user"
+									]
+								},
+								"description": "Gets information about the authenticated user."
+							},
+							"response": []
+						},
+						{
+							"name": "Edit User Details",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "firstName",
+											"value": "First",
+											"type": "text"
+										},
+										{
+											"key": "lastName",
+											"value": "Lasttt",
+											"type": "text"
+										},
+										{
+											"key": "phoneNumber",
+											"value": "+48536123708",
+											"type": "text"
+										},
+										{
+											"key": "birthDate",
+											"value": "26-10-2001",
+											"type": "text"
+										},
+										{
+											"key": "sex",
+											"value": "Male",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{ENV_HOST}}/user/userDetails",
+									"host": [
+										"{{ENV_HOST}}"
+									],
+									"path": [
+										"user",
+										"userDetails"
+									]
+								},
+								"description": "Gets information about the authenticated user."
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Country",
+			"item": [
+				{
+					"name": "Create country",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Poland",
+									"type": "text"
+								},
+								{
+									"key": "code",
+									"value": "PL",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{ENV_HOST}}/country",
+							"host": [
+								"{{ENV_HOST}}"
+							],
+							"path": [
+								"country"
+							]
+						},
+						"description": "Gets information about the authenticated user."
+					},
+					"response": []
+				},
+				{
+					"name": "Get countries",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "{{ENV_HOST}}/country",
+							"host": [
+								"{{ENV_HOST}}"
+							],
+							"path": [
+								"country"
+							]
+						},
+						"description": "Gets information about the authenticated user."
+					},
+					"response": [
+						{
+							"name": "200",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": []
+								},
+								"url": {
+									"raw": "{{ENV_HOST}}/country",
+									"host": [
+										"{{ENV_HOST}}"
+									],
+									"path": [
+										"country"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Host",
+									"value": "localhost:8000"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 07 Oct 2023 18:44:16 GMT"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 07 Oct 2023 18:44:16 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/8.2.4"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "57"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"data\": [\n        {\n            \"id\": 1,\n            \"name\": \"Afghanistan\",\n            \"code\": \"AF\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 2,\n            \"name\": \"Åland Islands\",\n            \"code\": \"AX\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 3,\n            \"name\": \"Albania\",\n            \"code\": \"AL\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 4,\n            \"name\": \"Algeria\",\n            \"code\": \"DZ\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 5,\n            \"name\": \"American Samoa\",\n            \"code\": \"AS\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 6,\n            \"name\": \"Andorra\",\n            \"code\": \"AD\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 7,\n            \"name\": \"Angola\",\n            \"code\": \"AO\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 8,\n            \"name\": \"Anguilla\",\n            \"code\": \"AI\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 9,\n            \"name\": \"Antarctica\",\n            \"code\": \"AQ\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 10,\n            \"name\": \"Antigua and Barbuda\",\n            \"code\": \"AG\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 11,\n            \"name\": \"Argentina\",\n            \"code\": \"AR\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 12,\n            \"name\": \"Armenia\",\n            \"code\": \"AM\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 13,\n            \"name\": \"Aruba\",\n            \"code\": \"AW\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 14,\n            \"name\": \"Australia\",\n            \"code\": \"AU\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 15,\n            \"name\": \"Austria\",\n            \"code\": \"AT\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 16,\n            \"name\": \"Azerbaijan\",\n            \"code\": \"AZ\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 17,\n            \"name\": \"Bahamas\",\n            \"code\": \"BS\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 18,\n            \"name\": \"Bahrain\",\n            \"code\": \"BH\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 19,\n            \"name\": \"Bangladesh\",\n            \"code\": \"BD\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 20,\n            \"name\": \"Barbados\",\n            \"code\": \"BB\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 21,\n            \"name\": \"Belarus\",\n            \"code\": \"BY\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 22,\n            \"name\": \"Belgium\",\n            \"code\": \"BE\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 23,\n            \"name\": \"Belize\",\n            \"code\": \"BZ\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 24,\n            \"name\": \"Benin\",\n            \"code\": \"BJ\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 25,\n            \"name\": \"Bermuda\",\n            \"code\": \"BM\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 26,\n            \"name\": \"Bhutan\",\n            \"code\": \"BT\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 27,\n            \"name\": \"Bolivia, Plurinational State of\",\n            \"code\": \"BO\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 28,\n            \"name\": \"Bonaire, Sint Eustatius and Saba\",\n            \"code\": \"BQ\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 29,\n            \"name\": \"Bosnia and Herzegovina\",\n            \"code\": \"BA\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 30,\n            \"name\": \"Botswana\",\n            \"code\": \"BW\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 31,\n            \"name\": \"Bouvet Island\",\n            \"code\": \"BV\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 32,\n            \"name\": \"Brazil\",\n            \"code\": \"BR\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 33,\n            \"name\": \"British Indian Ocean Territory\",\n            \"code\": \"IO\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 34,\n            \"name\": \"Brunei Darussalam\",\n            \"code\": \"BN\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 35,\n            \"name\": \"Bulgaria\",\n            \"code\": \"BG\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 36,\n            \"name\": \"Burkina Faso\",\n            \"code\": \"BF\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 37,\n            \"name\": \"Burundi\",\n            \"code\": \"BI\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 38,\n            \"name\": \"Cambodia\",\n            \"code\": \"KH\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 39,\n            \"name\": \"Cameroon\",\n            \"code\": \"CM\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 40,\n            \"name\": \"Canada\",\n            \"code\": \"CA\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 41,\n            \"name\": \"Cape Verde\",\n            \"code\": \"CV\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 42,\n            \"name\": \"Cayman Islands\",\n            \"code\": \"KY\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 43,\n            \"name\": \"Central African Republic\",\n            \"code\": \"CF\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 44,\n            \"name\": \"Chad\",\n            \"code\": \"TD\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 45,\n            \"name\": \"Chile\",\n            \"code\": \"CL\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 46,\n            \"name\": \"China\",\n            \"code\": \"CN\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 47,\n            \"name\": \"Christmas Island\",\n            \"code\": \"CX\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 48,\n            \"name\": \"Cocos (Keeling) Islands\",\n            \"code\": \"CC\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 49,\n            \"name\": \"Colombia\",\n            \"code\": \"CO\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 50,\n            \"name\": \"Comoros\",\n            \"code\": \"KM\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 51,\n            \"name\": \"Congo\",\n            \"code\": \"CG\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 52,\n            \"name\": \"Congo, the Democratic Republic of the\",\n            \"code\": \"CD\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 53,\n            \"name\": \"Cook Islands\",\n            \"code\": \"CK\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 54,\n            \"name\": \"Costa Rica\",\n            \"code\": \"CR\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 55,\n            \"name\": \"Côte d'Ivoire\",\n            \"code\": \"CI\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 56,\n            \"name\": \"Croatia\",\n            \"code\": \"HR\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 57,\n            \"name\": \"Cuba\",\n            \"code\": \"CU\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 58,\n            \"name\": \"Curaçao\",\n            \"code\": \"CW\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 59,\n            \"name\": \"Cyprus\",\n            \"code\": \"CY\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 60,\n            \"name\": \"Czech Republic\",\n            \"code\": \"CZ\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 61,\n            \"name\": \"Denmark\",\n            \"code\": \"DK\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 62,\n            \"name\": \"Djibouti\",\n            \"code\": \"DJ\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 63,\n            \"name\": \"Dominica\",\n            \"code\": \"DM\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 64,\n            \"name\": \"Dominican Republic\",\n            \"code\": \"DO\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 65,\n            \"name\": \"Ecuador\",\n            \"code\": \"EC\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 66,\n            \"name\": \"Egypt\",\n            \"code\": \"EG\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 67,\n            \"name\": \"El Salvador\",\n            \"code\": \"SV\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 68,\n            \"name\": \"Equatorial Guinea\",\n            \"code\": \"GQ\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 69,\n            \"name\": \"Eritrea\",\n            \"code\": \"ER\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 70,\n            \"name\": \"Estonia\",\n            \"code\": \"EE\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 71,\n            \"name\": \"Ethiopia\",\n            \"code\": \"ET\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 72,\n            \"name\": \"Falkland Islands (Malvinas)\",\n            \"code\": \"FK\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 73,\n            \"name\": \"Faroe Islands\",\n            \"code\": \"FO\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 74,\n            \"name\": \"Fiji\",\n            \"code\": \"FJ\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 75,\n            \"name\": \"Finland\",\n            \"code\": \"FI\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 76,\n            \"name\": \"France\",\n            \"code\": \"FR\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 77,\n            \"name\": \"French Guiana\",\n            \"code\": \"GF\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 78,\n            \"name\": \"French Polynesia\",\n            \"code\": \"PF\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 79,\n            \"name\": \"French Southern Territories\",\n            \"code\": \"TF\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 80,\n            \"name\": \"Gabon\",\n            \"code\": \"GA\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 81,\n            \"name\": \"Gambia\",\n            \"code\": \"GM\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 82,\n            \"name\": \"Georgia\",\n            \"code\": \"GE\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 83,\n            \"name\": \"Germany\",\n            \"code\": \"DE\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 84,\n            \"name\": \"Ghana\",\n            \"code\": \"GH\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 85,\n            \"name\": \"Gibraltar\",\n            \"code\": \"GI\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 86,\n            \"name\": \"Greece\",\n            \"code\": \"GR\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 87,\n            \"name\": \"Greenland\",\n            \"code\": \"GL\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 88,\n            \"name\": \"Grenada\",\n            \"code\": \"GD\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 89,\n            \"name\": \"Guadeloupe\",\n            \"code\": \"GP\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 90,\n            \"name\": \"Guam\",\n            \"code\": \"GU\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 91,\n            \"name\": \"Guatemala\",\n            \"code\": \"GT\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 92,\n            \"name\": \"Guernsey\",\n            \"code\": \"GG\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 93,\n            \"name\": \"Guinea\",\n            \"code\": \"GN\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 94,\n            \"name\": \"Guinea-Bissau\",\n            \"code\": \"GW\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 95,\n            \"name\": \"Guyana\",\n            \"code\": \"GY\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 96,\n            \"name\": \"Haiti\",\n            \"code\": \"HT\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 97,\n            \"name\": \"Heard Island and McDonald Mcdonald Islands\",\n            \"code\": \"HM\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 98,\n            \"name\": \"Holy See (Vatican City State)\",\n            \"code\": \"VA\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 99,\n            \"name\": \"Honduras\",\n            \"code\": \"HN\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 100,\n            \"name\": \"Hong Kong\",\n            \"code\": \"HK\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 101,\n            \"name\": \"Hungary\",\n            \"code\": \"HU\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 102,\n            \"name\": \"Iceland\",\n            \"code\": \"IS\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 103,\n            \"name\": \"India\",\n            \"code\": \"IN\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 104,\n            \"name\": \"Indonesia\",\n            \"code\": \"ID\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 105,\n            \"name\": \"Iran, Islamic Republic of\",\n            \"code\": \"IR\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 106,\n            \"name\": \"Iraq\",\n            \"code\": \"IQ\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 107,\n            \"name\": \"Ireland\",\n            \"code\": \"IE\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 108,\n            \"name\": \"Isle of Man\",\n            \"code\": \"IM\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 109,\n            \"name\": \"Israel\",\n            \"code\": \"IL\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 110,\n            \"name\": \"Italy\",\n            \"code\": \"IT\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 111,\n            \"name\": \"Jamaica\",\n            \"code\": \"JM\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 112,\n            \"name\": \"Japan\",\n            \"code\": \"JP\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 113,\n            \"name\": \"Jersey\",\n            \"code\": \"JE\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 114,\n            \"name\": \"Jordan\",\n            \"code\": \"JO\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 115,\n            \"name\": \"Kazakhstan\",\n            \"code\": \"KZ\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 116,\n            \"name\": \"Kenya\",\n            \"code\": \"KE\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 117,\n            \"name\": \"Kiribati\",\n            \"code\": \"KI\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 118,\n            \"name\": \"Korea, Democratic People's Republic of\",\n            \"code\": \"KP\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 119,\n            \"name\": \"Korea, Republic of\",\n            \"code\": \"KR\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 120,\n            \"name\": \"Kuwait\",\n            \"code\": \"KW\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 121,\n            \"name\": \"Kyrgyzstan\",\n            \"code\": \"KG\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 122,\n            \"name\": \"Lao People's Democratic Republic\",\n            \"code\": \"LA\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 123,\n            \"name\": \"Latvia\",\n            \"code\": \"LV\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 124,\n            \"name\": \"Lebanon\",\n            \"code\": \"LB\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 125,\n            \"name\": \"Lesotho\",\n            \"code\": \"LS\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 126,\n            \"name\": \"Liberia\",\n            \"code\": \"LR\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 127,\n            \"name\": \"Libya\",\n            \"code\": \"LY\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 128,\n            \"name\": \"Liechtenstein\",\n            \"code\": \"LI\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 129,\n            \"name\": \"Lithuania\",\n            \"code\": \"LT\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 130,\n            \"name\": \"Luxembourg\",\n            \"code\": \"LU\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 131,\n            \"name\": \"Macao\",\n            \"code\": \"MO\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 132,\n            \"name\": \"Macedonia, the Former Yugoslav Republic of\",\n            \"code\": \"MK\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 133,\n            \"name\": \"Madagascar\",\n            \"code\": \"MG\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 134,\n            \"name\": \"Malawi\",\n            \"code\": \"MW\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 135,\n            \"name\": \"Malaysia\",\n            \"code\": \"MY\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 136,\n            \"name\": \"Maldives\",\n            \"code\": \"MV\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 137,\n            \"name\": \"Mali\",\n            \"code\": \"ML\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 138,\n            \"name\": \"Malta\",\n            \"code\": \"MT\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 139,\n            \"name\": \"Marshall Islands\",\n            \"code\": \"MH\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 140,\n            \"name\": \"Martinique\",\n            \"code\": \"MQ\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 141,\n            \"name\": \"Mauritania\",\n            \"code\": \"MR\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 142,\n            \"name\": \"Mauritius\",\n            \"code\": \"MU\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 143,\n            \"name\": \"Mayotte\",\n            \"code\": \"YT\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 144,\n            \"name\": \"Mexico\",\n            \"code\": \"MX\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 145,\n            \"name\": \"Micronesia, Federated States of\",\n            \"code\": \"FM\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 146,\n            \"name\": \"Moldova, Republic of\",\n            \"code\": \"MD\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 147,\n            \"name\": \"Monaco\",\n            \"code\": \"MC\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 148,\n            \"name\": \"Mongolia\",\n            \"code\": \"MN\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 149,\n            \"name\": \"Montenegro\",\n            \"code\": \"ME\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 150,\n            \"name\": \"Montserrat\",\n            \"code\": \"MS\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 151,\n            \"name\": \"Morocco\",\n            \"code\": \"MA\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 152,\n            \"name\": \"Mozambique\",\n            \"code\": \"MZ\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 153,\n            \"name\": \"Myanmar\",\n            \"code\": \"MM\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 154,\n            \"name\": \"Namibia\",\n            \"code\": \"NA\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 155,\n            \"name\": \"Nauru\",\n            \"code\": \"NR\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 156,\n            \"name\": \"Nepal\",\n            \"code\": \"NP\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 157,\n            \"name\": \"Netherlands\",\n            \"code\": \"NL\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 158,\n            \"name\": \"New Caledonia\",\n            \"code\": \"NC\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 159,\n            \"name\": \"New Zealand\",\n            \"code\": \"NZ\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 160,\n            \"name\": \"Nicaragua\",\n            \"code\": \"NI\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 161,\n            \"name\": \"Niger\",\n            \"code\": \"NE\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 162,\n            \"name\": \"Nigeria\",\n            \"code\": \"NG\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 163,\n            \"name\": \"Niue\",\n            \"code\": \"NU\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 164,\n            \"name\": \"Norfolk Island\",\n            \"code\": \"NF\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 165,\n            \"name\": \"Northern Mariana Islands\",\n            \"code\": \"MP\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 166,\n            \"name\": \"Norway\",\n            \"code\": \"NO\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 167,\n            \"name\": \"Oman\",\n            \"code\": \"OM\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 168,\n            \"name\": \"Pakistan\",\n            \"code\": \"PK\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 169,\n            \"name\": \"Palau\",\n            \"code\": \"PW\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 170,\n            \"name\": \"Palestine, State of\",\n            \"code\": \"PS\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 171,\n            \"name\": \"Panama\",\n            \"code\": \"PA\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 172,\n            \"name\": \"Papua New Guinea\",\n            \"code\": \"PG\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 173,\n            \"name\": \"Paraguay\",\n            \"code\": \"PY\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 174,\n            \"name\": \"Peru\",\n            \"code\": \"PE\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 175,\n            \"name\": \"Philippines\",\n            \"code\": \"PH\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 176,\n            \"name\": \"Pitcairn\",\n            \"code\": \"PN\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 177,\n            \"name\": \"Poland\",\n            \"code\": \"PL\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 178,\n            \"name\": \"Portugal\",\n            \"code\": \"PT\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 179,\n            \"name\": \"Puerto Rico\",\n            \"code\": \"PR\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 180,\n            \"name\": \"Qatar\",\n            \"code\": \"QA\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 181,\n            \"name\": \"Réunion\",\n            \"code\": \"RE\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 182,\n            \"name\": \"Romania\",\n            \"code\": \"RO\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 183,\n            \"name\": \"Russian Federation\",\n            \"code\": \"RU\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 184,\n            \"name\": \"Rwanda\",\n            \"code\": \"RW\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 185,\n            \"name\": \"Saint Barthélemy\",\n            \"code\": \"BL\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 186,\n            \"name\": \"Saint Helena, Ascension and Tristan da Cunha\",\n            \"code\": \"SH\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 187,\n            \"name\": \"Saint Kitts and Nevis\",\n            \"code\": \"KN\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 188,\n            \"name\": \"Saint Lucia\",\n            \"code\": \"LC\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 189,\n            \"name\": \"Saint Martin (French part)\",\n            \"code\": \"MF\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 190,\n            \"name\": \"Saint Pierre and Miquelon\",\n            \"code\": \"PM\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 191,\n            \"name\": \"Saint Vincent and the Grenadines\",\n            \"code\": \"VC\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 192,\n            \"name\": \"Samoa\",\n            \"code\": \"WS\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 193,\n            \"name\": \"San Marino\",\n            \"code\": \"SM\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 194,\n            \"name\": \"Sao Tome and Principe\",\n            \"code\": \"ST\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 195,\n            \"name\": \"Saudi Arabia\",\n            \"code\": \"SA\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 196,\n            \"name\": \"Senegal\",\n            \"code\": \"SN\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 197,\n            \"name\": \"Serbia\",\n            \"code\": \"RS\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 198,\n            \"name\": \"Seychelles\",\n            \"code\": \"SC\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 199,\n            \"name\": \"Sierra Leone\",\n            \"code\": \"SL\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 200,\n            \"name\": \"Singapore\",\n            \"code\": \"SG\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 201,\n            \"name\": \"Sint Maarten (Dutch part)\",\n            \"code\": \"SX\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 202,\n            \"name\": \"Slovakia\",\n            \"code\": \"SK\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 203,\n            \"name\": \"Slovenia\",\n            \"code\": \"SI\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 204,\n            \"name\": \"Solomon Islands\",\n            \"code\": \"SB\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 205,\n            \"name\": \"Somalia\",\n            \"code\": \"SO\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 206,\n            \"name\": \"South Africa\",\n            \"code\": \"ZA\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 207,\n            \"name\": \"South Georgia and the South Sandwich Islands\",\n            \"code\": \"GS\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 208,\n            \"name\": \"South Sudan\",\n            \"code\": \"SS\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 209,\n            \"name\": \"Spain\",\n            \"code\": \"ES\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 210,\n            \"name\": \"Sri Lanka\",\n            \"code\": \"LK\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 211,\n            \"name\": \"Sudan\",\n            \"code\": \"SD\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 212,\n            \"name\": \"Suriname\",\n            \"code\": \"SR\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 213,\n            \"name\": \"Svalbard and Jan Mayen\",\n            \"code\": \"SJ\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 214,\n            \"name\": \"Swaziland\",\n            \"code\": \"SZ\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 215,\n            \"name\": \"Sweden\",\n            \"code\": \"SE\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 216,\n            \"name\": \"Switzerland\",\n            \"code\": \"CH\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 217,\n            \"name\": \"Syrian Arab Republic\",\n            \"code\": \"SY\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 218,\n            \"name\": \"Taiwan\",\n            \"code\": \"TW\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 219,\n            \"name\": \"Tajikistan\",\n            \"code\": \"TJ\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 220,\n            \"name\": \"Tanzania, United Republic of\",\n            \"code\": \"TZ\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 221,\n            \"name\": \"Thailand\",\n            \"code\": \"TH\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 222,\n            \"name\": \"Timor-Leste\",\n            \"code\": \"TL\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 223,\n            \"name\": \"Togo\",\n            \"code\": \"TG\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 224,\n            \"name\": \"Tokelau\",\n            \"code\": \"TK\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 225,\n            \"name\": \"Tonga\",\n            \"code\": \"TO\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 226,\n            \"name\": \"Trinidad and Tobago\",\n            \"code\": \"TT\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 227,\n            \"name\": \"Tunisia\",\n            \"code\": \"TN\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 228,\n            \"name\": \"Turkey\",\n            \"code\": \"TR\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 229,\n            \"name\": \"Turkmenistan\",\n            \"code\": \"TM\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 230,\n            \"name\": \"Turks and Caicos Islands\",\n            \"code\": \"TC\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 231,\n            \"name\": \"Tuvalu\",\n            \"code\": \"TV\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 232,\n            \"name\": \"Uganda\",\n            \"code\": \"UG\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 233,\n            \"name\": \"Ukraine\",\n            \"code\": \"UA\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 234,\n            \"name\": \"United Arab Emirates\",\n            \"code\": \"AE\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 235,\n            \"name\": \"United Kingdom\",\n            \"code\": \"GB\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 236,\n            \"name\": \"United States\",\n            \"code\": \"US\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 237,\n            \"name\": \"United States Minor Outlying Islands\",\n            \"code\": \"UM\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 238,\n            \"name\": \"Uruguay\",\n            \"code\": \"UY\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 239,\n            \"name\": \"Uzbekistan\",\n            \"code\": \"UZ\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 240,\n            \"name\": \"Vanuatu\",\n            \"code\": \"VU\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 241,\n            \"name\": \"Venezuela, Bolivarian Republic of\",\n            \"code\": \"VE\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 242,\n            \"name\": \"Viet Nam\",\n            \"code\": \"VN\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 243,\n            \"name\": \"Virgin Islands, British\",\n            \"code\": \"VG\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 244,\n            \"name\": \"Virgin Islands, U.S.\",\n            \"code\": \"VI\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 245,\n            \"name\": \"Wallis and Futuna\",\n            \"code\": \"WF\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 246,\n            \"name\": \"Western Sahara\",\n            \"code\": \"EH\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 247,\n            \"name\": \"Yemen\",\n            \"code\": \"YE\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 248,\n            \"name\": \"Zambia\",\n            \"code\": \"ZM\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        },\n        {\n            \"id\": 249,\n            \"name\": \"Zimbabwe\",\n            \"code\": \"ZW\",\n            \"created_at\": \"2023-10-07T18:39:50.000000Z\",\n            \"updated_at\": \"2023-10-07T18:39:50.000000Z\"\n        }\n    ]\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Collections",
+			"item": [
+				{
+					"name": "Create a collection",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"collection\": {\n        \"info\": {\n            \"name\": \"{{collectionName}}\",\n            \"schema\": \"{{collectionSchemaUrl}}\"\n        },\n        \"item\": [\n            {\n                \"request\": {}\n            }\n        ]\n    }\n}"
+						},
+						"url": {
+							"raw": "https://api.getpostman.com/collections",
+							"protocol": "https",
+							"host": [
+								"api",
+								"getpostman",
+								"com"
+							],
+							"path": [
+								"collections"
+							],
+							"query": [
+								{
+									"key": "workspace",
+									"value": "{{workspaceId}}",
+									"description": "Optional. A workspace ID in which to create the collection.\n\nIf you do not include this query parameter, the system creates the collection in your \"My Workspace\" workspace.",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Creates a collection using the [Postman Collection v2 schema format](https://schema.postman.com/json/collection/v2.1.0/docs/index.html). Include a `collection` object in the request body that contains the following required properties:\n\n*   `info` — An **object** that contains the following properties:\n    *   `name` — A **string** value that contains the collection's name.\n    *   `schema` — A **string** that contains a URL to the collection's schema. For example, the `https://schema.getpostman.com/collection/v1` URL.\n*   `item` — An **object** that contains the HTTP request and response information.\n    *   `request` — An **object** that contains the collection's request information. For a complete list of values, refer to the `definitions.request` entry in the [collection.json schema file](https://schema.postman.com/json/collection/v2.1.0/collection.json). If you pass an empty object for this value, the system defaults to an untitled GET request.\n\n**Note:**\n\n*   For a complete list of available property values for this endpoint, use the following references available in the [collection.json schema file](https://schema.postman.com/json/collection/v2.1.0/collection.json):\n    *   `info` object — Use the `definitions.info` entry.\n    *   `item` object — Use the `definitions.items` entry.\n*   For all other possible values, refer to the [collection.json schema file](https://schema.postman.com/json/collection/v2.1.0/collection.json)."
+					},
+					"response": [
+						{
+							"name": "Successful Response",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"collection\": {\n        \"info\": {\n            \"name\": \"Test Collection\",\n            \"description\": \"This collection makes a request to the Postman Echo service to get a list of request headers sent by an HTTP client.\",\n            \"schema\": \"https://schema.getpostman.com/json/collection/v2.1.0/collection.json\"\n        },\n        \"item\": [\n            {\n                \"name\": \"Test GET Response\",\n                \"event\": [\n                    {\n                        \"listen\": \"test\",\n                        \"script\": {\n                            \"id\": \"7d2334fc-a84a-4c3d-b26c-7529afa4c0ae\",\n                            \"exec\": [\n                                \"pm.test(\\\"Status code is 200\\\", function () {\",\n                                \"    pm.response.to.have.status(200);\",\n                                \"});\"\n                                ],\n                            \"type\": \"text/javascript\"\n                            }\n                        }\n                    ],\n                \"request\": {\n                    \"url\": \"https://echo.getpostman.com/headers\",\n                    \"method\": \"GET\",\n                    \"header\": [\n                        {\n                            \"key\": \"Content-Type\",\n                            \"value\": \"application/json\"\n                        }\n                    ]\n                }\n            }\n        ]\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://api.getpostman.com/collections",
+									"protocol": "https",
+									"host": [
+										"api",
+										"getpostman",
+										"com"
+									],
+									"path": [
+										"collections"
+									],
+									"query": [
+										{
+											"key": "workspace",
+											"value": "1f0df51a-8658-4ee8-a2a1-d2567dfa09a9",
+											"description": "Optional. A workspace ID in which to create the collection.\n\nIf you do not include this query parameter, the system creates the collection in your \"My Workspace\" workspace.",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": {
+										"content": "",
+										"type": "text/plain"
+									}
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"collection\": {\n        \"id\": \"12ece9e1-2abf-4edc-8e34-de66e74114d2\",\n        \"name\": \"Test Collection\",\n        \"uid\": \"12345678-12ece9e1-2abf-4edc-8e34-de66e74114d2\"\n    }\n}"
+						},
+						{
+							"name": "Bad Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"collection\": {\n        \"info\": {\n            \"name\": \"Test Collection\",\n            \"description\": \"This collection makes a request to the Postman Echo service to get a list of request headers sent by an HTTP client.\",\n            \"schema\": \"https://schema.getpostman.com/json/collection/v2.1.0/collection.json\"\n        },\n        \"item\": [\n            {\n                \"name\": \"Test GET Response\",\n                \"event\": [\n                    {\n                        \"listen\": \"test\",\n                        \"script\": {\n                            \"id\": \"7d2334fc-a84a-4c3d-b26c-7529afa4c0ae\",\n                            \"exec\": [\n                                \"pm.test(\\\"Status code is 200\\\", function () {\",\n                                \"    pm.response.to.have.status(200);\",\n                                \"});\"\n                                ],\n                            \"type\": \"text/javascript\"\n                            }\n                        }\n                    ],\n                \"request\": {\n                    \"url\": \"https://echo.getpostman.com/headers\",\n                    \"method\": \"GET\",\n                    \"header\": [\n                        {\n                            \"key\": \"Content-Type\",\n                            \"value\": \"application/json\"\n                        }\n                    ]\n                }\n            }\n        ]\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://api.getpostman.com/collections",
+									"protocol": "https",
+									"host": [
+										"api",
+										"getpostman",
+										"com"
+									],
+									"path": [
+										"collections"
+									],
+									"query": [
+										{
+											"key": "workspace",
+											"value": "1f0df51a-8658-4ee8-a2a1-d2567dfa09a9",
+											"description": "Optional. A workspace ID in which to create the collection.\n\nIf you do not include this query parameter, the system creates the collection in your \"My Workspace\" workspace.",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": {
+										"content": "",
+										"type": "text/plain"
+									}
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"name\": \"instanceFoundError\",\n        \"message\": \"The specified item already exists.\",\n        \"details\": {\n            \"item\": \"collection\",\n            \"id\": \"12ece9e1-2abf-4edc-8e34-de66e74114d2\"\n        }\n    }\n}"
+						},
+						{
+							"name": "Malformed Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"collection\": {\n        \"item\": [\n            {\n                \"name\": \"Test GET Response\",\n                \"event\": [\n                    {\n                        \"listen\": \"test\",\n                        \"script\": {\n                            \"id\": \"7d2334fc-a84a-4c3d-b26c-7529afa4c0ae\",\n                            \"exec\": [\n                                \"pm.test(\\\"Status code is 200\\\", function () {\",\n                                \"    pm.response.to.have.status(200);\",\n                                \"});\"\n                                ],\n                            \"type\": \"text/javascript\"\n                            }\n                        }\n                    ],\n                \"request\": {\n                    \"url\": \"https://echo.getpostman.com/headers\",\n                    \"method\": \"GET\",\n                    \"header\": [\n                        {\n                            \"key\": \"Content-Type\",\n                            \"value\": \"application/json\"\n                        }\n                    ]\n                }\n            }\n        ]\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://api.getpostman.com/collections",
+									"protocol": "https",
+									"host": [
+										"api",
+										"getpostman",
+										"com"
+									],
+									"path": [
+										"collections"
+									],
+									"query": [
+										{
+											"key": "workspace",
+											"value": "1f0df51a-8658-4ee8-a2a1-d2567dfa09a9",
+											"description": "Optional. A workspace ID in which to create the collection.\n\nIf you do not include this query parameter, the system creates the collection in your \"My Workspace\" workspace.",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"name\": \"malformedRequestError\",\n        \"message\": \"Found 1 errors with the supplied collection.\",\n        \"details\": [\n            \": must have required property 'info'\"\n        ]\n    }\n}"
+						},
+						{
+							"name": "Rate Limit Exceeded",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"collection\": {\n        \"item\": [\n            {\n                \"name\": \"Test GET Response\",\n                \"event\": [\n                    {\n                        \"listen\": \"test\",\n                        \"script\": {\n                            \"id\": \"7d2334fc-a84a-4c3d-b26c-7529afa4c0ae\",\n                            \"exec\": [\n                                \"pm.test(\\\"Status code is 200\\\", function () {\",\n                                \"    pm.response.to.have.status(200);\",\n                                \"});\"\n                                ],\n                            \"type\": \"text/javascript\"\n                            }\n                        }\n                    ],\n                \"request\": {\n                    \"url\": \"https://echo.getpostman.com/headers\",\n                    \"method\": \"GET\",\n                    \"header\": [\n                        {\n                            \"key\": \"Content-Type\",\n                            \"value\": \"application/json\"\n                        }\n                    ]\n                }\n            }\n        ]\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://api.getpostman.com/collections",
+									"protocol": "https",
+									"host": [
+										"api",
+										"getpostman",
+										"com"
+									],
+									"path": [
+										"collections"
+									],
+									"query": [
+										{
+											"key": "workspace",
+											"value": "1f0df51a-8658-4ee8-a2a1-d2567dfa09a9",
+											"description": "Optional. A workspace ID in which to create the collection.\n\nIf you do not include this query parameter, the system creates the collection in your \"My Workspace\" workspace.",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"status": "Too Many Requests",
+							"code": 429,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"description": ""
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"rateLimited\",\n    \"message\": \"Rate limit exceeded. Please retry after 1669048687\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Get a collection",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api.getpostman.com/collections/{{collectionId}}",
+							"protocol": "https",
+							"host": [
+								"api",
+								"getpostman",
+								"com"
+							],
+							"path": [
+								"collections",
+								"{{collectionId}}"
+							],
+							"query": [
+								{
+									"key": "access_key",
+									"value": "{{accessKey}}",
+									"description": "Optional. A collection's read-only access key. Using this query parameter does not require an API key to call the endpoint.",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Gets information about a collection. For a complete list of this endpoint's possible values, use the [collection.json schema file](https://schema.postman.com/json/collection/v2.1.0/collection.json)."
+					},
+					"response": [
+						{
+							"name": "Successful Response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://api.getpostman.com/collections/12ece9e1-2abf-4edc-8e34-de66e74114d2",
+									"protocol": "https",
+									"host": [
+										"api",
+										"getpostman",
+										"com"
+									],
+									"path": [
+										"collections",
+										"12ece9e1-2abf-4edc-8e34-de66e74114d2"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": {
+										"content": "",
+										"type": "text/plain"
+									}
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"collection\": {\n        \"info\": {\n            \"name\": \"Test Collection\",\n            \"description\": \"This is a test collection that makes a tiny request to Postman Echo service to get the list of request headers sent by a HTTP client.\",\n            \"_postman_id\": \"12ece9e1-2abf-4edc-8e34-de66e74114d2\",\n            \"schema\": \"https://schema.getpostman.com/json/collection/v2.0.0/collection.json\",\n            \"updatedAt\": \"2022-06-16T20:21:13.000Z\",\n            \"fork\": {\n                \"label\": \"Test Fork\",\n                \"createdAt\": \"2022-06-16T19:51:44.069Z\",\n                \"from\": \"12345678-12ece9e1-2abf-4edc-8e34-de66e74114d2\"\n            }\n        },\n        \"item\": [\n            {\n                \"name\": \"Test GET Response\",\n                \"id\": \"82ee981b-e19f-962a-401e-ea34ebfb4848\",\n                \"event\": [\n                    {\n                        \"listen\": \"test\",\n                        \"script\": {\n                            \"id\": \"7d2334fc-a84a-4c3d-b26c-7529afa4c0ae\",\n                            \"exec\": [\n                                \"pm.test(\\\"Status code is 200\\\", function () {\",\n                                \"    pm.response.to.have.status(200);\",\n                                \"});\"\n                            ],\n                            \"type\": \"text/javascript\"\n                        }\n                    }\n                ],\n                \"request\": {\n                    \"url\": \"https://echo.getpostman.com/headers\",\n                    \"method\": \"GET\",\n                    \"header\": [\n                        {\n                            \"key\": \"Content-Type\",\n                            \"value\": \"application/json\"\n                        }\n                    ]\n                },\n                \"response\": []\n            }\n        ]\n    }\n}"
+						},
+						{
+							"name": "Get Collection with Access Token",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://api.getpostman.com/collections/12ece9e1-2abf-4edc-8e34-de66e74114d2?access_key={{accessKey}}",
+									"protocol": "https",
+									"host": [
+										"api",
+										"getpostman",
+										"com"
+									],
+									"path": [
+										"collections",
+										"12ece9e1-2abf-4edc-8e34-de66e74114d2"
+									],
+									"query": [
+										{
+											"key": "access_key",
+											"value": "{{accessKey}}"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"description": {
+										"content": "",
+										"type": "text/plain"
+									}
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"collection\": {\n        \"info\": {\n            \"name\": \"Test Collection\",\n            \"description\": \"This is a test collection that makes a tiny request to Postman Echo service to get the list of request headers sent by a HTTP client.\",\n            \"_postman_id\": \"12ece9e1-2abf-4edc-8e34-de66e74114d2\",\n            \"schema\": \"https://schema.getpostman.com/json/collection/v2.0.0/collection.json\",\n            \"updatedAt\": \"2022-06-16T20:21:13.000Z\",\n            \"fork\": {\n                \"label\": \"Test Fork\",\n                \"createdAt\": \"2022-06-16T19:51:44.069Z\",\n                \"from\": \"12345678-12ece9e1-2abf-4edc-8e34-de66e74114d2\"\n            }\n        },\n        \"item\": [\n            {\n                \"name\": \"Test GET Response\",\n                \"id\": \"82ee981b-e19f-962a-401e-ea34ebfb4848\",\n                \"event\": [\n                    {\n                        \"listen\": \"test\",\n                        \"script\": {\n                            \"id\": \"7d2334fc-a84a-4c3d-b26c-7529afa4c0ae\",\n                            \"exec\": [\n                                \"pm.test(\\\"Status code is 200\\\", function () {\",\n                                \"    pm.response.to.have.status(200);\",\n                                \"});\"\n                            ],\n                            \"type\": \"text/javascript\"\n                        }\n                    }\n                ],\n                \"request\": {\n                    \"url\": \"https://echo.getpostman.com/headers\",\n                    \"method\": \"GET\",\n                    \"header\": [\n                        {\n                            \"key\": \"Content-Type\",\n                            \"value\": \"application/json\"\n                        }\n                    ]\n                },\n                \"response\": []\n            }\n        ]\n    }\n}"
+						},
+						{
+							"name": "Not Found",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://api.getpostman.com/collections/12ece9e1-2abf-4edc-8e34-de66e74114d2",
+									"protocol": "https",
+									"host": [
+										"api",
+										"getpostman",
+										"com"
+									],
+									"path": [
+										"collections",
+										"12ece9e1-2abf-4edc-8e34-de66e74114d2"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"name\": \"instanceNotFoundError\",\n        \"message\": \"We could not find the collection you are looking for\"\n    }\n}"
+						},
+						{
+							"name": "Rate Limit Exceeded",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://api.getpostman.com/collections/12ece9e1-2abf-4edc-8e34-de66e74114d2",
+									"protocol": "https",
+									"host": [
+										"api",
+										"getpostman",
+										"com"
+									],
+									"path": [
+										"collections",
+										"12ece9e1-2abf-4edc-8e34-de66e74114d2"
+									]
+								}
+							},
+							"status": "Too Many Requests",
+							"code": 429,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"error\": \"rateLimited\",\n    \"message\": \"Rate limit exceeded. Please retry after 1669048687\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete a collection",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://api.getpostman.com/collections/{{collectionId}}",
+							"protocol": "https",
+							"host": [
+								"api",
+								"getpostman",
+								"com"
+							],
+							"path": [
+								"collections",
+								"{{collectionId}}"
+							]
+						},
+						"description": "Deletes a collection."
+					},
+					"response": [
+						{
+							"name": "Successful Response",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "https://api.getpostman.com/collections/12ece9e1-2abf-4edc-8e34-de66e74114d2",
+									"protocol": "https",
+									"host": [
+										"api",
+										"getpostman",
+										"com"
+									],
+									"path": [
+										"collections",
+										"12ece9e1-2abf-4edc-8e34-de66e74114d2"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"description": {
+										"content": "",
+										"type": "text/plain"
+									}
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"collection\": {\n        \"id\": \"12ece9e1-2abf-4edc-8e34-de66e74114d2\",\n        \"uid\": \"12345678-12ece9e1-2abf-4edc-8e34-de66e74114d2\"\n    }\n}"
+						},
+						{
+							"name": "Not Found",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "https://api.getpostman.com/collections/12ece9e1-2abf-4edc-8e34-de66e74114d2",
+									"protocol": "https",
+									"host": [
+										"api",
+										"getpostman",
+										"com"
+									],
+									"path": [
+										"collections",
+										"12ece9e1-2abf-4edc-8e34-de66e74114d2"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": {
+										"content": "",
+										"type": "text/plain"
+									}
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"name\": \"instanceNotFoundError\",\n        \"message\": \"The specified item does not exist.\",\n        \"details\": {\n            \"item\": \"collection\",\n            \"id\": \"12ece9e1-2abf-4edc-8e34-de66e74114d2\"\n        }\n    }\n}"
+						},
+						{
+							"name": "Rate Limit Exceeded",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "https://api.getpostman.com/collections/12ece9e1-2abf-4edc-8e34-de66e74114d2",
+									"protocol": "https",
+									"host": [
+										"api",
+										"getpostman",
+										"com"
+									],
+									"path": [
+										"collections",
+										"12ece9e1-2abf-4edc-8e34-de66e74114d2"
+									]
+								}
+							},
+							"status": "Too Many Requests",
+							"code": 429,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"description": {
+										"content": "",
+										"type": "text/plain"
+									}
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"rateLimited\",\n    \"message\": \"Rate limit exceeded. Please retry after 1669048687\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Update a collection",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"collection\": {\n        \"info\": {\n            \"name\": \"{{collectionName}}\",\n            \"schema\": \"{{collectionSchemaUrl}}\"\n        },\n        \"item\": [\n            {\n                \"request\": {}\n            }\n        ]\n    }\n}"
+						},
+						"url": {
+							"raw": "https://api.getpostman.com/collections/{{collectionId}}",
+							"protocol": "https",
+							"host": [
+								"api",
+								"getpostman",
+								"com"
+							],
+							"path": [
+								"collections",
+								"{{collectionId}}"
+							]
+						},
+						"description": "Updates a collection using the [Postman Collection v2 schema format](https://schema.postman.com/json/collection/v2.1.0/docs/index.html). Include a `collection` object in the request body that contains the following required properties:\n\n- `info` — An **object** that contains the following properties:\n    - `name` — A **string** value that contains the collection's name.\n    - `schema` — A **string** that contains a URL to the collection's schema. For example, the `https://schema.getpostman.com/collection/v1` URL.\n- `item` — An **object** that contains the HTTP request and response information.\n    - `request` — An **object** that contains the collection's request information. For a complete list of values, refer to the `definitions.request` entry in the [collection.json schema file](https://schema.postman.com/json/collection/v2.1.0/collection.json). If you pass an empty object for this value, the system defaults to an untitled GET request.\n\n**Note:**\n\n- For a complete list of available property values for this endpoint, use the following references available in the [collection.json schema file](https://schema.postman.com/json/collection/v2.1.0/collection.json):\n    - `info` object — Use the `definitions.info` entry.\n    - `item` object — Use the `definitions.items` entry.\n- For all other possible values, refer to the [collection.json schema file](https://schema.postman.com/json/collection/v2.1.0/collection.json).\n    \n\n### Important\n\nUse caution when using this endpoint. The system will replace the existing collection with the values passed in the request body."
+					},
+					"response": [
+						{
+							"name": "Successful Response",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"collection\": {\n        \"info\": {\n            \"name\": \"Test Collection\",\n            \"description\": \"This collection makes a request to the Postman Echo service to get a list of request headers sent by an HTTP client.\",\n            \"schema\": \"https://schema.getpostman.com/json/collection/v2.1.0/collection.json\"\n        },\n        \"item\": [\n            {\n                \"name\": \"Test POST Response\",\n                \"event\": [\n                    {\n                        \"listen\": \"test\",\n                        \"script\": {\n                            \"id\": \"7d2334fc-a84a-4c3d-b26c-7529afa4c0ae\",\n                            \"exec\": [\n                                \"pm.test(\\\"Status code is 200\\\", function () {\",\n                                \"    pm.response.to.have.status(200);\",\n                                \"});\"\n                                ],\n                            \"type\": \"text/javascript\"\n                            }\n                        }\n                    ],\n                \"request\": {\n                    \"url\": \"https://echo.getpostman.com/headers\",\n                    \"method\": \"POST\",\n                    \"header\": [\n                        {\n                            \"key\": \"Content-Type\",\n                            \"value\": \"application/json\"\n                        }\n                    ]\n                }\n            }\n        ]\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://api.getpostman.com/collections/12ece9e1-2abf-4edc-8e34-de66e74114d2",
+									"protocol": "https",
+									"host": [
+										"api",
+										"getpostman",
+										"com"
+									],
+									"path": [
+										"collections",
+										"12ece9e1-2abf-4edc-8e34-de66e74114d2"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": {
+										"content": "",
+										"type": "text/plain"
+									}
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"collection\": {\n        \"id\": \"12ece9e1-2abf-4edc-8e34-de66e74114d2\",\n        \"name\": \"Test Collection\",\n        \"uid\": \"12345678-12ece9e1-2abf-4edc-8e34-de66e74114d2\"\n    }\n}"
+						},
+						{
+							"name": "Forbidden",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"collection\": {\n        \"info\": {\n            \"name\": \"Test Collection\",\n            \"description\": \"This collection makes a request to the Postman Echo service to get a list of request headers sent by an HTTP client.\",\n            \"schema\": \"https://schema.getpostman.com/json/collection/v2.1.0/collection.json\"\n        },\n        \"item\": [\n            {\n                \"name\": \"Test POST Response\",\n                \"event\": [\n                    {\n                        \"listen\": \"test\",\n                        \"script\": {\n                            \"id\": \"7d2334fc-a84a-4c3d-b26c-7529afa4c0ae\",\n                            \"exec\": [\n                                \"pm.test(\\\"Status code is 200\\\", function () {\",\n                                \"    pm.response.to.have.status(200);\",\n                                \"});\"\n                                ],\n                            \"type\": \"text/javascript\"\n                            }\n                        }\n                    ],\n                \"request\": {\n                    \"url\": \"https://echo.getpostman.com/headers\",\n                    \"method\": \"POST\",\n                    \"header\": [\n                        {\n                            \"key\": \"Content-Type\",\n                            \"value\": \"application/json\"\n                        }\n                    ]\n                }\n            }\n        ]\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://api.getpostman.com/collections/12ece9e1-2abf-4edc-8e34-de66e74114d2",
+									"protocol": "https",
+									"host": [
+										"api",
+										"getpostman",
+										"com"
+									],
+									"path": [
+										"collections",
+										"12ece9e1-2abf-4edc-8e34-de66e74114d2"
+									]
+								}
+							},
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"description": {
+										"content": "",
+										"type": "text/plain"
+									}
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"name\": \"forbiddenError\",\n        \"message\": \"You do not have enough permissions to perform this action.\"\n    }\n}"
+						},
+						{
+							"name": "Not Found",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"collection\": {\n        \"info\": {\n            \"name\": \"Test Collection\",\n            \"description\": \"This collection makes a request to the Postman Echo service to get a list of request headers sent by an HTTP client.\",\n            \"schema\": \"https://schema.getpostman.com/json/collection/v2.1.0/collection.json\"\n        },\n        \"item\": [\n            {\n                \"name\": \"Test POST Response\",\n                \"event\": [\n                    {\n                        \"listen\": \"test\",\n                        \"script\": {\n                            \"id\": \"7d2334fc-a84a-4c3d-b26c-7529afa4c0ae\",\n                            \"exec\": [\n                                \"pm.test(\\\"Status code is 200\\\", function () {\",\n                                \"    pm.response.to.have.status(200);\",\n                                \"});\"\n                                ],\n                            \"type\": \"text/javascript\"\n                            }\n                        }\n                    ],\n                \"request\": {\n                    \"url\": \"https://echo.getpostman.com/headers\",\n                    \"method\": \"POST\",\n                    \"header\": [\n                        {\n                            \"key\": \"Content-Type\",\n                            \"value\": \"application/json\"\n                        }\n                    ]\n                }\n            }\n        ]\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://api.getpostman.com/collections/12ece9e1-2abf-4edc-8e34-de66e74114d2",
+									"protocol": "https",
+									"host": [
+										"api",
+										"getpostman",
+										"com"
+									],
+									"path": [
+										"collections",
+										"12ece9e1-2abf-4edc-8e34-de66e74114d2"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": {
+										"content": "",
+										"type": "text/plain"
+									}
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"name\": \"instanceNotFoundError\",\n        \"message\": \"The specified item does not exist.\",\n        \"details\": {\n            \"item\": \"collection\",\n            \"id\": \"12ece9e1-2abf-4edc-8e34-de66e74114d2\"\n        }\n    }\n}"
+						},
+						{
+							"name": "Malformed Request",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"collection\": {\n        \"info\": {\n            \"name\": \"Test Collection\"\n        }\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://api.getpostman.com/collections/12ece9e1-2abf-4edc-8e34-de66e74114d2",
+									"protocol": "https",
+									"host": [
+										"api",
+										"getpostman",
+										"com"
+									],
+									"path": [
+										"collections",
+										"12ece9e1-2abf-4edc-8e34-de66e74114d2"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": {
+										"content": "",
+										"type": "text/plain"
+									}
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"name\": \"malformedRequestError\",\n        \"message\": \"Found 2 errors with the supplied collection.\",\n        \"details\": [\n            \": must have required property 'item'\",\n            \"info: must have required property 'schema'\"\n        ]\n    }\n}"
+						},
+						{
+							"name": "Collection ID Mismatch",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"collection\": {\n        \"info\": {\n            \"name\": \"Test Collection\",\n            \"description\": \"This collection makes a request to the Postman Echo service to get a list of request headers sent by an HTTP client.\",\n            \"schema\": \"https://schema.getpostman.com/json/collection/v2.1.0/collection.json\"\n        },\n        \"item\": [\n            {\n                \"name\": \"Test POST Response\",\n                \"event\": [\n                    {\n                        \"listen\": \"test\",\n                        \"script\": {\n                            \"id\": \"7d2334fc-a84a-4c3d-b26c-7529afa4c0ae\",\n                            \"exec\": [\n                                \"pm.test(\\\"Status code is 200\\\", function () {\",\n                                \"    pm.response.to.have.status(200);\",\n                                \"});\"\n                                ],\n                            \"type\": \"text/javascript\"\n                            }\n                        }\n                    ],\n                \"request\": {\n                    \"url\": \"https://echo.getpostman.com/headers\",\n                    \"method\": \"POST\",\n                    \"header\": [\n                        {\n                            \"key\": \"Content-Type\",\n                            \"value\": \"application/json\"\n                        }\n                    ]\n                }\n            }\n        ]\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://api.getpostman.com/collections/12ece9e1-2abf-4edc-8e34-de66e74114d2",
+									"protocol": "https",
+									"host": [
+										"api",
+										"getpostman",
+										"com"
+									],
+									"path": [
+										"collections",
+										"12ece9e1-2abf-4edc-8e34-de66e74114d2"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": {
+										"content": "",
+										"type": "text/plain"
+									}
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"name\": \"collectionMismatchError\",\n        \"message\": \"The collection ID in the path does not match the collection ID in the request body.\"\n    }\n}"
+						},
+						{
+							"name": "Rate Limit Exceeded",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"collection\": {\n        \"info\": {\n            \"name\": \"Test Collection\",\n            \"description\": \"This collection makes a request to the Postman Echo service to get a list of request headers sent by an HTTP client.\",\n            \"schema\": \"https://schema.getpostman.com/json/collection/v2.1.0/collection.json\"\n        },\n        \"item\": [\n            {\n                \"name\": \"Test POST Response\",\n                \"event\": [\n                    {\n                        \"listen\": \"test\",\n                        \"script\": {\n                            \"id\": \"7d2334fc-a84a-4c3d-b26c-7529afa4c0ae\",\n                            \"exec\": [\n                                \"pm.test(\\\"Status code is 200\\\", function () {\",\n                                \"    pm.response.to.have.status(200);\",\n                                \"});\"\n                                ],\n                            \"type\": \"text/javascript\"\n                            }\n                        }\n                    ],\n                \"request\": {\n                    \"url\": \"https://echo.getpostman.com/headers\",\n                    \"method\": \"POST\",\n                    \"header\": [\n                        {\n                            \"key\": \"Content-Type\",\n                            \"value\": \"application/json\"\n                        }\n                    ]\n                }\n            }\n        ]\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://api.getpostman.com/collections/12ece9e1-2abf-4edc-8e34-de66e74114d2",
+									"protocol": "https",
+									"host": [
+										"api",
+										"getpostman",
+										"com"
+									],
+									"path": [
+										"collections",
+										"12ece9e1-2abf-4edc-8e34-de66e74114d2"
+									]
+								}
+							},
+							"status": "Too Many Requests",
+							"code": 429,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"description": {
+										"content": "",
+										"type": "text/plain"
+									}
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"rateLimited\",\n    \"message\": \"Rate limit exceeded. Please retry after 1669048687\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Get all collections",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api.getpostman.com/collections",
+							"protocol": "https",
+							"host": [
+								"api",
+								"getpostman",
+								"com"
+							],
+							"path": [
+								"collections"
+							],
+							"query": [
+								{
+									"key": "workspace",
+									"value": "{{workspaceId}}",
+									"description": "Optional. A workspace ID.",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Gets all of your [collections](https://www.getpostman.com/docs/collections). The response includes all of your subscribed collections."
+					},
+					"response": [
+						{
+							"name": "Successful Response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://api.getpostman.com/collections",
+									"protocol": "https",
+									"host": [
+										"api",
+										"getpostman",
+										"com"
+									],
+									"path": [
+										"collections"
+									],
+									"query": [
+										{
+											"key": "workspace",
+											"value": "1f0df51a-8658-4ee8-a2a1-d2567dfa09a9",
+											"description": "Optional. A workspace ID.",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"description": {
+										"content": "",
+										"type": "text/plain"
+									}
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"collections\": [\n        {\n            \"id\": \"dac5eac9-148d-a32e-b76b-3edee9da28f7\",\n            \"name\": \"Cloud API\",\n            \"owner\": \"12345678\",\n            \"createdAt\": \"2022-04-12T10:29:46.000Z\",\n            \"updatedAt\": \"2022-04-12T10:29:56.000Z\",\n            \"uid\": \"12345678-dac5eac9-148d-a32e-b76b-3edee9da28f7\",\n            \"isPublic\": true\n        },\n        {\n            \"id\": \"12ece9e1-2abf-4edc-8e34-de66e74114d2\",\n            \"name\": \"Test Collection\",\n            \"owner\": \"12345678\",\n            \"createdAt\": \"2022-01-13T10:21:46.000Z\",\n            \"updatedAt\": \"2022-02-12T11:29:56.000Z\",\n            \"uid\": \"12345678-12ece9e1-2abf-4edc-8e34-de66e74114d2\",\n            \"isPublic\": false,\n            \"fork\": {\n                \"label\": \"Test Fork\",\n                \"createdAt\": \"2022-06-16T19:51:44.069Z\",\n                \"from\": \"12345678-12ece9e1-2abf-4edc-8e34-de66e74114d2\"\n            }\n        },\n        {\n            \"id\": \"f695cab7-6878-eb55-7943-ad88e1ccfd65\",\n            \"name\": \"Postman Echo\",\n            \"owner\": \"12345678\",\n            \"createdAt\": \"2021-04-11T09:18:26.000Z\",\n            \"updatedAt\": \"2022-05-01T15:29:32.000Z\",\n            \"uid\": \"12345678-f695cab7-6878-eb55-7943-ad88e1ccfd65\",\n            \"isPublic\": true\n        }\n    ]\n}"
+						},
+						{
+							"name": "Filter by Workspace",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://api.getpostman.com/collections?workspace=1f0df51a-8658-4ee8-a2a1-d2567dfa09a9",
+									"protocol": "https",
+									"host": [
+										"api",
+										"getpostman",
+										"com"
+									],
+									"path": [
+										"collections"
+									],
+									"query": [
+										{
+											"key": "workspace",
+											"value": "1f0df51a-8658-4ee8-a2a1-d2567dfa09a9",
+											"description": "Optional. A workspace ID."
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"description": {
+										"content": "",
+										"type": "text/plain"
+									}
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"collections\": [\n        {\n            \"id\": \"dac5eac9-148d-a32e-b76b-3edee9da28f7\",\n            \"name\": \"Cloud API\",\n            \"owner\": \"12345678\",\n            \"createdAt\": \"2022-04-12T10:29:46.000Z\",\n            \"updatedAt\": \"2022-04-12T10:29:56.000Z\",\n            \"uid\": \"12345678-dac5eac9-148d-a32e-b76b-3edee9da28f7\",\n            \"isPublic\": true\n        }\n    ]\n}"
+						},
+						{
+							"name": "Rate Limit Exceeded",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://api.getpostman.com/collections",
+									"protocol": "https",
+									"host": [
+										"api",
+										"getpostman",
+										"com"
+									],
+									"path": [
+										"collections"
+									],
+									"query": [
+										{
+											"key": "workspace",
+											"value": "1f0df51a-8658-4ee8-a2a1-d2567dfa09a9",
+											"description": "Optional. A workspace ID.",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"status": "Too Many Requests",
+							"code": 429,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"description": {
+										"content": "",
+										"type": "text/plain"
+									}
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"rateLimited\",\n    \"message\": \"Rate limit exceeded. Please retry after 1669048687\"\n}"
+						}
+					]
+				}
+			],
+			"description": "The `/collections` endpoints let you manage your [collections](https://learning.postman.com/docs/sending-requests/intro-to-collections/)."
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "https://localhost:8000/api"
+		}
+	]
+}
