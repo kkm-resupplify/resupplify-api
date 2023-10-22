@@ -14,7 +14,7 @@ class UserLoginResource extends BasicResource
                 'email' => $this['user']->email,
                 'type' => $this['user']->type,
                 'createdAt' => $this['user']->created_at,
-                'details' => $this['user']->details,
+                'details' => new UserDetailsResource($this['user']->userDetails),
             ],
             'token' => $this['token'],
         ];
