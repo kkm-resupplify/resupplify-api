@@ -72,6 +72,6 @@ class Company extends Model
 
     public function invitationCodes(): HasMany
     {
-        return $this->hasMany(InvitationCode::class);
+        return $this->hasMany(UserInvitationCode::class);
     }
 }

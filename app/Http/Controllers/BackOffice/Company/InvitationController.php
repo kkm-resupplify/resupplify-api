@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Portal\Company;
+namespace App\Http\Controllers\BackOffice\Company;
 
 use App\Http\Dto\Company\UserInvitationCodes;
 use App\Services\Company\CompanyService;

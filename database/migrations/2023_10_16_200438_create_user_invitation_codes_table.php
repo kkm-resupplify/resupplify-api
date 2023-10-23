@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('invitation_codes', function (Blueprint $table) {
+        Schema::create('user_invitation_codes', function (Blueprint $table) {
             $table->id();
             $table->string('invitationCode')->unique();
             $table->timestamps();
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('invitation_codes');
+        Schema::dropIfExists('user_invitation_codes');
     }
 };

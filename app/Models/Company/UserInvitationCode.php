@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
-class InvitationCode extends Model
+class UserInvitationCode extends Model
 {
     use HasFactory;
     protected $fillable = [
@@ -21,6 +21,5 @@ class InvitationCode extends Model
     {
         return $this->belongsTo(Company::class);
     }
-
 
 }
