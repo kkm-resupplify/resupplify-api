@@ -13,16 +13,6 @@ use App\Http\Dto\Company\RegisterCompanyDetailsDto;
 
 class InvitationController extends Controller
 {
-    public function store(RegisterCompanyDto $request, CompanyService $companyService): JsonResponse
-    {
-        return $this->ok([$companyService->createCompany($request)]);
-    }
-
-    public function createCompanyDetails(RegisterCompanyDetailsDto $requestr, CompanyService $companyService): JsonResponse
-    {
-        return $this->ok([$companyService->createCompanyDetails($requestr)]);
-    }
-
     public function createInvitationCode(UserInvitationCodes $requestr, InvitationService $invitationService): JsonResponse
     {
         return $this->ok([$invitationService->createUserInvitation($requestr)]);
