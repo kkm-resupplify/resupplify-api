@@ -10,6 +10,7 @@ use App\Models\Company\Company;
 use App\Models\Company\CompanyDetails;
 use App\Models\Company\CompanyMember;
 use App\Resources\Company\CompanyCollection;
+use App\Resources\Roles\PermissionResource;
 use App\Services\BasicService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -18,6 +19,7 @@ use App\Http\Controllers\Controller;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use App\Resources\Company\CompanyResource;
+use App\Resources\Roles\PermissionCollection;
 
 
 
@@ -96,5 +98,15 @@ class CompanyService extends Controller
             throw new CompanyNotFoundException();
         }
         return new CompanyResource(Company::with("companyDetails")->findOrFail($company->id));
+    }
+
+    public function getCompanyRoles()
+    {
+        return Role::where('team_id', '=', Auth::user()->companyMember->company->id)->get();
+    }
+
+    public function getCompanyRolesPermissions()
+    {
+        return Permission::All();
     }
 }

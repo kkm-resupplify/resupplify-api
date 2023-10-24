@@ -16,14 +16,17 @@ Route::post('login', [AuthController::class, 'login']);
 Route::get('country', [CountryController::class, 'index']);
 
 Route::middleware('auth:sanctum')->group(function () {
+
     Route::get('user', [UserController::class, 'index']);
-    Route::post('logout', [AuthController::class, 'logout']);
+    Route::get('user/company', [CompanyController::class, 'getLoggedUserCompany']);
     Route::post('user/userDetails', [UserController::class, 'createUserDetails']);
     Route::put('user/userDetails', [UserController::class, 'editUserDetails']);
-    Route::post('companyDetails', [CompanyController::class, 'createCompanyDetails']);
+    Route::post('logout', [AuthController::class, 'logout']);
     Route::post('country', [CountryController::class, 'create']);
+    Route::post('companyDetails', [CompanyController::class, 'createCompanyDetails']);
     Route::post('company/createInvitationCode' , [InvitationController::class, 'createInvitationCode']);
-    Route::get('user/company', [CompanyController::class, 'getLoggedUserCompany']);
+    Route::get('company/roles', [CompanyController::class, 'getCompanyRoles']);
+    Route::get('company/roles/permissions', [CompanyController::class, 'getCompanyRolesPermissions']);
     Route::resource('company', CompanyController::class);
     Route::resource('companyCategories', CompanyCategoryController::class);
     //Route::resource('user', UserController::class);

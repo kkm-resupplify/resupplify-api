@@ -27,8 +27,18 @@ class CompanyController extends Controller
         return $this->ok([$companyService->getCompany($id)]);
     }
 
+    public function getCompanyRoles(CompanyService $companyService)
+    {
+        return $this->ok($companyService->getCompanyRoles());
+    }
+
     public function getLoggedUserCompany(CompanyService $companyService): JsonResponse
     {
         return $this->ok([$companyService->getUserCompany()]);
+    }
+
+    public function getCompanyRolesPermissions(CompanyService $companyService): JsonResponse
+    {
+        return $this->ok($companyService->getCompanyRolesPermissions());
     }
 }
