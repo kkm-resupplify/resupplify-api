@@ -11,6 +11,7 @@ class UserInvitationCode extends Model
 {
     use HasFactory;
     protected $fillable = [
+        'invitationCode',
         'company_id',
         'role_id',
         'expiry_date',

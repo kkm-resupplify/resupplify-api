@@ -29,22 +29,18 @@ class InvitationService extends Controller
     {
         $user = Auth::user();
         $company = $user->companyMember->company;
-        //get roles from company
         $roles = DB::table('roles')->where('team_id', '=', $company->id)->get();
 
-        //check if $request->roleId is in roles array
         if (in_array($request->roleId, $roles->pluck('id')->toArray())) {
             $invitationData = [
                 'company_id' => $company->id,
                 'role_id' => $request->roleId,
-                'code' => Uuid::uuid4()->toString(),
+                'invitationCode' => Uuid::uuid4()->toString(),
             ];
             $invitation = new UserInvitationCode($invitationData);
-            $invitation->company()->associate($company);
-            $invitation->save();
+            $company->invitationCodes()->save($invitation);
 
-
-            return ['invitation'=> $invitation];
+            return ['invitationCode'=> $invitation['invitationCode']];
         } else {
             throw new RoleNotFoundException();
         }

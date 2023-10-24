@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Portal\Company\CompanyUserController;
+use App\Services\Company\CompanyUserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController as AuthController;
@@ -26,6 +28,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('companyDetails', [CompanyController::class, 'createCompanyDetails']);
     Route::post('company/createInvitationCode' , [InvitationController::class, 'createInvitationCode']);
     Route::get('company/roles', [CompanyController::class, 'getCompanyRoles']);
+    Route::get('company/users/{id}', [CompanyUserController::class, 'getCompanyUsers']);
+    Route::post('company/join', [CompanyUserController::class, 'addUserToCompany']);
     Route::get('company/roles/permissions', [CompanyController::class, 'getCompanyRolesPermissions']);
     Route::resource('company', CompanyController::class);
     Route::resource('companyCategories', CompanyCategoryController::class);
