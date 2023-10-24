@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Portal\Company;
 
 use App\Http\Dto\Company\AddUserDto;
 use App\Models\Company\Company;
+use App\Resources\Company\CompanyUserCollection;
+use App\Resources\User\UserResource;
 use App\Services\Company\CompanyService;
 use App\Services\Company\CompanyUserService;
 use Illuminate\Http\JsonResponse;
@@ -23,7 +25,7 @@ class CompanyUserController extends Controller
 
      public function getCompanyUsers(int $id)
      {
-        return $company = Company::findORFail($id)->companyMembers->user;
-        // $companyUsers = $
+        $users = Company::with("users")->findORFail($id)->with("users.userDetails")->first();
+        return new CompanyUserCollection($users->users);
      }
 }

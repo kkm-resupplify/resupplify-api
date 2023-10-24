@@ -42,7 +42,7 @@ class CompanyService extends Controller
             'name' => $request->name,
             'short_description' => $request->shortDescription,
             'description' => $request->description,
-            'slug' => Str::of($request->name)->snake(),
+            'slug' => Str::slug($request->name),
             'owner_id' => $user->id,
             'status' => CompanyStatusEnum::UNVERIFIED(),
         ];

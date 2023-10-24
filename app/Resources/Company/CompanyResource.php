@@ -5,6 +5,7 @@ namespace App\Resources\Company;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Resources\Company\CompanyDetailsResource;
+use Illuminate\Support\Str;
 
 class CompanyResource extends JsonResource
 {
