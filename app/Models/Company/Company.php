@@ -80,10 +80,10 @@ class Company extends Model
         return $this->hasManyThrough(
             User::class,
             CompanyMember::class,
-            'company_id', // Foreign key on CompanyMember table...
-            'id', // Foreign key on User table...
-            'id', // Local key on Company table...
-            'user_id' // Local key on CompanyMember table...
+            'company_id',
+            'id',
+            'id',
+            'user_id'
         );
     }
 }

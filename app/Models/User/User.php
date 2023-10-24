@@ -66,10 +66,10 @@ class User extends Authenticatable
         return $this->hasOneThrough(
             Company::class,
             CompanyMember::class,
-            'user_id', // Foreign key on CompanyMember table...
-            'id', // Foreign key on Company table...
-            'id', // Local key on User table...
-            'company_id' // Local key on CompanyMember table...
+            'user_id',
+            'id',
+            'id',
+            'company_id'
         );
     }
 }
