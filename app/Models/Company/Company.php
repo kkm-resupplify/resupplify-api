@@ -74,4 +74,16 @@ class Company extends Model
     {
         return $this->hasMany(UserInvitationCode::class);
     }
+
+    public function users()
+    {
+        return $this->hasManyThrough(
+            User::class,
+            CompanyMember::class,
+            'company_id', // Foreign key on CompanyMember table...
+            'id', // Foreign key on User table...
+            'id', // Local key on Company table...
+            'user_id' // Local key on CompanyMember table...
+        );
+    }
 }

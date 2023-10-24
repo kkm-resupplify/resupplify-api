@@ -5,6 +5,7 @@ namespace App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -60,8 +61,15 @@ class User extends Authenticatable
         return $this->hasOne(UserDetails::class);
     }
 
-    public function company(): HasOne
+    public function company()
     {
-        return $this->hasOne(Company::class);
+        return $this->hasOneThrough(
+            Company::class,
+            CompanyMember::class,
+            'user_id', // Foreign key on CompanyMember table...
+            'id', // Foreign key on Company table...
+            'id', // Local key on User table...
+            'company_id' // Local key on CompanyMember table...
+        );
     }
 }
