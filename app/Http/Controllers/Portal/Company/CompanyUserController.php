@@ -18,7 +18,7 @@ class CompanyUserController extends Controller
 
     public function addUserToCompany(AddUserDto $request, CompanyUserService $companyUserService): JsonResponse
     {
-        return $this->ok([$companyUserService->addUserToCompany($request)]);
+        return $this->ok($companyUserService->addUserToCompany($request));
     }
 
      public function getCompanyUsers(int $id)

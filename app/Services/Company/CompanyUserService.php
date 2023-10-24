@@ -67,6 +67,5 @@ class CompanyUserService extends Controller
         } else {
             throw new RoleNotFoundException();
         }
-        return new CompanyResource($company);
     }
 }
