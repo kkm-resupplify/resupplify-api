@@ -21,7 +21,7 @@ class CompanyResource extends JsonResource
             'description' => $this->description,
             'slug' => $this->slug,
             'ownerId' => $this->owner_id,
-            'companyDetails' => new CompanyDetailsResource($this->companyDetails),
+            'details' => new CompanyDetailsResource($this->companyDetails),
         ];
     }
 }
