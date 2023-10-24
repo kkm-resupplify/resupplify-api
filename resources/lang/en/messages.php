@@ -12,6 +12,8 @@ return [
     'userDetailsExists' => 'UserDetails already exists',
     'companyNotFound' => 'Company not found',
     'userAlreadyHaveCompany' => 'User already have a company',
+    'userInviteCodeNotFound' => 'This code does not exist',
+    'userInviteCodeUsed' => 'This code has already been used',
   ],
   "loginMessages" =>
   [
