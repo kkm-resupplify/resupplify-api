@@ -17,10 +17,12 @@ use App\Models\User\User;
 use App\Models\User\UserDetails;
 use App\Models\Country\Country;
 use App\Models\Country\CountryDetails;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class CompanyMember extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 
     protected $fillable = ['user_id', 'company_id', 'role_id'];
 

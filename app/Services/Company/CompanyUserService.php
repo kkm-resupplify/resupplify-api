@@ -68,4 +68,27 @@ class CompanyUserService extends Controller
             throw new RoleNotFoundException();
         }
     }
+
+    //soft delete
+    public function deleteUserFromCompany(int $id, int $userId)
+    {
+        $company = Company::find($id);
+        if(!$company->exists())
+        {
+            throw new CompanyNotFoundException();
+        }
+        $user = User::find($userId);
+        if(!$user->exists())
+        {
+            throw new CompanyNotFoundException();
+        }
+        $companyMember = CompanyMember::where('user_id', '=', $userId)->where('company_id', '=', $id)->first();
+        if(!$companyMember->exists())
+        {
+            throw new CompanyNotFoundException();
+        }
+        $companyMember->delete();
+        return new CompanyResource($company);
+    }
+
 }

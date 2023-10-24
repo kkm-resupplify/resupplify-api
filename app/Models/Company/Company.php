@@ -20,10 +20,12 @@ use App\Models\Company\CompanyProductDetails;
 use App\Models\Company\CompanyRole;
 use App\Models\Country\Country;
 use App\Models\Country\CountryDetails;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Company extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 
     protected $fillable = [
         'name',
