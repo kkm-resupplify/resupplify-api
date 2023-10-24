@@ -11,6 +11,7 @@ return [
     'roleNotFound' => 'Role not found',
     'userDetailsExists' => 'UserDetails already exists',
     'companyNotFound' => 'Company not found',
+    'userAlreadyHaveCompany' => 'User already have a company',
   ],
   "loginMessages" =>
   [

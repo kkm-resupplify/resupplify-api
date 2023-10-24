@@ -4,6 +4,7 @@ namespace App\Services\Company;
 
 use App\Exceptions\Company\CompanyNameTakenException;
 use App\Exceptions\Company\CompanyNotFoundException;
+use App\Exceptions\User\UserAlreadyHaveCompany;
 use App\Http\Dto\Company\RegisterCompanyDto;
 use App\Http\Dto\Company\RegisterCompanyDetailsDto;
 use App\Models\Company\Company;
@@ -31,6 +32,10 @@ class CompanyService extends Controller
 
         if (Company::where('name', '=', $request->name)->exists()) {
             throw(new CompanyNameTakenException());
+        }
+        if(isset($user -> companyMember))
+        {
+            throw(new UserAlreadyHaveCompany());
         }
 
         $company = [
@@ -75,9 +80,8 @@ class CompanyService extends Controller
         setPermissionsTeamId($createdCompany->id);
         $user->assignRole($role[0]);
         $user->save();
-        $mergedCompany = $createdCompany->companyDetails;
-       //return $mergedCompany = ['company' => $mergedCompany];
-        return new CompanyResource($mergedCompany);
+        $user->companyMember()->save($companyMember);
+        return new CompanyResource($createdCompany);
     }
 
     public function getCompany(int $companyId)
