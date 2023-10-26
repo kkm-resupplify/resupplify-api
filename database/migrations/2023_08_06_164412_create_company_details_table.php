@@ -23,6 +23,7 @@ return new class extends Migration {
             $table->foreignId('country_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('company_category_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

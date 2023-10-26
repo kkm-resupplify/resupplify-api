@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignId('role_id')->references('id')->on('roles')->onDelete('cascade');
             $table->date('expiry_date')->nullable();
             $table->boolean('is_used')->default(false);
+            $table->softDeletes();
         });
     }
 
