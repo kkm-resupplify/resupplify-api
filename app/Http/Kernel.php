@@ -67,6 +67,6 @@ class Kernel extends HttpKernel
     ];
 
     protected $routeMiddleware = [
-        'has-company' => \App\Http\Middleware\CheckUserCompany::class,
+        'hasCompany' => \App\Http\Middleware\CheckUserCompany::class,
     ];
 }

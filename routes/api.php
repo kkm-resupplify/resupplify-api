@@ -18,7 +18,7 @@ Route::post('login', [AuthController::class, 'login']);
 Route::get('country', [CountryController::class, 'index']);
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::post('test', [CompanyController::class,'test'])->middleware('has-company');
+    Route::post('test', [CompanyController::class,'test'])->middleware('hasCompany');
     Route::get('user', [UserController::class, 'index']);
     Route::get('user/company', [CompanyController::class, 'getLoggedUserCompany']);
     Route::post('user/userDetails', [UserController::class, 'createUserDetails']);
@@ -28,6 +28,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('companyDetails', [CompanyController::class, 'createCompanyDetails']);
     Route::post('company/createInvitationCode' , [InvitationController::class, 'createInvitationCode']);
     Route::get('company/roles', [CompanyController::class, 'getCompanyRoles']);
+    Route::get('user/company/users', [CompanyUserController::class, 'getUserCompanyUsers'])->middleware('hasCompany');
     Route::get('company/users/{id}', [CompanyUserController::class, 'getCompanyUsers']);
     Route::post('company/join', [CompanyUserController::class, 'addUserToCompany']);
     Route::get('company/roles/permissions', [CompanyController::class, 'getCompanyRolesPermissions']);

@@ -15,6 +15,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Dto\Company\RegisterCompanyDto;
 use App\Http\Dto\Company\RegisterCompanyDetailsDto;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CompanyUserController extends Controller
 {
@@ -24,14 +25,19 @@ class CompanyUserController extends Controller
         return $this->ok($companyUserService->addUserToCompany($request));
     }
 
+    public function getUserCompanyUsers()
+    {
+        try {
+        $users = Auth::User()->Company::with("users")->with("users.userDetails")->first();
+        } catch (\Exception $e) {
+            throw(new CompanyNameTakenException());
+        }
+        return $this->ok(new CompanyUserCollection($users->users));
+    }
     public function getCompanyUsers(int $id)
     {
-    try {
-    $users = Company::with("users")->findORFail($id)->with("users.userDetails")->first();
-    } catch (\Exception $e) {
-        throw(new CompanyNameTakenException());
-    }
-    return new CompanyUserCollection($users->users);
+        $users = Company::with("users")->findORFail($id)->with("users.userDetails")->first();
+        return $this->ok(new CompanyUserCollection($users->users));
     }
 
     public function deleteUserFromCompany(int $id, int $userId, CompanyUserService $companyUserService): JsonResponse

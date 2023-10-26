@@ -2,11 +2,13 @@
 
 namespace App\Exceptions;
 
+use App\Exceptions\Company\CompanyNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use App\Exceptions\InvalidOrderException;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Client\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -32,4 +34,14 @@ class Handler extends ExceptionHandler
 
         });
     }
+
+    public function render($request, Throwable $exception)
+    {
+        if ($exception instanceof ModelNotFoundException && $exception->getModel() === 'App\Models\Company\Company') {
+            throw new CompanyNotFoundException();
+        }
+
+        return parent::render($request, $exception);
+    }
+
 }
