@@ -16,7 +16,7 @@ class CompanyController extends Controller
 {
     public function store(RegisterCompanyDto $request, CompanyService $companyService): JsonResponse
     {
-        return $this->ok([$companyService->createCompany($request)]);
+        return $this->ok($companyService->createCompany($request));
     }
 
     public function index(CompanyService $companyService): JsonResponse
@@ -26,7 +26,7 @@ class CompanyController extends Controller
 
     public function show(Company $company, CompanyService $companyService)
     {
-        return $this->ok([$companyService->getCompany($company)]);
+        return $this->ok($companyService->getCompany($company));
     }
 
     public function getCompanyRoles(CompanyService $companyService)
@@ -36,7 +36,7 @@ class CompanyController extends Controller
 
     public function getLoggedUserCompany(CompanyService $companyService): JsonResponse
     {
-        return $this->ok([$companyService->getUserCompany()]);
+        return $this->ok($companyService->getUserCompany());
     }
 
     public function getCompanyRolesPermissions(CompanyService $companyService): JsonResponse
