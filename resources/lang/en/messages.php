@@ -14,6 +14,7 @@ return [
     'userAlreadyHaveCompany' => 'User already have a company',
     'userInviteCodeNotFound' => 'This code does not exist',
     'userInviteCodeUsed' => 'This code has already been used',
+    'userDoesNotHaveCompany' => 'User does not have a company',
   ],
   "loginMessages" =>
   [

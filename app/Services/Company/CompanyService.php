@@ -48,8 +48,8 @@ class CompanyService extends Controller
         ];
         // TODO: Add CompanyDetails from the request
         $createdCompany = new Company($company);
-        $createdCompany -> owner()->associate($user);
         $createdCompany->save();
+        $createdCompany -> owner()->associate($user)->save();
         $companyDetails = [
             'country_id' => $request->countryId,
             'address' => $request->address,
@@ -63,8 +63,9 @@ class CompanyService extends Controller
             'contact_person' => $request->contactPerson,
         ];
         $createdCompanyDetails = new CompanyDetails($companyDetails);
-        $createdCompanyDetails -> company()->associate($createdCompany);
-        $createdCompanyDetails->save();
+        // $createdCompanyDetails -> company()->associate($createdCompany);
+        // $createdCompanyDetails->save();
+        $createdCompany->companyDetails()->save($createdCompanyDetails);
         $role = [
             Role::create(['name' => 'CompanyOwner', 'team_id' => $createdCompany->id, 'guard_name' => 'sanctum']),
             Role::create(['name' => 'CompanyAdmin', 'team_id' => $createdCompany->id, 'guard_name' => 'sanctum']),
@@ -84,9 +85,9 @@ class CompanyService extends Controller
         return new CompanyResource($createdCompany);
     }
 
-    public function getCompany(int $companyId)
+    public function getCompany(Company $company)
     {
-        return new CompanyResource(Company::with("companyDetails")->findOrFail($companyId));
+        return new CompanyResource($company->with("companyDetails")->first());
     }
 
     public function getCompanies()

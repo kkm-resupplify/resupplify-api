@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Portal\Company;
 
+use App\Models\Company\Company;
+use App\Models\User\User;
 use App\Services\Company\CompanyService;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
@@ -22,9 +24,9 @@ class CompanyController extends Controller
         return $this->ok($companyService->getCompanies());
     }
 
-    public function show(int $id, CompanyService $companyService)
+    public function show(Company $company, CompanyService $companyService)
     {
-        return $this->ok([$companyService->getCompany($id)]);
+        return $this->ok([$companyService->getCompany($company)]);
     }
 
     public function getCompanyRoles(CompanyService $companyService)
@@ -40,5 +42,11 @@ class CompanyController extends Controller
     public function getCompanyRolesPermissions(CompanyService $companyService): JsonResponse
     {
         return $this->ok($companyService->getCompanyRolesPermissions());
+    }
+
+    public function test(): JsonResponse
+    {
+        return $this->ok(Auth()->user()->company);
+        return $this->ok(['test']);
     }
 }

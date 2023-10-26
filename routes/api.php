@@ -18,7 +18,7 @@ Route::post('login', [AuthController::class, 'login']);
 Route::get('country', [CountryController::class, 'index']);
 
 Route::middleware('auth:sanctum')->group(function () {
-
+    Route::post('test', [CompanyController::class,'test'])->middleware('has-company');
     Route::get('user', [UserController::class, 'index']);
     Route::get('user/company', [CompanyController::class, 'getLoggedUserCompany']);
     Route::post('user/userDetails', [UserController::class, 'createUserDetails']);

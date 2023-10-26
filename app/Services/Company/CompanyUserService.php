@@ -14,6 +14,7 @@ use App\Models\Company\Company;
 use App\Models\Company\CompanyDetails;
 use App\Models\Company\CompanyMember;
 use App\Models\Company\UserInvitationCode;
+use App\Models\User\User;
 use App\Resources\Company\CompanyCollection;
 use App\Resources\Roles\PermissionResource;
 use App\Services\BasicService;
@@ -77,16 +78,24 @@ class CompanyUserService extends Controller
         {
             throw new CompanyNotFoundException();
         }
-        $user = User::find($userId);
-        if(!$user->exists())
+        $userToDelete = User::find($userId);
+        if(!$userToDelete->exists())
         {
+            //todo: throw user to delete not found exception
             throw new CompanyNotFoundException();
         }
         $companyMember = CompanyMember::where('user_id', '=', $userId)->where('company_id', '=', $id)->first();
         if(!$companyMember->exists())
         {
+            //todo: throw user is not member of company exception
             throw new CompanyNotFoundException();
         }
+        if(Auth()->user()->id == $userToDelete->id)
+        {
+            //todo: throw cannot delete yourself exception
+            throw new CompanyNotFoundException();
+        }
+
         $companyMember->delete();
         return new CompanyResource($company);
     }
