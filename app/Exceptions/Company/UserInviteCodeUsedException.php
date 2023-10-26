@@ -6,7 +6,7 @@ use App\Exceptions\BasicException;
 use App\Exceptions\CustomErrorCodes;
 use Symfony\Component\HttpFoundation\Response;
 
-class UserInviteCodeNotFoundException extends BasicException
+class UserInviteCodeUsedException extends BasicException
 {
     protected function init()
     {

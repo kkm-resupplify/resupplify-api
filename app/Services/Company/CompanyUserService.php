@@ -5,6 +5,7 @@ namespace App\Services\Company;
 use App\Exceptions\Company\CompanyNameTakenException;
 use App\Exceptions\Company\CompanyNotFoundException;
 use App\Exceptions\Company\UserInviteCodeNotFoundException;
+use App\Exceptions\Company\UserInviteCodeUsedException;
 use App\Exceptions\RoleNotFoundException;
 use App\Exceptions\User\UserAlreadyHaveCompany;
 use App\Http\Dto\Company\AddUserDto;
@@ -41,13 +42,11 @@ class CompanyUserService extends Controller
         }
         if($invitationCode['is_used'] == 1)
         {
-            //TODO: throw CodeUsedException
-            throw new CompanyNotFoundException();
+            throw new UserInviteCodeUsedException();
         }
         $user = Auth::user();
         if(isset($user->companyMember))
         {
-            //TODO: throw user already have company exception
             throw new UserAlreadyHaveCompany();
         }
         $company = $invitationCode->company;
