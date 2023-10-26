@@ -2,6 +2,7 @@
 
 namespace App\Services\Company;
 
+use App\Exceptions\Company\CantDeleteThisUserException;
 use App\Exceptions\Company\CompanyNameTakenException;
 use App\Exceptions\Company\CompanyNotFoundException;
 use App\Exceptions\Company\UserInviteCodeNotFoundException;
@@ -71,33 +72,30 @@ class CompanyUserService extends Controller
     }
 
     //soft delete
-    public function deleteUserFromCompany(int $id, int $userId)
+    public function deleteUserFromCompany(User $user)
     {
-        $company = Company::find($id);
-        if(!$company->exists())
+
+        $company = $user->company;
+        if(!isset($company))
         {
             throw new CompanyNotFoundException();
         }
-        $userToDelete = User::find($userId);
-        if(!$userToDelete->exists())
-        {
-            //todo: throw user to delete not found exception
-            throw new CompanyNotFoundException();
-        }
-        $companyMember = CompanyMember::where('user_id', '=', $userId)->where('company_id', '=', $id)->first();
-        if(!$companyMember->exists())
+        if(!isset($user->companyMember))
         {
             //todo: throw user is not member of company exception
             throw new CompanyNotFoundException();
         }
-        if(Auth()->user()->id == $userToDelete->id)
+        if(Auth()->user()->id == $user->id)
         {
             //todo: throw cannot delete yourself exception
             throw new CompanyNotFoundException();
         }
-
-        $companyMember->delete();
-        return new CompanyResource($company);
+        if(!$user->hasPermissionTo('Owner permissions') || !$user->hasPermissionTo('Admin permissions') || (Auth()->user()->hasPermissionTo('Admin permissions') &&  !$user -> hasPermissionTo('Owner permissions')) || !$user -> hasPermissionTo('Admin permissions'))
+        {
+            throw new CantDeleteThisUserException();
+        }
+        //$user->delete();
+        return 0;
     }
 
 }

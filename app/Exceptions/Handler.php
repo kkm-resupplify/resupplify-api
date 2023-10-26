@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use App\Exceptions\Company\CompanyNotFoundException;
+use App\Exceptions\User\UserNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use App\Exceptions\InvalidOrderException;
 use Illuminate\Http\Exceptions\HttpResponseException;
@@ -37,8 +38,17 @@ class Handler extends ExceptionHandler
 
     public function render($request, Throwable $exception)
     {
-        if ($exception instanceof ModelNotFoundException && $exception->getModel() === 'App\Models\Company\Company') {
-            throw new CompanyNotFoundException();
+        if ($exception instanceof ModelNotFoundException) {
+            switch ($exception->getModel()) {
+                case 'App\Models\User\User':
+                    throw new UserNotFoundException();
+                    break;
+                case 'App\Models\Company\Company':
+                    throw new CompanyNotFoundException();
+                    break;
+                default:
+                    break;
+            }
         }
 
         return parent::render($request, $exception);

@@ -17,7 +17,6 @@ use Spatie\Permission\Models\Permission;
 use App\Models\Company\Company;
 use App\Models\Company\CompanyMember;
 use App\Models\User\UserDetails;
-
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles, SoftDeletes;

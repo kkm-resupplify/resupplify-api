@@ -77,7 +77,9 @@ class CompanyService extends Controller
             'role_id' => $role[0]->id,
         ];
         $companyMember = new CompanyMember($companyMember);
-        $role[0]->givePermissionTo(['view transactions in own company', 'manage own account settings','view products','purchase products','manage users in own company','manage products in own company','view products in own company','add products in own company']);
+        $role[0]->givePermissionTo(['Owner permissions']);
+        $role[1]->givePermissionTo(['Admin permissions']);
+        $role[2]->givePermissionTo(['User permissions']);
         setPermissionsTeamId($createdCompany->id);
         $user->assignRole($role[0]);
         $user->save();

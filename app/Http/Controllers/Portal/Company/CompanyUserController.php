@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Portal\Company;
 use App\Exceptions\Company\CompanyNameTakenException;
 use App\Http\Dto\Company\AddUserDto;
 use App\Models\Company\Company;
+use App\Models\User\User;
 use App\Resources\Company\CompanyUserCollection;
 use App\Resources\User\UserResource;
 use App\Services\Company\CompanyService;
@@ -36,9 +37,9 @@ class CompanyUserController extends Controller
         return $this->ok(new CompanyUserCollection($users->users));
     }
 
-    public function deleteUserFromCompany(int $id, int $userId, CompanyUserService $companyUserService): JsonResponse
+    public function deleteUserFromCompany(User $user, CompanyUserService $companyUserService): JsonResponse
     {
-        return $this->ok($companyUserService->deleteUserFromCompany($id, $userId));
+        return $this->ok($companyUserService->deleteUserFromCompany($user));
     }
 
 }
