@@ -17,7 +17,7 @@ class CheckUserCompany
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(Auth::user() && Auth::user()->company)
+        if(Auth::user() && !Auth::user()->company)
         {
             throw new UserDoesNotHaveCompanyException();
         }

@@ -27,11 +27,7 @@ class CompanyUserController extends Controller
 
     public function getUserCompanyUsers()
     {
-        try {
-        $users = Auth::User()->Company::with("users")->with("users.userDetails")->first();
-        } catch (\Exception $e) {
-            throw(new CompanyNameTakenException());
-        }
+        $users = Auth::User()->company::with("users")->with("users.userDetails")->first();
         return $this->ok(new CompanyUserCollection($users->users));
     }
     public function getCompanyUsers(int $id)
