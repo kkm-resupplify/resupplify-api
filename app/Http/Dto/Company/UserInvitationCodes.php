@@ -21,8 +21,6 @@ class UserInvitationCodes extends BasicDto
     public function __construct(
         #[Numeric]
         public int $roleId,
-        #[Numeric]
-        public int $companyId,
         // #[WithCast(DateTimeInterfaceCast::class, timeZone: 'UTC')]
         // public DateTimeInterface $expiryDate,
     ){}

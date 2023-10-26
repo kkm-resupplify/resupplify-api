@@ -15,6 +15,6 @@ class InvitationController extends Controller
 {
     public function createInvitationCode(UserInvitationCodes $requestr, InvitationService $invitationService): JsonResponse
     {
-        return $this->ok([$invitationService->createUserInvitation($requestr)]);
+        return $this->ok($invitationService->createUserInvitation($requestr));
     }
 }

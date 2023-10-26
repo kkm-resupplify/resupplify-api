@@ -27,8 +27,7 @@ class InvitationService extends Controller
     //TODO: Sprawdzenie czy user ma uprawnienia żeby stworzyć zaproszenie
     public function createUserInvitation(UserInvitationCodes $request)
     {
-        $user = Auth::user();
-        $company = $user->companyMember->company;
+        $company = Auth::user()->company;
         $roles = DB::table('roles')->where('team_id', '=', $company->id)->get();
 
         if (in_array($request->roleId, $roles->pluck('id')->toArray())) {

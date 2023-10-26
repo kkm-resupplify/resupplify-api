@@ -67,9 +67,9 @@ class CompanyService extends Controller
         // $createdCompanyDetails->save();
         $createdCompany->companyDetails()->save($createdCompanyDetails);
         $role = [
-            Role::create(['name' => 'CompanyOwner', 'team_id' => $createdCompany->id, 'guard_name' => 'sanctum']),
-            Role::create(['name' => 'CompanyAdmin', 'team_id' => $createdCompany->id, 'guard_name' => 'sanctum']),
-            Role::create(['name' => 'CompanyMember', 'team_id' => $createdCompany->id, 'guard_name' => 'sanctum']),
+            Role::create(['name' => 'Company owner', 'team_id' => $createdCompany->id, 'guard_name' => 'sanctum']),
+            Role::create(['name' => 'Company admin', 'team_id' => $createdCompany->id, 'guard_name' => 'sanctum']),
+            Role::create(['name' => 'Company member', 'team_id' => $createdCompany->id, 'guard_name' => 'sanctum']),
         ];
         $companyMember = [
             'user_id' => $user->id,
@@ -96,12 +96,7 @@ class CompanyService extends Controller
     }
     public function getUserCompany()
     {
-        $user = Auth::user();
-        $company = Company::where('owner_id', '=', $user->id)->first();
-        if(!isset($company))
-        {
-            throw new CompanyNotFoundException();
-        }
+        $company = Auth::user()->company;
         return new CompanyResource(Company::with("companyDetails")->findOrFail($company->id));
     }
 

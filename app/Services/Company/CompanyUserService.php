@@ -35,9 +35,8 @@ class CompanyUserService extends Controller
     {
         //return UserInvitationCode::all();
         $invitationCode = UserInvitationCode::where('invitationCode','=',$request->invitationCode)->first();
-        if(!$invitationCode->exists())
+        if(!isset($invitationCode))
         {
-            //TODO: throw CodeDoesntExistException
             throw new UserInviteCodeNotFoundException();
         }
         if($invitationCode['is_used'] == 1)
@@ -64,6 +63,8 @@ class CompanyUserService extends Controller
             $user->assignRole(Role::findOrFail($invitationCode->role_id));
 
             $user->companyMember()->save($companyMember);
+            $invitationCode['is_used'] = 1;
+            $invitationCode->save();
             return new CompanyResource($company);
         } else {
             throw new RoleNotFoundException();

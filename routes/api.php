@@ -20,14 +20,14 @@ Route::get('country', [CountryController::class, 'index']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('test', [CompanyController::class,'test'])->middleware('hasCompany');
     Route::get('user', [UserController::class, 'index']);
-    Route::get('user/company', [CompanyController::class, 'getLoggedUserCompany']);
+    Route::get('user/company', [CompanyController::class, 'getLoggedUserCompany'])->middleware('hasCompany');;
     Route::post('user/userDetails', [UserController::class, 'createUserDetails']);
     Route::put('user/userDetails', [UserController::class, 'editUserDetails']);
     Route::post('logout', [AuthController::class, 'logout']);
     Route::post('country', [CountryController::class, 'create']);
     Route::post('companyDetails', [CompanyController::class, 'createCompanyDetails']);
-    Route::post('company/createInvitationCode' , [InvitationController::class, 'createInvitationCode']);
-    Route::get('company/roles', [CompanyController::class, 'getCompanyRoles']);
+    Route::post('company/createInvitationCode' , [InvitationController::class, 'createInvitationCode'])->middleware('hasCompany');;
+    Route::get('company/roles', [CompanyController::class, 'getCompanyRoles'])->middleware('hasCompany');;
     Route::get('user/company/users', [CompanyUserController::class, 'getUserCompanyUsers'])->middleware('hasCompany');
     Route::get('company/users/{id}', [CompanyUserController::class, 'getCompanyUsers']);
     Route::post('company/join', [CompanyUserController::class, 'addUserToCompany']);
