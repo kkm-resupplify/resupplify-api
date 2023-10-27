@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use App\Models\Company\Enums\CompanyStatusEnum;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\JsonResponse;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Ramsey\Uuid\Uuid;
@@ -52,7 +53,8 @@ class InvitationService extends Controller
             $invitation = new UserInvitationCode($invitationData);
             $company->invitationCodes()->save($invitation);
 
-            return ['invitationCode'=> $invitation['invitationCode']];
+            return response()->json(['invitationCode' => $invitation['invitationCode']]);
+
         } else {
             throw new RoleNotFoundException();
         }
