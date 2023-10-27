@@ -19,7 +19,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use App\Models\Company\Enums\CompanyStatusEnum;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\JsonResponse;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Ramsey\Uuid\Uuid;
@@ -32,19 +31,19 @@ class InvitationService extends Controller
     public function createUserInvitation(UserInvitationCodes $request)
     {
         $user = Auth::user();
-        return $user->companyMember->hasRole();
-        if($user->role->hasPermission('User permissions'))
-        {
-            throw new CantCreateUserInvitationException();
-        }
+        // return $user->companyMember->hasRole();
+        // if($user->role->hasPermission('User permissions'))
+        // {
+        //     throw new CantCreateUserInvitationException();
+        // }
         $company = Auth::user()->company;
         $roles = DB::table('roles')->where('team_id', '=', $company->id)->get();
         if (in_array($request->roleId, $roles->pluck('id')->toArray())) {
             $role = Role::find($request->roleId);
-            if($role->hasPermission('Owner permissions'))
-            {
-                throw new CantCreateUserInvitationRoleException();
-            }
+            // if($role->hasPermission('Owner permissions'))
+            // {
+            //     throw new CantCreateUserInvitationRoleException();
+            // }
             $invitationData = [
                 'company_id' => $company->id,
                 'role_id' => $request->roleId,
@@ -53,8 +52,7 @@ class InvitationService extends Controller
             $invitation = new UserInvitationCode($invitationData);
             $company->invitationCodes()->save($invitation);
 
-            return response()->json(['invitationCode' => $invitation['invitationCode']]);
-
+            return ['invitationCode'=> $invitation['invitationCode']];
         } else {
             throw new RoleNotFoundException();
         }
