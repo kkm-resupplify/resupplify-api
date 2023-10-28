@@ -14,11 +14,9 @@ class CompanyUserCollection extends ResourceCollection
         * @param  \Illuminate\Http\Request  $request
         * @return array
         */
-    public function toArray(Request $request): array
+    public function toArray(Request $request)
     {
-        return [
-            'users' => UserResource::collection($this),
-        ];
+        return UserResource::collection($this);
     }
 
 
