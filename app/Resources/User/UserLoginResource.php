@@ -4,6 +4,7 @@ namespace App\Resources\User;
 
 use App\Resources\BasicResource;
 use App\Resources\Company\CompanyResource;
+use App\Resources\Roles\RoleResource;
 
 class UserLoginResource extends BasicResource
 {
@@ -19,6 +20,7 @@ class UserLoginResource extends BasicResource
                     $this['user']->userDetails
                 ),
                 'company' => new CompanyResource($this['user']->company),
+                'roles' => RoleResource::collection($this['user']->roles),
             ],
             'token' => $this['token'],
         ];
