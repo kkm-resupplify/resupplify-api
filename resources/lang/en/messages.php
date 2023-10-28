@@ -20,6 +20,7 @@ return [
     'cantDeleteThisUser' => 'You cannot delete this user due to his or yours permissions',
     'cantCreateUserInvitation' => 'You cannot create user invitation due to yours permissions',
     'cantCreateUserInvitationRole' => 'You cannot assign this role to this invitation',
+    'cantDeleteYourself' => 'You cannot delete yourself from company',
   ],
   "loginMessages" =>
   [

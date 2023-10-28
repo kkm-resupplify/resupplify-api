@@ -24,6 +24,7 @@ class CustomErrorCodes
     public const COMPANY_NAME_TAKEN = 'company-0001';
     public const COMPANY_NOT_FOUND = 'company-0002';
     public const CANT_DELETE_USER = 'company-0003';
+    public const CANT_DELETE_YOURSELF = 'company-0004';
 
 
 

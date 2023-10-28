@@ -6,11 +6,11 @@ use App\Exceptions\BasicException;
 use App\Exceptions\CustomErrorCodes;
 use Symfony\Component\HttpFoundation\Response;
 
-class UserInviteCodeNotFoundException extends BasicException
+class UserIsNotMemberOfThisCompanyException extends BasicException
 {
     protected function init()
     {
-        $this->errorCode = CustomErrorCodes::CANT_DELETE_USER;
+        $this->errorCode = CustomErrorCodes::USER_IS_NOT_MEMBER_OF_THIS_COMPANY;
         $this->errorHttpCode = Response::HTTP_UNPROCESSABLE_ENTITY;
         $this->errorMsg = $this->__('messages.exception.userIsNotMemberOfThisCompany');
 

@@ -3,6 +3,7 @@
 namespace App\Services\Company;
 
 use App\Exceptions\Company\CantDeleteThisUserException;
+use App\Exceptions\Company\CantDeleteYourself;
 use App\Exceptions\Company\CompanyNameTakenException;
 use App\Exceptions\Company\CompanyNotFoundException;
 use App\Exceptions\Company\UserInviteCodeNotFoundException;
@@ -35,7 +36,6 @@ class CompanyUserService extends Controller
 {
     public function addUserToCompany(AddUserDto $request)
     {
-        //return UserInvitationCode::all();
         $invitationCode = UserInvitationCode::where('invitationCode','=',$request->invitationCode)->first();
         if(!isset($invitationCode))
         {
@@ -65,6 +65,7 @@ class CompanyUserService extends Controller
             $user->companyMember()->save($companyMember);
             $invitationCode['is_used'] = 1;
             $invitationCode->save();
+            //todo: add role assigned to user to the companyResource
             return new CompanyResource($company);
         } else {
             throw new RoleNotFoundException();
@@ -76,26 +77,22 @@ class CompanyUserService extends Controller
     {
 
         $company = $user->company;
+        $loggedUser = Auth::user();
         if(!isset($company))
         {
             throw new CompanyNotFoundException();
         }
-        if(!isset($user->companyMember))
+        setPermissionsTeamId($company->id);
+        if($loggedUser->id == $user->id)
         {
-            //todo: throw user is not member of company exception
-            throw new CompanyNotFoundException();
+            throw new CantDeleteYourself();
         }
-        if(Auth()->user()->id == $user->id)
-        {
-            //todo: throw cannot delete yourself exception
-            throw new CompanyNotFoundException();
-        }
-        if(!$user->hasPermissionTo('Owner permissions') || !$user->hasPermissionTo('Admin permissions') || (Auth()->user()->hasPermissionTo('Admin permissions') &&  !$user -> hasPermissionTo('Owner permissions')) || !$user -> hasPermissionTo('Admin permissions'))
+        if($user->can('Owner permissions') || ($user->can('Admin permissions') && !$loggedUser->can('Owner permissions') || $loggedUser->can('User permissions')) || $loggedUser->id == $user->id)
         {
             throw new CantDeleteThisUserException();
         }
-        //$user->delete();
-        return 0;
+        $user->delete();
+        return 1;
     }
 
 }
