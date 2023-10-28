@@ -16,16 +16,17 @@ class TestService extends Controller
     {
         $user = Auth::user();
         setPermissionsTeamId($user->company->id);
-        return $user->hasRole('Company owner');
+        // return $user->hasRole('Company owner');
         //return $all_users_with_all_their_roles = User::with('roles')->get();
         //return owner company roles
         //return $user->getPermissionsViaRoles();
-        $role = Role::where('name','Company owner')->first();
-        setPermissionsTeamId($user->company->id);
+        // $role = Role::where('name','Company owner')->first();
+        // setPermissionsTeamId($user->company->id);
         //return $role;
-        $user->assignRole($role);
+        // // $user->assignRole($role);
         //return $user->hasAnyRole('Company owner');
-        return $user->hasRole('Company owner');
+        return $user::with('roles')->with('roles.permissions')->get();
+        return $user->roles->first()->permissions;
         // return $user->companyMember->hasRole();
         // if($user->role->hasPermission('User permissions'))
         // {
