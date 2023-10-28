@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Portal\Company\CompanyUserController;
+use App\Http\Controllers\Test\TestController as TestController;
 use App\Services\Company\CompanyUserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -18,8 +19,8 @@ Route::post('login', [AuthController::class, 'login']);
 Route::get('country', [CountryController::class, 'index']);
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::post('test', [CompanyController::class,'test'])->middleware('hasCompany');
-    Route::get('user', [UserController::class, 'index']);
+    Route::post('test', [TestController::class,'test'])->middleware('hasCompany');
+    Route::get('test', [TestController::class, 'roleTest']);
     Route::get('user/company', [CompanyController::class, 'getLoggedUserCompany'])->middleware('hasCompany');;
     Route::post('user/userDetails', [UserController::class, 'createUserDetails']);
     Route::put('user/userDetails', [UserController::class, 'editUserDetails']);

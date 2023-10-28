@@ -21,11 +21,11 @@ use App\Models\Company\CompanyRole;
 use App\Models\Country\Country;
 use App\Models\Country\CountryDetails;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Permission\Traits\HasRoles;
 
 class Company extends Model
 {
-    use HasFactory;
-    use SoftDeletes;
+    use HasFactory, HasRoles, SoftDeletes;
 
     protected $fillable = [
         'name',

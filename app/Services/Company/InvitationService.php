@@ -31,19 +31,15 @@ class InvitationService extends Controller
     public function createUserInvitation(UserInvitationCodes $request)
     {
         $user = Auth::user();
-        // return $user->companyMember->hasRole();
-        // if($user->role->hasPermission('User permissions'))
-        // {
-        //     throw new CantCreateUserInvitationException();
-        // }
+        setPermissionsTeamId($user->company->id);
         $company = Auth::user()->company;
         $roles = DB::table('roles')->where('team_id', '=', $company->id)->get();
         if (in_array($request->roleId, $roles->pluck('id')->toArray())) {
             $role = Role::find($request->roleId);
-            // if($role->hasPermission('Owner permissions'))
-            // {
-            //     throw new CantCreateUserInvitationRoleException();
-            // }
+            if($role->hasPermissionTo('Owner permissions') || ($role->hasPermissionTo('Admin permissions') && !$user->can('Owner permissions') || $user->can('User permissions')))
+            {
+                throw new CantCreateUserInvitationRoleException();
+            }
             $invitationData = [
                 'company_id' => $company->id,
                 'role_id' => $request->roleId,
