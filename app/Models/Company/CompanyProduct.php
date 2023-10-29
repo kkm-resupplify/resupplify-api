@@ -6,10 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class CompanyProduct extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 
     protected $fillable = ['name', 'slug', 'description'];
 
@@ -22,7 +24,7 @@ class CompanyProduct extends Model
     {
         return $this->belongsTo(Company::class);
     }
-    
+
     public function companyProductDetails(): HasOne
     {
         return $this->hasOne(CompanyProductDetails::class);

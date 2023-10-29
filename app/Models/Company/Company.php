@@ -20,10 +20,12 @@ use App\Models\Company\CompanyProductDetails;
 use App\Models\Company\CompanyRole;
 use App\Models\Country\Country;
 use App\Models\Country\CountryDetails;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Permission\Traits\HasRoles;
 
 class Company extends Model
 {
-    use HasFactory;
+    use HasFactory, HasRoles, SoftDeletes;
 
     protected $fillable = [
         'name',
@@ -72,6 +74,18 @@ class Company extends Model
 
     public function invitationCodes(): HasMany
     {
-        return $this->hasMany(InvitationCode::class);
+        return $this->hasMany(UserInvitationCode::class);
+    }
+
+    public function users()
+    {
+        return $this->hasManyThrough(
+            User::class,
+            CompanyMember::class,
+            'company_id',
+            'id',
+            'id',
+            'user_id'
+        );
     }
 }

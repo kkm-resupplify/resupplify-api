@@ -6,13 +6,13 @@ use App\Exceptions\BasicException;
 use App\Exceptions\CustomErrorCodes;
 use Symfony\Component\HttpFoundation\Response;
 
-class CompanyNotFoundException extends BasicException
+class UserDoesNotHaveCompanyException extends BasicException
 {
     protected function init()
     {
-        $this->errorCode = CustomErrorCodes::COMPANY_NOT_FOUND;
+        $this->errorCode = CustomErrorCodes::USER_DOES_NOT_HAVE_COMPANY;
         $this->errorHttpCode = Response::HTTP_NOT_FOUND;
-        $this->errorMsg = $this->__('messages.exception.companyNotFound');
+        $this->errorMsg = $this->__('messages.exception.userDoesNotHaveCompany');
 
         $errorData = $this->getErrorData();
 

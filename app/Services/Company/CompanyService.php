@@ -2,15 +2,19 @@
 
 namespace App\Services\Company;
 
+use App\Exceptions\Company\CantDeleteThisUserException;
 use App\Exceptions\Company\CompanyNameTakenException;
 use App\Exceptions\Company\CompanyNotFoundException;
+use App\Exceptions\User\UserAlreadyHaveCompany;
 use App\Http\Dto\Company\RegisterCompanyDto;
 use App\Http\Dto\Company\RegisterCompanyDetailsDto;
 use App\Models\Company\Company;
 use App\Models\Company\CompanyDetails;
 use App\Models\Company\CompanyMember;
 use App\Resources\Company\CompanyCollection;
+use App\Resources\Roles\PermissionResource;
 use App\Services\BasicService;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use App\Models\Company\Enums\CompanyStatusEnum;
@@ -18,6 +22,7 @@ use App\Http\Controllers\Controller;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use App\Resources\Company\CompanyResource;
+use App\Resources\Roles\PermissionCollection;
 
 
 
@@ -30,19 +35,23 @@ class CompanyService extends Controller
         if (Company::where('name', '=', $request->name)->exists()) {
             throw(new CompanyNameTakenException());
         }
+        if(isset($user -> companyMember))
+        {
+            throw(new UserAlreadyHaveCompany());
+        }
 
         $company = [
             'name' => $request->name,
             'short_description' => $request->shortDescription,
             'description' => $request->description,
-            'slug' => Str::of($request->name)->snake(),
+            'slug' => Str::slug($request->name),
             'owner_id' => $user->id,
             'status' => CompanyStatusEnum::UNVERIFIED(),
         ];
         // TODO: Add CompanyDetails from the request
         $createdCompany = new Company($company);
-        $createdCompany -> owner()->associate($user);
         $createdCompany->save();
+        $createdCompany -> owner()->associate($user)->save();
         $companyDetails = [
             'country_id' => $request->countryId,
             'address' => $request->address,
@@ -56,12 +65,13 @@ class CompanyService extends Controller
             'contact_person' => $request->contactPerson,
         ];
         $createdCompanyDetails = new CompanyDetails($companyDetails);
-        $createdCompanyDetails -> company()->associate($createdCompany);
-        $createdCompanyDetails->save();
+        // $createdCompanyDetails -> company()->associate($createdCompany);
+        // $createdCompanyDetails->save();
+        $createdCompany->companyDetails()->save($createdCompanyDetails);
         $role = [
-            Role::create(['name' => 'CompanyOwner', 'team_id' => $createdCompany->id, 'guard_name' => 'sanctum']),
-            Role::create(['name' => 'CompanyAdmin', 'team_id' => $createdCompany->id, 'guard_name' => 'sanctum']),
-            Role::create(['name' => 'CompanyMember', 'team_id' => $createdCompany->id, 'guard_name' => 'sanctum']),
+            Role::create(['name' => 'Company owner', 'team_id' => $createdCompany->id, 'guard_name' => 'sanctum']),
+            Role::create(['name' => 'Company admin', 'team_id' => $createdCompany->id, 'guard_name' => 'sanctum']),
+            Role::create(['name' => 'Company member', 'team_id' => $createdCompany->id, 'guard_name' => 'sanctum']),
         ];
         $companyMember = [
             'user_id' => $user->id,
@@ -69,18 +79,19 @@ class CompanyService extends Controller
             'role_id' => $role[0]->id,
         ];
         $companyMember = new CompanyMember($companyMember);
-        $role[0]->givePermissionTo(['view transactions in own company', 'manage own account settings','view products','purchase products','manage users in own company','manage products in own company','view products in own company','add products in own company']);
+        $role[0]->givePermissionTo(['Owner permissions']);
+        $role[1]->givePermissionTo(['Admin permissions']);
+        $role[2]->givePermissionTo(['User permissions']);
         setPermissionsTeamId($createdCompany->id);
         $user->assignRole($role[0]);
         $user->save();
-        $mergedCompany = $createdCompany->companyDetails;
-       //return $mergedCompany = ['company' => $mergedCompany];
-        return new CompanyResource($mergedCompany);
+        $user->companyMember()->save($companyMember);
+        return new CompanyResource($createdCompany);
     }
 
-    public function getCompany(int $companyId)
+    public function getCompany(Company $company)
     {
-        return new CompanyResource(Company::with("companyDetails")->findOrFail($companyId));
+        return new CompanyResource($company->with("companyDetails")->first());
     }
 
     public function getCompanies()
@@ -89,12 +100,50 @@ class CompanyService extends Controller
     }
     public function getUserCompany()
     {
-        $user = Auth::user();
-        $company = Company::where('owner_id', '=', $user->id)->first();
-        if(!isset($company))
-        {
-            throw new CompanyNotFoundException();
-        }
+        $company = Auth::user()->company;
         return new CompanyResource(Company::with("companyDetails")->findOrFail($company->id));
+    }
+
+    public function getCompanyRoles()
+    {
+        return Role::where('team_id', '=', Auth::user()->companyMember->company->id)->get();
+    }
+
+    public function getCompanyRolesPermissions()
+    {
+        return Permission::All();
+    }
+
+    public function editCompany(RegisterCompanyDetailsDto $companyDetailsRequest, RegisterCompanyDto $companyRequest, Request $request)
+    {
+
+        $user = Auth::user();
+        $company = Auth::user()->company;
+        $companyDetails = $company->companyDetails;
+        if (Company::where('name', '=', $company->name)->where('id', '<>', $company->id)->exists()) {
+            throw(new CompanyNameTakenException());
+        }
+        $company->update([
+            'name' => $companyRequest->name,
+            'short_description' => $companyRequest->shortDescription,
+            'description' => $companyRequest->description,
+            'slug' => Str::slug($companyRequest->name),
+            'owner_id' => $user->id,
+            'status' => CompanyStatusEnum::UNVERIFIED(),
+        ]);
+
+        $companyDetails->update([
+            'country_id' => $companyDetailsRequest->countryId,
+            'address' => $companyDetailsRequest->address,
+            'email' => $companyDetailsRequest->email,
+            'phone_number' => $companyDetailsRequest->phoneNumber,
+            'external_website' => $companyDetailsRequest->externalWebsite,
+            'logo' => $companyDetailsRequest->logo,
+            'company_id' => $company->id,
+            'company_category_id' => $companyDetailsRequest->companyCategoryId,
+            'tin' => $companyDetailsRequest->tin,
+            'contact_person' => $request->contactPerson,
+        ]);
+        return new CompanyResource($company);
     }
 }

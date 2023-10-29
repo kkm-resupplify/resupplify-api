@@ -5,6 +5,8 @@ namespace App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -15,10 +17,9 @@ use Spatie\Permission\Models\Permission;
 use App\Models\Company\Company;
 use App\Models\Company\CompanyMember;
 use App\Models\User\UserDetails;
-
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, HasRoles;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles, SoftDeletes;
 
     protected $guard_name = 'sanctum';
 
@@ -60,8 +61,15 @@ class User extends Authenticatable
         return $this->hasOne(UserDetails::class);
     }
 
-    public function company(): HasOne
+    public function company()
     {
-        return $this->hasOne(Company::class);
+        return $this->hasOneThrough(
+            Company::class,
+            CompanyMember::class,
+            'user_id',
+            'id',
+            'id',
+            'company_id'
+        );
     }
 }

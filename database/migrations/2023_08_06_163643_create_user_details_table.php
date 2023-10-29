@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('sex')->nullable();
             $table->foreignId('user_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

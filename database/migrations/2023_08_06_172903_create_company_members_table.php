@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->foreignId('user_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('company_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('role_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->softDeletes();
         });
     }
 

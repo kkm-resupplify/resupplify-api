@@ -20,6 +20,7 @@ return new class extends Migration
             $table->smallInteger('status');
             $table->foreignId('owner_id')->constrained('users')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

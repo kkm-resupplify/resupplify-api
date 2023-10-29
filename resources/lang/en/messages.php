@@ -11,6 +11,16 @@ return [
     'roleNotFound' => 'Role not found',
     'userDetailsExists' => 'UserDetails already exists',
     'companyNotFound' => 'Company not found',
+    'userAlreadyHaveCompany' => 'User already have a company',
+    'userInviteCodeNotFound' => 'This code does not exist',
+    'userInviteCodeUsed' => 'This code has already been used',
+    'userDoesNotHaveCompany' => 'User does not have a company',
+    'userIsNotMemberOfThisCompany' => 'User is not a member of this company',
+    'userNotFound' => 'User not found',
+    'cantDeleteThisUser' => 'You cannot delete this user due to his or yours permissions',
+    'cantCreateUserInvitation' => 'You cannot create user invitation due to yours permissions',
+    'cantCreateUserInvitationRole' => 'You cannot assign this role to this invitation',
+    'cantDeleteYourself' => 'You cannot delete yourself from company',
   ],
   "loginMessages" =>
   [

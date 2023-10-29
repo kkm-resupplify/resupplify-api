@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Exceptions;
+namespace App\Exceptions\Company;
 
 use App\Exceptions\BasicException;
 use App\Exceptions\CustomErrorCodes;
 use Symfony\Component\HttpFoundation\Response;
 
-class RoleNotFoundException extends BasicException
+class CantDeleteThisUserException extends BasicException
 {
     protected function init()
     {
-        $this->errorCode = CustomErrorCodes::VALIDATION_FAILED;
+        $this->errorCode = CustomErrorCodes::CANT_DELETE_USER;
         $this->errorHttpCode = Response::HTTP_UNPROCESSABLE_ENTITY;
-        $this->errorMsg = $this->__('messages.exception.roleNotFound');
+        $this->errorMsg = $this->__('messages.exception.cantDeleteThisUser');
 
         $errorData = $this->getErrorData();
 

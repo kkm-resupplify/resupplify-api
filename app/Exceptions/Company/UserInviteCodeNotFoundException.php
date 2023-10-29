@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Exceptions;
+namespace App\Exceptions\Company;
 
 use App\Exceptions\BasicException;
 use App\Exceptions\CustomErrorCodes;
 use Symfony\Component\HttpFoundation\Response;
 
-class RoleNotFoundException extends BasicException
+class UserInviteCodeNotFoundException extends BasicException
 {
     protected function init()
     {
-        $this->errorCode = CustomErrorCodes::VALIDATION_FAILED;
+        $this->errorCode = CustomErrorCodes::USER_INVITE_CODE_NOT_FOUND;
         $this->errorHttpCode = Response::HTTP_UNPROCESSABLE_ENTITY;
-        $this->errorMsg = $this->__('messages.exception.roleNotFound');
+        $this->errorMsg = $this->__('messages.exception.userInviteCodeNotFound');
 
         $errorData = $this->getErrorData();
 

@@ -11,7 +11,21 @@ class CustomErrorCodes
     public const LOGOUT_FAILED = 'general-0005';
     public const USER_ALREADY_EXISTS = 'general-0006';
     public const USER_DETAILS_ALREADY_EXISTS = 'general-0007';
+    public const USER_ALREADY_HAVE_COMPANY = 'general-0008';
+    public const USER_INVITE_CODE_NOT_FOUND = 'general-0009';
+    public const USER_INVITE_CODE_USED = 'general-0010';
+    public const USER_NOT_FOUND = 'general-0011';
+    public const USER_DOES_NOT_HAVE_COMPANY = 'general-0012';
+    public const USER_IS_NOT_MEMBER_OF_THIS_COMPANY = 'general-0013';
+    public const CANT_CREATE_USER_INVITATION = 'general-0014';
+    public const CANT_CREATE_USER_INVITATION_ROLE = 'general-0015';
+
 
     public const COMPANY_NAME_TAKEN = 'company-0001';
     public const COMPANY_NOT_FOUND = 'company-0002';
+    public const CANT_DELETE_USER = 'company-0003';
+    public const CANT_DELETE_YOURSELF = 'company-0004';
+
+
+
 }

@@ -15,14 +15,12 @@ use Spatie\LaravelData\Attributes\WithCast;
 use Spatie\LaravelData\Casts\DateTimeInterfaceCast;
 
 
-class UserInvitationCodes extends BasicDto
+class AddUserDto extends BasicDto
 {
 
     public function __construct(
-        #[Numeric]
-        public int $roleId,
-        // #[WithCast(DateTimeInterfaceCast::class, timeZone: 'UTC')]
-        // public DateTimeInterface $expiryDate,
+        public string $invitationCode,
+
     ){}
 }
 

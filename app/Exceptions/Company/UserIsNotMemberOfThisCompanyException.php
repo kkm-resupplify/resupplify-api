@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Exceptions;
+namespace App\Exceptions\Company;
 
 use App\Exceptions\BasicException;
 use App\Exceptions\CustomErrorCodes;
 use Symfony\Component\HttpFoundation\Response;
 
-class RoleNotFoundException extends BasicException
+class UserIsNotMemberOfThisCompanyException extends BasicException
 {
     protected function init()
     {
-        $this->errorCode = CustomErrorCodes::VALIDATION_FAILED;
+        $this->errorCode = CustomErrorCodes::USER_IS_NOT_MEMBER_OF_THIS_COMPANY;
         $this->errorHttpCode = Response::HTTP_UNPROCESSABLE_ENTITY;
-        $this->errorMsg = $this->__('messages.exception.roleNotFound');
+        $this->errorMsg = $this->__('messages.exception.userIsNotMemberOfThisCompany');
 
         $errorData = $this->getErrorData();
 

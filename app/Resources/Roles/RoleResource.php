@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Resources\Company;
+namespace App\Resources\Roles;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Resources\Company\CompanyDetailsResource;
-use Illuminate\Support\Str;
+use App\Resources\Roles\PermissionResource;
 
-class CompanyResource extends JsonResource
+
+class RoleResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,12 +18,9 @@ class CompanyResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'id' => $this->id,
             'name' => $this->name,
-            'shortDescription' => $this->short_description,
-            'description' => $this->description,
-            'slug' => $this->slug,
-            'ownerId' => $this->owner_id,
-            'details' => new CompanyDetailsResource($this->companyDetails),
+            'permissions' => PermissionResource::collection($this->permissions),
         ];
     }
 }
