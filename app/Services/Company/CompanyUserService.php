@@ -31,28 +31,32 @@ use Spatie\Permission\Models\Permission;
 use App\Resources\Company\CompanyResource;
 use App\Resources\Roles\PermissionCollection;
 
-
 class CompanyUserService extends Controller
 {
     public function addUserToCompany(AddUserDto $request)
     {
-        $invitationCode = UserInvitationCode::where('invitationCode','=',$request->invitationCode)->first();
-        if(!isset($invitationCode))
-        {
+        $invitationCode = UserInvitationCode::where(
+            'invitationCode',
+            '=',
+            $request->invitationCode
+        )->first();
+        if (!isset($invitationCode)) {
             throw new UserInviteCodeNotFoundException();
         }
-        if($invitationCode['is_used'] == 1)
-        {
+        if ($invitationCode['is_used'] == 1) {
             throw new UserInviteCodeUsedException();
         }
         $user = Auth::user();
-        if(isset($user->companyMember))
-        {
+        if (isset($user->companyMember)) {
             throw new UserAlreadyHaveCompany();
         }
         $company = $invitationCode->company;
-        $roles = DB::table('roles')->where('team_id', '=', $company->id)->get();
-        if (in_array($invitationCode->role_id, $roles->pluck('id')->toArray())) {
+        $roles = DB::table('roles')
+            ->where('team_id', '=', $company->id)
+            ->get();
+        if (
+            in_array($invitationCode->role_id, $roles->pluck('id')->toArray())
+        ) {
             $companyMember = [
                 'user_id' => $user->id,
                 'company_id' => $company->id,
@@ -75,24 +79,29 @@ class CompanyUserService extends Controller
     //soft delete
     public function deleteUserFromCompany(User $user)
     {
-
         $company = $user->company;
         $loggedUser = Auth::user();
-        if(!isset($company))
-        {
+
+        if (!isset($company)) {
             throw new CompanyNotFoundException();
         }
         setPermissionsTeamId($company->id);
-        if($loggedUser->id == $user->id)
-        {
+
+        if ($loggedUser->id == $user->id) {
             throw new CantDeleteYourself();
         }
-        if($user->can('Owner permissions') || ($user->can('Admin permissions') && !$loggedUser->can('Owner permissions') || $loggedUser->can('User permissions')) || $loggedUser->id == $user->id)
-        {
+
+        if (
+            $user->can('Owner permissions') ||
+            (($user->can('Admin permissions') &&
+                !$loggedUser->can('Owner permissions')) ||
+                $loggedUser->can('User permissions')) ||
+            $loggedUser->id == $user->id
+        ) {
             throw new CantDeleteThisUserException();
         }
-        $user->delete();
+
+        $user->companyMember->delete();
         return 1;
     }
-
 }
