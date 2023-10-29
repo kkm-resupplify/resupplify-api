@@ -19,6 +19,7 @@ class CustomErrorCodes
     public const USER_IS_NOT_MEMBER_OF_THIS_COMPANY = 'general-0013';
     public const CANT_CREATE_USER_INVITATION = 'general-0014';
     public const CANT_CREATE_USER_INVITATION_ROLE = 'general-0015';
+    public const WRONG_PERMISSIONS = 'general-0016';
 
 
     public const COMPANY_NAME_TAKEN = 'company-0001';

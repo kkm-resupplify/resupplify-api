@@ -18,6 +18,14 @@ class CountryController extends Controller
         ]);
     }
 
+    public function show(Country $country)
+    {
+        return response()->json([
+          'success' => true,
+            'data' => $country,
+        ]);
+    }
+
     public function create(CountryDto $request)
     {
         $country = Country::create([

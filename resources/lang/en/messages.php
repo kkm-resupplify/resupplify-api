@@ -21,6 +21,7 @@ return [
     'cantCreateUserInvitation' => 'You cannot create user invitation due to yours permissions',
     'cantCreateUserInvitationRole' => 'You cannot assign this role to this invitation',
     'cantDeleteYourself' => 'You cannot delete yourself from company',
+    'wrongPermissions' => 'You do not have the required permissions to perform this action',
   ],
   "loginMessages" =>
   [

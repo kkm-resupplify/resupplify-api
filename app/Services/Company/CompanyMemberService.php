@@ -31,7 +31,7 @@ use Spatie\Permission\Models\Permission;
 use App\Resources\Company\CompanyResource;
 use App\Resources\Roles\PermissionCollection;
 
-class CompanyUserService extends Controller
+class CompanyMemberService extends Controller
 {
     public function addUserToCompany(AddUserDto $request)
     {
@@ -95,7 +95,7 @@ class CompanyUserService extends Controller
             $user->can('Owner permissions') ||
             (($user->can('Admin permissions') &&
                 !$loggedUser->can('Owner permissions')) ||
-                $loggedUser->can('User permissions')) ||
+                $loggedUser->can('CompanyMember permissions')) ||
             $loggedUser->id == $user->id
         ) {
             throw new CantDeleteThisUserException();

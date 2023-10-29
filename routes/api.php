@@ -1,8 +1,7 @@
 <?php
 
-use App\Http\Controllers\Portal\Company\CompanyUserController;
+use App\Http\Controllers\Portal\Company\CompanyMemberController;
 use App\Http\Controllers\Test\TestController as TestController;
-use App\Services\Company\CompanyUserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController as AuthController;
@@ -14,11 +13,10 @@ use App\Http\Controllers\BackOffice\Company\InvitationController as InvitationCo
 
 Route::post('register', [AuthController::class, 'register'])->name('register');
 Route::post('login', [AuthController::class, 'login']);
-// Route::get('test', [CompanyCategoryController::class, 'store']);
-
 Route::get('country', [CountryController::class, 'index']);
-
+Route::get('country/{country}', [CountryController::class, 'show']);
 Route::middleware('auth:sanctum')->group(function () {
+    Route::get('user', [UserController::class, 'index']);
     Route::post('test', [TestController::class,'test'])->middleware('hasCompany');
     Route::get('test', [TestController::class, 'roleTest']);
     Route::get('user/company', [CompanyController::class, 'getLoggedUserCompany'])->middleware('hasCompany');;
@@ -27,43 +25,15 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('logout', [AuthController::class, 'logout']);
     Route::post('country', [CountryController::class, 'create']);
     Route::post('companyDetails', [CompanyController::class, 'createCompanyDetails']);
-    Route::put('company', [CompanyController::class, 'editCompany']);
+    Route::put('company', [CompanyController::class, 'editCompany'])->middleware('hasCompany');
     Route::post('company/createInvitationCode' , [InvitationController::class, 'createInvitationCode'])->middleware('hasCompany');;
     Route::get('company/roles', [CompanyController::class, 'getCompanyRoles'])->middleware('hasCompany');;
-    Route::get('user/company/users', [CompanyUserController::class, 'getUserCompanyUsers'])->middleware('hasCompany');
-    Route::get('company/users/{id}', [CompanyUserController::class, 'getCompanyUsers']);
-    Route::post('company/join', [CompanyUserController::class, 'addUserToCompany']);
-    Route::post('company/leave', [CompanyUserController::class,'leaveCompany']);
+    Route::get('user/company/companyMembers', [CompanyMemberController::class, 'getUserCompanyMembers'])->middleware('hasCompany');
+    Route::get('company/companyMembers/{id}', [CompanyMemberController::class, 'getCompanyMembers'])->middleware('hasCompany');
+    Route::post('company/join', [CompanyMemberController::class, 'addUserToCompany']);
+    Route::post('company/leave', [CompanyMemberController::class,'leaveCompany'])->middleware('hasCompany');
     Route::get('company/roles/permissions', [CompanyController::class, 'getCompanyRolesPermissions']);
-    Route::delete('company/{user}', [CompanyUserController::class, 'deleteUserFromCompany'])->middleware('hasCompany');
+    Route::delete('company/{user}', [CompanyMemberController::class, 'deleteCompanyMemberFromCompany'])->middleware('hasCompany');
     Route::resource('company', CompanyController::class);
     Route::resource('companyCategories', CompanyCategoryController::class);
-    //Route::resource('user', UserController::class);
-    // Route::post('logout', [AuthController::class, 'logout']);
-    // Route::get('companies', [CompanyController::class, 'getCompanies']);
-    // Route::get('company/{company_id}', [
-    //     CompanyController::class,
-    //     'getCompany',
-    // ]);
-    // Route::get('company/{company_id}/roles', [
-    //     CompanyController::class,
-    //     'getCompanyRoles',
-    // ]);
-    // Route::get('company/{company_id}/members', [
-    //     CompanyController::class,
-    //     'getCompanyMembers',
-    // ]);
-    // Route::post('company/{company_id}/add-user', [
-    //     CompanyController::class,
-    //     'addUserToCompany',
-    // ]);
-    // Route::post('company/test', [CompanyController::class, 'test']);
-    // Route::put('user/editUserDetails', [
-    //     UserController::class,
-    //     'editUserDetails',
-    // ]);
-    // Route::delete('company/deleteUserFromCompany/{user_id}', [
-    //     CompanyController::class,
-    //     'deleteUserFromCompany',
-    // ]);
 });

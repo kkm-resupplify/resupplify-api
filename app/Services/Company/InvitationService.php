@@ -36,7 +36,7 @@ class InvitationService extends Controller
         $roles = DB::table('roles')->where('team_id', '=', $company->id)->get();
         if (in_array($request->roleId, $roles->pluck('id')->toArray())) {
             $role = Role::find($request->roleId);
-            if($role->hasPermissionTo('Owner permissions') || ($role->hasPermissionTo('Admin permissions') && !$user->can('Owner permissions') || $user->can('User permissions')))
+            if($role->hasPermissionTo('Owner permissions') || ($role->hasPermissionTo('Admin permissions') && !$user->can('Owner permissions') || $user->can('CompanyMember permissions')))
             {
                 throw new CantCreateUserInvitationRoleException();
             }

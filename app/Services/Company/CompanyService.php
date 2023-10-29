@@ -5,6 +5,7 @@ namespace App\Services\Company;
 use App\Exceptions\Company\CantDeleteThisUserException;
 use App\Exceptions\Company\CompanyNameTakenException;
 use App\Exceptions\Company\CompanyNotFoundException;
+use App\Exceptions\Company\WrongPermissions;
 use App\Exceptions\User\UserAlreadyHaveCompany;
 use App\Http\Dto\Company\RegisterCompanyDto;
 use App\Http\Dto\Company\RegisterCompanyDetailsDto;
@@ -81,7 +82,7 @@ class CompanyService extends Controller
         $companyMember = new CompanyMember($companyMember);
         $role[0]->givePermissionTo(['Owner permissions']);
         $role[1]->givePermissionTo(['Admin permissions']);
-        $role[2]->givePermissionTo(['User permissions']);
+        $role[2]->givePermissionTo(['CompanyMember permissions']);
         setPermissionsTeamId($createdCompany->id);
         $user->assignRole($role[0]);
         $user->save();
@@ -122,6 +123,11 @@ class CompanyService extends Controller
         $companyDetails = $company->companyDetails;
         if (Company::where('name', '=', $company->name)->where('id', '<>', $company->id)->exists()) {
             throw(new CompanyNameTakenException());
+        }
+        setPermissionsTeamId($company->id);
+        if(!$user->can('Owner permissions'))
+        {
+            throw(new WrongPermissions());
         }
         $company->update([
             'name' => $companyRequest->name,
