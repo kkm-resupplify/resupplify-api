@@ -2,6 +2,7 @@
 
 namespace App\Services\Company;
 
+use App\Exceptions\Company\CantDeleteThisUserException;
 use App\Exceptions\Company\CompanyNameTakenException;
 use App\Exceptions\Company\CompanyNotFoundException;
 use App\Exceptions\User\UserAlreadyHaveCompany;
