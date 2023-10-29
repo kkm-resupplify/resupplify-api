@@ -27,6 +27,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('logout', [AuthController::class, 'logout']);
     Route::post('country', [CountryController::class, 'create']);
     Route::post('companyDetails', [CompanyController::class, 'createCompanyDetails']);
+    Route::put('company', [CompanyController::class, 'editCompany']);
     Route::post('company/createInvitationCode' , [InvitationController::class, 'createInvitationCode'])->middleware('hasCompany');;
     Route::get('company/roles', [CompanyController::class, 'getCompanyRoles'])->middleware('hasCompany');;
     Route::get('user/company/users', [CompanyUserController::class, 'getUserCompanyUsers'])->middleware('hasCompany');

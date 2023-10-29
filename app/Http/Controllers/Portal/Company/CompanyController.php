@@ -44,9 +44,4 @@ class CompanyController extends Controller
         return $this->ok($companyService->getCompanyRolesPermissions());
     }
 
-    public function test(): JsonResponse
-    {
-        return $this->ok(Auth()->user()->company);
-        return $this->ok(['test']);
-    }
 }
