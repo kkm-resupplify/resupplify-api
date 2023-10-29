@@ -28,10 +28,10 @@ class RegisterCompanyDetailsDto extends BasicDto
 
   #[Numeric]
   #[Max(60)]
-  public string $countryId;
+  public int $countryId;
 
   #[Numeric]
-  public string $companyCategoryId;
+  public int $companyCategoryId;
 
   #[Numeric]
   public string $tin;

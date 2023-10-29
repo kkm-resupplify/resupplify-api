@@ -122,24 +122,27 @@ class CompanyService extends Controller
         if (Company::where('name', '=', $company->name)->where('id', '<>', $company->id)->exists()) {
             throw(new CompanyNameTakenException());
         }
-        $company->name = $companyRequest->name;
-        $company->short_description = $companyRequest->shortDescription;
-        $company->description = $companyRequest->description;
-        $company->slug = Str::slug($companyRequest->name);
-        $company->owner_id = $user->id;
-        $company->status = CompanyStatusEnum::UNVERIFIED();
-        $company->save();
-        $companyDetails->country_id = $companyDetailsRequest->countryId;
-        $companyDetails->address = $companyDetailsRequest->address;
-        $companyDetails->email = $companyDetailsRequest->email;
-        $companyDetails->phone_number = $companyDetailsRequest->phoneNumber;
-        $companyDetails->external_website = $companyDetailsRequest->externalWebsite;
-        $companyDetails->logo = $companyDetailsRequest->logo;
-        $companyDetails->company_id = $company->id;
-        $companyDetails->company_category_id = $companyDetailsRequest->companyCategoryId;
-        $companyDetails->tin = $companyDetailsRequest->tin;
-        $companyDetails->contact_person = $request->contactPerson;
-        $companyDetails->save();
+        $company->update([
+            'name' => $companyRequest->name,
+            'short_description' => $companyRequest->shortDescription,
+            'description' => $companyRequest->description,
+            'slug' => Str::slug($companyRequest->name),
+            'owner_id' => $user->id,
+            'status' => CompanyStatusEnum::UNVERIFIED(),
+        ]);
+
+        $companyDetails->update([
+            'country_id' => $companyDetailsRequest->countryId,
+            'address' => $companyDetailsRequest->address,
+            'email' => $companyDetailsRequest->email,
+            'phone_number' => $companyDetailsRequest->phoneNumber,
+            'external_website' => $companyDetailsRequest->externalWebsite,
+            'logo' => $companyDetailsRequest->logo,
+            'company_id' => $company->id,
+            'company_category_id' => $companyDetailsRequest->companyCategoryId,
+            'tin' => $companyDetailsRequest->tin,
+            'contact_person' => $request->contactPerson,
+        ]);
         return new CompanyResource($company);
     }
 }
