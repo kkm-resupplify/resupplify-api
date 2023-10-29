@@ -26,14 +26,14 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('country', [CountryController::class, 'create']);
     Route::post('companyDetails', [CompanyController::class, 'createCompanyDetails']);
     Route::put('company', [CompanyController::class, 'editCompany'])->middleware('hasCompany');
-    Route::post('company/createInvitationCode' , [InvitationController::class, 'createInvitationCode'])->middleware('hasCompany');;
-    Route::get('company/roles', [CompanyController::class, 'getCompanyRoles'])->middleware('hasCompany');;
-    Route::get('user/company/companyMembers', [CompanyMemberController::class, 'getUserCompanyMembers'])->middleware('hasCompany');
+    Route::post('company/createInvitationCode' , [InvitationController::class, 'createInvitationCode'])->middleware('hasCompany');
+    Route::get('company/roles', [CompanyController::class, 'getCompanyRoles'])->middleware('hasCompany');
+    Route::get('company/companyMembers', [CompanyMemberController::class, 'getUserCompanyMembers'])->middleware('hasCompany');
     Route::get('company/companyMembers/{id}', [CompanyMemberController::class, 'getCompanyMembers'])->middleware('hasCompany');
     Route::post('company/join', [CompanyMemberController::class, 'addUserToCompany']);
     Route::post('company/leave', [CompanyMemberController::class,'leaveCompany'])->middleware('hasCompany');
     Route::get('company/roles/permissions', [CompanyController::class, 'getCompanyRolesPermissions']);
-    Route::delete('company/{user}', [CompanyMemberController::class, 'deleteCompanyMemberFromCompany'])->middleware('hasCompany');
+    Route::delete('company/companyMember/{user}', [CompanyMemberController::class, 'deleteCompanyMemberFromCompany'])->middleware('hasCompany');
     Route::resource('company', CompanyController::class);
     Route::resource('companyCategories', CompanyCategoryController::class);
 });

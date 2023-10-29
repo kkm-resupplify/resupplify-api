@@ -15,7 +15,7 @@ return [
         'userAlreadyHaveCompany' => 'You already are a member of a company',
         'userInviteCodeNotFound' => 'This invitation token does not exist',
         'userInviteCodeUsed' => 'This invitation token has been used already',
-        'userDoesNotHaveCompany' => 'You\'re not a member of company',
+        'userDoesNotHaveCompany' => 'You\'re not a member of any company',
         'userIsNotMemberOfThisCompany' =>
             'You\'re not a member of this company',
         'userNotFound' => 'User not found',

@@ -4,32 +4,20 @@ namespace App\Services\Company;
 
 use App\Exceptions\Company\CantDeleteThisUserException;
 use App\Exceptions\Company\CantDeleteYourself;
-use App\Exceptions\Company\CompanyNameTakenException;
 use App\Exceptions\Company\CompanyNotFoundException;
 use App\Exceptions\Company\UserInviteCodeNotFoundException;
 use App\Exceptions\Company\UserInviteCodeUsedException;
 use App\Exceptions\RoleNotFoundException;
 use App\Exceptions\User\UserAlreadyHaveCompany;
 use App\Http\Dto\Company\AddUserDto;
-use App\Http\Dto\Company\RegisterCompanyDto;
-use App\Http\Dto\Company\RegisterCompanyDetailsDto;
-use App\Models\Company\Company;
-use App\Models\Company\CompanyDetails;
 use App\Models\Company\CompanyMember;
 use App\Models\Company\UserInvitationCode;
 use App\Models\User\User;
-use App\Resources\Company\CompanyCollection;
-use App\Resources\Roles\PermissionResource;
-use App\Services\BasicService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
-use App\Models\Company\Enums\CompanyStatusEnum;
 use App\Http\Controllers\Controller;
 use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\Permission;
 use App\Resources\Company\CompanyResource;
-use App\Resources\Roles\PermissionCollection;
 
 class CompanyMemberService extends Controller
 {
