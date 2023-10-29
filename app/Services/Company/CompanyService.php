@@ -14,6 +14,7 @@ use App\Models\Company\CompanyDetails;
 use App\Models\Company\CompanyMember;
 use App\Resources\Company\CompanyCollection;
 use App\Resources\Roles\PermissionResource;
+use App\Resources\Roles\RoleResource;
 use App\Services\BasicService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -107,7 +108,7 @@ class CompanyService extends Controller
 
     public function getCompanyRoles()
     {
-        return Role::where('team_id', '=', Auth::user()->companyMember->company->id)->get();
+        return new RoleResource(Role::where('team_id', '=', Auth::user()->companyMember->company->id)->get());
     }
 
     public function getCompanyRolesPermissions()
