@@ -13,6 +13,7 @@ use App\Models\Company\CompanyMember;
 use App\Resources\Company\CompanyCollection;
 use App\Resources\Roles\PermissionResource;
 use App\Services\BasicService;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use App\Models\Company\Enums\CompanyStatusEnum;
@@ -110,5 +111,38 @@ class CompanyService extends Controller
     public function getCompanyRolesPermissions()
     {
         return Permission::All();
+    }
+
+    public function editCompany(RegisterCompanyDetailsDto $companyDetailsRequest, RegisterCompanyDto $companyRequest, Request $request)
+    {
+
+        $user = Auth::user();
+        $company = Auth::user()->company;
+        $companyDetails = $company->companyDetails;
+        if (Company::where('name', '=', $company->name)->where('id', '<>', $company->id)->exists()) {
+            throw(new CompanyNameTakenException());
+        }
+        $company->update([
+            'name' => $companyRequest->name,
+            'short_description' => $companyRequest->shortDescription,
+            'description' => $companyRequest->description,
+            'slug' => Str::slug($companyRequest->name),
+            'owner_id' => $user->id,
+            'status' => CompanyStatusEnum::UNVERIFIED(),
+        ]);
+
+        $companyDetails->update([
+            'country_id' => $companyDetailsRequest->countryId,
+            'address' => $companyDetailsRequest->address,
+            'email' => $companyDetailsRequest->email,
+            'phone_number' => $companyDetailsRequest->phoneNumber,
+            'external_website' => $companyDetailsRequest->externalWebsite,
+            'logo' => $companyDetailsRequest->logo,
+            'company_id' => $company->id,
+            'company_category_id' => $companyDetailsRequest->companyCategoryId,
+            'tin' => $companyDetailsRequest->tin,
+            'contact_person' => $request->contactPerson,
+        ]);
+        return new CompanyResource($company);
     }
 }
