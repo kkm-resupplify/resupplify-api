@@ -28,7 +28,7 @@ class TestService extends Controller
         return $user::with('roles')->with('roles.permissions')->get();
         return $user->roles->first()->permissions;
         // return $user->companyMember->hasRole();
-        // if($user->role->hasPermission('User permissions'))
+        // if($user->role->hasPermission('CompanyMember permissions'))
         // {
         //     throw new CantCreateUserInvitationException();
         // }
