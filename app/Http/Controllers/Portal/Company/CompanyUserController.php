@@ -28,12 +28,14 @@ class CompanyUserController extends Controller
 
     public function getUserCompanyUsers()
     {
-        $users = Auth::User()->company::with("users")->with("users.userDetails")->first();
+        setPermissionsTeamId(Auth::User()->company->id);
+        $users = Auth::User()->company::with("users")->with("users.userDetails")->with("users.roles")->first();
         return $this->ok(new CompanyUserCollection($users->users));
     }
     public function getCompanyUsers(int $id)
     {
-        $users = Company::with("users")->findORFail($id)->with("users.userDetails")->first();
+        setPermissionsTeamId(Auth::User()->company->id);
+        $users = Company::with("users")->findORFail($id)->with("users.userDetails")->with("users.roles")->first();
         return $this->ok(new CompanyUserCollection($users->users));
     }
 

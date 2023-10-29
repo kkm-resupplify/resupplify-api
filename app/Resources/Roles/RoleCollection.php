@@ -6,18 +6,16 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Resources\Company\CompanyDetailsResource;
 
-class PermissionResource extends JsonResource
+class RoleCollection extends JsonResource
 {
     /**
-     * Transform the resource into an array.
-     *
-     * @return array<string, mixed>
-     */
+        * Transform the resource collection into an array.
+        *
+        * @param  \Illuminate\Http\Request  $request
+        * @return array
+    */
     public function toArray(Request $request): array
     {
-        return [
-            'id' => $this->id,
-            'name' => $this->name,
-        ];
+        return $this->resource->toArray();
     }
 }
