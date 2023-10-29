@@ -13,6 +13,7 @@ use App\Models\Company\CompanyMember;
 use App\Resources\Company\CompanyCollection;
 use App\Resources\Roles\PermissionResource;
 use App\Services\BasicService;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use App\Models\Company\Enums\CompanyStatusEnum;
@@ -110,5 +111,35 @@ class CompanyService extends Controller
     public function getCompanyRolesPermissions()
     {
         return Permission::All();
+    }
+
+    public function editCompany(RegisterCompanyDetailsDto $companyDetailsRequest, RegisterCompanyDto $companyRequest, Request $request)
+    {
+
+        $user = Auth::user();
+        $company = Auth::user()->company;
+        $companyDetails = $company->companyDetails;
+        if (Company::where('name', '=', $company->name)->where('id', '<>', $company->id)->exists()) {
+            throw(new CompanyNameTakenException());
+        }
+        $company->name = $companyRequest->name;
+        $company->short_description = $companyRequest->shortDescription;
+        $company->description = $companyRequest->description;
+        $company->slug = Str::slug($companyRequest->name);
+        $company->owner_id = $user->id;
+        $company->status = CompanyStatusEnum::UNVERIFIED();
+        $company->save();
+        $companyDetails->country_id = $companyDetailsRequest->countryId;
+        $companyDetails->address = $companyDetailsRequest->address;
+        $companyDetails->email = $companyDetailsRequest->email;
+        $companyDetails->phone_number = $companyDetailsRequest->phoneNumber;
+        $companyDetails->external_website = $companyDetailsRequest->externalWebsite;
+        $companyDetails->logo = $companyDetailsRequest->logo;
+        $companyDetails->company_id = $company->id;
+        $companyDetails->company_category_id = $companyDetailsRequest->companyCategoryId;
+        $companyDetails->tin = $companyDetailsRequest->tin;
+        $companyDetails->contact_person = $request->contactPerson;
+        $companyDetails->save();
+        return new CompanyResource($company);
     }
 }
