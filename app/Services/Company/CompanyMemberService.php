@@ -65,7 +65,7 @@ class CompanyMemberService extends Controller
     }
 
     //soft delete
-    public function deleteUserFromCompany(User $user)
+    public function deleteCompanyMember(User $user)
     {
         $company = $user->company;
         $loggedUser = Auth::user();

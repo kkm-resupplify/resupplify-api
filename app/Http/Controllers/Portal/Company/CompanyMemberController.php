@@ -39,9 +39,9 @@ class CompanyMemberController extends Controller
         return $this->ok(new CompanyMemberCollection($users->users));
     }
 
-    public function deleteUserFromCompany(User $user, CompanyMemberService $companyMemberService): JsonResponse
+    public function deleteCompanyMember(User $user, CompanyMemberService $companyMemberService): JsonResponse
     {
-        return $this->ok($companyMemberService->deleteUserFromCompany($user));
+        return $this->ok($companyMemberService->deleteCompanyMember($user));
     }
 
     public function leaveCompany(CompanyMemberService $companyMemberService): JsonResponse
