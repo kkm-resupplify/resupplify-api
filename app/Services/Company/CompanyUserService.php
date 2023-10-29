@@ -104,4 +104,20 @@ class CompanyUserService extends Controller
         $user->companyMember->delete();
         return 1;
     }
+
+    public function leaveCompany()
+    {
+        $user = Auth::user();
+        $company = $user->company;
+        if (!isset($company)) {
+            throw new CompanyNotFoundException();
+        }
+        setPermissionsTeamId($company->id);
+        if ($user->can('Owner permissions')){
+            throw new CantDeleteThisUserException();
+        }
+        $user->roles()->detach();
+        $user->companyMember()->delete();
+        return 1;
+    }
 }

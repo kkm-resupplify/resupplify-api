@@ -44,4 +44,9 @@ class CompanyUserController extends Controller
         return $this->ok($companyUserService->deleteUserFromCompany($user));
     }
 
+    public function leaveCompany(CompanyUserService $companyUserService): JsonResponse
+    {
+        return $this->ok($companyUserService->leaveCompany());
+    }
+
 }

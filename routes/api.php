@@ -33,6 +33,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('user/company/users', [CompanyUserController::class, 'getUserCompanyUsers'])->middleware('hasCompany');
     Route::get('company/users/{id}', [CompanyUserController::class, 'getCompanyUsers']);
     Route::post('company/join', [CompanyUserController::class, 'addUserToCompany']);
+    Route::post('company/leave', [CompanyUserController::class,'leaveCompany']);
     Route::get('company/roles/permissions', [CompanyController::class, 'getCompanyRolesPermissions']);
     Route::delete('company/{user}', [CompanyUserController::class, 'deleteUserFromCompany'])->middleware('hasCompany');
     Route::resource('company', CompanyController::class);
