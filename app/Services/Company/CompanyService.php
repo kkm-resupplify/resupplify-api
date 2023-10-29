@@ -108,7 +108,7 @@ class CompanyService extends Controller
 
     public function getCompanyRoles()
     {
-        return new RoleResource(Role::where('team_id', '=', Auth::user()->companyMember->company->id)->get());
+        return RoleResource::collection(Role::where('team_id', '=', Auth::user()->company->id)->get());
     }
 
     public function getCompanyRolesPermissions()
