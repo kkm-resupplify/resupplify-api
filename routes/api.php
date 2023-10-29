@@ -33,7 +33,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('company/join', [CompanyMemberController::class, 'addUserToCompany']);
     Route::post('company/leave', [CompanyMemberController::class,'leaveCompany'])->middleware('hasCompany');
     Route::get('company/roles/permissions', [CompanyController::class, 'getCompanyRolesPermissions']);
-    Route::delete('company/companyMember/{user}', [CompanyMemberController::class, 'deleteCompanyMember'])->middleware('hasCompany');
+    Route::delete('company/companyMembers/{user}', [CompanyMemberController::class, 'deleteCompanyMember'])->middleware('hasCompany');
     Route::resource('company', CompanyController::class);
     Route::resource('companyCategories', CompanyCategoryController::class);
 });
