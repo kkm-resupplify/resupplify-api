@@ -20,33 +20,47 @@ use Illuminate\Support\Facades\Auth;
 
 class CompanyMemberController extends Controller
 {
-
-    public function addUserToCompany(AddUserDto $request, CompanyMemberService $companyMemberService): JsonResponse
-    {
+    public function addUserToCompany(
+        AddUserDto $request,
+        CompanyMemberService $companyMemberService
+    ): JsonResponse {
         return $this->ok($companyMemberService->addUserToCompany($request));
     }
 
     public function getUserCompanyMembers()
     {
         setPermissionsTeamId(Auth::User()->company->id);
-        $users = Auth::User()->company::with("users")->with("users.userDetails")->with("users.roles")->first();
-        return $this->ok(new CompanyMemberCollection($users->users));
+
+        $companyMembers = Auth::user()
+            ->company->users()
+            ->with('userDetails')
+            ->get();
+
+        return $this->ok(new CompanyMemberCollection($companyMembers));
     }
+
     public function getCompanyMembers(int $id)
     {
         setPermissionsTeamId(Auth::User()->company->id);
-        $users = Company::with("users")->findORFail($id)->with("users.userDetails")->with("users.roles")->first();
-        return $this->ok(new CompanyMemberCollection($users->users));
+
+        $companyMembers = Company::findOrFail($id)
+            ->users()
+            ->with('userDetails')
+            ->get();
+
+        return $this->ok(new CompanyMemberCollection($companyMembers));
     }
 
-    public function deleteCompanyMember(User $user, CompanyMemberService $companyMemberService): JsonResponse
-    {
+    public function deleteCompanyMember(
+        User $user,
+        CompanyMemberService $companyMemberService
+    ): JsonResponse {
         return $this->ok($companyMemberService->deleteCompanyMember($user));
     }
 
-    public function leaveCompany(CompanyMemberService $companyMemberService): JsonResponse
-    {
+    public function leaveCompany(
+        CompanyMemberService $companyMemberService
+    ): JsonResponse {
         return $this->ok($companyMemberService->leaveCompany());
     }
-
 }
