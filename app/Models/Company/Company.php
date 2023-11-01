@@ -16,7 +16,6 @@ use App\Models\Company\Enums\CompanyCategoryEnum;
 use App\Models\User\User;
 use App\Models\Company\CompanyCategory;
 use App\Models\Company\CompanyDetails;
-use App\Models\Company\CompanyProduct;
 use App\Models\Country\Country;
 use App\Models\Warehouse\Warehouse;
 
@@ -62,11 +61,6 @@ class Company extends Model
     public function companyMembers(): HasMany
     {
         return $this->hasMany(CompanyMember::class);
-    }
-
-    public function companyProducts(): HasMany
-    {
-        return $this->hasMany(CompanyProduct::class);
     }
 
     public function invitationCodes(): HasMany
