@@ -18,6 +18,8 @@ use App\Models\Company\CompanyCategory;
 use App\Models\Company\CompanyDetails;
 use App\Models\Country\Country;
 use App\Models\Warehouse\Warehouse;
+use App\Models\Product\Product;
+use App\Models\Product\ProductTag;
 
 class Company extends Model
 {
@@ -83,5 +85,15 @@ class Company extends Model
     public function warehouses(): HasMany
     {
         return $this->hasMany(Warehouse::class);
+    }
+
+    public function products(): HasMany
+    {
+        return $this->hasMany(Product::class);
+    }
+
+    public function productTags(): HasMany
+    {
+        return $this->hasMany(ProductTag::class);
     }
 }
