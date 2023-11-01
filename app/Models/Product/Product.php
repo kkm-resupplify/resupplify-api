@@ -9,6 +9,7 @@ use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 use App\Models\Company\Company;
+use App\Models\Product\ProductTag;
 use App\Models\Product\Enums\ProductStatusEnum;
 use App\Models\Product\Enums\ProductVerificationStatusEnum;
 
@@ -36,5 +37,10 @@ class Product extends Model
     public function warehouse(): BelongsToMany
     {
         return $this->belongsToMany(Warehouse::class);
+    }
+
+    public function productTags(): BelongsToMany
+    {
+        return $this->belongsToMany(ProductTag::class);
     }
 }
