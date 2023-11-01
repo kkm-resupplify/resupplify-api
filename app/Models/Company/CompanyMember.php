@@ -8,15 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 use App\Models\Company\Company;
-use App\Models\Company\CompanyCategory;
-use App\Models\Company\CompanyDetails;
-use App\Models\Company\CompanyProduct;
-use App\Models\Company\CompanyProductDetails;
-use App\Models\Company\CompanyRole;
 use App\Models\User\User;
-use App\Models\User\UserDetails;
-use App\Models\Country\Country;
-use App\Models\Country\CountryDetails;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class CompanyMember extends Model
