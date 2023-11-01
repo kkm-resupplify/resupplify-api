@@ -8,20 +8,17 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Permission\Traits\HasRoles;
+
 use App\Models\Company\Enums\CompanyStatusEnum;
 use App\Models\Company\Enums\CompanyCategoryEnum;
-
 use App\Models\User\User;
-use App\Models\User\UserDetails;
 use App\Models\Company\CompanyCategory;
 use App\Models\Company\CompanyDetails;
 use App\Models\Company\CompanyProduct;
-use App\Models\Company\CompanyProductDetails;
-use App\Models\Company\CompanyRole;
 use App\Models\Country\Country;
-use App\Models\Country\CountryDetails;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Spatie\Permission\Traits\HasRoles;
+use App\Models\Warehouse\Warehouse;
 
 class Company extends Model
 {
@@ -77,7 +74,7 @@ class Company extends Model
         return $this->hasMany(UserInvitationCode::class);
     }
 
-    public function users()
+    public function users(): HasManyThrough
     {
         return $this->hasManyThrough(
             User::class,
@@ -87,5 +84,10 @@ class Company extends Model
             'id',
             'user_id'
         );
+    }
+
+    public function warehouses(): HasMany
+    {
+        return $this->hasMany(Warehouse::class);
     }
 }
