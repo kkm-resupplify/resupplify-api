@@ -14,7 +14,7 @@ class ProductCategory extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['name', 'slug'];
+    protected $fillable = ['code', 'slug'];
 
     public function productSubcategories(): HasMany
     {

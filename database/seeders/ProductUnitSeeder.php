@@ -19,21 +19,20 @@ class ProductUnitSeeder extends Seeder
         Schema::enableForeignKeyConstraints();
 
         $productUnits = [
-            ['code' => 'kg'],
-            ['code' => 'l'],
-            ['code' => 'g'],
-            ['code' => 'ml'],
-            ['code' => 'pcs'],
-            ['code' => 'pkt'],
-            ['code' => 'cans'],
-            ['code' => 'bottles'],
-            ['code' => 'cartons'],
-            ['code' => 'dozens'],
-            ['code' => 'lb'],
-            ['code' => 'oz'],
-            ['code' => 'm'],
-            ['code' => 'sheets'],
-            ['code' => 'pieces per pack'],
+            ['code' => 'KILOGRAM'],
+            ['code' => 'LITRE'],
+            ['code' => 'GRAM'],
+            ['code' => 'MILLILITER'],
+            ['code' => 'PIECE'],
+            ['code' => 'CAN'],
+            ['code' => 'BOTTLE'],
+            ['code' => 'CARTON'],
+            ['code' => 'DOZEN'],
+            ['code' => 'POUND'],
+            ['code' => 'OUNCE'],
+            ['code' => 'METER'],
+            ['code' => 'SHEET'],
+            ['code' => 'PIECES_PER_PACK'],
         ];
 
         foreach ($productUnits as $unit) {
