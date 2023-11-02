@@ -14,6 +14,10 @@ class ProductUnit extends Model
 
     protected $fillable = ['name', 'symbol'];
 
+    // TODO
+    // - change this to hasmany
+    // - remove companyproductdetails
+
     public function companyProduct(): BelongsTo
     {
         return $this->belongsTo(CompanyProductDetails::class);

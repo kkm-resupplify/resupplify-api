@@ -20,6 +20,7 @@ return new class extends Migration {
             $table->tinyInteger('verification_status');
             $table->foreignId('company_id')->constrained();
             $table->foreignId('product_unit_id')->constrained();
+            $table->foreignId('product_subcategory_id')->constrained();
             $table->timestamps();
             $table->softDeletes();
         });
