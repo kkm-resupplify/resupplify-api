@@ -7,14 +7,16 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
 use App\Models\Company\Company;
 use App\Models\Product\ProductTag;
-use App\Models\Product\Enums\ProductStatusEnum;
-use App\Models\Product\Enums\ProductVerificationStatusEnum;
 use App\Models\Product\ProductCategory;
 use App\Models\Product\ProductSubcategory;
-use Illuminate\Database\Eloquent\Relations\HasOneThrough;
+use App\Models\Product\ProductUnit;
+
+use App\Models\Product\Enums\ProductStatusEnum;
+use App\Models\Product\Enums\ProductVerificationStatusEnum;
 
 class Product extends Model
 {
@@ -59,5 +61,10 @@ class Product extends Model
             ProductCategory::class,
             ProductSubcategory::class
         );
+    }
+
+    public function productUnit(): BelongsTo
+    {
+        return $this->belongsTo(ProductUnit::class);
     }
 }
