@@ -12,7 +12,9 @@ use App\Models\Product\Product;
 
 class ProductSubcategory extends Model
 {
-    protected $fillable = ['name', 'product_category_id'];
+    use SoftDeletes;
+
+    protected $fillable = ['code', 'product_category_id'];
 
     public function productCategory(): BelongsTo
     {
