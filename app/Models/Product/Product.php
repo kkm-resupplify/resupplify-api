@@ -55,6 +55,9 @@ class Product extends Model
 
     public function productCategory(): HasOneThrough
     {
-        return $this->throughProductSubategories()->hasProductCategory();
+        return $this->hasOneThrough(
+            ProductCategory::class,
+            ProductSubcategory::class
+        );
     }
 }

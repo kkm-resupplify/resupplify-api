@@ -15,7 +15,10 @@ class ProductCategoryController extends Controller
      */
     public function index()
     {
-        $productCategories = ProductCategory::all();
+        $productCategories = ProductCategory::with([
+            'productSubcategories',
+            'products',
+        ])->get();
 
         return response()->json(
             [
