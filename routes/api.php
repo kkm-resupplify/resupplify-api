@@ -8,6 +8,7 @@ use App\Http\Controllers\AuthController as AuthController;
 use App\Http\Controllers\Portal\User\UserController as UserController;
 use App\Http\Controllers\BackOffice\Country\CountryController as CountryController;
 use App\Http\Controllers\Portal\Company\CompanyController as CompanyController;
+use App\Http\Controllers\Portal\Product\ProductCategoryController as ProductCategoryController;
 use App\Http\Controllers\BackOffice\Company\CompanyCategoryController as CompanyCategoryController;
 use App\Http\Controllers\BackOffice\Company\InvitationController as InvitationController;
 
@@ -36,4 +37,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('company/companyMembers/{user}', [CompanyMemberController::class, 'deleteCompanyMember'])->middleware('hasCompany');
     Route::resource('company', CompanyController::class);
     Route::resource('companyCategories', CompanyCategoryController::class);
+    Route::resource('productCategory', App\Http\Controllers\Portal\Product\ProductCategoryController::class);
 });
