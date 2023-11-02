@@ -1,0 +1,337 @@
+{
+    "BEVERAGES": [
+        "SOFT_DRINKS",
+        "JUICES",
+        "COFFEE_AND_TEA",
+        "ENERGY_DRINKS",
+        "SPORTS_DRINKS"
+    ],
+    "SNACKS": [
+        "CHIPS_AND_CRISPS",
+        "CANDIES_AND_SWEETS",
+        "NUTS_AND_SEEDS",
+        "POPCORN",
+        "PRETZELS"
+    ],
+    "PERSONAL_CARE": [
+        "SKINCARE",
+        "HAIRCARE",
+        "ORAL_CARE",
+        "BODY_WASH",
+        "DEODORANTS"
+    ],
+    "DAIRY": [
+        "MILK_AND_MILK_PRODUCTS",
+        "YOGURT",
+        "CHEESE",
+        "BUTTER_AND_SPREADS",
+        "DESSERTS"
+    ],
+    "CLEANING_SUPPLIES": [
+        "DISHWASHING",
+        "LAUNDRY_DETERGENTS",
+        "CLEANING_TOOLS",
+        "BATHROOM_CLEANERS",
+        "FLOOR_CLEANERS"
+    ],
+    "CANNED_GOODS": [
+        "CANNED_VEGETABLES",
+        "CANNED_FRUITS",
+        "CANNED_SOUPS",
+        "CANNED_MEAT_AND_FISH",
+        "CANNED_BEANS"
+    ],
+    "FROZEN_FOODS": [
+        "FROZEN_VEGETABLES",
+        "FROZEN_MEALS",
+        "FROZEN_PIZZA",
+        "ICE_CREAM",
+        "FROZEN_SNACKS"
+    ],
+    "BAKERY": ["BREAD", "CAKES_AND_PASTRIES", "BAGELS", "MUFFINS", "COOKIES"],
+    "CONFECTIONERY": [
+        "CHOCOLATE_BARS",
+        "GUMMIES_AND_JELLIES",
+        "HARD_CANDY",
+        "LICORICE",
+        "CHEWING_GUM"
+    ],
+    "HEALTH_AND_WELLNESS": [
+        "VITAMINS_AND_SUPPLEMENTS",
+        "PAIN_RELIEF",
+        "FIRST_AID",
+        "DIET_AND_NUTRITION",
+        "FAMILY_PLANNING"
+    ],
+    "PAPER_PRODUCTS": [
+        "TOILET_PAPER",
+        "PAPER_TOWELS",
+        "FACIAL_TISSUES",
+        "NAPKINS",
+        "DISPOSABLE_PLATES_AND_CUTLERY"
+    ],
+    "BABY_CARE": [
+        "DIAPERS_AND_WIPES",
+        "BABY_FOOD",
+        "BABY_TOILETRIES",
+        "BABY_HEALTH",
+        "BABY_CLOTHING"
+    ],
+    "PET_CARE": [
+        "PET_FOOD",
+        "PET_TREATS",
+        "PET_TOYS",
+        "PET_GROOMING",
+        "PET_ACCESSORIES"
+    ],
+    "TOILETRIES": [
+        "SHAMPOO_AND_CONDITIONER",
+        "SOAP_AND_BODY_WASH",
+        "SHAVING_PRODUCTS",
+        "FEMININE_HYGIENE",
+        "TOOTHPASTE_AND_TOOTHBRUSHES"
+    ],
+    "BREAKFAST_FOODS": [
+        "CEREALS",
+        "OATMEAL_AND_PORRIDGE",
+        "PANCAKE_AND_WAFFLE_MIX",
+        "GRANOLA",
+        "BREAKFAST_BARS"
+    ],
+    "MEAT_AND_SEAFOOD": [
+        "BEEF",
+        "CHICKEN",
+        "FISH_AND_SEAFOOD",
+        "PORK",
+        "PROCESSED_MEATS"
+    ],
+    "HOUSEHOLD_ITEMS": [
+        "BATTERIES",
+        "LIGHT_BULBS",
+        "TRASH_BAGS",
+        "CLEANING_SUPPLIES",
+        "STORAGE_AND_ORGANIZATION"
+    ],
+    "FRESH_PRODUCE": [
+        "FRUITS",
+        "VEGETABLES",
+        "HERBS",
+        "ORGANIC_PRODUCE",
+        "EXOTIC_FRUITS_AND_VEGETABLES"
+    ],
+    "SPICES_AND_CONDIMENTS": [
+        "HERBS_AND_SPICES",
+        "KETCHUP_AND_MUSTARD",
+        "MAYONNAISE",
+        "HOT_SAUCE",
+        "SOY_SAUCE"
+    ],
+    "GRAINS_AND_PASTA": ["RICE", "PASTA", "BREAD_CRUMBS", "COUSCOUS", "QUINOA"],
+    "SOUPS_AND_SAUCES": [
+        "CANNED_SOUPS",
+        "SAUCES_AND_GRAVIES",
+        "SOUP_MIXES",
+        "CONDIMENTS",
+        "SOY_SAUCE"
+    ],
+    "CEREALS": [
+        "HOT_CEREALS",
+        "COLD_CEREALS",
+        "GRANOLA",
+        "ORGANIC_CEREALS",
+        "KIDS_CEREALS"
+    ],
+    "HOME_APPLIANCES": [
+        "REFRIGERATORS",
+        "WASHING_MACHINES",
+        "MICROWAVES",
+        "VACUUM_CLEANERS",
+        "AIR_CONDITIONERS"
+    ],
+    "KITCHENWARE": [
+        "COOKWARE",
+        "CUTLERY",
+        "BAKEWARE",
+        "UTENSILS",
+        "KITCHEN_GADGETS"
+    ],
+    "BATHROOM_SUPPLIES": [
+        "TOILET_PAPER",
+        "BATHROOM_CLEANERS",
+        "SHOWER_CURTAINS",
+        "TOWELS",
+        "BATH_MATS"
+    ],
+    "ELECTRONICS": ["SMARTPHONES", "LAPTOPS", "TVS", "HEADPHONES", "TABLETS"],
+    "BEAUTY_PRODUCTS": [
+        "MAKEUP",
+        "FRAGRANCES",
+        "NAIL_CARE",
+        "COSMETIC_ACCESSORIES",
+        "BEAUTY_TOOLS"
+    ],
+    "HAIR_CARE": [
+        "SHAMPOO_AND_CONDITIONER",
+        "HAIR_STYLING_PRODUCTS",
+        "HAIR_COLORING",
+        "HAIR_ACCESSORIES",
+        "SCALP_TREATMENTS"
+    ],
+    "ORAL_CARE": [
+        "TOOTHBRUSHES",
+        "TOOTHPASTE",
+        "MOUTHWASH",
+        "DENTAL_FLOSS",
+        "TEETH_WHITENING"
+    ],
+    "SKIN_CARE": [
+        "CLEANSERS",
+        "MOISTURIZERS",
+        "SERUMS",
+        "SUNSCREEN",
+        "ACNE_TREATMENTS"
+    ],
+    "FEMININE_HYGIENE": [
+        "SANITARY_PADS",
+        "TAMPONS",
+        "PANTYLINERS",
+        "FEMININE_WASH",
+        "MENSTRUAL_CUPS"
+    ],
+    "ADULT_CARE": [
+        "ADULT_DIAPERS",
+        "INCONTINENCE_PADS",
+        "ADULT_WIPES",
+        "BED_PROTECTORS",
+        "CLEANSING_PRODUCTS"
+    ],
+    "INCONTINENCE": [
+        "INCONTINENCE_PADS",
+        "INCONTINENCE_BRIEFS",
+        "INCONTINENCE_BED_PADS",
+        "CLEANSING_WIPES",
+        "INCONTINENCE_SKIN_CARE"
+    ],
+    "FOOTWEAR": ["SHOES", "SOCKS", "SANDALS", "BOOTS", "SLIPPERS"],
+    "APPAREL": ["CLOTHING", "OUTERWEAR", "ACTIVEWEAR", "UNDERWEAR", "SWIMWEAR"],
+    "ACCESSORIES": [
+        "BAGS_AND_PURSES",
+        "JEWELRY",
+        "HATS_AND_CAPS",
+        "SCARVES_AND_SHAWLS",
+        "BELTS"
+    ],
+    "HOME_DECOR": [
+        "WALL_ART",
+        "CANDLES_AND_FRAGRANCES",
+        "HOME_TEXTILES",
+        "DECORATIVE_MIRRORS",
+        "FIGURINES_AND_STATUES"
+    ],
+    "FURNITURE": [
+        "SOFAS_AND_COUCHES",
+        "TABLES",
+        "CHAIRS",
+        "BEDS_AND_MATTRESSES",
+        "BOOKSHELVES"
+    ],
+    "BED_AND_BATH": [
+        "BEDDING_SETS",
+        "TOWELS",
+        "BATHROOM_ACCESSORIES",
+        "SHOWER_CURTAINS",
+        "TOILET_ACCESSORIES"
+    ],
+    "TOOLS_AND_HARDWARE": [
+        "HAND_TOOLS",
+        "POWER_TOOLS",
+        "FASTENERS_AND_NAILS",
+        "TOOL_STORAGE",
+        "SAFETY_EQUIPMENT"
+    ],
+    "AUTOMOTIVE": [
+        "CAR_PARTS",
+        "CAR_ACCESSORIES",
+        "TIRES_AND_WHEELS",
+        "AUTO_MAINTENANCE",
+        "CAR_ELECTRONICS"
+    ],
+    "HOME_ENTERTAINMENT": [
+        "TVS",
+        "SOUND_SYSTEMS",
+        "VIDEO_GAME_CONSOLES",
+        "STREAMING_DEVICES",
+        "HOME_THEATER_FURNITURE"
+    ],
+    "OUTDOOR_RECREATION": [
+        "CAMPING_GEAR",
+        "HIKING_EQUIPMENT",
+        "CYCLING_GEAR",
+        "FISHING_SUPPLIES",
+        "OUTDOOR_CLOTHING"
+    ],
+    "FITNESS_EQUIPMENT": [
+        "TREADMILLS",
+        "DUMBBELLS",
+        "EXERCISE_BIKES",
+        "YOGA_AND_PILATES_GEAR",
+        "RESISTANCE_BANDS"
+    ],
+    "GARDENING": [
+        "OUTDOOR_PLANTS",
+        "GARDENING_TOOLS",
+        "POTS_AND_PLANTERS",
+        "GARDEN_DECOR",
+        "FERTILIZERS_AND_SOIL"
+    ],
+    "BOOKS_AND_STATIONERY": [
+        "BOOKS",
+        "NOTEBOOKS_AND_JOURNALS",
+        "PENS_AND_PENCILS",
+        "ART_SUPPLIES",
+        "DESK_ACCESSORIES"
+    ],
+    "HOME_IMPROVEMENT": [
+        "PAINT_AND_PAINT_SUPPLIES",
+        "POWER_TOOLS",
+        "HARDWARE",
+        "LIGHT_FIXTURES",
+        "PLUMBING_SUPPLIES"
+    ],
+    "ELECTRICAL_AND_LIGHTING": [
+        "LIGHT_BULBS",
+        "ELECTRICAL_WIRING",
+        "POWER_OUTLETS",
+        "LIGHTING_FIXTURES",
+        "APPLIANCE_CORDS"
+    ],
+    "PARTY_SUPPLIES": [
+        "PARTY_DECORATIONS",
+        "TABLEWARE",
+        "PARTY_FAVORS",
+        "BALLOONS",
+        "THEMED_PARTY_SUPPLIES"
+    ],
+
+    "OFFICE_SUPPLIES": [
+        "PAPER_PRODUCTS",
+        "FILE_FOLDERS_AND_ORGANIZERS",
+        "STAPLERS_AND_TAPE",
+        "DESK_ACCESSORIES",
+        "PRINTER_SUPPLIES"
+    ],
+    "TOYS_AND_GAMES": [
+        "ACTION_FIGURES",
+        "BOARD_GAMES",
+        "PUZZLES",
+        "DOLLS_AND_DOLLHOUSES",
+        "EDUCATIONAL_TOYS"
+    ],
+    "CRAFTS_AND_HOBBIES": [
+        "CRAFT_KITS",
+        "PAINTING_AND_DRAWING_SUPPLIES",
+        "SEWING_AND_NEEDLEWORK",
+        "SCRAPBOOKING",
+        "MODEL_KITS"
+    ]
+}
