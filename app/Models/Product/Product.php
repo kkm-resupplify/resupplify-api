@@ -12,6 +12,9 @@ use App\Models\Company\Company;
 use App\Models\Product\ProductTag;
 use App\Models\Product\Enums\ProductStatusEnum;
 use App\Models\Product\Enums\ProductVerificationStatusEnum;
+use App\Models\Product\ProductCategory;
+use App\Models\Product\ProductSubcategory;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
 class Product extends Model
 {
@@ -22,6 +25,7 @@ class Product extends Model
         'description',
         'status',
         'verification_status',
+        'product_subcategory_id',
     ];
 
     protected $casts = [
@@ -42,5 +46,15 @@ class Product extends Model
     public function productTags(): BelongsToMany
     {
         return $this->belongsToMany(ProductTag::class);
+    }
+
+    public function productSubcategory(): BelongsTo
+    {
+        return $this->belongsTo(ProductSubcategory::class);
+    }
+
+    public function productCategory(): HasOneThrough
+    {
+        return $this->throughProductSubategories()->hasProductCategory();
     }
 }
