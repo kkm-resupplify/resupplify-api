@@ -14,10 +14,11 @@ return new class extends Migration {
             $table->id();
             $table->string('name');
             $table->string('slug');
+            $table->timestamps();
+            $table->softDeletes();
             $table
                 ->foreignId('product_category_id')
                 ->constrained('product_categories');
-            $table->timestamps();
         });
     }
 
