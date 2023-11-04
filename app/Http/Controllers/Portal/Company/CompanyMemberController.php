@@ -39,16 +39,13 @@ class CompanyMemberController extends Controller
         return $this->ok(new CompanyMemberCollection($companyMembers));
     }
 
-    public function getCompanyMembers(int $id)
+    public function getCompanyMembers(User $user)
     {
-        setPermissionsTeamId(Auth::User()->company->id);
-
-        $companyMembers = Company::findOrFail($id)
-            ->users()
-            ->with('userDetails')
-            ->get();
-
-        return $this->ok(new CompanyMemberCollection($companyMembers));
+        if(isset($user->company))
+        {
+            setPermissionsTeamId($user->company->id);
+        }
+        return $this->ok(new UserResource($user));
     }
 
     public function deleteCompanyMember(
