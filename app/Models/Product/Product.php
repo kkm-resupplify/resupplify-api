@@ -27,9 +27,13 @@ class Product extends Model
     protected $fillable = [
         'name',
         'description',
-        'status',
         'verification_status',
         'product_subcategory_id',
+        'producent',
+        'code',
+        'product_unit_id',
+        'company_id',
+        'status',
     ];
 
     protected $casts = [
