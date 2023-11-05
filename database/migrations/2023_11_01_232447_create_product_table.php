@@ -16,8 +16,8 @@ return new class extends Migration {
             $table->string('description');
             $table->string('producent');
             $table->string('code');
-            $table->tinyInteger('status');
-            $table->tinyInteger('verification_status');
+            $table->tinyInteger('status')->default(0);
+            $table->tinyInteger('verification_status')->default(0);
             $table->foreignId('company_id')->constrained();
             $table->foreignId('product_unit_id')->constrained();
             $table->foreignId('product_subcategory_id')->constrained();

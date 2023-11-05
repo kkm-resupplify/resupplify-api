@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Portal\Company\CompanyMemberController;
+use App\Http\Controllers\Portal\Product\ProductController;
 use App\Http\Controllers\Portal\Warehouse\WarehouseController;
 use App\Http\Controllers\Test\TestController as TestController;
 use Illuminate\Http\Request;
@@ -36,6 +37,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('company/roles/permissions', [CompanyController::class, 'getCompanyRolesPermissions']);
     Route::delete('company/companyMembers/{user}', [CompanyMemberController::class, 'deleteCompanyMember'])->middleware('hasCompany');
     Route::resource('company/warehouse', WarehouseController::class)->middleware('hasCompany');
+    Route::resource('company/product', ProductController::class)->middleware('hasCompany');
     Route::resource('company', CompanyController::class);
     Route::resource('companyCategories', CompanyCategoryController::class);
 });

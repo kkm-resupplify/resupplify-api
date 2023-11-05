@@ -21,10 +21,6 @@ class ProductDto extends BasicDto
     public string $producent;
     #[Max(90)]
     public string $code;
-    #[Max(1)]
-    public int $status;
-    #[Max(1)]
-    public int $verificationStatus;
     public int $productUnitId;
     public int $productSubcategoryId;
 
