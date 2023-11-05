@@ -9,6 +9,7 @@ use App\Models\Product\Enums\ProductStatusEnum;
 use App\Models\Product\Enums\ProductVerificationStatusEnum;
 use App\Models\Product\Product;
 use App\Models\Warehouse\Warehouse;
+use App\Resources\Product\ProductResource;
 use Illuminate\Support\Facades\Auth;
 
 class ProductService extends Controller
@@ -41,12 +42,12 @@ class ProductService extends Controller
     }
     public function getProduct(Product $product)
     {
-        return $product;
+        return new ProductResource($product);
     }
     public function getProducts()
     {
         $user = Auth::user();
-        return $user->company->products()->get();
+        return ProductResource::collection($user->company->products()->get());
     }
     public function editProduct(ProductDto $request, Product $product)
     {
