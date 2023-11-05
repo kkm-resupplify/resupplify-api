@@ -29,6 +29,8 @@ class CustomErrorCodes
 
     public const WAREHOUSE_NOT_FOUND = 'warehouse-0001';
 
+    public const PRODUCT_NOT_FOUND = 'product-0001';
+
 
 
 }

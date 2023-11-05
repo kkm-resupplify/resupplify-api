@@ -27,6 +27,7 @@ return [
             'You cannot assign this role to this invitation',
         'cantDeleteYourself' => 'You cannot remove yourself from the company',
         'wrongPermissions' =>'You do not have the required permissions to perform this action','warehouseNotFound' => 'Warehouse not found',
+        'productNotFound' => 'Product not found',
     ],
 
     'loginMessages' => [

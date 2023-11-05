@@ -45,7 +45,8 @@ class ProductService extends Controller
     }
     public function getProducts()
     {
-        return [];
+        $user = Auth::user();
+        return $user->company->products()->get();
     }
     public function editProduct(ProductDto $request, Product $product)
     {
