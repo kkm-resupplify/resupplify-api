@@ -12,25 +12,25 @@ class ProductController extends Controller
 {
     public function store(ProductService $productService, ProductDto $request)
     {
-        return $this->ok($productService->createWarehouse($request));
+        return $this->ok($productService->createProduct($request));
     }
 
     public function show(ProductService $productService, Product $product)
     {
-        return $this->ok($productService->getWarehouse($product));
+        return $this->ok($productService->getProduct($product));
     }
     public function index(ProductService $productService)
     {
-        return $this->ok($productService->getWarehouses());
+        return $this->ok($productService->getProducts());
     }
 
     public function update(ProductService $productService, ProductDto $request, Product $product)
     {
-        return $this->ok($productService->editWarehouse($request, $product));
+        return $this->ok($productService->editProduct($request, $product));
     }
 
     public function destroy(ProductService $productService, Product $product)
     {
-        return $this->ok($productService->deleteWarehouse($product));
+        return $this->ok($productService->deleteProduct($product));
     }
 }
