@@ -29,7 +29,7 @@ class WarehouseController extends Controller
         return $this->ok($warehouseService->editWarehouse($request, $warehouse));
     }
 
-    public function delete(WarehouseService $warehouseService, Warehouse $warehouse)
+    public function destroy(WarehouseService $warehouseService, Warehouse $warehouse)
     {
         return $this->ok($warehouseService->deleteWarehouse($warehouse));
     }
