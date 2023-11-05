@@ -23,6 +23,10 @@ return new class extends Migration {
                 ->references('id')
                 ->on('warehouses')
                 ->onDelete('cascade');
+            $table->int('quantity');
+            $table->int('safe_quantity');
+            $table->tinyInt('status')->default(0);
+            $table->softDeletes();
         });
     }
 
