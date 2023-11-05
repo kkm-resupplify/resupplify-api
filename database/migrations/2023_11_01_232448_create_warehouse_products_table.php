@@ -10,10 +10,8 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::create('product_warehouse', function (Blueprint $table) {
+        Schema::create('warehouse_products', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('product_id');
-            $table->unsignedBigInteger('warehouse_id');
             $table->timestamps();
             $table
                 ->foreign('product_id')
@@ -33,6 +31,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('product_warehouse');
+        Schema::dropIfExists('warehouse_products');
     }
 };
