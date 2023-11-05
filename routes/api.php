@@ -35,7 +35,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('company/leave', [CompanyMemberController::class,'leaveCompany'])->middleware('hasCompany');
     Route::get('company/roles/permissions', [CompanyController::class, 'getCompanyRolesPermissions']);
     Route::delete('company/companyMembers/{user}', [CompanyMemberController::class, 'deleteCompanyMember'])->middleware('hasCompany');
-    Route::post('company/warehouse', [WarehouseController::class, 'createWarehouse'])->middleware('hasCompany');
+    // Route::post('company/warehouse', [WarehouseController::class, 'createWarehouse'])->middleware('hasCompany');
+    Route::resource('company/warehouse', WarehouseController::class)->middleware('hasCompany');
     Route::resource('company', CompanyController::class);
     Route::resource('companyCategories', CompanyCategoryController::class);
 });
