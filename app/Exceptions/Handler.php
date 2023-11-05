@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use App\Exceptions\Company\CompanyNotFoundException;
 use App\Exceptions\User\UserNotFoundException;
+use App\Exceptions\Warehouse\WarehouseNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use App\Exceptions\InvalidOrderException;
 use Illuminate\Http\Exceptions\HttpResponseException;
@@ -45,6 +46,9 @@ class Handler extends ExceptionHandler
                     break;
                 case 'App\Models\Company\Company':
                     throw new CompanyNotFoundException();
+                    break;
+                case 'App\Models\Warehouse\Warehouse':
+                    throw new WarehouseNotFoundException();
                     break;
                 default:
                     break;
