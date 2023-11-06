@@ -14,18 +14,16 @@ return new class extends Migration {
             $table->id();
             $table->timestamps();
             $table
-                ->foreign('product_id')
-                ->references('id')
-                ->on('products')
+                ->foreignId('product_id')
+                ->constrained()
                 ->onDelete('cascade');
             $table
-                ->foreign('warehouse_id')
-                ->references('id')
-                ->on('warehouses')
+                ->foreignId('warehouse_id')
+                ->constrained()
                 ->onDelete('cascade');
-            $table->int('quantity');
-            $table->int('safe_quantity');
-            $table->tinyInt('status')->default(0);
+            $table->unsignedInteger('quantity');
+            $table->unsignedInteger('safe_quantity');
+            $table->tinyInteger('status')->default(0);
             $table->softDeletes();
         });
     }
