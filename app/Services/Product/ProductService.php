@@ -34,7 +34,7 @@ class ProductService extends Controller
         ];
         $product = new Product($productData);
         $user->company->products()->save($product);
-        return $product;
+        return new ProductResource($product);
     }
     public function deleteProduct(Product $product)
     {
