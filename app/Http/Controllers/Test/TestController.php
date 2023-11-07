@@ -12,6 +12,9 @@ class TestController extends Controller
     public function roleTest(TestService $testService): JsonResponse {
         return $this->ok($testService->roleTest());
     }
+    public function langTest(TestService $testService): JsonResponse {
+        return $this->ok($testService->langTest());
+    }
 
 
 }

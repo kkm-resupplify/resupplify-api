@@ -2,6 +2,7 @@
 
 namespace App\Models\Product;
 
+use App\Models\Warehouse\Warehouse;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -27,9 +28,13 @@ class Product extends Model
     protected $fillable = [
         'name',
         'description',
-        'status',
         'verification_status',
         'product_subcategory_id',
+        'producent',
+        'code',
+        'product_unit_id',
+        'company_id',
+        'status',
     ];
 
     protected $casts = [
@@ -42,9 +47,10 @@ class Product extends Model
         return $this->belongsTo(Company::class);
     }
 
-    public function warehouse(): BelongsToMany
+    public function warehouses(): BelongsToMany
     {
-        return $this->belongsToMany(Warehouse::class);
+        return $this->belongsToMany(Warehouse::class, 'product_warehouse')
+        ->withPivot(['quantity','safe_quantity','status']);
     }
 
     public function productTags(): BelongsToMany

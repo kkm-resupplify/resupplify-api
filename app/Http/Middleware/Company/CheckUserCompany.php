@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Middleware;
+namespace App\Http\Middleware\Company;
 
 use App\Exceptions\Company\UserDoesNotHaveCompanyException;
 use Closure;

@@ -2,6 +2,7 @@
 
 namespace App\Models\Warehouse;
 
+use App\Models\Product\Product;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -28,6 +29,7 @@ class Warehouse extends Model
 
     public function products(): BelongsToMany
     {
-        return $this->belongsToMany(Product::class);
+        return $this->belongsToMany(Product::class, 'product_warehouse')
+        ->withPivot(['quantity','safe_quantity','status']);
     }
 }

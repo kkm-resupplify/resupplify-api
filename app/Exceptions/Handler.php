@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use App\Exceptions\Company\CompanyNotFoundException;
+use App\Exceptions\Product\ProductNotFoundException;
 use App\Exceptions\User\UserNotFoundException;
 use App\Exceptions\Warehouse\WarehouseNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
@@ -49,6 +50,9 @@ class Handler extends ExceptionHandler
                     break;
                 case 'App\Models\Warehouse\Warehouse':
                     throw new WarehouseNotFoundException();
+                    break;
+                case 'App\Models\Product\Product':
+                    throw new ProductNotFoundException();
                     break;
                 default:
                     break;

@@ -12,19 +12,19 @@ return new class extends Migration {
     {
         Schema::create('product_warehouse', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('product_id');
-            $table->unsignedBigInteger('warehouse_id');
             $table->timestamps();
             $table
-                ->foreign('product_id')
-                ->references('id')
-                ->on('products')
+                ->foreignId('product_id')
+                ->constrained()
                 ->onDelete('cascade');
             $table
-                ->foreign('warehouse_id')
-                ->references('id')
-                ->on('warehouses')
+                ->foreignId('warehouse_id')
+                ->constrained()
                 ->onDelete('cascade');
+            $table->unsignedInteger('quantity');
+            $table->unsignedInteger('safe_quantity');
+            $table->tinyInteger('status')->default(0);
+            $table->softDeletes();
         });
     }
 

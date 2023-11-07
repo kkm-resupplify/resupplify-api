@@ -3,9 +3,11 @@
 namespace App\Services\Warehouse;
 
 use App\Exceptions\Company\WrongPermissions;
+use App\Exceptions\Warehouse\WarehouseDataNotAccessible;
 use App\Http\Controllers\Controller;
 use App\Http\Dto\Warehouse\WarehouseDto;
 use App\Models\Warehouse\Warehouse;
+use App\Resources\Warehouse\WarehouseResource;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -26,17 +28,22 @@ class WarehouseService extends Controller
         ];
         $warehouse = new Warehouse($warehouseData);
         $user->company->warehouses()->save($warehouse);
-        return $warehouse;
+        return new WarehouseResource($warehouse);
     }
 
     public function getWarehouse(Warehouse $warehouse)
     {
-        return $warehouse;
+        $warehouses = Auth::user()->company->warehouses;
+        if (!$warehouses->contains($warehouse))
+        {
+            throw(new WarehouseDataNotAccessible());
+        }
+        return new WarehouseResource($warehouse);
     }
 
     public function getWarehouses()
     {
-        return Warehouse::where('company_id', '=', Auth::user()->company->id)->get();
+        return WarehouseResource::collection(Warehouse::where('company_id', '=', Auth::user()->company->id)->get());
     }
 
     public function editWarehouse(WarehouseDto $request, Warehouse $warehouse)
@@ -46,11 +53,16 @@ class WarehouseService extends Controller
         if(!$user->can('Owner permissions')) {
             throw(new WrongPermissions());
         }
+        $warehouses = Auth::user()->company->warehouses;
+        if (!$warehouses->contains($warehouse))
+        {
+            throw(new WarehouseDataNotAccessible());
+        }
         $warehouse->update([
             'name' => $request->name,
             'description' => $request->description,
         ]);
-        return $warehouse;
+        return new WarehouseResource($warehouse);
     }
 
     public function deleteWarehouse(Warehouse $warehouse)
@@ -59,6 +71,11 @@ class WarehouseService extends Controller
         setPermissionsTeamId($user->company->id);
         if(!$user->can('Owner permissions')) {
             throw(new WrongPermissions());
+        }
+        $warehouses = Auth::user()->company->warehouses;
+        if (!$warehouses->contains($warehouse))
+        {
+            throw(new WarehouseDataNotAccessible());
         }
         $warehouse->delete();
         return 1;
