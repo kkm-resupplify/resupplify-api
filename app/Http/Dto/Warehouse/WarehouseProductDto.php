@@ -20,8 +20,8 @@ class WarehouseProductDto extends BasicDto
 {
     public int $quantity;
     public int $safeQuantity;
-    public int|optional $status;
-    public int|optional $warehouseId;
-    public int|optional $productId;
+    public ?int $status;
+    public ?int $warehouseId;
+    public ?int $productId;
 
 }

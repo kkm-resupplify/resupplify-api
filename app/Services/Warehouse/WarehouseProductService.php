@@ -39,17 +39,19 @@ class WarehouseProductService extends Controller
         }
         if(isset($request->status))
         {
-            $status = $request->status;
+            $warehouseProductData = [
+                'quantity' => $request->quantity,
+                'safe_quantity' => $request->safeQuantity,
+                'status' => $request->status,
+            ];
         }
-        else
-        {
-            $status = ProductStatusEnum::INACTIVE();
+        else{
+            $warehouseProductData = [
+                'quantity' => $request->quantity,
+                'safe_quantity' => $request->safeQuantity,
+                'status' => 0,
+            ];
         }
-        $warehouseProductData = [
-            'quantity' => $request->quantity,
-            'safe_quantity' => $request->safeQuantity,
-            'status' => $status,
-        ];
         $product-> warehouses()->attach($warehouse->id, $warehouseProductData);
         return new WarehouseProductResource($product->warehouses()->find($warehouse->id)->products()->find($product->id));
     }

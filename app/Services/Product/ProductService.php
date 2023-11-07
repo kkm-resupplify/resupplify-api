@@ -38,7 +38,14 @@ class ProductService extends Controller
     }
     public function deleteProduct(Product $product)
     {
-        return $product;
+        $user = Auth::user();
+        setPermissionsTeamId($user->company->id);
+        if(!$user->can('Owner permissions')) {
+            throw(new WrongPermissions());
+        }
+        
+        $product->delete();
+        return 1;
     }
     public function getProduct(Product $product)
     {
