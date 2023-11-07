@@ -37,10 +37,18 @@ class WarehouseProductService extends Controller
         {
             throw(new ProductExistsInWarehouseException());
         }
+        if(isset($request->status))
+        {
+            $status = $request->status;
+        }
+        else
+        {
+            $status = ProductStatusEnum::INACTIVE();
+        }
         $warehouseProductData = [
             'quantity' => $request->quantity,
             'safe_quantity' => $request->safeQuantity,
-            'status' => ProductStatusEnum::INACTIVE(),
+            'status' => $status,
         ];
         $product-> warehouses()->attach($warehouse->id, $warehouseProductData);
         return new WarehouseProductResource($product->warehouses()->find($warehouse->id)->products()->find($product->id));

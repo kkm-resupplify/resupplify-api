@@ -12,10 +12,10 @@ use Illuminate\Http\Request;
 
 class WarehouseProductController extends Controller
 {
-    public function store(WarehouseProductService $warehouseProductService, WarehouseProductDto $request, Request $requestId)
+    public function store(WarehouseProductService $warehouseProductService, WarehouseProductDto $request)
     {
-        $warehouse = Warehouse::findOrFail($requestId->warehouseId);
-        $product = Product::findOrFail($requestId->productId);
+        $warehouse = Warehouse::findOrFail($request->warehouseId);
+        $product = Product::findOrFail($request->productId);
         return $this->ok($warehouseProductService->createWarehouseProduct($request, $warehouse, $product));
     }
 
