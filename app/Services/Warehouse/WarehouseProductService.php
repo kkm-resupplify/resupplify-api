@@ -118,17 +118,17 @@ class WarehouseProductService extends Controller
         {
             throw(new WarehouseDataNotAccessible());
         }
-        $productWarehouses = $warehouse->products->where('product_id', $product->id)->first();
-        if (!$productWarehouses->contains($product))
+        $productWarehouses = $warehouse->products->where('id', $product->id)->first();
+        if (!isset($productWarehouses))
         {
-            throw(new WarehouseDataNotAccessible());
+            throw(new ProductNotFoundException());
         }
-        $warehouseProductData = [
+        $warehouse->products()->updateExistingPivot($productWarehouses->id,[
             'quantity' => $request->quantity,
             'safe_quantity' => $request->safeQuantity,
-        ];
-        $productWarehouses->update($warehouseProductData);
-        return $productWarehouses;
+            'status' => $request->status,
+        ]);
+        return 1;
     }
 
     public function detachWarehouseProduct(Warehouse $warehouse, Product $product)

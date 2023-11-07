@@ -19,22 +19,22 @@ class WarehouseProductController extends Controller
         return $this->ok($warehouseProductService->createWarehouseProduct($request, $warehouse, $product));
     }
 
-    // public function show(WarehouseService $warehouseService, Warehouse $warehouse)
+    // public function show(WarehouseService $warehouseProductService, Warehouse $warehouse)
     // {
-    //     return $this->ok($warehouseService->getWarehouse($warehouse));
+    //     return $this->ok($warehouseProductService->getWarehouse($warehouse));
     // }
-    // public function index(WarehouseService $warehouseService)
+    // public function index(WarehouseService $warehouseProductService)
     // {
-    //     return $this->ok($warehouseService->getWarehouses());
-    // }
-
-    // public function update(WarehouseService $warehouseService, WarehouseDto $request, Warehouse $warehouse)
-    // {
-    //     return $this->ok($warehouseService->editWarehouse($request, $warehouse));
+    //     return $this->ok($warehouseProductService->getWarehouses());
     // }
 
-    public function destroy(WarehouseProductService $warehouseService, Warehouse $warehouse,Product $product)
+    public function update(WarehouseProductService $warehouseProductService, Warehouse $warehouse,Product $product,WarehouseProductDto $request)
     {
-        return $this->ok($warehouseService->detachWarehouseProduct($warehouse,$product));
+        return $this->ok($warehouseProductService->updateWarehouseProduct($request,$warehouse,$product));
+    }
+
+    public function destroy(WarehouseProductService $warehouseProductService, Warehouse $warehouse,Product $product)
+    {
+        return $this->ok($warehouseProductService->detachWarehouseProduct($warehouse,$product));
     }
 }
