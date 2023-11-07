@@ -144,7 +144,7 @@ class WarehouseProductService extends Controller
         {
             throw(new WarehouseDataNotAccessible());
         }
-        $warehouseProducts = $warehouse->products;
-        return ProductResource::collection($warehouseProducts->whereNotIn('id', $warehouse->products->pluck('id')));
+        $companyProducts = $user->company->products;
+        return ProductResource::collection($companyProducts->whereNotIn('id', $warehouse->products->pluck('id')));
     }
 }
