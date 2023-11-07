@@ -31,6 +31,7 @@ class CustomErrorCodes
     public const WAREHOUSE_DATA_NOT_ACCESSIBLE = 'warehouse-0002';
 
     public const PRODUCT_NOT_FOUND = 'product-0001';
+    public const PRODUCT_EXISTS_IN_WAREHOUSE = 'product-0002';
 
 
 

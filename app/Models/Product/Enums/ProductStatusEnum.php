@@ -7,7 +7,6 @@ use Spatie\Enum\Laravel\Enum;
 /**
  * @method static self ACTIVE()
  * @method static self INACTIVE()
- * @method static self DELETED()
  */
 final class ProductStatusEnum extends Enum
 {
@@ -16,7 +15,6 @@ final class ProductStatusEnum extends Enum
         return [
             'INACTIVE' => 0,
             'ACTIVE' => 1,
-            'DELETED' => 2,
         ];
     }
 }

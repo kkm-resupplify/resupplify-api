@@ -10,15 +10,20 @@ use App\Resources\User\UserDetailsResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Auth;
 
-class WarehouseResource extends JsonResource
+class WarehouseProductResource extends JsonResource
 {
     public function toArray($request)
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
-            'description' => $this->description,
-            'products' => WarehouseProductResource::collection($this->products),
+            'product' => [
+                'name' => $this->name,
+                'status' => $this->status,
+                'verificationStatus' => $this->verification_status,
+            ],
+            'status' => $this['pivot']->status,
+            'quantity' => $this['pivot']->quantity,
+            'safeQuantity' => $this['pivot']->safe_quantity,
         ];
     }
 }
