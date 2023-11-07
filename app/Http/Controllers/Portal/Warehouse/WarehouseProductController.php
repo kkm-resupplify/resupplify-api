@@ -7,12 +7,15 @@ use App\Http\Dto\Warehouse\WarehouseProductDto;
 use App\Models\Product\Product;
 use App\Models\Warehouse\Warehouse;
 use App\Services\Warehouse\WarehouseProductService;
+use Illuminate\Http\Request;
 
 
 class WarehouseProductController extends Controller
 {
-    public function store(WarehouseProductService $warehouseProductService, WarehouseProductDto $request, Warehouse $warehouse,Product $product)
+    public function store(WarehouseProductService $warehouseProductService, WarehouseProductDto $request, Request $requestId)
     {
+        $warehouse = Warehouse::findOrFail($requestId->warehouseId);
+        $product = Product::findOrFail($requestId->productId);
         return $this->ok($warehouseProductService->createWarehouseProduct($request, $warehouse, $product));
     }
 
