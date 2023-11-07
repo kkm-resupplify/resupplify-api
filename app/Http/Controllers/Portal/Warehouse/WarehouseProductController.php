@@ -35,4 +35,8 @@ class WarehouseProductController extends Controller
     {
         return $this->ok($warehouseProductService->getAllWarehouseProducts($warehouse));
     }
+    public function productsNotInWarehouse(WarehouseProductService $warehouseProductService, Warehouse $warehouse)
+    {
+        return $this->ok($warehouseProductService->getProductsNotInWarehouse($warehouse));
+    }
 }

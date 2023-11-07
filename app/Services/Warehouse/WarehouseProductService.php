@@ -131,4 +131,20 @@ class WarehouseProductService extends Controller
         $product->warehouses()->detach($warehouse->id);
         return 1;
     }
+    //get products not in warehouse
+    public function getProductsNotInWarehouse(Warehouse $warehouse)
+    {
+        $user = Auth::user();
+        setPermissionsTeamId($user->company->id);
+        if(!$user->can('Owner permissions')) {
+            throw(new WrongPermissions());
+        }
+        $warehouses = Auth::user()->company->warehouses;
+        if (!$warehouses->contains($warehouse))
+        {
+            throw(new WarehouseDataNotAccessible());
+        }
+        $warehouseProducts = $warehouse->products;
+        return ProductResource::collection($warehouseProducts->whereNotIn('id', $warehouse->products->pluck('id')));
+    }
 }
