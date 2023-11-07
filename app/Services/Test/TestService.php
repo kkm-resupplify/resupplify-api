@@ -35,4 +35,8 @@ class TestService extends Controller
         // $company = Auth::user()->company;
         // $roles = DB::table('roles')->where('team_id', '=', $company->id)->get();
     }
+    public function langTest()
+    {
+        return __('categories.BEVERAGES.SOFT_DRINKS');
+    }
 }

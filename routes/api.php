@@ -17,10 +17,12 @@ Route::post('register', [AuthController::class, 'register'])->name('register');
 Route::post('login', [AuthController::class, 'login']);
 Route::get('country', [CountryController::class, 'index']);
 Route::get('country/{country}', [CountryController::class, 'show']);
+Route::get('test/lang', [TestController::class, 'langTest']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('user', [UserController::class, 'index']);
     Route::post('test', [TestController::class,'test'])->middleware('hasCompany');
     Route::get('test', [TestController::class, 'roleTest']);
+
     Route::get('user/company', [CompanyController::class, 'getLoggedUserCompany'])->middleware('hasCompany');;
     Route::post('user/userDetails', [UserController::class, 'createUserDetails']);
     Route::put('user/userDetails', [UserController::class, 'editUserDetails']);
