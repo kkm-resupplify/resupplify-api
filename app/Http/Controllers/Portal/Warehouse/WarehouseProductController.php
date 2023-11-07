@@ -30,8 +30,8 @@ class WarehouseProductController extends Controller
     //     return $this->ok($warehouseService->editWarehouse($request, $warehouse));
     // }
 
-    // public function destroy(WarehouseService $warehouseService, Warehouse $warehouse)
-    // {
-    //     return $this->ok($warehouseService->deleteWarehouse($warehouse));
-    // }
+    public function destroy(WarehouseProductService $warehouseService, Warehouse $warehouse,Product $product)
+    {
+        return $this->ok($warehouseService->detachWarehouseProduct($warehouse,$product));
+    }
 }

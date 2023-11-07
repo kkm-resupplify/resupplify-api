@@ -20,6 +20,7 @@ class WarehouseProductResource extends JsonResource
                 'name' => $this->name,
                 'status' => $this->status,
                 'verificationStatus' => $this->verification_status,
+                'code' => $this->code,
             ],
             'status' => $this['pivot']->status,
             'quantity' => $this['pivot']->quantity,

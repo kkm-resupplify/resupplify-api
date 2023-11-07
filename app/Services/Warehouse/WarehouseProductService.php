@@ -4,6 +4,7 @@ namespace App\Services\Warehouse;
 
 use App\Exceptions\Company\WrongPermissions;
 use App\Exceptions\Product\ProductExistsInWarehouseException;
+use App\Exceptions\Product\ProductNotFoundException;
 use App\Exceptions\Warehouse\WarehouseDataNotAccessible;
 use App\Http\Controllers\Controller;
 use App\Http\Dto\Warehouse\WarehouseDto;
@@ -121,7 +122,7 @@ class WarehouseProductService extends Controller
         $productWarehouses->update($warehouseProductData);
         return $productWarehouses;
     }
-    //detach warehouse from product
+
     public function detachWarehouseProduct(Warehouse $warehouse, Product $product)
     {
         $user = Auth::user();
@@ -134,12 +135,12 @@ class WarehouseProductService extends Controller
         {
             throw(new WarehouseDataNotAccessible());
         }
-        $productWarehouses = $warehouse->products->where('product_id', $product->id)->first();
-        if (!$productWarehouses->contains($product))
+        $productWarehouses = $warehouse->products->where('id', $product->id)->first();
+        if (!isset($productWarehouses))
         {
-            throw(new WarehouseDataNotAccessible());
+            throw(new ProductNotFoundException());
         }
-        $productWarehouses->detach();
-        return $productWarehouses;
+        $product->warehouses()->detach($warehouse->id);
+        return 1;
     }
 }
