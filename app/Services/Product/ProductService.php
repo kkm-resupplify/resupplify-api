@@ -3,6 +3,7 @@
 namespace App\Services\Product;
 
 use App\Exceptions\Company\WrongPermissions;
+use App\Exceptions\Product\ProductNotFoundException;
 use App\Http\Controllers\Controller;
 use App\Http\Dto\Product\ProductDto;
 use App\Models\Product\Enums\ProductStatusEnum;
@@ -39,11 +40,18 @@ class ProductService extends Controller
     public function deleteProduct(Product $product)
     {
         $user = Auth::user();
+        $company = $user->company->products;
         setPermissionsTeamId($user->company->id);
+        if (!$company->contains($product))
+        {
+            throw(new ProductNotFoundException());
+        }
+        $product->delete();
+        return 1;
         if(!$user->can('Owner permissions')) {
             throw(new WrongPermissions());
         }
-        
+
         $product->delete();
         return 1;
     }
@@ -58,6 +66,23 @@ class ProductService extends Controller
     }
     public function editProduct(ProductDto $request, Product $product)
     {
-        return $request;
+        $user = Auth::user();
+        setPermissionsTeamId($user->company->id);
+        if(!$user->can('Owner permissions')) {
+            throw(new WrongPermissions());
+        }
+        $productData = [
+            'name' => $request->name,
+            'description' =>$request->description,
+            'producent' => $request->producent,
+            'code' => $request->code,
+            'product_unit_id' => $request->productUnitId,
+            'product_subcategory_id' => $request->productSubcategoryId,
+            'company_id' => $user->company->id,
+            'status' => ProductStatusEnum::INACTIVE(),
+            'verification_status' => ProductVerificationStatusEnum::UNVERIFIED(),
+        ];
+        $product->update($productData);
+        return new ProductResource($product);
     }
 }

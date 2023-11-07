@@ -53,6 +53,11 @@ class WarehouseService extends Controller
         if(!$user->can('Owner permissions')) {
             throw(new WrongPermissions());
         }
+        $warehouses = Auth::user()->company->warehouses;
+        if (!$warehouses->contains($warehouse))
+        {
+            throw(new WarehouseDataNotAccessible());
+        }
         $warehouse->update([
             'name' => $request->name,
             'description' => $request->description,
@@ -66,6 +71,11 @@ class WarehouseService extends Controller
         setPermissionsTeamId($user->company->id);
         if(!$user->can('Owner permissions')) {
             throw(new WrongPermissions());
+        }
+        $warehouses = Auth::user()->company->warehouses;
+        if (!$warehouses->contains($warehouse))
+        {
+            throw(new WarehouseDataNotAccessible());
         }
         $warehouse->delete();
         return 1;
