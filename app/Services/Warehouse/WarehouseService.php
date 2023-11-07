@@ -3,6 +3,7 @@
 namespace App\Services\Warehouse;
 
 use App\Exceptions\Company\WrongPermissions;
+use App\Exceptions\Warehouse\WarehouseDataNotAccessible;
 use App\Http\Controllers\Controller;
 use App\Http\Dto\Warehouse\WarehouseDto;
 use App\Models\Warehouse\Warehouse;
@@ -32,6 +33,11 @@ class WarehouseService extends Controller
 
     public function getWarehouse(Warehouse $warehouse)
     {
+        $warehouses = Auth::user()->company->warehouses;
+        if (!$warehouses->contains($warehouse))
+        {
+            throw(new WarehouseDataNotAccessible());
+        }
         return new WarehouseResource($warehouse);
     }
 

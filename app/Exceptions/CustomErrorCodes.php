@@ -28,6 +28,7 @@ class CustomErrorCodes
     public const CANT_DELETE_YOURSELF = 'company-0004';
 
     public const WAREHOUSE_NOT_FOUND = 'warehouse-0001';
+    public const WAREHOUSE_DATA_NOT_ACCESSIBLE = 'warehouse-0002';
 
     public const PRODUCT_NOT_FOUND = 'product-0001';
 
