@@ -3,6 +3,7 @@
 use App\Http\Controllers\Portal\Company\CompanyMemberController;
 use App\Http\Controllers\Portal\Product\ProductController;
 use App\Http\Controllers\Portal\Warehouse\WarehouseController;
+use App\Http\Controllers\Portal\Warehouse\WarehouseProductController;
 use App\Http\Controllers\Test\TestController as TestController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -22,7 +23,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('user', [UserController::class, 'index']);
     Route::post('test', [TestController::class,'test'])->middleware('hasCompany');
     Route::get('test', [TestController::class, 'roleTest']);
-
     Route::get('user/company', [CompanyController::class, 'getLoggedUserCompany'])->middleware('hasCompany');;
     Route::post('user/userDetails', [UserController::class, 'createUserDetails']);
     Route::put('user/userDetails', [UserController::class, 'editUserDetails']);
@@ -42,4 +42,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::resource('company/product', ProductController::class)->middleware('hasCompany');
     Route::resource('company', CompanyController::class);
     Route::resource('companyCategories', CompanyCategoryController::class);
+    Route::post('company/warehouse/{warehouse}/{product}', [WarehouseProductController::class,'store'])->middleware('hasCompany');
 });

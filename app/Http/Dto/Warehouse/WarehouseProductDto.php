@@ -13,9 +13,7 @@ use Spatie\LaravelData\Attributes\Validation\Required;
 
 class WarehouseProductDto extends BasicDto
 {
-    #[Max(60)]
     public int $quantity;
 
-    #[Max(60)]
     public int $safeQuantity;
 }
