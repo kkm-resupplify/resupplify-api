@@ -67,23 +67,7 @@ class WarehouseProductService extends Controller
             throw(new WarehouseDataNotAccessible());
         }
         $warehouseProducts = $warehouse->products;
-        return WarehouseResource::collection($warehouseProducts);
-    }
-    //get all product warehouses
-    public function getAllProductWarehouses(Product $product)
-    {
-        $user = Auth::user();
-        setPermissionsTeamId($user->company->id);
-        if(!$user->can('Owner permissions')) {
-            throw(new WrongPermissions());
-        }
-        $warehouses = Auth::user()->company->warehouses;
-        if (!$warehouses->contains($warehouse))
-        {
-            throw(new WarehouseDataNotAccessible());
-        }
-        $productWarehouses = $product->warehouses;
-        return WarehouseResource::collection($productWarehouses);
+        return WarehouseProductResource::collection($warehouseProducts);
     }
     //get warehouse product
     public function getWarehouseProduct(Warehouse $warehouse, Product $product)
@@ -98,12 +82,8 @@ class WarehouseProductService extends Controller
         {
             throw(new WarehouseDataNotAccessible());
         }
-        $productWarehouses = $warehouse->products->where('product_id', $product->id)->first();
-        if (!$productWarehouses->contains($product))
-        {
-            throw(new WarehouseDataNotAccessible());
-        }
-        return new WarehouseResource($productWarehouses);
+        $productWarehouses = $warehouse->products->where('id', $product->id)->first();
+        return new WarehouseProductResource($productWarehouses);
     }
     //update warehouse product
     public function updateWarehouseProduct(WarehouseProductDto $request,Warehouse $warehouse, Product $product)
