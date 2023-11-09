@@ -15,7 +15,10 @@ use App\Models\Warehouse\Warehouse;
 use App\Resources\Product\ProductResource;
 use App\Resources\Warehouse\WarehouseProductResource;
 use App\Resources\Warehouse\WarehouseResource;
+use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Auth;
+use Spatie\QueryBuilder\QueryBuilder;
+use Spatie\QueryBuilder\AllowedFilter;
 
 
 
@@ -68,7 +71,11 @@ class WarehouseProductService extends Controller
         {
             throw(new WarehouseDataNotAccessible());
         }
-        $warehouseProducts = $warehouse->products;
+
+        $warehouseProducts = QueryBuilder::for($warehouse->products())
+            ->allowedFilters([AllowedFilter::exact('status'), AllowedFilter::partial('name')])
+            ->get();
+
         return WarehouseProductResource::collection($warehouseProducts);
     }
     //get warehouse product
