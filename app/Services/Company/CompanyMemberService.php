@@ -7,7 +7,7 @@ use App\Exceptions\Company\CantDeleteYourself;
 use App\Exceptions\Company\CompanyNotFoundException;
 use App\Exceptions\Company\UserInviteCodeNotFoundException;
 use App\Exceptions\Company\UserInviteCodeUsedException;
-use App\Exceptions\RoleNotFoundException;
+use App\Exceptions\Role\RoleNotFoundException;
 use App\Exceptions\User\UserAlreadyHaveCompany;
 use App\Http\Dto\Company\AddUserDto;
 use App\Models\Company\CompanyMember;
