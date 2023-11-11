@@ -7,7 +7,7 @@ use Illuminate\Database\Seeder;
 use App\Models\Country\Country;
 use Illuminate\Support\Facades\Schema;
 
-class CompanyCategorySeeder extends Seeder
+class LanguageSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -18,6 +18,21 @@ class CompanyCategorySeeder extends Seeder
         Language::truncate();
         Schema::enableForeignKeyConstraints();
 
-        
+        //seeder for languages
+        $languages = [
+            [
+                'name' => 'English',
+                'code' => 'en-GB',
+                'origin_name' => 'English',
+            ],
+            [
+                'name' => 'Polish',
+                'code' => 'pl-PL',
+                'origin_name' => 'Polski',
+            ],
+        ];
+        foreach ($languages as $language) {
+            Language::create($language);
+        }
     }
 }

@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
             PermissionSeeder::class,
             CompanyCategorySeeder::class,
             ProductUnitSeeder::class,
+            LanguageSeeder::class,
             //ProductCategoryAndSubcategorySeeder::class,
         ]);
     }
