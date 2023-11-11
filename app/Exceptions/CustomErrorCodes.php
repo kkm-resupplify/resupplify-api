@@ -33,6 +33,8 @@ class CustomErrorCodes
     public const PRODUCT_NOT_FOUND = 'product-0001';
     public const PRODUCT_EXISTS_IN_WAREHOUSE = 'product-0002';
 
+    public const FILTER_NOT_ALLOWED = 'filter-0001';
+
 
 
 }

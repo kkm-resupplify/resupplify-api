@@ -5,7 +5,7 @@ namespace App\Services\Company;
 use App\Exceptions\Company\CantCreateUserInvitationException;
 use App\Exceptions\Company\CantCreateUserInvitationRoleException;
 use App\Exceptions\Company\CompanyNameTakenException;
-use App\Exceptions\RoleNotFoundException;
+use App\Exceptions\Role\RoleNotFoundException;
 use App\Http\Dto\Company\RegisterCompanyDto;
 use App\Http\Dto\Company\RegisterCompanyDetailsDto;
 use App\Http\Dto\Company\UserInvitationCodes;

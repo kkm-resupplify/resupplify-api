@@ -9,7 +9,8 @@ use App\Http\Dto\Warehouse\WarehouseDto;
 use App\Models\Warehouse\Warehouse;
 use App\Resources\Warehouse\WarehouseResource;
 use Illuminate\Support\Facades\Auth;
-
+use Spatie\QueryBuilder\QueryBuilder;
+use Spatie\QueryBuilder\AllowedFilter;
 
 
 class WarehouseService extends Controller
@@ -43,7 +44,11 @@ class WarehouseService extends Controller
 
     public function getWarehouses()
     {
-        return WarehouseResource::collection(Warehouse::where('company_id', '=', Auth::user()->company->id)->get());
+        $warehouses= QueryBuilder::for(Warehouse::where('company_id', '=', Auth::user()->company->id))
+            ->allowedFilters(AllowedFilter::partial('name'))
+            ->get();
+        return WarehouseResource::collection($warehouses);
+
     }
 
     public function editWarehouse(WarehouseDto $request, Warehouse $warehouse)
