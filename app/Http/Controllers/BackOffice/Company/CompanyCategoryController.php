@@ -15,4 +15,5 @@ class CompanyCategoryController extends Controller
         return $this->ok($companyCategory->getCategories());
     }
 
+    
 }

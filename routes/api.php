@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Portal\Company\CompanyMemberController;
+use App\Http\Controllers\Portal\Product\ProductCategoryController;
 use App\Http\Controllers\Portal\Product\ProductController;
 use App\Http\Controllers\Portal\Warehouse\WarehouseController;
 use App\Http\Controllers\Portal\Warehouse\WarehouseProductController;
@@ -19,6 +20,7 @@ Route::post('login', [AuthController::class, 'login']);
 Route::get('country', [CountryController::class, 'index']);
 Route::get('country/{country}', [CountryController::class, 'show']);
 Route::get('test/lang', [TestController::class, 'langTest']);
+Route::get('productCategory', [ProductCategoryController::class, 'index']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('user', [UserController::class, 'index']);
     Route::post('test', [TestController::class,'test'])->middleware('hasCompany');
