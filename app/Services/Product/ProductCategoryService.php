@@ -23,7 +23,7 @@ class ProductCategoryService extends Controller
     public function getProductCategories()
     {
         $user = Auth::user();
-        return ProductCategory::find(1);
+        return ProductCategory::find(1)->language;
         return ProductResource::collection($user->company->products()->get());
     }
 }
