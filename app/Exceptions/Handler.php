@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use App\Exceptions\Company\CompanyNotFoundException;
 use App\Exceptions\Product\ProductNotFoundException;
+use App\Exceptions\Filter\FilterNotAllowedException;
 use App\Exceptions\User\UserNotFoundException;
 use App\Exceptions\Warehouse\WarehouseNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
@@ -12,6 +13,7 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Client\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Spatie\QueryBuilder\Exceptions\InvalidFilterQuery;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -58,7 +60,10 @@ class Handler extends ExceptionHandler
                     break;
             }
         }
-
+        if($exception instanceof InvalidFilterQuery)
+        {
+            throw new FilterNotAllowedException();
+        }
         return parent::render($request, $exception);
     }
 

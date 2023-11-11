@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Exceptions\Role;
+namespace App\Exceptions\Filter;
 
 use App\Exceptions\BasicException;
 use App\Exceptions\CustomErrorCodes;
