@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\File;
 use App\Models\Product\ProductSubcategory;
 use App\Models\Product\ProductCategory;
 
-class ProductSubcategorySeeder extends Seeder
+class ProductCategoryAndSubcategorySeeder extends Seeder
 {
     /**
      * Run the database seeds.
