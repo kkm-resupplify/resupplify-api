@@ -21,7 +21,7 @@ class ProductResource extends JsonResource
             'status' => $this->status,
             'verificationStatus' => $this->verification_status,
             'companyId' => $this->company_id,
-            'productTypeId' => $this->product_unit_id,
+            'productUnitId' => $this->product_unit_id,
             'productCategory' => [
                 'id'=>$this->productSubcategory->productCategory->id,
                 'name'=>$this->productSubcategory->productCategory->languages[Auth::user()->language->id-1]->pivot->name,
