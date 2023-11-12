@@ -1,994 +1,768 @@
 {
-    "1": [
-        {
-            "1": [
-                "SOFT_DRINKS",
-                "JUICES",
-                "COFFEE_AND_TEA",
-                "ENERGY_DRINKS",
-                "SPORTS_DRINKS"
-            ]
-        },
-        {
-            "2": [
-                "SOFT_DRINKS",
-                "JUICES",
-                "COFFEE_AND_TEA",
-                "ENERGY_DRINKS",
-                "SPORTS_DRINKS"
-            ]
-        }
-    ],
-    "2": [
-        {
-            "1": [
-                "CHIPS_AND_CRISPS",
-                "CANDIES_AND_SWEETS",
-                "NUTS_AND_SEEDS",
-                "POPCORN",
-                "PRETZELS"
-            ]
-        },
-        {
-            "2": [
-                "CHIPS_AND_CRISPS",
-                "CANDIES_AND_SWEETS",
-                "NUTS_AND_SEEDS",
-                "POPCORN",
-                "PRETZELS"
-            ]
-        }
-    ],
-    "3": [
-        {
-            "1": [
-                "SKINCARE",
-                "HAIRCARE",
-                "ORAL_CARE",
-                "BODY_WASH",
-                "DEODORANTS"
-            ]
-        },
-        {
-            "2": [
-                "SKINCARE",
-                "HAIRCARE",
-                "ORAL_CARE",
-                "BODY_WASH",
-                "DEODORANTS"
-            ]
-        }
-    ],
-    "4": [
-        {
-            "1": [
-                "MILK_AND_MILK_PRODUCTS",
-                "YOGURT",
-                "CHEESE",
-                "BUTTER_AND_SPREADS",
-                "DESSERTS"
-            ]
-        },
-        {
-            "2": [
-                "MILK_AND_MILK_PRODUCTS",
-                "YOGURT",
-                "CHEESE",
-                "BUTTER_AND_SPREADS",
-                "DESSERTS"
-            ]
-        }
-    ],
-    "5": [
-        {
-            "1": [
-                "DISHWASHING",
-                "LAUNDRY_DETERGENTS",
-                "CLEANING_TOOLS",
-                "BATHROOM_CLEANERS",
-                "FLOOR_CLEANERS"
-            ]
-        },
-        {
-            "2": [
-                "DISHWASHING",
-                "LAUNDRY_DETERGENTS",
-                "CLEANING_TOOLS",
-                "BATHROOM_CLEANERS",
-                "FLOOR_CLEANERS"
-            ]
-        }
-    ],
-    "6": [
-        {
-            "1": [
-                "CANNED_VEGETABLES",
-                "CANNED_FRUITS",
-                "CANNED_SOUPS",
-                "CANNED_MEAT_AND_FISH",
-                "CANNED_BEANS"
-            ]
-        },
-        {
-            "2": [
-                "CANNED_VEGETABLES",
-                "CANNED_FRUITS",
-                "CANNED_SOUPS",
-                "CANNED_MEAT_AND_FISH",
-                "CANNED_BEANS"
-            ]
-        }
-    ],
-    "7": [
-        {
-            "1": [
-                "FROZEN_VEGETABLES",
-                "FROZEN_MEALS",
-                "FROZEN_PIZZA",
-                "ICE_CREAM",
-                "FROZEN_SNACKS"
-            ]
-        },
-        {
-            "2": [
-                "FROZEN_VEGETABLES",
-                "FROZEN_MEALS",
-                "FROZEN_PIZZA",
-                "ICE_CREAM",
-                "FROZEN_SNACKS"
-            ]
-        }
-    ],
-    "8": [
-        {
-            "1": ["BREAD", "CAKES_AND_PASTRIES", "BAGELS", "MUFFINS", "COOKIES"]
-        },
-        {
-            "2": ["BREAD", "CAKES_AND_PASTRIES", "BAGELS", "MUFFINS", "COOKIES"]
-        }
-    ],
-    "9": [
-        {
-            "1": [
-                "CHOCOLATE_BARS",
-                "GUMMIES_AND_JELLIES",
-                "HARD_CANDY",
-                "LICORICE",
-                "CHEWING_GUM"
-            ]
-        },
-        {
-            "2": [
-                "CHOCOLATE_BARS",
-                "GUMMIES_AND_JELLIES",
-                "HARD_CANDY",
-                "LICORICE",
-                "CHEWING_GUM"
-            ]
-        }
-    ],
-    "10": [
-        {
-            "1": [
-                "VITAMINS_AND_SUPPLEMENTS",
-                "PAIN_RELIEF",
-                "FIRST_AID",
-                "DIET_AND_NUTRITION",
-                "FAMILY_PLANNING"
-            ]
-        },
-        {
-            "2": [
-                "VITAMINS_AND_SUPPLEMENTS",
-                "PAIN_RELIEF",
-                "FIRST_AID",
-                "DIET_AND_NUTRITION",
-                "FAMILY_PLANNING"
-            ]
-        }
-    ],
-    "11": [
-        {
-            "1": [
-                "TOILET_PAPER",
-                "PAPER_TOWELS",
-                "FACIAL_TISSUES",
-                "NAPKINS",
-                "DISPOSABLE_PLATES_AND_CUTLERY"
-            ]
-        },
-        {
-            "2": [
-                "TOILET_PAPER",
-                "PAPER_TOWELS",
-                "FACIAL_TISSUES",
-                "NAPKINS",
-                "DISPOSABLE_PLATES_AND_CUTLERY"
-            ]
-        }
-    ],
-    "12": [
-        {
-            "1": [
-                "DIAPERS_AND_WIPES",
-                "BABY_FOOD",
-                "BABY_TOILETRIES",
-                "BABY_HEALTH",
-                "BABY_CLOTHING"
-            ]
-        },
-        {
-            "2": [
-                "DIAPERS_AND_WIPES",
-                "BABY_FOOD",
-                "BABY_TOILETRIES",
-                "BABY_HEALTH",
-                "BABY_CLOTHING"
-            ]
-        }
-    ],
-    "13": [
-        {
-            "1": [
-                "PET_FOOD",
-                "PET_TREATS",
-                "PET_TOYS",
-                "PET_GROOMING",
-                "PET_ACCESSORIES"
-            ]
-        },
-        {
-            "2": [
-                "PET_FOOD",
-                "PET_TREATS",
-                "PET_TOYS",
-                "PET_GROOMING",
-                "PET_ACCESSORIES"
-            ]
-        }
-    ],
-    "14": [
-        {
-            "1": [
-                "SHAMPOO_AND_CONDITIONER",
-                "SOAP_AND_BODY_WASH",
-                "SHAVING_PRODUCTS",
-                "FEMININE_HYGIENE",
-                "TOOTHPASTE_AND_TOOTHBRUSHES"
-            ]
-        },
-        {
-            "2": [
-                "SHAMPOO_AND_CONDITIONER",
-                "SOAP_AND_BODY_WASH",
-                "SHAVING_PRODUCTS",
-                "FEMININE_HYGIENE",
-                "TOOTHPASTE_AND_TOOTHBRUSHES"
-            ]
-        }
-    ],
-    "15": [
-        {
-            "1": [
-                "CEREALS",
-                "OATMEAL_AND_PORRIDGE",
-                "PANCAKE_AND_WAFFLE_MIX",
-                "GRANOLA",
-                "BREAKFAST_BARS"
-            ]
-        },
-        {
-            "2": [
-                "CEREALS",
-                "OATMEAL_AND_PORRIDGE",
-                "PANCAKE_AND_WAFFLE_MIX",
-                "GRANOLA",
-                "BREAKFAST_BARS"
-            ]
-        }
-    ],
-    "16": [
-        {
-            "1": [
-                "BEEF",
-                "CHICKEN",
-                "FISH_AND_SEAFOOD",
-                "PORK",
-                "PROCESSED_MEATS"
-            ]
-        },
-        {
-            "2": [
-                "BEEF",
-                "CHICKEN",
-                "FISH_AND_SEAFOOD",
-                "PORK",
-                "PROCESSED_MEATS"
-            ]
-        }
-    ],
-    "17": [
-        {
-            "1": [
-                "BATTERIES",
-                "LIGHT_BULBS",
-                "TRASH_BAGS",
-                "CLEANING_SUPPLIES",
-                "STORAGE_AND_ORGANIZATION"
-            ]
-        },
-        {
-            "2": [
-                "BATTERIES",
-                "LIGHT_BULBS",
-                "TRASH_BAGS",
-                "CLEANING_SUPPLIES",
-                "STORAGE_AND_ORGANIZATION"
-            ]
-        }
-    ],
-    "18": [
-        {
-            "1": [
-                "FRUITS",
-                "VEGETABLES",
-                "HERBS",
-                "ORGANIC_PRODUCE",
-                "EXOTIC_FRUITS_AND_VEGETABLES"
-            ]
-        },
-        {
-            "2": [
-                "FRUITS",
-                "VEGETABLES",
-                "HERBS",
-                "ORGANIC_PRODUCE",
-                "EXOTIC_FRUITS_AND_VEGETABLES"
-            ]
-        }
-    ],
-    "19": [
-        {
-            "1": [
-                "HERBS_AND_SPICES",
-                "KETCHUP_AND_MUSTARD",
-                "MAYONNAISE",
-                "HOT_SAUCE",
-                "SOY_SAUCE"
-            ]
-        },
-        {
-            "2": [
-                "HERBS_AND_SPICES",
-                "KETCHUP_AND_MUSTARD",
-                "MAYONNAISE",
-                "HOT_SAUCE",
-                "SOY_SAUCE"
-            ]
-        }
-    ],
-    "20": [
-        {
-            "1": ["RICE", "PASTA", "BREAD_CRUMBS", "COUSCOUS", "QUINOA"]
-        },
-        {
-            "2": ["RICE", "PASTA", "BREAD_CRUMBS", "COUSCOUS", "QUINOA"]
-        }
-    ],
-    "21": [
-        {
-            "1": [
-                "CANNED_SOUPS",
-                "SAUCES_AND_GRAVIES",
-                "SOUP_MIXES",
-                "CONDIMENTS",
-                "SOY_SAUCE"
-            ]
-        },
-        {
-            "2": [
-                "CANNED_SOUPS",
-                "SAUCES_AND_GRAVIES",
-                "SOUP_MIXES",
-                "CONDIMENTS",
-                "SOY_SAUCE"
-            ]
-        }
-    ],
-    "22": [
-        {
-            "1": [
-                "HOT_CEREALS",
-                "COLD_CEREALS",
-                "GRANOLA",
-                "ORGANIC_CEREALS",
-                "KIDS_CEREALS"
-            ]
-        },
-        {
-            "2": [
-                "HOT_CEREALS",
-                "COLD_CEREALS",
-                "GRANOLA",
-                "ORGANIC_CEREALS",
-                "KIDS_CEREALS"
-            ]
-        }
-    ],
-    "23": [
-        {
-            "1": [
-                "REFRIGERATORS",
-                "WASHING_MACHINES",
-                "MICROWAVES",
-                "VACUUM_CLEANERS",
-                "AIR_CONDITIONERS"
-            ]
-        },
-        {
-            "2": [
-                "REFRIGERATORS",
-                "WASHING_MACHINES",
-                "MICROWAVES",
-                "VACUUM_CLEANERS",
-                "AIR_CONDITIONERS"
-            ]
-        }
-    ],
-    "24": [
-        {
-            "1": [
-                "COOKWARE",
-                "CUTLERY",
-                "BAKEWARE",
-                "UTENSILS",
-                "KITCHEN_GADGETS"
-            ]
-        },
-        {
-            "2": [
-                "COOKWARE",
-                "CUTLERY",
-                "BAKEWARE",
-                "UTENSILS",
-                "KITCHEN_GADGETS"
-            ]
-        }
-    ],
-    "25": [
-        {
-            "1": [
-                "TOILET_PAPER",
-                "BATHROOM_CLEANERS",
-                "SHOWER_CURTAINS",
-                "TOWELS",
-                "BATH_MATS"
-            ]
-        },
-        {
-            "2": [
-                "TOILET_PAPER",
-                "BATHROOM_CLEANERS",
-                "SHOWER_CURTAINS",
-                "TOWELS",
-                "BATH_MATS"
-            ]
-        }
-    ],
-    "26": [
-        {
-            "1": ["SMARTPHONES", "LAPTOPS", "TVS", "HEADPHONES", "TABLETS"]
-        },
-        {
-            "2": ["SMARTPHONES", "LAPTOPS", "TVS", "HEADPHONES", "TABLETS"]
-        }
-    ],
-    "27": [
-        {
-            "1": [
-                "MAKEUP",
-                "FRAGRANCES",
-                "NAIL_CARE",
-                "COSMETIC_ACCESSORIES",
-                "BEAUTY_TOOLS"
-            ]
-        },
-        {
-            "2": [
-                "MAKEUP",
-                "FRAGRANCES",
-                "NAIL_CARE",
-                "COSMETIC_ACCESSORIES",
-                "BEAUTY_TOOLS"
-            ]
-        }
-    ],
-    "28": [
-        {
-            "1": [
-                "SHAMPOO_AND_CONDITIONER",
-                "HAIR_STYLING_PRODUCTS",
-                "HAIR_COLORING",
-                "HAIR_ACCESSORIES",
-                "SCALP_TREATMENTS"
-            ]
-        },
-        {
-            "2": [
-                "SHAMPOO_AND_CONDITIONER",
-                "HAIR_STYLING_PRODUCTS",
-                "HAIR_COLORING",
-                "HAIR_ACCESSORIES",
-                "SCALP_TREATMENTS"
-            ]
-        }
-    ],
-    "29": [
-        {
-            "1": [
-                "TOOTHBRUSHES",
-                "TOOTHPASTE",
-                "MOUTHWASH",
-                "DENTAL_FLOSS",
-                "TEETH_WHITENING"
-            ]
-        },
-        {
-            "2": [
-                "TOOTHBRUSHES",
-                "TOOTHPASTE",
-                "MOUTHWASH",
-                "DENTAL_FLOSS",
-                "TEETH_WHITENING"
-            ]
-        }
-    ],
-    "30": [
-        {
-            "1": [
-                "CLEANSERS",
-                "MOISTURIZERS",
-                "SERUMS",
-                "SUNSCREEN",
-                "ACNE_TREATMENTS"
-            ]
-        },
-        {
-            "2": [
-                "CLEANSERS",
-                "MOISTURIZERS",
-                "SERUMS",
-                "SUNSCREEN",
-                "ACNE_TREATMENTS"
-            ]
-        }
-    ],
-    "31": [
-        {
-            "1": [
-                "SANITARY_PADS",
-                "TAMPONS",
-                "PANTYLINERS",
-                "FEMININE_WASH",
-                "MENSTRUAL_CUPS"
-            ]
-        },
-        {
-            "2": [
-                "SANITARY_PADS",
-                "TAMPONS",
-                "PANTYLINERS",
-                "FEMININE_WASH",
-                "MENSTRUAL_CUPS"
-            ]
-        }
-    ],
-    "32": [
-        {
-            "1": [
-                "ADULT_DIAPERS",
-                "INCONTINENCE_PADS",
-                "ADULT_WIPES",
-                "BED_PROTECTORS",
-                "CLEANSING_PRODUCTS"
-            ]
-        },
-        {
-            "2": [
-                "ADULT_DIAPERS",
-                "INCONTINENCE_PADS",
-                "ADULT_WIPES",
-                "BED_PROTECTORS",
-                "CLEANSING_PRODUCTS"
-            ]
-        }
-    ],
-    "33": [
-        {
-            "1": [
-                "INCONTINENCE_PADS",
-                "INCONTINENCE_BRIEFS",
-                "INCONTINENCE_BED_PADS",
-                "CLEANSING_WIPES",
-                "INCONTINENCE_SKIN_CARE"
-            ]
-        },
-        {
-            "2": [
-                "INCONTINENCE_PADS",
-                "INCONTINENCE_BRIEFS",
-                "INCONTINENCE_BED_PADS",
-                "CLEANSING_WIPES",
-                "INCONTINENCE_SKIN_CARE"
-            ]
-        }
-    ],
-    "34": [
-        {
-            "1": ["SHOES", "SOCKS", "SANDALS", "BOOTS", "SLIPPERS"]
-        },
-        {
-            "2": ["SHOES", "SOCKS", "SANDALS", "BOOTS", "SLIPPERS"]
-        }
-    ],
-    "35": [
-        {
-            "1": [
-                "CLOTHING",
-                "OUTERWEAR",
-                "ACTIVEWEAR",
-                "UNDERWEAR",
-                "SWIMWEAR"
-            ]
-        },
-        {
-            "2": [
-                "CLOTHING",
-                "OUTERWEAR",
-                "ACTIVEWEAR",
-                "UNDERWEAR",
-                "SWIMWEAR"
-            ]
-        }
-    ],
-    "36": [
-        {
-            "1": [
-                "BAGS_AND_PURSES",
-                "JEWELRY",
-                "HATS_AND_CAPS",
-                "SCARVES_AND_SHAWLS",
-                "BELTS"
-            ]
-        },
-        {
-            "2": [
-                "BAGS_AND_PURSES",
-                "JEWELRY",
-                "HATS_AND_CAPS",
-                "SCARVES_AND_SHAWLS",
-                "BELTS"
-            ]
-        }
-    ],
-    "37": [
-        {
-            "1": [
-                "WALL_ART",
-                "CANDLES_AND_FRAGRANCES",
-                "HOME_TEXTILES",
-                "DECORATIVE_MIRRORS",
-                "FIGURINES_AND_STATUES"
-            ]
-        },
-        {
-            "2": [
-                "WALL_ART",
-                "CANDLES_AND_FRAGRANCES",
-                "HOME_TEXTILES",
-                "DECORATIVE_MIRRORS",
-                "FIGURINES_AND_STATUES"
-            ]
-        }
-    ],
-    "38": [
-        {
-            "1": [
-                "SOFAS_AND_COUCHES",
-                "TABLES",
-                "CHAIRS",
-                "BEDS_AND_MATTRESSES",
-                "BOOKSHELVES"
-            ]
-        },
-        {
-            "2": [
-                "SOFAS_AND_COUCHES",
-                "TABLES",
-                "CHAIRS",
-                "BEDS_AND_MATTRESSES",
-                "BOOKSHELVES"
-            ]
-        }
-    ],
-    "39": [
-        {
-            "1": [
-                "BEDDING_SETS",
-                "TOWELS",
-                "BATHROOM_ACCESSORIES",
-                "SHOWER_CURTAINS",
-                "TOILET_ACCESSORIES"
-            ]
-        },
-        {
-            "2": [
-                "BEDDING_SETS",
-                "TOWELS",
-                "BATHROOM_ACCESSORIES",
-                "SHOWER_CURTAINS",
-                "TOILET_ACCESSORIES"
-            ]
-        }
-    ],
-    "40": [
-        {
-            "1": [
-                "HAND_TOOLS",
-                "POWER_TOOLS",
-                "FASTENERS_AND_NAILS",
-                "TOOL_STORAGE",
-                "SAFETY_EQUIPMENT"
-            ]
-        },
-        {
-            "2": [
-                "HAND_TOOLS",
-                "POWER_TOOLS",
-                "FASTENERS_AND_NAILS",
-                "TOOL_STORAGE",
-                "SAFETY_EQUIPMENT"
-            ]
-        }
-    ],
-    "41": [
-        {
-            "1": [
-                "CAR_PARTS",
-                "CAR_ACCESSORIES",
-                "TIRES_AND_WHEELS",
-                "AUTO_MAINTENANCE",
-                "CAR_ELECTRONICS"
-            ]
-        },
-        {
-            "2": [
-                "CAR_PARTS",
-                "CAR_ACCESSORIES",
-                "TIRES_AND_WHEELS",
-                "AUTO_MAINTENANCE",
-                "CAR_ELECTRONICS"
-            ]
-        }
-    ],
-    "42": [
-        {
-            "1": [
-                "TVS",
-                "SOUND_SYSTEMS",
-                "VIDEO_GAME_CONSOLES",
-                "STREAMING_DEVICES",
-                "HOME_THEATER_FURNITURE"
-            ]
-        },
-        {
-            "2": [
-                "TVS",
-                "SOUND_SYSTEMS",
-                "VIDEO_GAME_CONSOLES",
-                "STREAMING_DEVICES",
-                "HOME_THEATER_FURNITURE"
-            ]
-        }
-    ],
-    "43": [
-        {
-            "1": [
-                "CAMPING_GEAR",
-                "HIKING_EQUIPMENT",
-                "CYCLING_GEAR",
-                "FISHING_SUPPLIES",
-                "OUTDOOR_CLOTHING"
-            ]
-        },
-        {
-            "2": [
-                "CAMPING_GEAR",
-                "HIKING_EQUIPMENT",
-                "CYCLING_GEAR",
-                "FISHING_SUPPLIES",
-                "OUTDOOR_CLOTHING"
-            ]
-        }
-    ],
-    "44": [
-        {
-            "1": [
-                "TREADMILLS",
-                "DUMBBELLS",
-                "EXERCISE_BIKES",
-                "YOGA_AND_PILATES_GEAR",
-                "RESISTANCE_BANDS"
-            ]
-        },
-        {
-            "2": [
-                "TREADMILLS",
-                "DUMBBELLS",
-                "EXERCISE_BIKES",
-                "YOGA_AND_PILATES_GEAR",
-                "RESISTANCE_BANDS"
-            ]
-        }
-    ],
-    "45": [
-        {
-            "1": [
-                "OUTDOOR_PLANTS",
-                "GARDENING_TOOLS",
-                "POTS_AND_PLANTERS",
-                "GARDEN_DECOR",
-                "FERTILIZERS_AND_SOIL"
-            ]
-        },
-        {
-            "2": [
-                "OUTDOOR_PLANTS",
-                "GARDENING_TOOLS",
-                "POTS_AND_PLANTERS",
-                "GARDEN_DECOR",
-                "FERTILIZERS_AND_SOIL"
-            ]
-        }
-    ],
-    "46": [
-        {
-            "1": [
-                "BOOKS",
-                "NOTEBOOKS_AND_JOURNALS",
-                "PENS_AND_PENCILS",
-                "ART_SUPPLIES",
-                "DESK_ACCESSORIES"
-            ]
-        },
-        {
-            "2": [
-                "BOOKS",
-                "NOTEBOOKS_AND_JOURNALS",
-                "PENS_AND_PENCILS",
-                "ART_SUPPLIES",
-                "DESK_ACCESSORIES"
-            ]
-        }
-    ],
-    "47": [
-        {
-            "1": [
-                "PAINT_AND_PAINT_SUPPLIES",
-                "POWER_TOOLS",
-                "HARDWARE",
-                "LIGHT_FIXTURES",
-                "PLUMBING_SUPPLIES"
-            ]
-        },
-        {
-            "2": [
-                "PAINT_AND_PAINT_SUPPLIES",
-                "POWER_TOOLS",
-                "HARDWARE",
-                "LIGHT_FIXTURES",
-                "PLUMBING_SUPPLIES"
-            ]
-        }
-    ],
-    "48": [
-        {
-            "1": [
-                "LIGHT_BULBS",
-                "ELECTRICAL_WIRING",
-                "POWER_OUTLETS",
-                "LIGHTING_FIXTURES",
-                "APPLIANCE_CORDS"
-            ]
-        },
-        {
-            "2": [
-                "LIGHT_BULBS",
-                "ELECTRICAL_WIRING",
-                "POWER_OUTLETS",
-                "LIGHTING_FIXTURES",
-                "APPLIANCE_CORDS"
-            ]
-        }
-    ],
-    "49": [
-        {
-            "1": [
-                "PARTY_DECORATIONS",
-                "TABLEWARE",
-                "PARTY_FAVORS",
-                "BALLOONS",
-                "THEMED_PARTY_SUPPLIES"
-            ]
-        },
-        {
-            "2": [
-                "PARTY_DECORATIONS",
-                "TABLEWARE",
-                "PARTY_FAVORS",
-                "BALLOONS",
-                "THEMED_PARTY_SUPPLIES"
-            ]
-        }
-    ],
-    "50": [
-        {
-            "1": [
-                "PAPER_PRODUCTS",
-                "FILE_FOLDERS_AND_ORGANIZERS",
-                "STAPLERS_AND_TAPE",
-                "DESK_ACCESSORIES",
-                "PRINTER_SUPPLIES"
-            ]
-        },
-        {
-            "2": [
-                "PAPER_PRODUCTS",
-                "FILE_FOLDERS_AND_ORGANIZERS",
-                "STAPLERS_AND_TAPE",
-                "DESK_ACCESSORIES",
-                "PRINTER_SUPPLIES"
-            ]
-        }
-    ],
-    "51": [
-        {
-            "1": [
-                "ACTION_FIGURES",
-                "BOARD_GAMES",
-                "PUZZLES",
-                "DOLLS_AND_DOLLHOUSES",
-                "EDUCATIONAL_TOYS"
-            ]
-        },
-        {
-            "2": [
-                "ACTION_FIGURES",
-                "BOARD_GAMES",
-                "PUZZLES",
-                "DOLLS_AND_DOLLHOUSES",
-                "EDUCATIONAL_TOYS"
-            ]
-        }
-    ],
-    "52": [
-        {
-            "1": [
-                "CRAFT_KITS",
-                "PAINTING_AND_DRAWING_SUPPLIES",
-                "SEWING_AND_NEEDLEWORK",
-                "SCRAPBOOKING",
-                "MODEL_KITS"
-            ]
-        },
-        {
-            "2": [
-                "CRAFT_KITS",
-                "PAINTING_AND_DRAWING_SUPPLIES",
-                "SEWING_AND_NEEDLEWORK",
-                "SCRAPBOOKING",
-                "MODEL_KITS"
-            ]
-        }
-    ]
+    "1": {
+        "1": [
+            "Soft drinks",
+            "Juices",
+            "Coffee and tea",
+            "Energy drinks",
+            "Sports drinks"
+        ],
+        "2": [
+            "Napoje gazowane",
+            "Soki",
+            "Kawa i herbata",
+            "Napoje energetyczne",
+            "Napojów izotonicznych"
+        ]
+    },
+    "2": {
+        "1": [
+            "Chips and crisps",
+            "Candies and sweets",
+            "Nuts and seeds",
+            "Popcorn",
+            "Pretzels"
+        ],
+        "2": [
+            "Przekaźniki i czipsy",
+            "Cukierki i słodycze",
+            "Orzechy i nasiona",
+            "Popcorn",
+            "Prezenty"
+        ]
+    },
+    "3": {
+        "1": ["Skincare", "Haircare", "Oral care", "Body wash", "Deodorants"],
+        "2": [
+            "Pielęgnacja skóry",
+            "Pielęgnacja włosów",
+            "Pielęgnacja jamy ustnej",
+            "Żel pod prysznic",
+            "Dezodoranty"
+        ]
+    },
+    "4": {
+        "1": [
+            "Milk and milk products",
+            "Yogurt",
+            "Cheese",
+            "Butter and spreads",
+            "Desserts"
+        ],
+        "2": [
+            "Mleko i produkty mleczne",
+            "Jogurt",
+            "Ser",
+            "Masło i pasty",
+            "Desery"
+        ]
+    },
+    "5": {
+        "1": [
+            "Dishwashing",
+            "Laundry detergents",
+            "Cleaning tools",
+            "Bathroom cleaners",
+            "Floor cleaners"
+        ],
+        "2": [
+            "Zmywanie naczyń",
+            "Płyny do prania",
+            "Narzędzia czyszczące",
+            "Środki do czyszczenia łazienki",
+            "Środki do czyszczenia podłóg"
+        ]
+    },
+    "6": {
+        "1": [
+            "Canned vegetables",
+            "Canned fruits",
+            "Canned soups",
+            "Canned meat and fish",
+            "Canned beans"
+        ],
+        "2": [
+            "Puszki warzywne",
+            "Puszki owocowe",
+            "Zupy w puszkach",
+            "Mięso i ryby w puszce",
+            "Fasolka w puszce"
+        ]
+    },
+    "7": {
+        "1": [
+            "Frozen vegetables",
+            "Frozen meals",
+            "Frozen pizza",
+            "Ice cream",
+            "Frozen snacks"
+        ],
+        "2": [
+            "Mrożone warzywa",
+            "Mrożone posiłki",
+            "Mrożona pizza",
+            "Lody",
+            "Mrożone przekąski"
+        ]
+    },
+    "8": {
+        "1": ["Bread", "Cakes and pastries", "Bagels", "Muffins", "Cookies"],
+        "2": [
+            "Chleb",
+            "Ciasta i wyroby cukiernicze",
+            "Bułki",
+            "Muffiny",
+            "Ciasteczka"
+        ]
+    },
+    "9": {
+        "1": [
+            "Chocolate bars",
+            "Gummies and jellies",
+            "Hard candy",
+            "Licorice",
+            "Chewing gum"
+        ],
+        "2": [
+            "Batoniki czekoladowe",
+            "Żelki i galaretki",
+            "Twarde cukierki",
+            "Lukrecja",
+            "Guma do żucia"
+        ]
+    },
+    "10": {
+        "1": [
+            "Vitamins and supplements",
+            "Pain relief",
+            "First aid",
+            "Diet and nutrition",
+            "Family planning"
+        ],
+        "2": [
+            "Witaminy i suplementy",
+            "Łagodzenie bólu",
+            "Pierwsza pomoc",
+            "Dieta i odżywianie",
+            "Planowanie rodziny"
+        ]
+    },
+    "11": {
+        "1": [
+            "Toilet paper",
+            "Paper towels",
+            "Facial tissues",
+            "Napkins",
+            "Disposable plates and cutlery"
+        ],
+        "2": [
+            "Papier toaletowy",
+            "Ręczniki papierowe",
+            "Chusteczki do twarzy",
+            "Serwetki",
+            "Naczynia i sztućce jednorazowe"
+        ]
+    },
+    "12": {
+        "1": [
+            "Diapers and wipes",
+            "Baby food",
+            "Baby toiletries",
+            "Baby health",
+            "Baby clothing"
+        ],
+        "2": [
+            "Pieluchy i chusteczki",
+            "Jedzenie dla niemowląt",
+            "Artykuły toaletowe dla niemowląt",
+            "Zdrowie niemowląt",
+            "Ubranka dla niemowląt"
+        ]
+    },
+    "13": {
+        "1": [
+            "Pet food",
+            "Pet treats",
+            "Pet toys",
+            "Pet grooming",
+            "Pet accessories"
+        ],
+        "2": [
+            "Karma dla zwierząt domowych",
+            "Przysmaki dla zwierząt",
+            "Zabawki dla zwierząt",
+            "Pielęgnacja zwierząt",
+            "Akcesoria dla zwierząt"
+        ]
+    },
+    "14": {
+        "1": [
+            "Shampoo and conditioner",
+            "Soap and body wash",
+            "Shaving products",
+            "Feminine hygiene",
+            "Toothpaste and toothbrushes"
+        ],
+        "2": [
+            "Szampon i odżywka",
+            "Mydło i żel do ciała",
+            "Produkty do golenia",
+            "Higiena intymna",
+            "Pasta do zębów i szczoteczki do zębów"
+        ]
+    },
+    "15": {
+        "1": [
+            "Cereals",
+            "Oatmeal and porridge",
+            "Pancake and waffle mix",
+            "Granola",
+            "Breakfast bars"
+        ],
+        "2": [
+            "Płatki śniadaniowe",
+            "Owsianka i kasza",
+            "Mieszanki na naleśniki i gofry",
+            "Granola",
+            "Batoniki śniadaniowe"
+        ]
+    },
+    "16": {
+        "1": ["Beef", "Chicken", "Fish and seafood", "Pork", "Processed meats"],
+        "2": [
+            "Wołowina",
+            "Kurczak",
+            "Ryby i owoce morza",
+            "Wieprzowina",
+            "Przetwory mięsne"
+        ]
+    },
+    "17": {
+        "1": [
+            "Batteries",
+            "Light bulbs",
+            "Trash bags",
+            "Cleaning supplies",
+            "Storage and organization"
+        ],
+        "2": [
+            "Baterie",
+            "Żarówki",
+            "Worki na śmieci",
+            "Środki czystości",
+            "Przechowywanie i organizacja"
+        ]
+    },
+    "18": {
+        "1": [
+            "Fruits",
+            "Vegetables",
+            "Herbs",
+            "Organic produce",
+            "Exotic fruits and vegetables"
+        ],
+        "2": [
+            "Owoce",
+            "Warzywa",
+            "Zioła",
+            "Produkty organiczne",
+            "Egzotyczne owoce i warzywa"
+        ]
+    },
+    "19": {
+        "1": [
+            "Herbs and spices",
+            "Ketchup and mustard",
+            "Mayonnaise",
+            "Hot sauce",
+            "Soy sauce"
+        ],
+        "2": [
+            "Zioła i przyprawy",
+            "Ketchup i musztarda",
+            "Majonez",
+            "Ostry sos",
+            "Sos sojowy"
+        ]
+    },
+    "20": {
+        "1": ["Rice", "Pasta", "Bread crumbs", "Couscous", "Quinoa"],
+        "2": ["Ryż", "Makaron", "Bułka tarta", "Kuskus", "Kwinoa"]
+    },
+    "21": {
+        "1": [
+            "Canned soups",
+            "Sauces and gravies",
+            "Soup mixes",
+            "Condiments",
+            "Soy sauce"
+        ],
+        "2": [
+            "Zupy w puszkach",
+            "Sosy i sosy pieczeniowe",
+            "Mieszanki zup",
+            "Przyprawy",
+            "Sos sojowy"
+        ]
+    },
+    "22": {
+        "1": [
+            "Hot cereals",
+            "Cold cereals",
+            "Granola",
+            "Organic cereals",
+            "Kids cereals"
+        ],
+        "2": [
+            "Gorące płatki śniadaniowe",
+            "Zimne płatki śniadaniowe",
+            "Granola",
+            "Płatki śniadaniowe ekologiczne",
+            "Płatki śniadaniowe dla dzieci"
+        ]
+    },
+    "23": {
+        "1": [
+            "Refrigerators",
+            "Washing machines",
+            "Microwaves",
+            "Vacuum cleaners",
+            "Air conditioners"
+        ],
+        "2": [
+            "Lodówki",
+            "Pralki",
+            "Kuchenki mikrofalowe",
+            "Odkurzacze",
+            "Klimatyzatory"
+        ]
+    },
+    "24": {
+        "1": ["Cookware", "Cutlery", "Bakeware", "Utensils", "Kitchen gadgets"],
+        "2": [
+            "Naczynia kuchenne",
+            "Sztućce",
+            "Naczynia do pieczenia",
+            "Narzędzia kuchenne",
+            "Gadżety kuchenne"
+        ]
+    },
+    "25": {
+        "1": [
+            "Toilet paper",
+            "Bathroom cleaners",
+            "Shower curtains",
+            "Towels",
+            "Bath mats"
+        ],
+        "2": [
+            "Papier toaletowy",
+            "Środki do czyszczenia łazienek",
+            "Zasłony prysznicowe",
+            "Ręczniki",
+            "Maty łazienkowe"
+        ]
+    },
+    "26": {
+        "1": ["Smartphones", "Laptops", "TVs", "Headphones", "Tablets"],
+        "2": ["Smartfony", "Laptopy", "Telewizory", "Słuchawki", "Tablety"]
+    },
+    "27": {
+        "1": [
+            "Makeup",
+            "Fragrances",
+            "Nail care",
+            "Cosmetic accessories",
+            "Beauty tools"
+        ],
+        "2": [
+            "Makijaż",
+            "Perfumy",
+            "Pielęgnacja paznokci",
+            "Akcesoria kosmetyczne",
+            "Akcesoria do pielęgnacji urody"
+        ]
+    },
+    "28": {
+        "1": [
+            "Shampoo and conditioner",
+            "Hair styling products",
+            "Hair coloring",
+            "Hair accessories",
+            "Scalp treatments"
+        ],
+        "2": [
+            "Szampon i odżywka",
+            "Produkty do stylizacji włosów",
+            "Farbowanie włosów",
+            "Akcesoria do włosów",
+            "Zabiegi na skórę głowy"
+        ]
+    },
+    "29": {
+        "1": [
+            "Toothbrushes",
+            "Toothpaste",
+            "Mouthwash",
+            "Dental floss",
+            "Teeth whitening"
+        ],
+        "2": [
+            "Szczoteczki do zębów",
+            "Pasta do zębów",
+            "Płyn do płukania ust",
+            "Nić dentystyczna",
+            "Wybielanie zębów"
+        ]
+    },
+    "30": {
+        "1": [
+            "Cleansers",
+            "Moisturizers",
+            "Serums",
+            "Sunscreen",
+            "Acne treatments"
+        ],
+        "2": [
+            "Preparaty oczyszczające",
+            "Kremy nawilżające",
+            "Serum",
+            "Krem z filtrem UV",
+            "Leczenie trądziku"
+        ]
+    },
+    "31": {
+        "1": [
+            "Sanitary pads",
+            "Tampons",
+            "Pantyliners",
+            "Feminine wash",
+            "Menstrual cups"
+        ],
+        "2": [
+            "Podpaski",
+            "Tampony",
+            "Podkładki odświeżające",
+            "Płyny do higieny intymnej",
+            "Kubeczki menstruacyjne"
+        ]
+    },
+    "32": {
+        "1": [
+            "Adult diapers",
+            "Incontinence pads",
+            "Adult wipes",
+            "Bed protectors",
+            "Cleansing products"
+        ],
+        "2": [
+            "Pieluchy dla dorosłych",
+            "Podkłady dla inkontynencji",
+            "Chusteczki dla dorosłych",
+            "Ochraniacze łóżka",
+            "Produkty do oczyszczania"
+        ]
+    },
+    "33": {
+        "1": [
+            "Incontinence pads",
+            "Incontinence briefs",
+            "Incontinence bed pads",
+            "Cleansing wipes",
+            "Incontinence skin care"
+        ],
+        "2": [
+            "Podkłady dla inkontynencji",
+            "Pieluchy dla dorosłych",
+            "Podkłady łóżkowe dla inkontynencji",
+            "Chusteczki do oczyszczania",
+            "Pielęgnacja skóry przy inkontynencji"
+        ]
+    },
+    "34": {
+        "1": ["Shoes", "Socks", "Sandals", "Boots", "Slippers"],
+        "2": ["Buty", "Skarpety", "Sandały", "Buty", "Kapcie"]
+    },
+    "35": {
+        "1": ["Clothing", "Outerwear", "Activewear", "Underwear", "Swimwear"],
+        "2": [
+            "Odzież",
+            "Odzież wierzchnia",
+            "Odzież do aktywności",
+            "Bielizna",
+            "Stroje kąpielowe"
+        ]
+    },
+    "36": {
+        "1": [
+            "Bags and purses",
+            "Jewelry",
+            "Hats and caps",
+            "Scarves and shawls",
+            "Belts"
+        ],
+        "2": [
+            "Torebki i portfele",
+            "Biżuteria",
+            "Czapki i czapki",
+            "Szaliki i chusty",
+            "Paski"
+        ]
+    },
+    "37": {
+        "1": [
+            "Wall art",
+            "Candles and fragrances",
+            "Home textiles",
+            "Decorative mirrors",
+            "Figurines and statues"
+        ],
+        "2": [
+            "Sztuka ścienne",
+            "Świece i zapachy",
+            "Tekstylia domowe",
+            "Lustra dekoracyjne",
+            "Figurki i posągi"
+        ]
+    },
+    "38": {
+        "1": [
+            "Sofas and couches",
+            "Tables",
+            "Chairs",
+            "Beds and mattresses",
+            "Bookshelves"
+        ],
+        "2": [
+            "Kanapy i sofy",
+            "Stoły",
+            "Krzesła",
+            "Łóżka i materace",
+            "Półki na książki"
+        ]
+    },
+    "39": {
+        "1": [
+            "Bedding sets",
+            "Towels",
+            "Bathroom accessories",
+            "Shower curtains",
+            "Toilet accessories"
+        ],
+        "2": [
+            "Komplety pościeli",
+            "Ręczniki",
+            "Akcesoria łazienkowe",
+            "Zasłony prysznicowe",
+            "Akcesoria toaletowe"
+        ]
+    },
+    "40": {
+        "1": [
+            "Hand tools",
+            "Power tools",
+            "Fasteners and nails",
+            "Tool storage",
+            "Safety equipment"
+        ],
+        "2": [
+            "Narzędzia ręczne",
+            "Narzędzia elektryczne",
+            "Zapięcia i gwoździe",
+            "Przechowywanie narzędzi",
+            "Sprzęt ochronny"
+        ]
+    },
+    "41": {
+        "1": [
+            "Car parts",
+            "Car accessories",
+            "Tires and wheels",
+            "Auto maintenance",
+            "Car electronics"
+        ],
+        "2": [
+            "Części samochodowe",
+            "Akcesoria samochodowe",
+            "Opony i koła",
+            "Konserwacja samochodowa",
+            "Elektronika samochodowa"
+        ]
+    },
+    "42": {
+        "1": [
+            "TVs",
+            "Sound systems",
+            "Video game consoles",
+            "Streaming devices",
+            "Home theater furniture"
+        ],
+        "2": [
+            "Telewizory",
+            "Systemy audio",
+            "Konsole do gier",
+            "Urządzenia do strumieniowania",
+            "Meble do kina domowego"
+        ]
+    },
+    "43": {
+        "1": [
+            "Camping gear",
+            "Hiking equipment",
+            "Cycling gear",
+            "Fishing supplies",
+            "Outdoor clothing"
+        ],
+        "2": [
+            "Sprzęt kempingowy",
+            "Sprzęt do wędrówek",
+            "Sprzęt rowerowy",
+            "Zestawy do wędkowania",
+            "Odzież outdoorowa"
+        ]
+    },
+    "44": {
+        "1": [
+            "Treadmills",
+            "Dumbbells",
+            "Exercise bikes",
+            "Yoga and pilates gear",
+            "Resistance bands"
+        ],
+        "2": [
+            "Bieżnie",
+            "Hantle",
+            "Rowerki treningowe",
+            "Sprzęt do jogi i pilatesu",
+            "Opaski oporowe"
+        ]
+    },
+    "45": {
+        "1": [
+            "Outdoor plants",
+            "Gardening tools",
+            "Pots and planters",
+            "Garden decor",
+            "Fertilizers and soil"
+        ],
+        "2": [
+            "Rośliny zewnętrzne",
+            "Narzędzia ogrodnicze",
+            "Donice i pojemniki na rośliny",
+            "Dekoracje ogrodowe",
+            "Nawozy i gleba"
+        ]
+    },
+    "46": {
+        "1": [
+            "Books",
+            "Notebooks and journals",
+            "Pens and pencils",
+            "Art supplies",
+            "Desk accessories"
+        ],
+        "2": [
+            "Książki",
+            "Notatniki i dzienniki",
+            "Długopisy i ołówki",
+            "Artykuły plastyczne",
+            "Akcesoria biurowe"
+        ]
+    },
+    "47": {
+        "1": [
+            "Paint and paint supplies",
+            "Power tools",
+            "Hardware",
+            "Light fixtures",
+            "Plumbing supplies"
+        ],
+        "2": [
+            "Farby i akcesoria malarskie",
+            "Narzędzia elektryczne",
+            "Artykuły metalowe",
+            "Oprawy oświetleniowe",
+            "Artykuły hydrauliczne"
+        ]
+    },
+    "48": {
+        "1": [
+            "Light bulbs",
+            "Electrical wiring",
+            "Power outlets",
+            "Lighting fixtures",
+            "Appliance cords"
+        ],
+        "2": [
+            "Żarówki",
+            "Instalacje elektryczne",
+            "Gniazdka elektryczne",
+            "Oprawy oświetleniowe",
+            "Kable do urządzeń"
+        ]
+    },
+    "49": {
+        "1": [
+            "Party decorations",
+            "Tableware",
+            "Party favors",
+            "Balloons",
+            "Themed party supplies"
+        ],
+        "2": [
+            "Dekoracje imprezowe",
+            "Zastawa stołowa",
+            "Upominki imprezowe",
+            "Balony",
+            "Przybory tematyczne do imprez"
+        ]
+    },
+    "50": {
+        "1": [
+            "Paper products",
+            "File folders and organizers",
+            "Staplers and tape",
+            "Desk accessories",
+            "Printer supplies"
+        ],
+        "2": [
+            "Artykuły papierowe",
+            "Teczki i organizery",
+            "Dziurkacze i taśmy",
+            "Akcesoria biurkowe",
+            "Materiały eksploatacyjne do drukarek"
+        ]
+    },
+    "51": {
+        "1": [
+            "Action figures",
+            "Board games",
+            "Puzzles",
+            "Dolls and dollhouses",
+            "Educational toys"
+        ],
+        "2": [
+            "Figurki akcji",
+            "Gry planszowe",
+            "Puzzle",
+            "Lalki i domki dla lalek",
+            "Zabawki edukacyjne"
+        ]
+    },
+    "52": {
+        "1": [
+            "Craft kits",
+            "Painting and drawing supplies",
+            "Sewing and needlework",
+            "Scrapbooking",
+            "Model kits"
+        ],
+        "2": [
+            "Zestawy rękodzielnicze",
+            "Artykuły do malowania i rysowania",
+            "Sztuka haftu i robótek ręcznych",
+            "Albumy ze zdjęciami",
+            "Zestawy modelarskie"
+        ]
+    }
 }
