@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Str;
 
 use App\Models\Product\ProductCategory;
 use App\Models\Language\Language;
@@ -16,6 +15,10 @@ class ProductCategorySeeder extends Seeder
      */
     public function run()
     {
+        Schema::disableForeignKeyConstraints();
+        ProductCategory::truncate();
+        Schema::enableForeignKeyConstraints();
+
         $json = file_get_contents(__DIR__ . '/productCategories.json');
         $data = json_decode($json, true);
 
