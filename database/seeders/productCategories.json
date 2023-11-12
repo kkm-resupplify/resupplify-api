@@ -1,0 +1,210 @@
+{
+    "1": {
+        "1": "Beverages",
+        "2": "Napoje"
+    },
+    "2": {
+        "1": "Snacks",
+        "2": "Przekąski"
+    },
+    "3": {
+        "1": "Personal Care",
+        "2": "Pielęgnacja osobista"
+    },
+    "4": {
+        "1": "Dairy",
+        "2": "Nabiał"
+    },
+    "5": {
+        "1": "Cleaning Supplies",
+        "2": "Środki czystości"
+    },
+    "6": {
+        "1": "Canned Goods",
+        "2": "Artykuły konserwowe"
+    },
+    "7": {
+        "1": "Frozen Foods",
+        "2": "Mrożonki"
+    },
+    "8": {
+        "1": "Bakery",
+        "2": "Piekarnia"
+    },
+    "9": {
+        "1": "Confectionery",
+        "2": "Słodycze"
+    },
+    "10": {
+        "1": "Health and Wellness",
+        "2": "Zdrowie i dobre samopoczucie"
+    },
+    "11": {
+        "1": "Paper Products",
+        "2": "Artykuły papierowe"
+    },
+    "12": {
+        "1": "Baby Care",
+        "2": "Opieka nad dzieckiem"
+    },
+    "13": {
+        "1": "Pet Care",
+        "2": "Opieka nad zwierzętami"
+    },
+    "14": {
+        "1": "Toiletries",
+        "2": "Artykuły higieniczne"
+    },
+    "15": {
+        "1": "Breakfast Foods",
+        "2": "Śniadaniowe"
+    },
+    "16": {
+        "1": "Meat and Seafood",
+        "2": "Mięso i owoce morza"
+    },
+    "17": {
+        "1": "Household Items",
+        "2": "Artykuły gospodarstwa domowego"
+    },
+    "18": {
+        "1": "Fresh Produce",
+        "2": "Świeże produkty"
+    },
+    "19": {
+        "1": "Spices and Condiments",
+        "2": "Przyprawy i dodatki"
+    },
+    "20": {
+        "1": "Grains and Pasta",
+        "2": "Zboża i makaron"
+    },
+    "21": {
+        "1": "Soups and Sauces",
+        "2": "Zupy i sosy"
+    },
+    "22": {
+        "1": "Cereals",
+        "2": "Płatki śniadaniowe"
+    },
+    "23": {
+        "1": "Home Appliances",
+        "2": "Sprzęt AGD"
+    },
+    "24": {
+        "1": "Kitchenware",
+        "2": "Sprzęt kuchenny"
+    },
+    "25": {
+        "1": "Bathroom Supplies",
+        "2": "Artykuły łazienkowe"
+    },
+    "26": {
+        "1": "Electronics",
+        "2": "Elektronika"
+    },
+    "27": {
+        "1": "Beauty Products",
+        "2": "Produkty kosmetyczne"
+    },
+    "28": {
+        "1": "Hair Care",
+        "2": "Pielęgnacja włosów"
+    },
+    "29": {
+        "1": "Oral Care",
+        "2": "Higiena jamy ustnej"
+    },
+    "30": {
+        "1": "Skin Care",
+        "2": "Pielęgnacja skóry"
+    },
+    "31": {
+        "1": "Feminine Hygiene",
+        "2": "Higiena intymna"
+    },
+    "32": {
+        "1": "Adult Care",
+        "2": "Opieka nad dorosłymi"
+    },
+    "33": {
+        "1": "Incontinence",
+        "2": "Bezsenność"
+    },
+    "34": {
+        "1": "Footwear",
+        "2": "Obuwie"
+    },
+    "35": {
+        "1": "Apparel",
+        "2": "Odzież"
+    },
+    "36": {
+        "1": "Accessories",
+        "2": "Akcesoria"
+    },
+    "37": {
+        "1": "Home Decor",
+        "2": "Dekoracje domowe"
+    },
+    "38": {
+        "1": "Furniture",
+        "2": "Meble"
+    },
+    "39": {
+        "1": "Bed and Bath",
+        "2": "Łóżko i łazienka"
+    },
+    "40": {
+        "1": "Tools and Hardware",
+        "2": "Narzędzia i akcesoria"
+    },
+    "41": {
+        "1": "Automotive",
+        "2": "Motoryzacja"
+    },
+    "42": {
+        "1": "Home Entertainment",
+        "2": "Rozrywka domowa"
+    },
+    "43": {
+        "1": "Outdoor Recreation",
+        "2": "Rekreacja na świeżym powietrzu"
+    },
+    "44": {
+        "1": "Fitness Equipment",
+        "2": "Sprzęt do fitnessu"
+    },
+    "45": {
+        "1": "Gardening",
+        "2": "Ogrodnictwo"
+    },
+    "46": {
+        "1": "Books and Stationery",
+        "2": "Książki i artykuły biurowe"
+    },
+    "47": {
+        "1": "Home Improvement",
+        "2": "Remont i poprawki"
+    },
+    "48": {
+        "1": "Electrical and Lighting",
+        "2": "Elektryka i oświetlenie"
+    },
+    "49": {
+        "1": "Party Supplies",
+        "2": "Artykuły imprezowe"
+    },
+    "50": {
+        "1": "Office Supplies",
+        "2": "Artykuły biurowe"
+    },
+    "51": {
+        "1": "Toys and Games",
+        "2": "Zabawki i gry"
+    },
+    "52": {
+        "1": "Crafts and Hobbies",
+        "2": "Rękodzieło i hobby"
+    }
+}

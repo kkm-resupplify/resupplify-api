@@ -1,6 +1,11 @@
 <?php
 
 use App\Http\Controllers\Portal\Company\CompanyMemberController;
+use App\Http\Controllers\Portal\Product\ProductCategoryController;
+use App\Http\Controllers\Portal\Product\ProductSubcategoryController;
+use App\Http\Controllers\Portal\Product\ProductController;
+use App\Http\Controllers\Portal\Warehouse\WarehouseController;
+use App\Http\Controllers\Portal\Warehouse\WarehouseProductController;
 use App\Http\Controllers\Test\TestController as TestController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -15,6 +20,8 @@ Route::post('register', [AuthController::class, 'register'])->name('register');
 Route::post('login', [AuthController::class, 'login']);
 Route::get('country', [CountryController::class, 'index']);
 Route::get('country/{country}', [CountryController::class, 'show']);
+Route::get('test/lang', [TestController::class, 'langTest']);
+
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('user', [UserController::class, 'index']);
     Route::post('test', [TestController::class,'test'])->middleware('hasCompany');
@@ -29,11 +36,21 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('company/createInvitationCode' , [InvitationController::class, 'createInvitationCode'])->middleware('hasCompany');
     Route::get('company/roles', [CompanyController::class, 'getCompanyRoles'])->middleware('hasCompany');
     Route::get('company/companyMembers', [CompanyMemberController::class, 'getUserCompanyMembers'])->middleware('hasCompany');
-    Route::get('company/companyMembers/{id}', [CompanyMemberController::class, 'getCompanyMembers'])->middleware('hasCompany');
+    Route::get('company/companyMembers/{user}', [CompanyMemberController::class, 'getCompanyMembers'])->middleware('hasCompany');
     Route::post('company/join', [CompanyMemberController::class, 'addUserToCompany']);
     Route::post('company/leave', [CompanyMemberController::class,'leaveCompany'])->middleware('hasCompany');
     Route::get('company/roles/permissions', [CompanyController::class, 'getCompanyRolesPermissions']);
     Route::delete('company/companyMembers/{user}', [CompanyMemberController::class, 'deleteCompanyMember'])->middleware('hasCompany');
+    Route::resource('company/warehouse', WarehouseController::class)->middleware('hasCompany');
+    Route::resource('company/product', ProductController::class)->middleware('hasCompany');
     Route::resource('company', CompanyController::class);
     Route::resource('companyCategories', CompanyCategoryController::class);
+    Route::post('company/warehouse/product', [WarehouseProductController::class,'store'])->middleware('hasCompany');
+    Route::get('company/warehouse/{warehouse}/productNotAttached/', [WarehouseProductController::class,'productsNotInWarehouse'])->middleware('hasCompany');
+    Route::delete('company/warehouse/{warehouse}/product/{product}', [WarehouseProductController::class,'destroy'])->middleware('hasCompany');
+    Route::put('company/warehouse/{warehouse}/product/{product}', [WarehouseProductController::class,'update'])->middleware('hasCompany');
+    Route::get('company/warehouse/{warehouse}/product/{product}', [WarehouseProductController::class,'show'])->middleware('hasCompany');
+    Route::get('company/warehouse/{warehouse}/product', [WarehouseProductController::class,'index'])->middleware('hasCompany');
+    Route::get('productCategory', [ProductCategoryController::class, 'index']);
+    Route::get('productSubcategory', [ProductSubcategoryController::class, 'index']);
 });

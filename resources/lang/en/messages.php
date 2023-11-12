@@ -26,30 +26,10 @@ return [
         'cantCreateUserInvitationRole' =>
             'You cannot assign this role to this invitation',
         'cantDeleteYourself' => 'You cannot remove yourself from the company',
-        'wrongPermissions' =>
-            'You do not have the required permissions to perform this action',
-    ],
-
-    'loginMessages' => [
-        'validationError' => 'Error in login data validation',
-
-        'noUserFound' => 'We haven\'t found a user with this email address',
-        'wrongPassword' => 'You have provided wrong login details',
-    ],
-
-    'registerMessages' => [
-        'validationError' =>
-            'The data you provided for company registration is invalid',
-        'userCreated' => 'User created successfully',
-    ],
-
-    'company' => [
-        'validationError' => 'Error in company data validation',
-    ],
-
-    'userDetailsRequest' => [
-        'validationError' =>
-            'The data you\'ve provided for user details is invalid',
-        'success' => 'Successfully updated user details',
+        'wrongPermissions' =>'You do not have the required permissions to perform this action','warehouseNotFound' => 'Warehouse not found',
+        'productNotFound' => 'Product not found',
+        'warehouseDataNotAccessible' => 'You can\'t access this warehouse data',
+        'productExistsInWarehouse' => 'Product already exists in this warehouse',
+        'filterNotAllowed' => 'Filter is not allowed',
     ],
 ];

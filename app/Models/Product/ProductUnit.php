@@ -4,18 +4,20 @@ namespace App\Models\Product;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+
+use App\Models\Product\Product;
 
 class ProductUnit extends Model
 {
     use HasFactory;
     use SoftDeletes;
 
-    protected $fillable = ['name', 'symbol'];
+    protected $fillable = ['code'];
 
-    public function companyProduct(): BelongsTo
+    public function products(): HasMany
     {
-        return $this->belongsTo(CompanyProductDetails::class);
+        return $this->hasMany(Product::class);
     }
 }

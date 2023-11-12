@@ -15,6 +15,7 @@ return new class extends Migration {
             $table->string('email')->unique();
             $table->smallInteger('type');
             $table->string('password');
+            $table->foreignId('language_id')->constrained('languages');
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
