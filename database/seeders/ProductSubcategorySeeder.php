@@ -7,6 +7,7 @@ use Illuminate\Database\Seeder;
 use App\Models\Product\ProductCategory;
 use App\Models\Product\ProductSubcategory;
 use App\Models\Language\Language;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 class ProductSubcategorySeeder extends Seeder
@@ -18,6 +19,7 @@ class ProductSubcategorySeeder extends Seeder
     {
         Schema::disableForeignKeyConstraints();
         ProductSubcategory::truncate();
+        DB::table('language_product_subcategory')->truncate();
         Schema::enableForeignKeyConstraints();
 
         $json = file_get_contents(__DIR__ . '/productSubcategories.json');

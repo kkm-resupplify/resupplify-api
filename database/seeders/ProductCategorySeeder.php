@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 use App\Models\Product\ProductCategory;
@@ -17,6 +18,7 @@ class ProductCategorySeeder extends Seeder
     {
         Schema::disableForeignKeyConstraints();
         ProductCategory::truncate();
+        DB::table('language_product_category')->truncate();
         Schema::enableForeignKeyConstraints();
 
         $json = file_get_contents(__DIR__ . '/productCategories.json');

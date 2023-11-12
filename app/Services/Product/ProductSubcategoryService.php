@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Services\Product;
+use App\Resources\Product\ProductSubcategoryResource;
 use Illuminate\Support\Facades\Auth;
 
 use App\Http\Controllers\Controller;
@@ -12,7 +13,7 @@ class ProductSubcategoryService extends Controller
     {
         $user = Auth::user();
 
-        return ProductSubcategory::whereHas('languages', function ($query) use (
+        return ProductSubcategoryResource::collection(ProductSubcategory::whereHas('languages', function ($query) use (
             $user
         ) {
             $query->where('languages.id', $user->language->id);
@@ -22,6 +23,6 @@ class ProductSubcategoryService extends Controller
                     $query->where('languages.id', $user->language->id);
                 },
             ])
-            ->get();
+            ->get());
     }
 }
