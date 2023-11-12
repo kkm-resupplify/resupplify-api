@@ -6,9 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 use App\Models\Product\ProductCategory;
 use App\Models\Product\Product;
+use App\Models\Language\Language;
 
 class ProductSubcategory extends Model
 {
@@ -24,5 +26,10 @@ class ProductSubcategory extends Model
     public function products(): HasMany
     {
         return $this->hasMany(Product::class);
+    }
+
+    public function languages(): BelongsToMany
+    {
+        return $this->belongsToMany(Language::class,'language_product_subcategory')->withPivot(['name']);
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Models\Language;
 
 use App\Models\Product\ProductCategory;
+use App\Models\Product\ProductSubcategory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -21,6 +22,11 @@ class Language extends Model
     public function productCategories(): BelongsToMany
     {
         return $this->belongsToMany(ProductCategory::class);
+    }
+
+    public function productSubcategories(): BelongsToMany
+    {
+        return $this->belongsToMany(ProductSubcategory::class);
     }
 
     public function users(): HasMany
