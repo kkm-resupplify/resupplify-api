@@ -23,7 +23,7 @@ class ProductSubcategorySeeder extends Seeder
         $json = file_get_contents(__DIR__ . '/productSubcategories.json');
         $data = json_decode($json, true);
 
-        foreach ($data as $categoryId => $subcategories) {
+        foreach ($data as $categoryId => $subcategoryLanguages) {
             $productCategory = ProductCategory::find($categoryId);
 
             for ($i = 0; $i < 5; $i++) {
@@ -31,13 +31,15 @@ class ProductSubcategorySeeder extends Seeder
                 $productCategory
                     ->productSubcategories()
                     ->save($productSubcategory);
-            }
 
-            foreach ($subcategories as $languageId => $subcategoryData) {
-                foreach ($subcategoryData as $subcategoryName) {
-                    $productSubcategory
-                        ->languages()
-                        ->attach($languageId, ['name' => $subcategoryName]);
+                foreach (
+                    $subcategoryLanguages
+                    as $languageId => $subcategoryNames
+                ) {
+                    $productSubcategory->languages()->attach($languageId, [
+                        'name' =>
+                            $subcategoryNames[$productSubcategory->id % 5],
+                    ]);
                 }
             }
         }
