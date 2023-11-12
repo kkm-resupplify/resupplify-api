@@ -44,6 +44,7 @@ class AuthService extends BasicService
             'email' => $request->email,
             'password' => $request->password,
             'type' => UserTypeEnum::PORTAL(),
+            'language_id' => 1
         ]);
 
         $token = $user->createToken('user_token')->plainTextToken;
