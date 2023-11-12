@@ -13,6 +13,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 use App\Models\Company\Enums\CompanyStatusEnum;
 use App\Models\Company\Enums\CompanyCategoryEnum;
+
 use App\Models\User\User;
 use App\Models\Company\CompanyCategory;
 use App\Models\Company\CompanyDetails;

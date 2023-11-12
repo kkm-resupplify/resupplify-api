@@ -3,44 +3,44 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\File;
 
-use App\Models\Product\ProductSubcategory;
 use App\Models\Product\ProductCategory;
+use App\Models\Product\ProductSubcategory;
+use App\Models\Language\Language;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class ProductSubcategorySeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
-    public function run(): void
+    public function run()
     {
         Schema::disableForeignKeyConstraints();
         ProductSubcategory::truncate();
+        DB::table('language_product_subcategory')->truncate();
         Schema::enableForeignKeyConstraints();
 
-        $jsonFilePath = __DIR__ . '/subcategories.json';
+        $json = file_get_contents(__DIR__ . '/productSubcategories.json');
+        $data = json_decode($json, true);
 
-        if (File::exists($jsonFilePath)) {
-            $jsonContents = File::get($jsonFilePath);
-            $categorySubcategories = json_decode($jsonContents, true);
+        foreach ($data as $categoryId => $subcategoryLanguages) {
+            $productCategory = ProductCategory::find($categoryId);
 
-            foreach (
-                $categorySubcategories
-                as $categoryKey => $categorySubcategory
-            ) {
-                foreach ($categorySubcategory as $subcategoryCode) {
-                    $category = ProductCategory::firstOrCreate([
-                        'code' => $categoryKey,
-                        'slug' => Str::slug($categoryKey),
-                    ]);
+            for ($i = 0; $i < 5; $i++) {
+                $productSubcategory = new ProductSubcategory();
+                $productCategory
+                    ->productSubcategories()
+                    ->save($productSubcategory);
 
-                    ProductSubcategory::create([
-                        'code' => $subcategoryCode,
-                        'slug' => Str::slug($subcategoryCode),
-                        'product_category_id' => $category->id,
+                foreach (
+                    $subcategoryLanguages
+                    as $languageId => $subcategoryNames
+                ) {
+                    $productSubcategory->languages()->attach($languageId, [
+                        'name' =>
+                            $subcategoryNames[$productSubcategory->id % 5],
                     ]);
                 }
             }

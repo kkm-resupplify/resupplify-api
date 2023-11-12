@@ -3,20 +3,19 @@
 namespace App\Models\User;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\User\Enums\UserTypeEnum;
 use Spatie\Permission\Traits\HasRoles;
-use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\Permission;
+
 use App\Models\Company\Company;
 use App\Models\Company\CompanyMember;
 use App\Models\User\UserDetails;
+use App\Models\Language\Language;
+
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles, SoftDeletes;
@@ -29,7 +28,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
 
-    protected $fillable = ['email', 'password', 'type'];
+    protected $fillable = ['email', 'password', 'type', 'language_id'];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -71,5 +70,9 @@ class User extends Authenticatable
             'id',
             'company_id'
         );
+    }
+
+    public function language() {
+        return $this->belongsTo(Language::class);
     }
 }

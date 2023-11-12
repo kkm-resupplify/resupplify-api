@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Portal\Company\CompanyMemberController;
+use App\Http\Controllers\Portal\Product\ProductCategoryController;
+use App\Http\Controllers\Portal\Product\ProductSubcategoryController;
 use App\Http\Controllers\Portal\Product\ProductController;
 use App\Http\Controllers\Portal\Warehouse\WarehouseController;
 use App\Http\Controllers\Portal\Warehouse\WarehouseProductController;
@@ -19,6 +21,7 @@ Route::post('login', [AuthController::class, 'login']);
 Route::get('country', [CountryController::class, 'index']);
 Route::get('country/{country}', [CountryController::class, 'show']);
 Route::get('test/lang', [TestController::class, 'langTest']);
+
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('user', [UserController::class, 'index']);
     Route::post('test', [TestController::class,'test'])->middleware('hasCompany');
@@ -48,4 +51,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('company/warehouse/{warehouse}/product/{product}', [WarehouseProductController::class,'update'])->middleware('hasCompany');
     Route::get('company/warehouse/{warehouse}/product/{product}', [WarehouseProductController::class,'show'])->middleware('hasCompany');
     Route::get('company/warehouse/{warehouse}/product', [WarehouseProductController::class,'index'])->middleware('hasCompany');
+    Route::get('productCategory', [ProductCategoryController::class, 'index']);
+    Route::get('productSubcategory', [ProductSubcategoryController::class, 'index']);
 });
