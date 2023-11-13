@@ -3,15 +3,22 @@
 namespace App\Services\Auth;
 
 use App\Models\User\Enums\UserTypeEnum;
+use Illuminate\Support\Facades\Hash;
+
 use App\Http\Dto\User\LoginDto;
 use App\Http\Dto\User\PortalRegisterDto;
-use App\Models\User\User;
-use App\Models\User\UserDetails;
-use Illuminate\Support\Facades\Hash;
+
 use App\Exceptions\Auth\FailedLoginException;
 use App\Exceptions\User\UserAlreadyExistsException;
+
+use App\Models\User\User;
+use App\Models\User\UserDetails;
+use App\Http\Dto\User\BackOfficeRegisterDto;
+
 use App\Services\BasicService;
+
 use App\Resources\User\UserLoginResource;
+use App\Resources\User\AdminLoginResource;
 
 class AuthService extends BasicService
 {
@@ -22,8 +29,7 @@ class AuthService extends BasicService
         if (!$user || !Hash::check($request->password, $user->password)) {
             $this->throw(new FailedLoginException());
         }
-        if(isset($user->company))
-        {
+        if (isset($user->company)) {
             setPermissionsTeamId($user->company->id);
         }
         $user->tokens()->delete();
@@ -44,7 +50,7 @@ class AuthService extends BasicService
             'email' => $request->email,
             'password' => $request->password,
             'type' => UserTypeEnum::PORTAL(),
-            'language_id' => 1
+            'language_id' => 1,
         ]);
 
         $token = $user->createToken('user_token')->plainTextToken;
@@ -55,5 +61,41 @@ class AuthService extends BasicService
     public function logout(User $user): void
     {
         $user->currentAccessToken()->delete();
+    }
+
+    public function backOfficeRegister(BackOfficeRegisterDto $request)
+    {
+        if (User::where('email', $request->email)->exists()) {
+            $this->throw(new UserAlreadyExistsException());
+        }
+
+        $user = User::create([
+            'email' => $request->email,
+            'password' => $request->password,
+            'type' => UserTypeEnum::BACK_OFFICE(),
+            'language_id' => 1,
+        ]);
+
+        $token = $user->createToken('user_token')->plainTextToken;
+
+        return ['user' => $user, 'token' => $token];
+    }
+
+    public function backOfficeLogin(LoginDto $request)
+    {
+        $user = User::where('email', '=', $request->email)
+            ->where('type', '=', 2)
+            ->first();
+
+        if (!$user || !Hash::check($request->password, $user->password)) {
+            $this->throw(new FailedLoginException());
+        }
+
+        $user->tokens()->delete();
+
+        $user->details = UserDetails::where('user_id', '=', $user->id)->first();
+        $token = $user->createToken('resupplify-token')->plainTextToken;
+        
+        return new AdminLoginResource(['user' => $user, 'token' => $token]);
     }
 }
