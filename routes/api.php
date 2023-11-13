@@ -22,6 +22,18 @@ Route::get('country', [CountryController::class, 'index']);
 Route::get('country/{country}', [CountryController::class, 'show']);
 Route::get('test/lang', [TestController::class, 'langTest']);
 
+// Back office
+Route::prefix('back-office')->group(function () {
+    Route::post('/login', [AuthController::class, 'backOfficeLogin']);
+    Route::post('/register', [AuthController::class, 'backOfficeRegister'])->name('backOfficeRegister');
+});
+
+Route::middleware('auth:sanctum')->prefix('back-office')->group(function () {
+    Route::post('/logout', [AuthController::class, 'logout']);
+});
+
+// Portal
+
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('user', [UserController::class, 'index']);
     Route::post('test', [TestController::class,'test'])->middleware('hasCompany');
