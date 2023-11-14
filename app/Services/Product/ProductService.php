@@ -74,8 +74,6 @@ class ProductService extends Controller
             throw(new WrongPermissions());
         }
         $productData = [
-            'name' => $request->name,
-            'description' =>$request->description,
             'producent' => $request->producent,
             'code' => $request->code,
             'product_unit_id' => $request->productUnitId,
@@ -85,6 +83,12 @@ class ProductService extends Controller
             'verification_status' => ProductVerificationStatusEnum::UNVERIFIED(),
         ];
         $product->update($productData);
+        foreach ($request->name as $key => $value) {
+            $product->languages()->updateExistingPivot([$product->id,$key],[
+                'name' => $request->name[$key],
+                'description' => $request->description[$key],
+            ]);
+        }
         return new ProductResource($product);
     }
 }
