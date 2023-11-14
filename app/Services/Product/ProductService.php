@@ -23,8 +23,6 @@ class ProductService extends Controller
             throw(new WrongPermissions());
         }
         $productData = [
-            'name' => $request->name,
-            'description' =>$request->description,
             'producent' => $request->producent,
             'code' => $request->code,
             'product_unit_id' => $request->productUnitId,
@@ -33,8 +31,12 @@ class ProductService extends Controller
             'status' => ProductStatusEnum::INACTIVE(),
             'verification_status' => ProductVerificationStatusEnum::UNVERIFIED(),
         ];
+
         $product = new Product($productData);
         $user->company->products()->save($product);
+        foreach ($request->name as $key => $value) {
+            $product->languages()->attach($key, ['name' => $value, 'description' => $request->description[$key]]);
+        }
         return new ProductResource($product);
     }
     public function deleteProduct(Product $product)
