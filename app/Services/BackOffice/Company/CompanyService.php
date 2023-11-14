@@ -38,17 +38,29 @@ class CompanyService extends Controller
     if (!isset($company)) {
       throw new CompanyNotFoundException();
     }
+    
     if($company->status == CompanyStatusEnum::VERIFIED()) {
       throw new CompanyAlreadyVerifiedException();
     }
+
     $company->status = CompanyStatusEnum::VERIFIED();
     $company->save();
 
     return $company;
   }
 
-  public function rejectCompany()
+  public function rejectCompany($companyId)
   {
+    $company = Company::find($companyId);
+
+    if (!isset($company)) {
+      throw new CompanyNotFoundException();
+    }
+
+    $company->status = CompanyStatusEnum::REJECTED();
+    $company->save();
+
+    return $company;
   }
 
   public function massVerifyCompanies()

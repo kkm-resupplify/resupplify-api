@@ -33,4 +33,10 @@ class CompanyController extends Controller
 
     return $this->ok($companyService->verifyCompany($companyId));
   }
+
+  public function rejectCompany(CompanyService $companyService, $companyId)
+  {
+
+    return $this->ok($companyService->rejectCompany($companyId));
+  }
 }
