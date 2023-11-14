@@ -11,6 +11,7 @@ use App\Models\Product\Enums\ProductVerificationStatusEnum;
 use App\Models\Product\Product;
 use App\Models\Warehouse\Warehouse;
 use App\Resources\Product\ProductResource;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class ProductService extends Controller
@@ -90,5 +91,24 @@ class ProductService extends Controller
             ]);
         }
         return new ProductResource($product);
+    }
+
+    public function massAssignProductStatus(Request $request)
+    {
+        $user = Auth::user();
+        setPermissionsTeamId($user->company->id);
+        $companyProducts = $user->company->products;
+        $requestProducts = $request->productIdList;
+        $status = $request->status;
+        foreach ($requestProducts as $productId)
+        {
+            if (!$companyProducts->contains('id', $productId))
+            {
+                throw(new ProductNotFoundException());
+            }
+            $product = Product::findOrFail($productId);
+            $product->update(['status' => $status]);
+        }
+        return 1;
     }
 }

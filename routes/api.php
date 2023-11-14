@@ -54,10 +54,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('company/roles/permissions', [CompanyController::class, 'getCompanyRolesPermissions']);
     Route::delete('company/companyMembers/{user}', [CompanyMemberController::class, 'deleteCompanyMember'])->middleware('hasCompany');
     Route::resource('company/warehouse', WarehouseController::class)->middleware('hasCompany');
+    Route::post('company/productMassAssign', [ProductController::class,'massAssignProductsStatus'])->middleware('hasCompany');
     Route::resource('company/product', ProductController::class)->middleware('hasCompany');
     Route::resource('company', CompanyController::class);
     Route::resource('companyCategories', CompanyCategoryController::class);
     Route::post('company/warehouse/product', [WarehouseProductController::class,'store'])->middleware('hasCompany');
+    Route::post('company/warehouse/productMassAssign', [WarehouseProductController::class, 'massAssignProductStatus'])->middleware('hasCompany');
     Route::get('company/warehouse/{warehouse}/productNotAttached/', [WarehouseProductController::class,'productsNotInWarehouse'])->middleware('hasCompany');
     Route::delete('company/warehouse/{warehouse}/product/{product}', [WarehouseProductController::class,'destroy'])->middleware('hasCompany');
     Route::put('company/warehouse/{warehouse}/product/{product}', [WarehouseProductController::class,'update'])->middleware('hasCompany');

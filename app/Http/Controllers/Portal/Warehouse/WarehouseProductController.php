@@ -39,4 +39,9 @@ class WarehouseProductController extends Controller
     {
         return $this->ok($warehouseProductService->getProductsNotInWarehouse($warehouse));
     }
+    public function massAssignProductStatus(WarehouseProductService $warehouseProductService, Warehouse $warehouse, Request $request)
+    {
+        $warehouse = Warehouse::findOrFail($request->warehouseId);
+        return $this->ok($warehouseProductService->massAssignProductStatus($warehouse, $request));
+    }
 }
