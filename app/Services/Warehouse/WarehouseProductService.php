@@ -77,7 +77,7 @@ class WarehouseProductService extends Controller
                 AllowedFilter::exact('status'),
                 AllowedFilter::custom('name', new FilterProductName()),
             ])
-            ->get();
+            ->paginate(10);
 
         return WarehouseProductResource::collection($warehouseProducts);
     }
