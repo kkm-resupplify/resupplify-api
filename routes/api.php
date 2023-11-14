@@ -28,12 +28,11 @@ Route::prefix('back-office')->group(function () {
     Route::post('/register', [AuthController::class, 'backOfficeRegister'])->name('backOfficeRegister');
 });
 
-Route::middleware('auth:sanctum')->prefix('back-office')->group(function () {
+Route::middleware('auth:sanctum', 'isBackOfficeAdmin')->prefix('back-office')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
 });
 
 // Portal
-
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('user', [UserController::class, 'index']);
     Route::post('test', [TestController::class,'test'])->middleware('hasCompany');
