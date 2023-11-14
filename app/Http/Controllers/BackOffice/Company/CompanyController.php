@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers\BackOffice\Company;
 
-use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+
+use App\Services\BackOffice\Company\CompanyService;
 
 use App\Http\Controllers\Controller;
 
-use App\Models\Company\Company;
-use App\Models\Company\Enums\CompanyStatusEnum;
-use App\Services\BackOffice\Company\CompanyService;
+use App\Http\Dto\Company\CompanyMassStatusUpdateDto;
 
 class CompanyController extends Controller
 {
@@ -38,5 +37,11 @@ class CompanyController extends Controller
   {
 
     return $this->ok($companyService->rejectCompany($companyId));
+  }
+
+  public function massStatusUpdate(CompanyService $companyService, CompanyMassStatusUpdateDto $statusUpdateDTO)
+  {
+
+    return $this->ok($companyService->massStatusUpdate($statusUpdateDTO));
   }
 }

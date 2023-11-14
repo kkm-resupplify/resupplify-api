@@ -31,6 +31,7 @@ Route::prefix('back-office')->group(function () {
 
     Route::get('/company', [BOCompanyController::class, 'index']);
     Route::get('/company/verify', [BOCompanyController::class, 'unverifiedCompanies']);
+    Route::post('/company/massStatusUpdate', [BOCompanyController::class, 'massStatusUpdate']);
     Route::put('/company/verify/{companyId}', [BOCompanyController::class, 'verifyCompany']);
     Route::put('/company/reject/{companyId}', [BOCompanyController::class, 'rejectCompany']);
 });
