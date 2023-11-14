@@ -31,6 +31,7 @@ Route::prefix('back-office')->group(function () {
 
     Route::get('/company', [BOCompanyController::class, 'index']);
     Route::get('/company/verify', [BOCompanyController::class, 'unverifiedCompanies']);
+    Route::put('/company/verify/{companyId}', [BOCompanyController::class, 'verifyCompany']);
 });
 
 Route::middleware('auth:sanctum', 'isBackOfficeAdmin')->prefix('back-office')->group(function () {
