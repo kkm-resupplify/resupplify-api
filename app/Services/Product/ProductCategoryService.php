@@ -25,6 +25,7 @@ class ProductCategoryService extends Controller
             ])
             ->get());
     }
+    
     public function getProductCategory(ProductCategory $productCategory)
     {
         return new ProductCategoryAndSubcategoryResource($productCategory);
