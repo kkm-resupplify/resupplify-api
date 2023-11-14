@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Services\Product;
+use App\Resources\Product\ProductCategoryAndSubcategoryResource;
 use App\Resources\Product\ProductCategoryResource;
 use Illuminate\Support\Facades\Auth;
 
@@ -23,5 +24,9 @@ class ProductCategoryService extends Controller
                 },
             ])
             ->get());
+    }
+    public function getProductCategory(ProductCategory $productCategory)
+    {
+        return new ProductCategoryAndSubcategoryResource($productCategory);
     }
 }

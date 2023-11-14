@@ -65,6 +65,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('company/warehouse/{warehouse}/product/{product}', [WarehouseProductController::class,'update'])->middleware('hasCompany');
     Route::get('company/warehouse/{warehouse}/product/{product}', [WarehouseProductController::class,'show'])->middleware('hasCompany');
     Route::get('company/warehouse/{warehouse}/product', [WarehouseProductController::class,'index'])->middleware('hasCompany');
-    Route::get('productCategory', [ProductCategoryController::class, 'index']);
+    Route::resource('productCategory', ProductCategoryController::class);
+    //Route::get('productCategory', [ProductCategoryController::class, 'index']);
     Route::get('productSubcategory', [ProductSubcategoryController::class, 'index']);
 });
