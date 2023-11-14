@@ -9,11 +9,14 @@ use App\Http\Controllers\Controller;
 
 class CompanyCategoryController extends Controller
 {
-    //
+
     public function index(CompanyCategoryService $companyCategory)
     {
         return $this->ok($companyCategory->getCategories());
     }
 
-    
+    public function unverifiedCompanies(CompanyCategoryService $companyCategory)
+    {
+        return $this->ok($companyCategory->getUnverifiedCompanies());
+    }
 }
