@@ -12,6 +12,7 @@ return [
         'userDetailsExists' =>
             'Użytkownik ma już ustawione szczegóły - użyj metody aktualizacji',
         'companyNotFound' => 'Nie znaleziono firmy',
+        'companyAlreadyVerified' => 'Firma jest już zweryfikowana',
         'userAlreadyHaveCompany' => 'Jesteś już członkiem firmy',
         'userInviteCodeNotFound' => 'Ten token zaproszenia nie istnieje',
         'userInviteCodeUsed' => 'Ten token zaproszenia został już użyty',

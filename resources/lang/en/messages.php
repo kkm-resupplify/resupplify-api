@@ -12,6 +12,7 @@ return [
         'userDetailsExists' =>
             'User already has details set - use update method',
         'companyNotFound' => 'Company not found',
+        'companyAlreadyVerified' => 'Company is already verified',
         'userAlreadyHaveCompany' => 'You already are a member of a company',
         'userInviteCodeNotFound' => 'This invitation token does not exist',
         'userInviteCodeUsed' => 'This invitation token has been used already',
