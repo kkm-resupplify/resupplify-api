@@ -15,7 +15,7 @@ use App\Models\Warehouse\Warehouse;
 use App\Resources\Product\ProductResource;
 use App\Resources\Warehouse\WarehouseProductResource;
 use App\Resources\Warehouse\WarehouseResource;
-use Illuminate\Http\Client\Request;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -155,5 +155,29 @@ class WarehouseProductService extends Controller
         }
         $companyProducts = $user->company->products;
         return ProductResource::collection($companyProducts->whereNotIn('id', $warehouse->products->pluck('id')));
+    }
+
+    public function massAssignProductStatus(Warehouse $warehouse, Request $request)
+    {
+        $user = Auth::user();
+        setPermissionsTeamId($user->company->id);
+        $warehouses = Auth::user()->company->warehouses;
+        if (!$warehouses->contains($warehouse))
+        {
+            throw(new WarehouseDataNotAccessible());
+        }
+        $requestProducts = $request->productIdList;
+        $status = $request->status;
+        $companyProducts = $warehouse->products;
+        foreach ($requestProducts as $productId)
+        {
+            if (!$companyProducts->contains('id', $productId))
+            {
+                throw(new ProductNotFoundException());
+            }
+            $product = Product::findOrFail($productId);
+            $product->update(['status' => $status]);
+        }
+        return 1;
     }
 }

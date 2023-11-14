@@ -59,6 +59,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::resource('company', CompanyController::class);
     Route::resource('companyCategories', CompanyCategoryController::class);
     Route::post('company/warehouse/product', [WarehouseProductController::class,'store'])->middleware('hasCompany');
+    Route::post('company/warehouse/productMassAssign', [WarehouseProductController::class, 'massAssignProductStatus'])->middleware('hasCompany');
     Route::get('company/warehouse/{warehouse}/productNotAttached/', [WarehouseProductController::class,'productsNotInWarehouse'])->middleware('hasCompany');
     Route::delete('company/warehouse/{warehouse}/product/{product}', [WarehouseProductController::class,'destroy'])->middleware('hasCompany');
     Route::put('company/warehouse/{warehouse}/product/{product}', [WarehouseProductController::class,'update'])->middleware('hasCompany');
