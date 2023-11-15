@@ -30,6 +30,7 @@ class ProductResource extends JsonResource
                 'id'=>$this->productSubcategory->id,
                 'name'=>$this->productSubcategory->languages[Auth::user()->language->id-1]->pivot->name,
             ],
+            'productTags' =>ProductTagResource::collection($this->productTags),
         ];
     }
 }
