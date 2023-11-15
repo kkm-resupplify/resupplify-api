@@ -32,5 +32,6 @@ return [
         'warehouseDataNotAccessible' => 'You can\'t access this warehouse data',
         'productExistsInWarehouse' => 'Product already exists in this warehouse',
         'filterNotAllowed' => 'Filter is not allowed',
+        'productAlreadyVerified' => 'Product is already verified',
     ],
 ];
