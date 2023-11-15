@@ -14,9 +14,9 @@ use Spatie\LaravelData\Attributes\Validation\Required;
 class ProductDto extends BasicDto
 {
     #[Max(60)]
-    public string $name;
+    public ?array $name;
     #[Max(300)]
-    public string $description;
+    public ?array $description;
     #[Max(90)]
     public string $producent;
     #[Max(90)]

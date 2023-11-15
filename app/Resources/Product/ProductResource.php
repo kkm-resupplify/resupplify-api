@@ -12,8 +12,8 @@ class ProductResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->languages[Auth::user()->language->id - 1]->pivot->name,
-            'description' => $this->languages[Auth::user()->language->id - 1]->pivot->description,
+            'name' => $this->languages[Auth::user()->language->id-1]->pivot->name,
+            'description' => $this->languages[Auth::user()->language->id-1]->pivot->description,
             'producent' => $this->producent,
             'code' => $this->code,
             'status' => $this->status,

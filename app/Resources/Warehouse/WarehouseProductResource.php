@@ -17,7 +17,7 @@ class WarehouseProductResource extends JsonResource
         return [
             'id' => $this->id,
             'product' => [
-                'name' => $this->name,
+                'name' => Product::find($this['pivot']->product_id)->languages[Auth::user()->language->id-1]->pivot->name,
                 'status' => $this->status,
                 'verificationStatus' => $this->verification_status,
                 'code' => $this->code,

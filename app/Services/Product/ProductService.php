@@ -11,6 +11,7 @@ use App\Models\Product\Enums\ProductVerificationStatusEnum;
 use App\Models\Product\Product;
 use App\Models\Warehouse\Warehouse;
 use App\Resources\Product\ProductResource;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class ProductService extends Controller
@@ -23,8 +24,6 @@ class ProductService extends Controller
             throw(new WrongPermissions());
         }
         $productData = [
-            'name' => $request->name,
-            'description' =>$request->description,
             'producent' => $request->producent,
             'code' => $request->code,
             'product_unit_id' => $request->productUnitId,
@@ -33,8 +32,12 @@ class ProductService extends Controller
             'status' => ProductStatusEnum::INACTIVE(),
             'verification_status' => ProductVerificationStatusEnum::UNVERIFIED(),
         ];
+
         $product = new Product($productData);
         $user->company->products()->save($product);
+        foreach ($request->name as $key => $value) {
+            $product->languages()->attach($key, ['name' => $value, 'description' => $request->description[$key]]);
+        }
         return new ProductResource($product);
     }
     public function deleteProduct(Product $product)
@@ -62,8 +65,11 @@ class ProductService extends Controller
     public function getProducts()
     {
         $user = Auth::user();
-        return ProductResource::collection($user->company->products()->get());
+        $products = $user->company->products()->paginate(10);
+
+        return ProductResource::collection($products);
     }
+
     public function editProduct(ProductDto $request, Product $product)
     {
         $user = Auth::user();
@@ -72,8 +78,6 @@ class ProductService extends Controller
             throw(new WrongPermissions());
         }
         $productData = [
-            'name' => $request->name,
-            'description' =>$request->description,
             'producent' => $request->producent,
             'code' => $request->code,
             'product_unit_id' => $request->productUnitId,
@@ -83,6 +87,31 @@ class ProductService extends Controller
             'verification_status' => ProductVerificationStatusEnum::UNVERIFIED(),
         ];
         $product->update($productData);
+        foreach ($request->name as $key => $value) {
+            $product->languages()->updateExistingPivot([$product->id,$key],[
+                'name' => $request->name[$key],
+                'description' => $request->description[$key],
+            ]);
+        }
         return new ProductResource($product);
+    }
+
+    public function massAssignProductStatus(Request $request)
+    {
+        $user = Auth::user();
+        setPermissionsTeamId($user->company->id);
+        $companyProducts = $user->company->products;
+        $requestProducts = $request->productIdList;
+        $status = $request->status;
+        foreach ($requestProducts as $productId)
+        {
+            if (!$companyProducts->contains('id', $productId))
+            {
+                throw(new ProductNotFoundException());
+            }
+            $product = Product::findOrFail($productId);
+            $product->update(['status' => $status]);
+        }
+        return 1;
     }
 }

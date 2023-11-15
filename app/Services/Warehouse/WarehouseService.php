@@ -45,8 +45,7 @@ class WarehouseService extends Controller
     public function getWarehouses()
     {
         $warehouses= QueryBuilder::for(Warehouse::where('company_id', '=', Auth::user()->company->id))
-            ->allowedFilters(AllowedFilter::partial('name'))
-            ->get();
+            ->allowedFilters(AllowedFilter::partial('name'))->paginate(10);
         return WarehouseResource::collection($warehouses);
 
     }
