@@ -17,6 +17,7 @@ use App\Http\Controllers\BackOffice\Country\CountryController as CountryControll
 use App\Http\Controllers\BackOffice\Company\CompanyCategoryController as CompanyCategoryController;
 use App\Http\Controllers\BackOffice\Company\InvitationController as InvitationController;
 use App\Http\Controllers\BackOffice\Company\CompanyController as BOCompanyController;
+use App\Http\Controllers\BackOffice\Product\ProductController as BOProductController;
 
 Route::post('register', [AuthController::class, 'register'])->name('register');
 Route::post('login', [AuthController::class, 'login']);
@@ -34,6 +35,12 @@ Route::prefix('back-office')->group(function () {
     Route::post('/company/massStatusUpdate', [BOCompanyController::class, 'massStatusUpdate']);
     Route::put('/company/verify/{companyId}', [BOCompanyController::class, 'verifyCompany']);
     Route::put('/company/reject/{companyId}', [BOCompanyController::class, 'rejectCompany']);
+
+    Route::get('/product', [BOProductController::class, 'index']);
+    Route::get('/product/verify', [BOProductController::class, 'unverifiedCompanies']);
+    Route::post('/product/massStatusUpdate', [BOProductController::class, 'massStatusUpdate']);
+    Route::put('/product/verify/{productId}', [BOProductController::class, 'verifyProduct']);
+    Route::put('/product/reject/{productId}', [BOProductController::class, 'rejectProduct']);
 });
 
 Route::middleware('auth:sanctum', 'isBackOfficeAdmin')->prefix('back-office')->group(function () {
