@@ -58,17 +58,17 @@ Route::middleware(AUTH_SANCTUM_MIDDLEWARE)->prefix('company')->group(function ()
   Route::resource('companyCategories', CompanyCategoryController::class);
 });
 
-const WAREHOUSE_PRODUCT_CRUD_ROUTE_SUFFIX = '{warehouse}/product/{product}';
+const WAREHOUSE_PRODUCT_CRUD_ROUTE_SUFFIX = 'warehouse/{warehouse}/product/{product}';
 
-Route::middleware(AUTH_SANCTUM_MIDDLEWARE, HAS_COMPANY_MIDDLEWARE)->prefix('company/warehouse')->group(function () {
-  Route::resource('', WarehouseController::class);
-  Route::post('product', [WarehouseProductController::class, 'store']);
-  Route::post('productMassAssign', [WarehouseProductController::class, 'massAssignProductStatus']);
-  Route::get('{warehouse}/productNotAttached/', [WarehouseProductController::class, 'productsNotInWarehouse']);
+Route::middleware(AUTH_SANCTUM_MIDDLEWARE, HAS_COMPANY_MIDDLEWARE)->prefix('company')->group(function () {
+  Route::resource('warehouse', WarehouseController::class);
+  Route::post('warehouse/product', [WarehouseProductController::class, 'store']);
+  Route::post('warehouse/productMassAssign', [WarehouseProductController::class, 'massAssignProductStatus']);
+  Route::get('warehouse/{warehouse}/productNotAttached/', [WarehouseProductController::class, 'productsNotInWarehouse']);
   Route::delete(WAREHOUSE_PRODUCT_CRUD_ROUTE_SUFFIX, [WarehouseProductController::class, 'destroy']);
   Route::put(WAREHOUSE_PRODUCT_CRUD_ROUTE_SUFFIX, [WarehouseProductController::class, 'update']);
   Route::get(WAREHOUSE_PRODUCT_CRUD_ROUTE_SUFFIX, [WarehouseProductController::class, 'show']);
-  Route::get('{warehouse}/product', [WarehouseProductController::class, 'index']);
+  Route::get('warehouse/{warehouse}/product', [WarehouseProductController::class, 'index']);
 });
 
 Route::middleware(AUTH_SANCTUM_MIDDLEWARE, HAS_COMPANY_MIDDLEWARE)->prefix('company/product')->group(function () {
