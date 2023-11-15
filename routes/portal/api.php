@@ -11,7 +11,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController as AuthController;
 use App\Http\Controllers\Portal\User\UserController as UserController;
 use App\Http\Controllers\Portal\Company\CompanyController;
-
+use App\Http\Controllers\Portal\Product\ProductTagController;
+use App\Http\Controllers\Portal\Product\ProductProductTagController;
 use App\Http\Controllers\BackOffice\Country\CountryController as CountryController;
 use App\Http\Controllers\BackOffice\Company\CompanyCategoryController as CompanyCategoryController;
 use App\Http\Controllers\BackOffice\Company\InvitationController as InvitationController;
@@ -41,7 +42,11 @@ Route::middleware(AUTH_SANCTUM_MIDDLEWARE)->group(function () {
 
 Route::middleware(AUTH_SANCTUM_MIDDLEWARE)->prefix('company')->group(function () {
   Route::put('', [CompanyController::class, 'editCompany'])->middleware(HAS_COMPANY_MIDDLEWARE);
+  Route::resource('productTag', ProductTagController::class)->middleware('hasCompany');
   Route::resource('', CompanyController::class);
+  Route::resource('productTag/product', ProductProductTagController::class)->middleware('hasCompany');
+  Route::post('productTag/product' , [ProductProductTagController::class, 'store'])->middleware('hasCompany');
+  Route::delete('productTag/product', [ProductProductTagController::class, 'destroy'])->middleware('hasCompany');
   Route::post('createInvitationCode', [InvitationController::class, 'createInvitationCode'])
     ->middleware(HAS_COMPANY_MIDDLEWARE);
   Route::post('join', [CompanyMemberController::class, 'addUserToCompany']);
