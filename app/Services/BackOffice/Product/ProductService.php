@@ -7,10 +7,9 @@ use App\Exceptions\Product\ProductAlreadyVerifiedException;
 
 use App\Http\Controllers\Controller;
 
-use App\Models\Product\Enums\ProductStatusEnum;
+use App\Models\Product\Enums\ProductVerificationStatusEnum;
 
-use App\Resources\Product\ProductCollection;
-use App\Resources\Product\ProductResource;
+use App\Resources\BackOffice\Product\ProductResource;
 
 use App\Http\Dto\Product\ProductMassVerifyDto;
 
@@ -18,19 +17,23 @@ use App\Models\Product\Product;
 
 class ProductService extends Controller
 {
-  public function getCompanies()
+  public function getProducts()
   {
-    return new ProductCollection(Product::all());
+    return ProductResource::collection(Product::all());
   }
 
-  public function getUnverifiedCompanies()
+  public function getUnverifiedProducts()
   {
-    return new ProductCollection(Product::where('status', ProductStatusEnum::UNVERIFIED())->get());
+    return ProductResource::collection(
+      Product::where('verification_status', ProductVerificationStatusEnum::UNVERIFIED())->get()
+    );
   }
 
-  public function getVerifiedCompanies()
+  public function getVerifiedProducts()
   {
-    return new ProductCollection(Product::where('status', ProductStatusEnum::VERIFIED())->get());
+    return ProductResource::collection(
+      Product::where('verification_status', ProductVerificationStatusEnum::VERIFIED())->get()
+    );
   }
 
   public function verifyProduct($productId)
@@ -41,11 +44,11 @@ class ProductService extends Controller
       throw new ProductNotFoundException();
     }
 
-    if ($product->status == ProductStatusEnum::VERIFIED()) {
+    if ($product->verification_status == ProductVerificationStatusEnum::VERIFIED()) {
       throw new ProductAlreadyVerifiedException();
     }
 
-    $product->status = ProductStatusEnum::VERIFIED();
+    $product->verification_status = ProductVerificationStatusEnum::VERIFIED();
     $product->save();
 
     return $product;
@@ -59,7 +62,7 @@ class ProductService extends Controller
       throw new ProductNotFoundException();
     }
 
-    $product->status = ProductStatusEnum::REJECTED();
+    $product->verification_status = ProductVerificationStatusEnum::REJECTED();
     $product->save();
 
     return $product;
@@ -67,8 +70,9 @@ class ProductService extends Controller
 
   public function massStatusUpdate(ProductMassVerifyDto $statusUpdateDTO)
   {
-    Product::whereIn('id', $statusUpdateDTO->productIds)->update(['status' => $statusUpdateDTO->newStatus]);
+    Product::whereIn('id', $statusUpdateDTO->productIds)
+      ->update(['verification_status' => $statusUpdateDTO->newStatus]);
 
-    return ['status' => $statusUpdateDTO->newStatus];
+    return ['verification_status' => $statusUpdateDTO->newStatus];
   }
 }

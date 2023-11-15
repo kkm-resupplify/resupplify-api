@@ -14,17 +14,17 @@ class ProductController extends Controller
 {
   public function index(ProductService $productService): JsonResponse
   {
-    return $this->ok($productService->getCompanies());
+    return $this->ok($productService->getProducts());
   }
 
-  public function unverifiedCompanies(ProductService $productService)
+  public function unverifiedProducts(ProductService $productService)
   {
-    return $this->ok($productService->getUnverifiedCompanies());
+    return $this->ok($productService->getUnverifiedProducts());
   }
 
-  public function verifiedCompanies(ProductService $productService)
+  public function verifiedProducts(ProductService $productService)
   {
-    return $this->ok($productService->getVerifiedCompanies());
+    return $this->ok($productService->getVerifiedProducts());
   }
 
   public function verifyProduct(ProductService $productService, $productId)

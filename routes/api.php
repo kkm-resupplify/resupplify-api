@@ -41,7 +41,7 @@ Route::middleware('auth:sanctum', 'isBackOfficeAdmin')->prefix('back-office')->g
     Route::put('/company/reject/{companyId}', [BOCompanyController::class, 'rejectCompany']);
 
     Route::get('/product', [BOProductController::class, 'index']);
-    Route::get('/product/verify', [BOProductController::class, 'unverifiedCompanies']);
+    Route::get('/product/verify', [BOProductController::class, 'unverifiedProducts']);
     Route::post('/product/massStatusUpdate', [BOProductController::class, 'massStatusUpdate']);
     Route::put('/product/verify/{productId}', [BOProductController::class, 'verifyProduct']);
     Route::put('/product/reject/{productId}', [BOProductController::class, 'rejectProduct']);
