@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Services\Auth\AuthService;
 use App\Services\Company\CompanyService;
 use App\Services\BackOffice\Company\CompanyService as BOCompanyService;
+use App\Services\BackOffice\Product\ProductService as BOProductService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 
@@ -18,6 +19,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(AuthService::class, fn() => new AuthService());
         $this->app->singleton(CompanyService::class, fn() => new CompanyService());
         $this->app->singleton(BOCompanyService::class, fn() => new BOCompanyService());
+        $this->app->singleton(BOProductService::class, fn() => new BOProductService());
         
     }
 
