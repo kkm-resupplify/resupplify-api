@@ -33,5 +33,7 @@ return [
         'productExistsInWarehouse' => 'Product already exists in this warehouse',
         'filterNotAllowed' => 'Filter is not allowed',
         'productAlreadyVerified' => 'Product is already verified',
+        'productTagNotFound' => 'Product tag not found',
+        'productTagDontBelongToThisCompany' => 'This product tag does not belong to your company',
     ],
 ];

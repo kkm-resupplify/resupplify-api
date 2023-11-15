@@ -94,6 +94,10 @@ class WarehouseProductService extends Controller
             throw (new WarehouseDataNotAccessible());
         }
         $productWarehouses = $warehouse->products->where('id', $product->id)->first();
+        if(!$productWarehouses)
+        {
+            return [];
+        }
         return new WarehouseProductResource($productWarehouses);
     }
 
