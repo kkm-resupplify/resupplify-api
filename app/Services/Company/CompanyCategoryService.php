@@ -11,7 +11,6 @@ class CompanyCategoryService extends Controller
 {
     public function getCategories()
     {
-        $categories = CompanyCategory::all();
-        return $categories;
+        return CompanyCategory::all();
     }
 }

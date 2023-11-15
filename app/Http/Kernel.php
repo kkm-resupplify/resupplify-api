@@ -68,5 +68,6 @@ class Kernel extends HttpKernel
 
     protected $routeMiddleware = [
         'hasCompany' => \App\Http\Middleware\Company\CheckUserCompany::class,
+        'isBackOfficeAdmin' => \App\Http\Middleware\BackOfficeMiddleware::class,
     ];
 }

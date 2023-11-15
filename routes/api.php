@@ -1,5 +1,6 @@
 <?php
 
+
 use App\Http\Controllers\Portal\Company\CompanyMemberController;
 use App\Http\Controllers\Portal\Product\ProductCategoryController;
 use App\Http\Controllers\Portal\Product\ProductSubcategoryController;
@@ -17,25 +18,8 @@ use App\Http\Controllers\BackOffice\Country\CountryController as CountryControll
 use App\Http\Controllers\Portal\Company\CompanyController as CompanyController;
 use App\Http\Controllers\BackOffice\Company\CompanyCategoryController as CompanyCategoryController;
 use App\Http\Controllers\BackOffice\Company\InvitationController as InvitationController;
-
-Route::post('register', [AuthController::class, 'register'])->name('register');
-Route::post('login', [AuthController::class, 'login']);
-Route::get('country', [CountryController::class, 'index']);
-Route::get('country/{country}', [CountryController::class, 'show']);
-Route::get('test/lang', [TestController::class, 'langTest']);
-
 // Back office
-Route::prefix('back-office')->group(function () {
-    Route::post('/login', [AuthController::class, 'backOfficeLogin']);
-    Route::post('/register', [AuthController::class, 'backOfficeRegister'])->name('backOfficeRegister');
-});
-
-Route::middleware('auth:sanctum')->prefix('back-office')->group(function () {
-    Route::post('/logout', [AuthController::class, 'logout']);
-});
-
-// Portal
-
+require __DIR__ . '/backoffice/api.php';
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('user', [UserController::class, 'index']);
     Route::post('test', [TestController::class,'test'])->middleware('hasCompany');
@@ -75,3 +59,4 @@ Route::middleware('auth:sanctum')->group(function () {
     //Route::get('productCategory', [ProductCategoryController::class, 'index']);
     Route::get('productSubcategory', [ProductSubcategoryController::class, 'index']);
 });
+require __DIR__ . '/portal/api.php';

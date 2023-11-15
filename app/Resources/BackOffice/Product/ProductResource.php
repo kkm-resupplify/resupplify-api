@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Resources\Product;
+namespace App\Resources\BackOffice\Product;
 
-
+use App\Resources\Company\CompanyResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Auth;
+
 
 class ProductResource extends JsonResource
 {
@@ -12,13 +13,13 @@ class ProductResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->languages[Auth::user()->language->id-1]->pivot->name,
-            'description' => $this->languages[Auth::user()->language->id-1]->pivot->description,
+            'name' => $this->languages[Auth::user()->language->id - 1]->pivot->name,
+            'description' => $this->languages[Auth::user()->language->id - 1]->pivot->description,
             'producent' => $this->producent,
             'code' => $this->code,
             'status' => $this->status,
             'verificationStatus' => $this->verification_status,
-            'companyId' => $this->company_id,
+            'company' => new CompanyResource($this->company),
             'productUnitId' => $this->product_unit_id,
             'productCategory' => [
                 'id' => $this->productSubcategory->productCategory->id,
@@ -28,7 +29,6 @@ class ProductResource extends JsonResource
                 'id' => $this->productSubcategory->id,
                 'name' => $this->productSubcategory->languages[Auth::user()->language->id - 1]->pivot->name,
             ],
-            'productTags' =>ProductProductTagResource::collection($this->productTags),
         ];
     }
 }
