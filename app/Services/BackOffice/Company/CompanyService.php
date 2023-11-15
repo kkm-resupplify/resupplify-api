@@ -24,7 +24,9 @@ class CompanyService extends Controller
 
   public function getUnverifiedCompanies()
   {
-    return new CompanyCollection(Company::where('status', CompanyStatusEnum::UNVERIFIED())->get());
+    return new CompanyCollection(Company::whereIn('status', [
+      CompanyStatusEnum::UNVERIFIED(), CompanyStatusEnum::REJECTED()
+    ])->get());
   }
 
   public function getVerifiedCompanies()
