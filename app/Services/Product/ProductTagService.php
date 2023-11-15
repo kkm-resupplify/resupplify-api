@@ -10,11 +10,12 @@ use App\Models\Product\ProductCategory;
 use App\Models\Product\ProductTag;
 use App\Http\Dto\Product\ProductTagDto;
 use Illuminate\Support\Str;
+use App\Resources\Product\ProductTagResource;
 class ProductTagService extends Controller
 {
     public function getProductTags()
     {
-        return ProductTag::all();
+        return ProductTagResource::collection(Auth::user()->company->productTags);
     }
 
     public function createProductTag(ProductTagDto $request)
