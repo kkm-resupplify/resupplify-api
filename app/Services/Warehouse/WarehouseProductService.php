@@ -20,9 +20,7 @@ use Illuminate\Support\Facades\Auth;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
 use App\Filters\Product\FilterProductName;
-
-
-
+use App\Http\Dto\Warehouse\WarehouseProductMassStatusUpdateDto;
 
 class WarehouseProductService extends Controller
 {
@@ -31,14 +29,14 @@ class WarehouseProductService extends Controller
         $user = Auth::user();
         setPermissionsTeamId($user->company->id);
         if (!$user->can('Owner permissions')) {
-            throw (new WrongPermissions());
+            throw new WrongPermissions();
         }
         $warehouses = Auth::user()->company->warehouses;
         if (!$warehouses->contains($warehouse)) {
-            throw (new WarehouseDataNotAccessible());
+            throw new WarehouseDataNotAccessible();
         }
         if ($warehouse->products->contains($product)) {
-            throw (new ProductExistsInWarehouseException());
+            throw new ProductExistsInWarehouseException();
         }
         if (isset($request->status)) {
             $warehouseProductData = [
@@ -54,7 +52,8 @@ class WarehouseProductService extends Controller
             ];
         }
         $product->warehouses()->attach($warehouse->id, $warehouseProductData);
-        return new WarehouseProductResource($product->warehouses()->find($warehouse->id)->products()->find($product->id));
+        return new WarehouseProductResource($product->warehouses()->find($warehouse->id)
+            ->products()->find($product->id));
     }
 
     public function getAllWarehouseProducts(Warehouse $warehouse)
@@ -63,13 +62,13 @@ class WarehouseProductService extends Controller
         setPermissionsTeamId($user->company->id);
 
         if (!$user->can('Owner permissions')) {
-            throw (new WrongPermissions());
+            throw new WrongPermissions();
         }
 
         $warehouses = Auth::user()->company->warehouses;
 
         if (!$warehouses->contains($warehouse)) {
-            throw (new WarehouseDataNotAccessible());
+            throw new WarehouseDataNotAccessible();
         }
 
         $warehouseProducts = QueryBuilder::for($warehouse->products())
@@ -87,15 +86,14 @@ class WarehouseProductService extends Controller
         $user = Auth::user();
         setPermissionsTeamId($user->company->id);
         if (!$user->can('Owner permissions')) {
-            throw (new WrongPermissions());
+            throw new WrongPermissions();
         }
         $warehouses = Auth::user()->company->warehouses;
         if (!$warehouses->contains($warehouse)) {
-            throw (new WarehouseDataNotAccessible());
+            throw new WarehouseDataNotAccessible();
         }
         $productWarehouses = $warehouse->products->where('id', $product->id)->first();
-        if(!$productWarehouses)
-        {
+        if (!$productWarehouses) {
             return [];
         }
         return new WarehouseProductResource($productWarehouses);
@@ -106,16 +104,19 @@ class WarehouseProductService extends Controller
         $user = Auth::user();
         setPermissionsTeamId($user->company->id);
         if (!$user->can('Owner permissions')) {
-            throw (new WrongPermissions());
+            throw new WrongPermissions();
         }
+
         $warehouses = Auth::user()->company->warehouses;
         if (!$warehouses->contains($warehouse)) {
-            throw (new WarehouseDataNotAccessible());
+            throw new WarehouseDataNotAccessible();
         }
+
         $productWarehouses = $warehouse->products->where('id', $product->id)->first();
         if (!isset($productWarehouses)) {
-            throw (new ProductNotFoundException());
+            throw new ProductNotFoundException();
         }
+
         $warehouse->products()->updateExistingPivot($productWarehouses->id, [
             'quantity' => $request->quantity,
             'safe_quantity' => $request->safeQuantity,
@@ -129,15 +130,15 @@ class WarehouseProductService extends Controller
         $user = Auth::user();
         setPermissionsTeamId($user->company->id);
         if (!$user->can('Owner permissions')) {
-            throw (new WrongPermissions());
+            throw new WrongPermissions();
         }
         $warehouses = Auth::user()->company->warehouses;
         if (!$warehouses->contains($warehouse)) {
-            throw (new WarehouseDataNotAccessible());
+            throw new WarehouseDataNotAccessible();
         }
         $productWarehouses = $warehouse->products->where('id', $product->id)->first();
         if (!isset($productWarehouses)) {
-            throw (new ProductNotFoundException());
+            throw new ProductNotFoundException();
         }
         $product->warehouses()->detach($warehouse->id);
         return 1;
@@ -148,34 +149,24 @@ class WarehouseProductService extends Controller
         $user = Auth::user();
         setPermissionsTeamId($user->company->id);
         if (!$user->can('Owner permissions')) {
-            throw (new WrongPermissions());
+            throw new WrongPermissions();
         }
         $warehouses = Auth::user()->company->warehouses;
         if (!$warehouses->contains($warehouse)) {
-            throw (new WarehouseDataNotAccessible());
+            throw new WarehouseDataNotAccessible();
         }
         $companyProducts = $user->company->products;
         return ProductResource::collection($companyProducts->whereNotIn('id', $warehouse->products->pluck('id')));
     }
 
-    public function massAssignProductStatus(Warehouse $warehouse, Request $request)
+    public function massAssignProductStatus(WarehouseProductMassStatusUpdateDto $statusUpdateDTO)
     {
-        $user = Auth::user();
-        setPermissionsTeamId($user->company->id);
-        $warehouses = Auth::user()->company->warehouses;
-        if (!$warehouses->contains($warehouse)) {
-            throw (new WarehouseDataNotAccessible());
+        $warehouse = Warehouse::find($statusUpdateDTO->warehouseId);
+
+        foreach ($statusUpdateDTO->warehouseProductIds as $warehouseProductId) {
+            $warehouse->products()->updateExistingPivot($warehouseProductId, ['status' => $statusUpdateDTO->newStatus]);
         }
-        $requestProducts = $request->productIdList;
-        $status = $request->status;
-        $companyProducts = $warehouse->products;
-        foreach ($requestProducts as $productId) {
-            if (!$companyProducts->contains('id', $productId)) {
-                throw (new ProductNotFoundException());
-            }
-            $product = Product::findOrFail($productId);
-            $product->update(['status' => $status]);
-        }
-        return 1;
+
+        return ['status' => $statusUpdateDTO->newStatus];
     }
 }
