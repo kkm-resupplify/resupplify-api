@@ -33,8 +33,6 @@ Route::middleware('auth:sanctum')->group(function () {
   Route::post('logout', [AuthController::class, 'logout']);
   Route::post('country', [CountryController::class, 'create']);
   Route::post('companyDetails', [CompanyController::class, 'createCompanyDetails']);
-
-
   Route::resource('productCategory', ProductCategoryController::class);
   Route::get('productSubcategory', [ProductSubcategoryController::class, 'index']);
 });
@@ -51,15 +49,18 @@ Route::middleware('auth:sanctum')->prefix('company')->group(function () {
   Route::post('leave', [CompanyMemberController::class, 'leaveCompany'])->middleware('hasCompany');
   Route::get('roles/permissions', [CompanyController::class, 'getCompanyRolesPermissions']);
   Route::delete('companyMembers/{user}', [CompanyMemberController::class, 'deleteCompanyMember'])->middleware('hasCompany');
-  Route::resource('warehouse', WarehouseController::class)->middleware('hasCompany');
   Route::post('productMassAssign', [ProductController::class, 'massAssignProductsStatus'])->middleware('hasCompany');
   Route::resource('product', ProductController::class)->middleware('hasCompany');
   Route::resource('companyCategories', CompanyCategoryController::class);
-  Route::post('warehouse/product', [WarehouseProductController::class, 'store'])->middleware('hasCompany');
-  Route::post('warehouse/productMassAssign', [WarehouseProductController::class, 'massAssignProductStatus'])->middleware('hasCompany');
-  Route::get('warehouse/{warehouse}/productNotAttached/', [WarehouseProductController::class, 'productsNotInWarehouse'])->middleware('hasCompany');
-  Route::delete('warehouse/{warehouse}/product/{product}', [WarehouseProductController::class, 'destroy'])->middleware('hasCompany');
-  Route::put('warehouse/{warehouse}/product/{product}', [WarehouseProductController::class, 'update'])->middleware('hasCompany');
-  Route::get('warehouse/{warehouse}/product/{product}', [WarehouseProductController::class, 'show'])->middleware('hasCompany');
-  Route::get('warehouse/{warehouse}/product', [WarehouseProductController::class, 'index'])->middleware('hasCompany');
+});
+
+Route::middleware('auth:sanctum')->prefix('company/warehouse')->group(function () {
+  Route::resource('', WarehouseController::class)->middleware('hasCompany');
+  Route::post('product', [WarehouseProductController::class, 'store'])->middleware('hasCompany');
+  Route::post('productMassAssign', [WarehouseProductController::class, 'massAssignProductStatus'])->middleware('hasCompany');
+  Route::get('{warehouse}/productNotAttached/', [WarehouseProductController::class, 'productsNotInWarehouse'])->middleware('hasCompany');
+  Route::delete('{warehouse}/product/{product}', [WarehouseProductController::class, 'destroy'])->middleware('hasCompany');
+  Route::put('{warehouse}/product/{product}', [WarehouseProductController::class, 'update'])->middleware('hasCompany');
+  Route::get('{warehouse}/product/{product}', [WarehouseProductController::class, 'show'])->middleware('hasCompany');
+  Route::get('{warehouse}/product', [WarehouseProductController::class, 'index'])->middleware('hasCompany');
 });
