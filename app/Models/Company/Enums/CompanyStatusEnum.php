@@ -7,6 +7,7 @@ use Spatie\Enum\Laravel\Enum;
 /**
  * @method static self UNVERIFIED()
  * @method static self VERIFIED()
+ * @method static self REJECTED()
  * @method static self SUSPENDED()
  * @method static self INACTIVE()
  */
@@ -17,8 +18,9 @@ final class CompanyStatusEnum extends Enum
         return [
             'UNVERIFIED' => 0,
             'VERIFIED' => 1,
-            'SUSPENDED' => 2,
-            'INACTIVE' => 3,
+            'REJECTED' => 2,
+            'SUSPENDED' => 3,
+            'INACTIVE' => 4,
         ];
     }
 }
