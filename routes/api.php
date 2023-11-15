@@ -4,6 +4,7 @@ use App\Http\Controllers\Portal\Company\CompanyMemberController;
 use App\Http\Controllers\Portal\Product\ProductCategoryController;
 use App\Http\Controllers\Portal\Product\ProductSubcategoryController;
 use App\Http\Controllers\Portal\Product\ProductTagController;
+use App\Http\Controllers\Portal\Product\ProductProductTagController;
 use App\Http\Controllers\Portal\Product\ProductController;
 use App\Http\Controllers\Portal\Warehouse\WarehouseController;
 use App\Http\Controllers\Portal\Warehouse\WarehouseProductController;
@@ -57,6 +58,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::resource('company/warehouse', WarehouseController::class)->middleware('hasCompany');
     Route::post('company/productMassAssign', [ProductController::class,'massAssignProductsStatus'])->middleware('hasCompany');
     Route::resource('company/product', ProductController::class)->middleware('hasCompany');
+    Route::resource('company/productTag/product', ProductProductTagController::class)->middleware('hasCompany');
+    Route::post('company/productTag/product' , [ProductProductTagController::class, 'store'])->middleware('hasCompany');
+    Route::delete('company/productTag/product', [ProductProductTagController::class, 'destroy'])->middleware('hasCompany');
     Route::resource('company/productTag', ProductTagController::class)->middleware('hasCompany');
     Route::resource('company', CompanyController::class);
     Route::resource('companyCategories', CompanyCategoryController::class);
