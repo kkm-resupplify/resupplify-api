@@ -8,7 +8,7 @@ use App\Services\BackOffice\Company\CompanyService;
 
 use App\Http\Controllers\Controller;
 
-use App\Http\Dto\Company\CompanyMassStatusUpdateDto;
+use App\Http\Dto\Company\CompanyMassVerifyDto;
 
 class CompanyController extends Controller
 {
@@ -39,7 +39,7 @@ class CompanyController extends Controller
     return $this->ok($companyService->rejectCompany($companyId));
   }
 
-  public function massStatusUpdate(CompanyService $companyService, CompanyMassStatusUpdateDto $statusUpdateDTO)
+  public function massStatusUpdate(CompanyService $companyService, CompanyMassVerifyDto $statusUpdateDTO)
   {
 
     return $this->ok($companyService->massStatusUpdate($statusUpdateDTO));
