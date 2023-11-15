@@ -22,12 +22,14 @@ Route::get('country', [CountryController::class, 'index']);
 Route::get('country/{country}', [CountryController::class, 'show']);
 Route::get('test/lang', [TestController::class, 'langTest']);
 
+const AUTH_SANCTUM_MIDDLEWARE = 'auth:sanctum';
+const HAS_COMPANY_MIDDLEWARE = 'hasCompany';
 
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware(AUTH_SANCTUM_MIDDLEWARE)->group(function () {
   Route::get('user', [UserController::class, 'index']);
-  Route::post('test', [TestController::class, 'test'])->middleware('hasCompany');
+  Route::post('test', [TestController::class, 'test'])->middleware(HAS_COMPANY_MIDDLEWARE);
   Route::get('test', [TestController::class, 'roleTest']);
-  Route::get('user/company', [CompanyController::class, 'getLoggedUserCompany'])->middleware('hasCompany');
+  Route::get('user/company', [CompanyController::class, 'getLoggedUserCompany'])->middleware(HAS_COMPANY_MIDDLEWARE);
   Route::post('user/userDetails', [UserController::class, 'createUserDetails']);
   Route::put('user/userDetails', [UserController::class, 'editUserDetails']);
   Route::post('logout', [AuthController::class, 'logout']);
@@ -37,30 +39,35 @@ Route::middleware('auth:sanctum')->group(function () {
   Route::get('productSubcategory', [ProductSubcategoryController::class, 'index']);
 });
 
-Route::middleware('auth:sanctum')->prefix('company')->group(function () {
-  Route::put('', [CompanyController::class, 'editCompany'])->middleware('hasCompany');
+Route::middleware(AUTH_SANCTUM_MIDDLEWARE)->prefix('company')->group(function () {
+  Route::put('', [CompanyController::class, 'editCompany'])->middleware(HAS_COMPANY_MIDDLEWARE);
   Route::resource('', CompanyController::class);
-
-  Route::post('createInvitationCode', [InvitationController::class, 'createInvitationCode'])->middleware('hasCompany');
-  Route::get('roles', [CompanyController::class, 'getCompanyRoles'])->middleware('hasCompany');
-  Route::get('companyMembers', [CompanyMemberController::class, 'getUserCompanyMembers'])->middleware('hasCompany');
-  Route::get('companyMembers/{user}', [CompanyMemberController::class, 'getCompanyMembers'])->middleware('hasCompany');
+  Route::post('createInvitationCode', [InvitationController::class, 'createInvitationCode'])->middleware(HAS_COMPANY_MIDDLEWARE);
   Route::post('join', [CompanyMemberController::class, 'addUserToCompany']);
-  Route::post('leave', [CompanyMemberController::class, 'leaveCompany'])->middleware('hasCompany');
+  Route::post('leave', [CompanyMemberController::class, 'leaveCompany'])->middleware(HAS_COMPANY_MIDDLEWARE);
+  Route::get('roles', [CompanyController::class, 'getCompanyRoles'])->middleware(HAS_COMPANY_MIDDLEWARE);
   Route::get('roles/permissions', [CompanyController::class, 'getCompanyRolesPermissions']);
-  Route::delete('companyMembers/{user}', [CompanyMemberController::class, 'deleteCompanyMember'])->middleware('hasCompany');
-  Route::post('productMassAssign', [ProductController::class, 'massAssignProductsStatus'])->middleware('hasCompany');
-  Route::resource('product', ProductController::class)->middleware('hasCompany');
+  Route::post('productMassAssign', [ProductController::class, 'massAssignProductsStatus'])->middleware(HAS_COMPANY_MIDDLEWARE);
   Route::resource('companyCategories', CompanyCategoryController::class);
 });
 
-Route::middleware('auth:sanctum')->prefix('company/warehouse')->group(function () {
-  Route::resource('', WarehouseController::class)->middleware('hasCompany');
-  Route::post('product', [WarehouseProductController::class, 'store'])->middleware('hasCompany');
-  Route::post('productMassAssign', [WarehouseProductController::class, 'massAssignProductStatus'])->middleware('hasCompany');
-  Route::get('{warehouse}/productNotAttached/', [WarehouseProductController::class, 'productsNotInWarehouse'])->middleware('hasCompany');
-  Route::delete('{warehouse}/product/{product}', [WarehouseProductController::class, 'destroy'])->middleware('hasCompany');
-  Route::put('{warehouse}/product/{product}', [WarehouseProductController::class, 'update'])->middleware('hasCompany');
-  Route::get('{warehouse}/product/{product}', [WarehouseProductController::class, 'show'])->middleware('hasCompany');
-  Route::get('{warehouse}/product', [WarehouseProductController::class, 'index'])->middleware('hasCompany');
+Route::middleware(AUTH_SANCTUM_MIDDLEWARE, HAS_COMPANY_MIDDLEWARE)->prefix('company/warehouse')->group(function () {
+  Route::resource('', WarehouseController::class);
+  Route::post('product', [WarehouseProductController::class, 'store']);
+  Route::post('productMassAssign', [WarehouseProductController::class, 'massAssignProductStatus']);
+  Route::get('{warehouse}/productNotAttached/', [WarehouseProductController::class, 'productsNotInWarehouse']);
+  Route::delete('{warehouse}/product/{product}', [WarehouseProductController::class, 'destroy']);
+  Route::put('{warehouse}/product/{product}', [WarehouseProductController::class, 'update']);
+  Route::get('{warehouse}/product/{product}', [WarehouseProductController::class, 'show']);
+  Route::get('{warehouse}/product', [WarehouseProductController::class, 'index']);
+});
+
+Route::middleware(AUTH_SANCTUM_MIDDLEWARE, HAS_COMPANY_MIDDLEWARE)->prefix('company/product')->group(function () {
+  Route::resource('', ProductController::class);
+});
+
+Route::middleware(AUTH_SANCTUM_MIDDLEWARE, HAS_COMPANY_MIDDLEWARE)->prefix('company/companyMembers')->group(function () {
+  Route::get('', [CompanyMemberController::class, 'getUserCompanyMembers']);
+  Route::get('{user}', [CompanyMemberController::class, 'getCompanyMembers']);
+  Route::delete('{user}', [CompanyMemberController::class, 'deleteCompanyMember']);
 });
