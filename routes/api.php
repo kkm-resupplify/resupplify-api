@@ -29,6 +29,10 @@ Route::get('test/lang', [TestController::class, 'langTest']);
 Route::prefix('back-office')->group(function () {
     Route::post('/login', [AuthController::class, 'backOfficeLogin']);
     Route::post('/register', [AuthController::class, 'backOfficeRegister'])->name('backOfficeRegister');
+});
+
+Route::middleware('auth:sanctum', 'isBackOfficeAdmin')->prefix('back-office')->group(function () {
+    Route::post('/logout', [AuthController::class, 'logout']);
 
     Route::get('/company', [BOCompanyController::class, 'index']);
     Route::get('/company/verify', [BOCompanyController::class, 'unverifiedCompanies']);
@@ -41,10 +45,6 @@ Route::prefix('back-office')->group(function () {
     Route::post('/product/massStatusUpdate', [BOProductController::class, 'massStatusUpdate']);
     Route::put('/product/verify/{productId}', [BOProductController::class, 'verifyProduct']);
     Route::put('/product/reject/{productId}', [BOProductController::class, 'rejectProduct']);
-});
-
-Route::middleware('auth:sanctum', 'isBackOfficeAdmin')->prefix('back-office')->group(function () {
-    Route::post('/logout', [AuthController::class, 'logout']);
 });
 
 // Portal
@@ -68,7 +68,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('company/roles/permissions', [CompanyController::class, 'getCompanyRolesPermissions']);
     Route::delete('company/companyMembers/{user}', [CompanyMemberController::class, 'deleteCompanyMember'])->middleware('hasCompany');
     Route::resource('company/warehouse', WarehouseController::class)->middleware('hasCompany');
-    Route::post('company/productMassAssign', [ProductController::class,'massAssignProductsStatus'])->middleware('hasCompany');
+    Route::post('company/productMassAssign', [ProductController::class, 'massAssignProductsStatus'])->middleware('hasCompany');
     Route::resource('company/product', ProductController::class)->middleware('hasCompany');
     Route::resource('company', CompanyController::class);
     Route::resource('companyCategories', CompanyCategoryController::class);
