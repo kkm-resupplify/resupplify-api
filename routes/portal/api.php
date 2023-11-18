@@ -13,6 +13,7 @@ use App\Http\Controllers\Portal\User\UserController as UserController;
 use App\Http\Controllers\Portal\Company\CompanyController;
 use App\Http\Controllers\Portal\Product\ProductTagController;
 use App\Http\Controllers\Portal\Product\ProductProductTagController;
+use App\Http\Controllers\Portal\Product\ProductUnitController;
 use App\Http\Controllers\BackOffice\Country\CountryController as CountryController;
 use App\Http\Controllers\BackOffice\Company\CompanyCategoryController as CompanyCategoryController;
 use App\Http\Controllers\BackOffice\Company\InvitationController as InvitationController;
@@ -61,6 +62,7 @@ Route::middleware(AUTH_SANCTUM_MIDDLEWARE)->prefix('company')->group(function ()
 const WAREHOUSE_PRODUCT_CRUD_ROUTE_SUFFIX = 'warehouse/{warehouse}/product/{product}';
 
 Route::middleware(AUTH_SANCTUM_MIDDLEWARE, HAS_COMPANY_MIDDLEWARE)->prefix('company')->group(function () {
+  Route::get('productUnit', [ProductUnitController::class, 'index']);
   Route::resource('warehouse', WarehouseController::class);
   Route::post('warehouse/product', [WarehouseProductController::class, 'store']);
   Route::post('warehouse/productMassAssign', [WarehouseProductController::class, 'massAssignProductStatus']);
