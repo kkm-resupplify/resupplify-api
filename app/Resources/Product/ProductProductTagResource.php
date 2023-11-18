@@ -1,12 +1,7 @@
 <?php
 
 namespace App\Resources\Product;
-
-use App\Resources\BasicResource;
-use App\Resources\Roles\RoleResource;
-use App\Resources\User\UserDetailsResource;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Facades\Auth;
 
 class ProductProductTagResource extends JsonResource
 {
