@@ -1,5 +1,6 @@
 <?php
    return  [
-       "WAREHOUSE_PRODUCTS" => env(10),
-       "PRODUCT_PRODUCTS" => env(11),
+       'WAREHOUSE_PRODUCTS' => 10,
+       'COMPANY_PRODUCTS' => 10,
+       'WAREHOUSES' => 10,
     ];

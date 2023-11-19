@@ -21,9 +21,10 @@ use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
 use App\Filters\Product\FilterProductName;
 use App\Http\Dto\Warehouse\WarehouseProductMassStatusUpdateDto;
-
+use App\Helpers\PaginationTrait;
 class WarehouseProductService extends BasicService
 {
+    use PaginationTrait;
     public function createWarehouseProduct(WarehouseProductDto $request, Warehouse $warehouse, Product $product)
     {
         $user = Auth::user();
@@ -76,9 +77,9 @@ class WarehouseProductService extends BasicService
                 AllowedFilter::exact('status'),
                 AllowedFilter::custom('name', new FilterProductName()),
             ])
-            ->paginate(10);
-
-        return WarehouseProductResource::collection($warehouseProducts);
+            ->paginate(config('paginationConfig.WAREHOUSE_PRODUCTS'));
+            $pagination = $this->paginate($warehouseProducts);
+            return array_merge($pagination, WarehouseProductResource::collection($warehouseProducts)->toArray(request()));
     }
 
     public function getWarehouseProduct(Warehouse $warehouse, Product $product)

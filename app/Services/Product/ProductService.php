@@ -67,10 +67,10 @@ class ProductService extends Controller
     public function getProducts()
     {
         $user = Auth::user();
-        $products = $user->company->products()->paginate(config('paginationConfig.PRODUCTS_PER_PAGE'));
+        $products = $user->company->products()->paginate(config('paginationConfig.COMPANY_PRODUCTS'));
         $pagination = $this->paginate($products);
 
-       return array_merge($pagination, ['products' => ProductResource::collection($products)]);
+       return array_merge($pagination, ProductResource::collection($products)->toArray(request()));
     }
 
     public function editProduct(ProductDto $request, Product $product)

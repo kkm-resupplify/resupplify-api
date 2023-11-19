@@ -11,10 +11,11 @@ use App\Resources\Warehouse\WarehouseResource;
 use Illuminate\Support\Facades\Auth;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
-
+use App\Helpers\PaginationTrait;
 
 class WarehouseService extends BasicService
 {
+    use PaginationTrait;
     public function createWarehouse(WarehouseDto $request)
     {
         $user = Auth::user();
@@ -45,9 +46,9 @@ class WarehouseService extends BasicService
     public function getWarehouses()
     {
         $warehouses= QueryBuilder::for(Warehouse::where('company_id', '=', Auth::user()->company->id))
-            ->allowedFilters(AllowedFilter::partial('name'))->paginate(10);
-        return WarehouseResource::collection($warehouses);
-
+            ->allowedFilters(AllowedFilter::partial('name'))->paginate(config('paginationConfig.WAREHOUSES'));
+        $pagination = $this->paginate($warehouses);
+        return array_merge($pagination, WarehouseResource::collection($warehouses)->toArray(request()));
     }
 
     public function editWarehouse(WarehouseDto $request, Warehouse $warehouse)
