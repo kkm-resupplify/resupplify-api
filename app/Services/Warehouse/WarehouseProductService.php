@@ -157,10 +157,7 @@ class WarehouseProductService extends BasicService
             throw new WarehouseDataNotAccessible();
         }
         $companyProducts = $user->company->products;
-        if(isset($companyProducts)){
-            return ProductResource::collection($companyProducts->whereNotIn('id', $warehouse->products->pluck('id')));
-        }
-        return [];
+        return ProductResource::collection($companyProducts->whereNotIn('id', $warehouse->products->pluck('id')->values()));
     }
 
     public function massAssignProductStatus(WarehouseProductMassStatusUpdateDto $statusUpdateDTO)
