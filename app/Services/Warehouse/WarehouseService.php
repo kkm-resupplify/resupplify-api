@@ -4,7 +4,7 @@ namespace App\Services\Warehouse;
 
 use App\Exceptions\Company\WrongPermissions;
 use App\Exceptions\Warehouse\WarehouseDataNotAccessible;
-use App\Http\Controllers\Controller;
+use App\Services\BasicService;
 use App\Http\Dto\Warehouse\WarehouseDto;
 use App\Models\Warehouse\Warehouse;
 use App\Resources\Warehouse\WarehouseResource;

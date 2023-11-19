@@ -5,7 +5,7 @@ namespace App\Services\BackOffice\Product;
 use App\Exceptions\Product\ProductNotFoundException;
 use App\Exceptions\Product\ProductAlreadyVerifiedException;
 
-use App\Http\Controllers\Controller;
+use App\Services\BasicService;
 
 use App\Models\Product\Enums\ProductVerificationStatusEnum;
 

@@ -5,7 +5,7 @@ namespace App\Services\BackOffice\Company;
 use App\Exceptions\Company\CompanyNotFoundException;
 use App\Exceptions\Company\CompanyAlreadyVerifiedException;
 
-use App\Http\Controllers\Controller;
+use App\Services\BasicService;
 
 use App\Models\Company\Enums\CompanyStatusEnum;
 

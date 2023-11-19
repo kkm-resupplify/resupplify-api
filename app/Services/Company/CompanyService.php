@@ -20,7 +20,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use App\Models\Company\Enums\CompanyStatusEnum;
-use App\Http\Controllers\Controller;
+use App\Services\BasicService;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use App\Resources\Company\CompanyResource;

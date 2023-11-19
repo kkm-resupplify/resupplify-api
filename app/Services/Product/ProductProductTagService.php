@@ -5,7 +5,7 @@ use App\Resources\Product\ProductCategoryAndSubcategoryResource;
 use App\Resources\Product\ProductCategoryResource;
 use Illuminate\Support\Facades\Auth;
 use App\Exceptions\Company\WrongPermissions;
-use App\Http\Controllers\Controller;
+use App\Services\BasicService;
 use App\Models\Product\ProductCategory;
 use App\Models\Product\ProductTag;
 use App\Models\Product\Product;

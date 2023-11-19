@@ -15,7 +15,7 @@ use App\Models\Company\UserInvitationCode;
 use App\Models\User\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use App\Http\Controllers\Controller;
+use App\Services\BasicService;
 use Spatie\Permission\Models\Role;
 use App\Resources\Company\CompanyResource;
 

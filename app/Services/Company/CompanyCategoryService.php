@@ -4,7 +4,7 @@ namespace App\Services\Company;
 
 
 use App\Models\Company\CompanyCategory;
-use App\Http\Controllers\Controller;
+use App\Services\BasicService;
 use Illuminate\Support\Str;
 
 class CompanyCategoryService extends BasicService

@@ -1,16 +1,19 @@
 <?php
 
 namespace App\Services\Product;
+
 use App\Resources\Product\ProductCategoryAndSubcategoryResource;
 use App\Resources\Product\ProductCategoryResource;
 use Illuminate\Support\Facades\Auth;
 use App\Exceptions\Company\WrongPermissions;
-use App\Http\Controllers\Controller;
+use App\Services\BasicService;
 use App\Models\Product\ProductCategory;
 use App\Models\Product\ProductTag;
 use App\Http\Dto\Product\ProductTagDto;
 use Illuminate\Support\Str;
 use App\Resources\Product\ProductTagResource;
+
+
 class ProductTagService extends BasicService
 {
     public function getProductTags()
@@ -22,8 +25,8 @@ class ProductTagService extends BasicService
     {
         $user = Auth::user();
         setPermissionsTeamId($user->company->id);
-        if(!$user->can('Owner permissions')) {
-            throw(new WrongPermissions());
+        if (!$user->can('Owner permissions')) {
+            throw (new WrongPermissions());
         }
         $tagData = [
             'name' => $request->name,
@@ -35,16 +38,15 @@ class ProductTagService extends BasicService
         return $tag;
     }
 
-    public function updateProductTag(ProductTagDto $request,ProductTag $productTag)
+    public function updateProductTag(ProductTagDto $request, ProductTag $productTag)
     {
         $user = Auth::user();
         setPermissionsTeamId($user->company->id);
-        if(!$user->can('Owner permissions')) {
-            throw(new WrongPermissions());
+        if (!$user->can('Owner permissions')) {
+            throw (new WrongPermissions());
         }
-        if ($productTag->company_id!= Auth::user()->company->id)
-        {
-            throw(new WrongPermissions());
+        if ($productTag->company_id != Auth::user()->company->id) {
+            throw (new WrongPermissions());
         }
         $productTag->name = $request->name;
         $productTag->slug = STR::slug($request->name);
@@ -56,12 +58,11 @@ class ProductTagService extends BasicService
     {
         $user = Auth::user();
         setPermissionsTeamId($user->company->id);
-        if(!$user->can('Owner permissions')) {
-            throw(new WrongPermissions());
+        if (!$user->can('Owner permissions')) {
+            throw (new WrongPermissions());
         }
-        if ($productTag->company_id!= Auth::user()->company->id)
-        {
-            throw(new WrongPermissions());
+        if ($productTag->company_id != Auth::user()->company->id) {
+            throw (new WrongPermissions());
         }
         $productTag->delete();
         return 1;
@@ -71,5 +72,4 @@ class ProductTagService extends BasicService
     {
         return $productTag;
     }
-
 }

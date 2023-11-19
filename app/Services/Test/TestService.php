@@ -4,7 +4,7 @@ namespace App\Services\Test;
 
 
 
-use App\Http\Controllers\Controller;
+use App\Services\BasicService;
 use App\Models\User\User;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;

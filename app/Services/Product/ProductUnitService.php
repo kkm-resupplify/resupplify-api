@@ -1,8 +1,11 @@
 <?php
 
 namespace App\Services\Product;
-use App\Http\Controllers\Controller;
+
+use App\Services\BasicService;
 use Illuminate\Support\Facades\DB;
+
+
 class ProductUnitService extends BasicService
 {
     public function getProductUnits()

@@ -6,7 +6,7 @@ use App\Exceptions\Company\WrongPermissions;
 use App\Exceptions\Product\ProductExistsInWarehouseException;
 use App\Exceptions\Product\ProductNotFoundException;
 use App\Exceptions\Warehouse\WarehouseDataNotAccessible;
-use App\Http\Controllers\Controller;
+use App\Services\BasicService;
 use App\Http\Dto\Warehouse\WarehouseDto;
 use App\Http\Dto\Warehouse\WarehouseProductDto;
 use App\Models\Product\Enums\ProductStatusEnum;

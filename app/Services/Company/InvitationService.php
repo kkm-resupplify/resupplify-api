@@ -8,7 +8,7 @@ use App\Http\Dto\Company\UserInvitationCodes;
 use App\Models\Company\UserInvitationCode;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use App\Http\Controllers\Controller;
+use App\Services\BasicService;
 use Spatie\Permission\Models\Role;
 use Ramsey\Uuid\Uuid;
 
