@@ -11,7 +11,7 @@ use App\Models\Product\ProductTag;
 use App\Http\Dto\Product\ProductTagDto;
 use Illuminate\Support\Str;
 use App\Resources\Product\ProductTagResource;
-class ProductTagService extends Controller
+class ProductTagService extends BasicService
 {
     public function getProductTags()
     {

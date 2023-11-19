@@ -12,7 +12,7 @@ use App\Models\Product\Product;
 use App\Http\Dto\Product\ProductProductTagDto;
 use Illuminate\Support\Str;
 use App\Exceptions\Product\ProductNotFoundException;
-class ProductProductTagService extends Controller
+class ProductProductTagService extends BasicService
 {
     public function addProductTagToProduct(ProductProductTagDto $request)
     {

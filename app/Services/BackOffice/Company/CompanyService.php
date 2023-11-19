@@ -15,7 +15,7 @@ use App\Http\Dto\Company\CompanyMassVerifyDto;
 
 use App\Models\Company\Company;
 
-class CompanyService extends Controller
+class CompanyService extends BasicService
 {
   public function getCompanies()
   {

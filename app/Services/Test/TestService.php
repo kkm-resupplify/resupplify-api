@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
 
 
-class TestService extends Controller
+class TestService extends BasicService
 {
     public function roleTest()
     {

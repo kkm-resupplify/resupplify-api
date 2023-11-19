@@ -22,7 +22,7 @@ use Spatie\QueryBuilder\AllowedFilter;
 use App\Filters\Product\FilterProductName;
 use App\Http\Dto\Warehouse\WarehouseProductMassStatusUpdateDto;
 
-class WarehouseProductService extends Controller
+class WarehouseProductService extends BasicService
 {
     public function createWarehouseProduct(WarehouseProductDto $request, Warehouse $warehouse, Product $product)
     {

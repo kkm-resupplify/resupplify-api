@@ -15,7 +15,7 @@ use App\Http\Dto\Product\ProductMassVerifyDto;
 
 use App\Models\Product\Product;
 
-class ProductService extends Controller
+class ProductService extends BasicService
 {
   public function getProducts()
   {

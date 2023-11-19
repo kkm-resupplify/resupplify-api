@@ -19,7 +19,7 @@ use App\Http\Controllers\Controller;
 use Spatie\Permission\Models\Role;
 use App\Resources\Company\CompanyResource;
 
-class CompanyMemberService extends Controller
+class CompanyMemberService extends BasicService
 {
     public function addUserToCompany(AddUserDto $request)
     {

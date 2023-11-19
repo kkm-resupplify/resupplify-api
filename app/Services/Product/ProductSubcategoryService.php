@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\Product\ProductSubcategory;
 
-class ProductSubcategoryService extends Controller
+class ProductSubcategoryService extends BasicService
 {
     public function getProductSubcategories()
     {

@@ -13,7 +13,7 @@ use Spatie\Permission\Models\Role;
 use Ramsey\Uuid\Uuid;
 
 
-class InvitationService extends Controller
+class InvitationService extends BasicService
 {
     //TODO: Sprawdzenie czy user ma uprawnienia żeby stworzyć zaproszenie
     public function createUserInvitation(UserInvitationCodes $request)

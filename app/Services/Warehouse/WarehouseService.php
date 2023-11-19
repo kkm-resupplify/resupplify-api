@@ -13,7 +13,7 @@ use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
 
 
-class WarehouseService extends Controller
+class WarehouseService extends BasicService
 {
     public function createWarehouse(WarehouseDto $request)
     {

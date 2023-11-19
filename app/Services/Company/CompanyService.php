@@ -28,7 +28,7 @@ use App\Resources\Roles\PermissionCollection;
 
 
 
-class CompanyService extends Controller
+class CompanyService extends BasicService
 {
     public function createCompany(RegisterCompanyDto $request)
     {

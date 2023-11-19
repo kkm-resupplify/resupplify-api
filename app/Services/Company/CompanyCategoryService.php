@@ -7,7 +7,7 @@ use App\Models\Company\CompanyCategory;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Str;
 
-class CompanyCategoryService extends Controller
+class CompanyCategoryService extends BasicService
 {
     public function getCategories()
     {

@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\Product\ProductCategory;
 
-class ProductCategoryService extends Controller
+class ProductCategoryService extends BasicService
 {
     public function getProductCategories()
     {
