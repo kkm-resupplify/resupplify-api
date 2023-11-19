@@ -13,15 +13,18 @@ use App\Models\Warehouse\Warehouse;
 use App\Resources\Product\ProductResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Helpers\PaginationTrait;
 
 class ProductService extends Controller
 {
+    use PaginationTrait;
+
     public function createProduct(ProductDto $request)
     {
         $user = Auth::user();
         setPermissionsTeamId($user->company->id);
-        if(!$user->can('Owner permissions')) {
-            throw(new WrongPermissions());
+        if (!$user->can('Owner permissions')) {
+            throw (new WrongPermissions());
         }
         $productData = [
             'producent' => $request->producent,
@@ -40,47 +43,42 @@ class ProductService extends Controller
         }
         return new ProductResource($product);
     }
+
     public function deleteProduct(Product $product)
     {
         $user = Auth::user();
         $company = $user->company->products;
         setPermissionsTeamId($user->company->id);
-        if(!$user->can('Owner permissions')) {
-            throw(new WrongPermissions());
+        if (!$user->can('Owner permissions')) {
+            throw (new WrongPermissions());
         }
-        if (!$company->contains($product))
-        {
-            throw(new ProductNotFoundException());
+        if (!$company->contains($product)) {
+            throw (new ProductNotFoundException());
         }
         $product->delete();
         return 1;
     }
+
     public function getProduct(Product $product)
     {
         return new ProductResource($product);
     }
+
     public function getProducts()
     {
         $user = Auth::user();
         $products = $user->company->products()->paginate(config('paginationConfig.PRODUCTS_PER_PAGE'));
-        $pagination = [
-            'pagination'=>[
-            'currentPage' => $products->currentPage(),
-            'totalPages' => $products->lastPage(),
-            'perPage' => $products->perPage(),
-            'countRecords' => $products->count(),
-            'totalRecords' => $products->total(),
-            ]
-        ];
-        return array_merge($pagination, ['products' => ProductResource::collection($products)]);
+        $pagination = $this->paginate($products);
+
+       return array_merge($pagination, ['products' => ProductResource::collection($products)]);
     }
 
     public function editProduct(ProductDto $request, Product $product)
     {
         $user = Auth::user();
         setPermissionsTeamId($user->company->id);
-        if(!$user->can('Owner permissions')) {
-            throw(new WrongPermissions());
+        if (!$user->can('Owner permissions')) {
+            throw (new WrongPermissions());
         }
         $productData = [
             'producent' => $request->producent,
@@ -93,7 +91,7 @@ class ProductService extends Controller
         ];
         $product->update($productData);
         foreach ($request->name as $key => $value) {
-            $product->languages()->updateExistingPivot([$product->id,$key],[
+            $product->languages()->updateExistingPivot([$product->id, $key], [
                 'name' => $request->name[$key],
                 'description' => $request->description[$key],
             ]);
@@ -108,11 +106,9 @@ class ProductService extends Controller
         $companyProducts = $user->company->products;
         $requestProducts = $request->productIdList;
         $status = $request->status;
-        foreach ($requestProducts as $productId)
-        {
-            if (!$companyProducts->contains('id', $productId))
-            {
-                throw(new ProductNotFoundException());
+        foreach ($requestProducts as $productId) {
+            if (!$companyProducts->contains('id', $productId)) {
+                throw (new ProductNotFoundException());
             }
             $product = Product::findOrFail($productId);
             $product->update(['status' => $status]);
