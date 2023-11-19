@@ -11,7 +11,6 @@ class ProductResource extends JsonResource
     public function toArray($request)
     {
         $languageId = Auth::user()->language->id - 1;
-
         return [
             'id' => $this->id,
             'name' => $this->languages[$languageId]->pivot->name,

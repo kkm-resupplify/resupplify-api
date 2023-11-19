@@ -46,7 +46,7 @@ trait JsonResponseTrait
 
         if (isset($data['pagination'])) {
             $response['pagination'] = $data['pagination'];
-            unset($data['pagination']);
+            unset($response['data']['pagination']);
         }
 
         return $this->wrap($response);

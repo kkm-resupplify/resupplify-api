@@ -45,16 +45,13 @@ class ProductService extends Controller
         $user = Auth::user();
         $company = $user->company->products;
         setPermissionsTeamId($user->company->id);
+        if(!$user->can('Owner permissions')) {
+            throw(new WrongPermissions());
+        }
         if (!$company->contains($product))
         {
             throw(new ProductNotFoundException());
         }
-        $product->delete();
-        return 1;
-        if(!$user->can('Owner permissions')) {
-            throw(new WrongPermissions());
-        }
-
         $product->delete();
         return 1;
     }
@@ -65,9 +62,17 @@ class ProductService extends Controller
     public function getProducts()
     {
         $user = Auth::user();
-        $products = $user->company->products()->paginate(10);
-
-        return ProductResource::collection($products);
+        $products = $user->company->products()->paginate(config('paginationConfig.PRODUCTS_PER_PAGE'));
+        $pagination = [
+            'pagination'=>[
+            'currentPage' => $products->currentPage(),
+            'totalPages' => $products->lastPage(),
+            'perPage' => $products->perPage(),
+            'countRecords' => $products->count(),
+            'totalRecords' => $products->total(),
+            ]
+        ];
+        return array_merge($pagination, ['products' => ProductResource::collection($products)]);
     }
 
     public function editProduct(ProductDto $request, Product $product)
