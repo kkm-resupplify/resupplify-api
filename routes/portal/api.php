@@ -71,11 +71,9 @@ Route::middleware(AUTH_SANCTUM_MIDDLEWARE, HAS_COMPANY_MIDDLEWARE)->prefix('comp
   Route::put(WAREHOUSE_PRODUCT_CRUD_ROUTE_SUFFIX, [WarehouseProductController::class, 'update']);
   Route::get(WAREHOUSE_PRODUCT_CRUD_ROUTE_SUFFIX, [WarehouseProductController::class, 'show']);
   Route::get('warehouse/{warehouse}/product', [WarehouseProductController::class, 'index']);
+  Route::resource('product', ProductController::class);
 });
 
-Route::middleware(AUTH_SANCTUM_MIDDLEWARE, HAS_COMPANY_MIDDLEWARE)->prefix('company/product')->group(function () {
-  Route::resource('', ProductController::class);
-});
 
 Route::middleware(AUTH_SANCTUM_MIDDLEWARE, HAS_COMPANY_MIDDLEWARE)->prefix('company/companyMembers')
   ->group(function () {

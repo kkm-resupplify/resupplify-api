@@ -38,8 +38,8 @@ class ProductService extends Controller
 
         $product = new Product($productData);
         $user->company->products()->save($product);
-        foreach ($request->name as $key => $value) {
-            $product->languages()->attach($key, ['name' => $value, 'description' => $request->description[$key]]);
+        foreach ($request->translations as $key => $value) {
+            $product->languages()->attach($value['languageId'], ['name' => $value['name'], 'description' => $value['description']]);
         }
         return new ProductResource($product);
     }
@@ -90,11 +90,8 @@ class ProductService extends Controller
             'verification_status' => ProductVerificationStatusEnum::UNVERIFIED(),
         ];
         $product->update($productData);
-        foreach ($request->name as $key => $value) {
-            $product->languages()->updateExistingPivot([$product->id, $key], [
-                'name' => $request->name[$key],
-                'description' => $request->description[$key],
-            ]);
+        foreach ($request->translations as $key => $value) {
+            $product->languages()->updateExistingPivot([$product->id, $key], ['name' => $value['name'], 'description' => $value['description']]);
         }
         return new ProductResource($product);
     }
