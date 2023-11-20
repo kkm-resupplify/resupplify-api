@@ -46,7 +46,7 @@ class WarehouseService extends BasicService
     public function getWarehouses()
     {
         $warehouses= QueryBuilder::for(Warehouse::where('company_id', '=', Auth::user()->company->id))
-            ->allowedFilters(AllowedFilter::partial('name'))->paginate(config('paginationConfig.WAREHOUSES'));
+            ->allowedFilters(AllowedFilter::partial('name'))->fastPaginate(config('paginationConfig.WAREHOUSES'));
         $pagination = $this->paginate($warehouses);
         return array_merge($pagination, WarehouseResource::collection($warehouses)->toArray(request()));
     }

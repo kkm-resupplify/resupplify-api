@@ -77,7 +77,7 @@ class WarehouseProductService extends BasicService
                 AllowedFilter::exact('status'),
                 AllowedFilter::custom('name', new FilterProductName()),
             ])
-            ->paginate(config('paginationConfig.WAREHOUSE_PRODUCTS'));
+            ->fastPaginate(config('paginationConfig.WAREHOUSE_PRODUCTS'));
             $pagination = $this->paginate($warehouseProducts);
             return array_merge($pagination, WarehouseProductResource::collection($warehouseProducts)->toArray(request()));
     }

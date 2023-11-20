@@ -67,7 +67,7 @@ class ProductService extends Controller
     public function getProducts()
     {
         $user = Auth::user();
-        $products = $user->company->products()->paginate(config('paginationConfig.COMPANY_PRODUCTS'));
+        $products = $user->company->products()->fastPaginate(config('paginationConfig.COMPANY_PRODUCTS'));
         $pagination = $this->paginate($products);
 
        return array_merge($pagination, ProductResource::collection($products)->toArray(request()));
