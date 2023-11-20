@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Builder;
 use Spatie\QueryBuilder\Filters\Filter;
 
-class FilterProductName implements Filter
+class ProductNameFilter implements Filter
 {
     public function __invoke(Builder $query, $value, string $property): Builder
     {

@@ -19,7 +19,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
-use App\Filters\Product\FilterProductName;
+use App\Filters\Product\ProductNameFilter;
 use App\Http\Dto\Warehouse\WarehouseProductMassStatusUpdateDto;
 use App\Helpers\PaginationTrait;
 class WarehouseProductService extends BasicService
@@ -75,7 +75,7 @@ class WarehouseProductService extends BasicService
         $warehouseProducts = QueryBuilder::for($warehouse->products())
             ->allowedFilters([
                 AllowedFilter::exact('status'),
-                AllowedFilter::custom('name', new FilterProductName()),
+                AllowedFilter::custom('name', new ProductNameFilter()),
             ])
             ->fastPaginate(config('paginationConfig.WAREHOUSE_PRODUCTS'));
             $pagination = $this->paginate($warehouseProducts);

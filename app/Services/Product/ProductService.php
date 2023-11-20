@@ -9,11 +9,14 @@ use App\Http\Dto\Product\ProductDto;
 use App\Models\Product\Enums\ProductStatusEnum;
 use App\Models\Product\Enums\ProductVerificationStatusEnum;
 use App\Models\Product\Product;
-use App\Models\Warehouse\Warehouse;
 use App\Resources\Product\ProductResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Helpers\PaginationTrait;
+use App\Filters\Product\ProductNameFilter;
+use App\Filters\Product\ProductCategoryFilter;
+use Spatie\QueryBuilder\QueryBuilder;
+use Spatie\QueryBuilder\AllowedFilter;
 
 class ProductService extends Controller
 {
@@ -67,10 +70,16 @@ class ProductService extends Controller
     public function getProducts()
     {
         $user = Auth::user();
-        $products = $user->company->products()->fastPaginate(config('paginationConfig.COMPANY_PRODUCTS'));
+        $products =  QueryBuilder::for($user->company->products())->allowedFilters([
+            AllowedFilter::exact('status'),
+            AllowedFilter::exact('verificationStatus', 'verification_status'),
+            AllowedFilter::exact('subcategoryId', 'product_subcategory_id'),
+            AllowedFilter::custom('categoryId', new ProductCategoryFilter()),
+            AllowedFilter::custom('name', new ProductNameFilter()),
+        ])->fastPaginate(config('paginationConfig.COMPANY_PRODUCTS'));
         $pagination = $this->paginate($products);
 
-       return array_merge($pagination, ProductResource::collection($products)->toArray(request()));
+        return array_merge($pagination, ProductResource::collection($products)->toArray(request()));
     }
 
     public function editProduct(ProductDto $request, Product $product)
