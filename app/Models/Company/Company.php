@@ -21,6 +21,9 @@ use App\Models\Country\Country;
 use App\Models\Warehouse\Warehouse;
 use App\Models\Product\Product;
 use App\Models\Product\ProductTag;
+use App\Models\Product\ProductCart;
+use App\Models\Order\Order;
+
 
 class Company extends Model
 {
@@ -96,5 +99,15 @@ class Company extends Model
     public function productTags(): HasMany
     {
         return $this->hasMany(ProductTag::class);
+    }
+
+    public function productCarts(): HasOne
+    {
+        return $this->hasOne(ProductCart::class);
+    }
+
+    public function order(): HasMany
+    {
+        return $this->hasMany(Order::class);
     }
 }
