@@ -39,6 +39,7 @@ Route::middleware(AUTH_SANCTUM_MIDDLEWARE)->group(function () {
   Route::post('companyDetails', [CompanyController::class, 'createCompanyDetails']);
   Route::resource('productCategory', ProductCategoryController::class);
   Route::get('productSubcategory', [ProductSubcategoryController::class, 'index']);
+  Route::get('productUnit', [ProductUnitController::class, 'index']);
 });
 
 Route::middleware(AUTH_SANCTUM_MIDDLEWARE)->prefix('company')->group(function () {
@@ -62,7 +63,6 @@ Route::middleware(AUTH_SANCTUM_MIDDLEWARE)->prefix('company')->group(function ()
 const WAREHOUSE_PRODUCT_CRUD_ROUTE_SUFFIX = 'warehouse/{warehouse}/product/{product}';
 
 Route::middleware(AUTH_SANCTUM_MIDDLEWARE, HAS_COMPANY_MIDDLEWARE)->prefix('company')->group(function () {
-  Route::get('productUnit', [ProductUnitController::class, 'index']);
   Route::resource('warehouse', WarehouseController::class);
   Route::post('warehouse/product', [WarehouseProductController::class, 'store']);
   Route::post('warehouse/productMassAssign', [WarehouseProductController::class, 'massAssignProductStatus']);
