@@ -2,11 +2,7 @@
 
 namespace App\Resources\Product;
 
-use App\Resources\BasicResource;
-use App\Resources\Roles\RoleResource;
-use App\Resources\User\UserDetailsResource;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Facades\Auth;
 
 class ProductSubcategoryResource extends JsonResource
 {
@@ -15,6 +11,7 @@ class ProductSubcategoryResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->languages[0]->pivot->name,
+            'category_id' => $this->productCategory->id,
         ];
     }
 }

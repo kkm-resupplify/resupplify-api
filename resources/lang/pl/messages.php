@@ -28,6 +28,7 @@ return [
         'cantDeleteYourself' => 'Nie możesz usunąć siebie z firmy',
         'wrongPermissions' =>
             'Nie masz wymaganych uprawnień do wykonania tej czynności',
+        'productAlreadyVerified' => 'Produkt jest już zweryfikowany',
     ],
 
     'loginMessages' => [

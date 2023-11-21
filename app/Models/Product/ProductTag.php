@@ -14,7 +14,7 @@ class ProductTag extends Model
 {
     use HasRoles;
 
-    protected $fillable = ['name', 'color'];
+    protected $fillable = ['name', 'color','slug', 'company_id'];
 
     public function company(): BelongsTo
     {
