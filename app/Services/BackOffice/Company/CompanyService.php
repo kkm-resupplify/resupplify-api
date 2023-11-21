@@ -4,19 +4,18 @@ namespace App\Services\BackOffice\Company;
 
 use App\Exceptions\Company\CompanyNotFoundException;
 use App\Exceptions\Company\CompanyAlreadyVerifiedException;
-use App\Exceptions\Company\CompanyVerifyWrongStatusException;
-use App\Http\Controllers\Controller;
+
+use App\Services\BasicService;
 
 use App\Models\Company\Enums\CompanyStatusEnum;
 
 use App\Resources\Company\CompanyCollection;
-use App\Resources\Company\CompanyResource;
 
-use App\Http\Dto\Company\CompanyMassStatusUpdateDto;
+use App\Http\Dto\Company\CompanyMassVerifyDto;
 
 use App\Models\Company\Company;
 
-class CompanyService extends Controller
+class CompanyService extends BasicService
 {
   public function getCompanies()
   {
@@ -25,7 +24,9 @@ class CompanyService extends Controller
 
   public function getUnverifiedCompanies()
   {
-    return new CompanyCollection(Company::where('status', CompanyStatusEnum::UNVERIFIED())->get());
+    return new CompanyCollection(Company::whereIn('status', [
+      CompanyStatusEnum::UNVERIFIED(), CompanyStatusEnum::REJECTED()
+    ])->get());
   }
 
   public function getVerifiedCompanies()
@@ -65,7 +66,7 @@ class CompanyService extends Controller
     return $company;
   }
 
-  public function massStatusUpdate(CompanyMassStatusUpdateDto $statusUpdateDTO)
+  public function massStatusUpdate(CompanyMassVerifyDto $statusUpdateDTO)
   {
     Company::whereIn('id', $statusUpdateDTO->companyIds)->update(['status' => $statusUpdateDTO->newStatus]);
 

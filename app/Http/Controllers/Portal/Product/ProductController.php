@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Portal\Product;
 use App\Http\Controllers\Controller;
 use App\Http\Dto\Product\ProductDto;
 use App\Models\Product\Product;
-use App\Models\Warehouse\Warehouse;
 use App\Services\Product\ProductService;
 use Illuminate\Http\Request;
 
@@ -33,5 +32,9 @@ class ProductController extends Controller
     public function destroy(ProductService $productService, Product $product)
     {
         return $this->ok($productService->deleteProduct($product));
+    }
+    public function massAssignProductsStatus(ProductService $productService, Request $product)
+    {
+        return $this->ok($productService->massAssignProductStatus($product));
     }
 }

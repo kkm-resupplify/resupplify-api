@@ -3,10 +3,9 @@
 namespace App\Http\Dto\Company;
 
 use App\Http\Dto\BasicDto;
-use App\Models\Company\Enums\CompanyStatusEnum;
 use Spatie\LaravelData\Attributes\Validation\In;
 
-class CompanyMassStatusUpdateDto extends BasicDto
+class CompanyMassVerifyDto extends BasicDto
 {
 
     public function __construct(

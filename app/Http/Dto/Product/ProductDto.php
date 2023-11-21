@@ -13,15 +13,12 @@ use Spatie\LaravelData\Attributes\Validation\Required;
 
 class ProductDto extends BasicDto
 {
-    #[Max(60)]
-    public string $name;
-    #[Max(300)]
-    public string $description;
     #[Max(90)]
     public string $producent;
     #[Max(90)]
     public string $code;
     public int $productUnitId;
     public int $productSubcategoryId;
+    public array $translations;
 
 }

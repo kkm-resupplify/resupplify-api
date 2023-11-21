@@ -39,10 +39,17 @@ trait JsonResponseTrait
      */
     private function wrapSuccess($data): array
     {
-        return $this->wrap([
+        $response = [
             'success' => true,
             'data' => $data,
-        ]);
+        ];
+
+        if (isset($data['pagination'])) {
+            $response['pagination'] = $data['pagination'];
+            unset($response['data']['pagination']);
+        }
+
+        return $this->wrap($response);
     }
 
     /**

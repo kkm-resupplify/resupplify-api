@@ -48,5 +48,4 @@ class CompanyController extends Controller
     {
         return $this->ok($companyService->editCompany($companyDetailsRequest, $companyRequest, $request));
     }
-
 }

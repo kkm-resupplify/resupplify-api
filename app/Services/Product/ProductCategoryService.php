@@ -1,13 +1,14 @@
 <?php
 
 namespace App\Services\Product;
+use App\Resources\Product\ProductCategoryAndSubcategoryResource;
 use App\Resources\Product\ProductCategoryResource;
 use Illuminate\Support\Facades\Auth;
 
-use App\Http\Controllers\Controller;
+use App\Services\BasicService;
 use App\Models\Product\ProductCategory;
 
-class ProductCategoryService extends Controller
+class ProductCategoryService extends BasicService
 {
     public function getProductCategories()
     {
@@ -23,5 +24,10 @@ class ProductCategoryService extends Controller
                 },
             ])
             ->get());
+    }
+    
+    public function getProductCategory(ProductCategory $productCategory)
+    {
+        return new ProductCategoryAndSubcategoryResource($productCategory);
     }
 }

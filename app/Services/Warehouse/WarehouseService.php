@@ -4,17 +4,18 @@ namespace App\Services\Warehouse;
 
 use App\Exceptions\Company\WrongPermissions;
 use App\Exceptions\Warehouse\WarehouseDataNotAccessible;
-use App\Http\Controllers\Controller;
+use App\Services\BasicService;
 use App\Http\Dto\Warehouse\WarehouseDto;
 use App\Models\Warehouse\Warehouse;
 use App\Resources\Warehouse\WarehouseResource;
 use Illuminate\Support\Facades\Auth;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
+use App\Helpers\PaginationTrait;
 
-
-class WarehouseService extends Controller
+class WarehouseService extends BasicService
 {
+    use PaginationTrait;
     public function createWarehouse(WarehouseDto $request)
     {
         $user = Auth::user();
@@ -45,10 +46,9 @@ class WarehouseService extends Controller
     public function getWarehouses()
     {
         $warehouses= QueryBuilder::for(Warehouse::where('company_id', '=', Auth::user()->company->id))
-            ->allowedFilters(AllowedFilter::partial('name'))
-            ->get();
-        return WarehouseResource::collection($warehouses);
-
+            ->allowedFilters(AllowedFilter::partial('name'))->fastPaginate(config('paginationConfig.WAREHOUSES'));
+        $pagination = $this->paginate($warehouses);
+        return array_merge($pagination, WarehouseResource::collection($warehouses)->toArray(request()));
     }
 
     public function editWarehouse(WarehouseDto $request, Warehouse $warehouse)
