@@ -30,7 +30,7 @@ class ProductService extends Controller
             throw (new WrongPermissions());
         }
         $productData = [
-            'producent' => $request->producent,
+            'producer' => $request->producer,
             'code' => $request->code,
             'product_unit_id' => $request->productUnitId,
             'product_subcategory_id' => $request->productSubcategoryId,
@@ -90,7 +90,7 @@ class ProductService extends Controller
             throw (new WrongPermissions());
         }
         $productData = [
-            'producent' => $request->producent,
+            'producer' => $request->producer,
             'code' => $request->code,
             'product_unit_id' => $request->productUnitId,
             'product_subcategory_id' => $request->productSubcategoryId,

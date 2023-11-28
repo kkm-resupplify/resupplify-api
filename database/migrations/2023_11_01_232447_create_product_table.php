@@ -12,7 +12,7 @@ return new class extends Migration {
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->string('producent');
+            $table->string('producer');
             $table->string('code');
             $table->tinyInteger('status')->default(0);
             $table->tinyInteger('verification_status')->default(0);
