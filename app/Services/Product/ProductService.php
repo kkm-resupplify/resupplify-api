@@ -11,12 +11,15 @@ use App\Models\Product\Enums\ProductVerificationStatusEnum;
 use App\Models\Product\Product;
 use App\Resources\Product\ProductResource;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use App\Helpers\PaginationTrait;
 use App\Filters\Product\ProductNameFilter;
 use App\Filters\Product\ProductCategoryFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
+use App\Models\Product\ProductTag;
+use App\Exceptions\Product\ProductTagDontBelongToThisCompanyException;
 
 class ProductService extends Controller
 {
@@ -37,13 +40,34 @@ class ProductService extends Controller
             'company_id' => $user->company->id,
             'status' => ProductStatusEnum::INACTIVE(),
             'verification_status' => ProductVerificationStatusEnum::UNVERIFIED(),
+            'product_tags_id' => $request->productTagsId,
         ];
+        $productTags = $user->company->load('productTags')->productTags;
+        $invalidTags = "";
+        $productTagsId = Arr::get($productData, 'product_tags_id', []);
+        if ($productData['product_tags_id'] !== null) {
+        foreach ($productTagsId as $productTagsId)
+        {
+          if(!$productTags->contains(function ($productTag) use ($productTagsId) {
+              return $productTag->id == $productTagsId;
+          }))
+          {
+            $invalidTags .= ' '.$productTagsId;
+          }
+        }
+        if(strlen($invalidTags) > 0)
+        {
+            throw (new ProductTagDontBelongToThisCompanyException($invalidTags));
+        }
+        }
 
         $product = new Product($productData);
         $user->company->products()->save($product);
+        $product->productTags()->attach($productData['product_tags_id'] ?? []);
         foreach ($request->translations as $key => $value) {
             $product->languages()->attach($value['languageId'], ['name' => $value['name'], 'description' => $value['description']]);
         }
+
         return new ProductResource($product);
     }
 
