@@ -2,18 +2,13 @@
 
 namespace App\Services\BackOffice\Company;
 
-use App\Exceptions\Company\CompanyNotFoundException;
 use App\Exceptions\Company\CompanyAlreadyVerifiedException;
-
-use App\Services\BasicService;
-
-use App\Models\Company\Enums\CompanyStatusEnum;
-
-use App\Resources\Company\CompanyCollection;
-
+use App\Exceptions\Company\CompanyNotFoundException;
 use App\Http\Dto\Company\CompanyMassVerifyDto;
-
 use App\Models\Company\Company;
+use App\Models\Company\Enums\CompanyStatusEnum;
+use App\Resources\Company\CompanyCollection;
+use App\Services\BasicService;
 
 class CompanyService extends BasicService
 {

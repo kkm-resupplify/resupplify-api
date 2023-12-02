@@ -2,6 +2,15 @@
 
 namespace App\Models\Company;
 
+use App\Models\Company\Enums\CompanyCategoryEnum;
+use App\Models\Company\Enums\CompanyStatusEnum;
+use App\Models\Country\Country;
+use App\Models\Order\Order;
+use App\Models\Product\Product;
+use App\Models\Product\ProductCart;
+use App\Models\Product\ProductTag;
+use App\Models\User\User;
+use App\Models\Warehouse\Warehouse;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -10,19 +19,6 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Permission\Traits\HasRoles;
-
-use App\Models\Company\Enums\CompanyStatusEnum;
-use App\Models\Company\Enums\CompanyCategoryEnum;
-
-use App\Models\User\User;
-use App\Models\Company\CompanyCategory;
-use App\Models\Company\CompanyDetails;
-use App\Models\Country\Country;
-use App\Models\Warehouse\Warehouse;
-use App\Models\Product\Product;
-use App\Models\Product\ProductTag;
-use App\Models\Product\ProductCart;
-use App\Models\Order\Order;
 
 
 class Company extends Model

@@ -2,29 +2,24 @@
 
 namespace App\Services\Company;
 
-use App\Exceptions\Company\CantDeleteThisUserException;
 use App\Exceptions\Company\CompanyNameTakenException;
-use App\Exceptions\Company\CompanyNotFoundException;
 use App\Exceptions\Company\WrongPermissions;
 use App\Exceptions\User\UserAlreadyHaveCompany;
-use App\Http\Dto\Company\RegisterCompanyDto;
 use App\Http\Dto\Company\RegisterCompanyDetailsDto;
+use App\Http\Dto\Company\RegisterCompanyDto;
 use App\Models\Company\Company;
 use App\Models\Company\CompanyDetails;
 use App\Models\Company\CompanyMember;
+use App\Models\Company\Enums\CompanyStatusEnum;
 use App\Resources\Company\CompanyCollection;
-use App\Resources\Roles\PermissionResource;
+use App\Resources\Company\CompanyResource;
 use App\Resources\Roles\RoleResource;
 use App\Services\BasicService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
-use App\Models\Company\Enums\CompanyStatusEnum;
-use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
-use App\Resources\Company\CompanyResource;
-use App\Resources\Roles\PermissionCollection;
-
+use Spatie\Permission\Models\Role;
 
 
 class CompanyService extends BasicService

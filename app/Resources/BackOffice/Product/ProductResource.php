@@ -2,11 +2,10 @@
 
 namespace App\Resources\BackOffice\Product;
 
-use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Facades\Auth;
-
 use App\Resources\Product\ProductProductTagResource;
 use App\Resources\Product\ProductUnitResource;
+use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Auth;
 
 class ProductResource extends JsonResource
 {

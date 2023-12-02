@@ -3,7 +3,6 @@
 namespace App\Resources\User;
 
 use App\Resources\Roles\RoleResource;
-use App\Resources\User\UserDetailsResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class AdminLoginResource extends JsonResource

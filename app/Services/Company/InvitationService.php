@@ -6,11 +6,11 @@ use App\Exceptions\Company\CantCreateUserInvitationRoleException;
 use App\Exceptions\Role\RoleNotFoundException;
 use App\Http\Dto\Company\UserInvitationCodes;
 use App\Models\Company\UserInvitationCode;
+use App\Services\BasicService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use App\Services\BasicService;
-use Spatie\Permission\Models\Role;
 use Ramsey\Uuid\Uuid;
+use Spatie\Permission\Models\Role;
 
 
 class InvitationService extends BasicService

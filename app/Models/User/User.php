@@ -2,19 +2,17 @@
 
 namespace App\Models\User;
 
+use App\Models\Company\Company;
+use App\Models\Company\CompanyMember;
+use App\Models\Language\Language;
+use App\Models\User\Enums\UserTypeEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use App\Models\User\Enums\UserTypeEnum;
 use Spatie\Permission\Traits\HasRoles;
-
-use App\Models\Company\Company;
-use App\Models\Company\CompanyMember;
-use App\Models\User\UserDetails;
-use App\Models\Language\Language;
 
 class User extends Authenticatable
 {

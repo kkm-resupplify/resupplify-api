@@ -2,13 +2,10 @@
 
 namespace App\Http\Controllers\BackOffice\Product;
 
-use Illuminate\Http\JsonResponse;
-
-use App\Services\BackOffice\Product\ProductService;
-
 use App\Http\Controllers\Controller;
-
 use App\Http\Dto\Product\ProductMassVerifyDto;
+use App\Services\BackOffice\Product\ProductService;
+use Illuminate\Http\JsonResponse;
 
 class ProductController extends Controller
 {

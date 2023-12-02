@@ -13,11 +13,11 @@ use App\Http\Dto\Company\AddUserDto;
 use App\Models\Company\CompanyMember;
 use App\Models\Company\UserInvitationCode;
 use App\Models\User\User;
+use App\Resources\Company\CompanyResource;
+use App\Services\BasicService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use App\Services\BasicService;
 use Spatie\Permission\Models\Role;
-use App\Resources\Company\CompanyResource;
 
 class CompanyMemberService extends BasicService
 {

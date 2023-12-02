@@ -2,11 +2,10 @@
 
 namespace App\Services\Product;
 
-use App\Resources\Product\ProductSubcategoryResource;
-use Illuminate\Support\Facades\Auth;
-
-use App\Services\BasicService;
 use App\Models\Product\ProductSubcategory;
+use App\Resources\Product\ProductSubcategoryResource;
+use App\Services\BasicService;
+use Illuminate\Support\Facades\Auth;
 
 class ProductSubcategoryService extends BasicService
 {

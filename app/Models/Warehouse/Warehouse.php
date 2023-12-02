@@ -2,15 +2,14 @@
 
 namespace App\Models\Warehouse;
 
+use App\Models\Company\Company;
 use App\Models\Product\Product;
+use App\Models\Warehouse\Enums\WarehouseStatusEnum;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\SoftDeletes;
-
-use App\Models\Company\Company;
-use App\Models\Warehouse\Enums\WarehouseStatusEnum;
+use Spatie\Permission\Traits\HasRoles;
 
 class Warehouse extends Model
 {

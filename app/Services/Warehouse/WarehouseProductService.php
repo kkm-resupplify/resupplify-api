@@ -6,22 +6,19 @@ use App\Exceptions\Company\WrongPermissions;
 use App\Exceptions\Product\ProductExistsInWarehouseException;
 use App\Exceptions\Product\ProductNotFoundException;
 use App\Exceptions\Warehouse\WarehouseDataNotAccessible;
-use App\Services\BasicService;
-use App\Http\Dto\Warehouse\WarehouseDto;
+use App\Filters\Product\ProductNameFilter;
+use App\Helpers\PaginationTrait;
 use App\Http\Dto\Warehouse\WarehouseProductDto;
-use App\Models\Product\Enums\ProductStatusEnum;
+use App\Http\Dto\Warehouse\WarehouseProductMassStatusUpdateDto;
 use App\Models\Product\Product;
 use App\Models\Warehouse\Warehouse;
 use App\Resources\Product\ProductResource;
 use App\Resources\Warehouse\WarehouseProductResource;
-use App\Resources\Warehouse\WarehouseResource;
-use Illuminate\Http\Request;
+use App\Services\BasicService;
 use Illuminate\Support\Facades\Auth;
-use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
-use App\Filters\Product\ProductNameFilter;
-use App\Http\Dto\Warehouse\WarehouseProductMassStatusUpdateDto;
-use App\Helpers\PaginationTrait;
+use Spatie\QueryBuilder\QueryBuilder;
+
 class WarehouseProductService extends BasicService
 {
     use PaginationTrait;

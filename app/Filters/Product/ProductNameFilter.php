@@ -2,8 +2,8 @@
 
 namespace App\Filters\Product;
 
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 use Spatie\QueryBuilder\Filters\Filter;
 
 class ProductNameFilter implements Filter

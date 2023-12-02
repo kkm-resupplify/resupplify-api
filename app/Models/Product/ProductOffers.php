@@ -2,12 +2,12 @@
 
 namespace App\Models\Product;
 
+use App\Models\Order;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Product\Product;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use App\Models\Order;
+
 class ProductOffers extends Model
 {
     use HasFactory;

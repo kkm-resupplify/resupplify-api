@@ -4,6 +4,10 @@ namespace App\Services\Product;
 
 use App\Exceptions\Company\WrongPermissions;
 use App\Exceptions\Product\ProductNotFoundException;
+use App\Exceptions\Product\ProductTagDontBelongToThisCompanyException;
+use App\Filters\Product\ProductCategoryFilter;
+use App\Filters\Product\ProductNameFilter;
+use App\Helpers\PaginationTrait;
 use App\Http\Controllers\Controller;
 use App\Http\Dto\Product\ProductDto;
 use App\Models\Product\Enums\ProductStatusEnum;
@@ -13,13 +17,8 @@ use App\Resources\Product\ProductResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
-use App\Helpers\PaginationTrait;
-use App\Filters\Product\ProductNameFilter;
-use App\Filters\Product\ProductCategoryFilter;
-use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
-use App\Models\Product\ProductTag;
-use App\Exceptions\Product\ProductTagDontBelongToThisCompanyException;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class ProductService extends Controller
 {

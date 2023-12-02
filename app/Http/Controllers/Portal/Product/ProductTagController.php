@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Portal\Product;
 
 use App\Http\Controllers\Controller;
+use App\Http\Dto\Product\ProductTagDto;
 use App\Models\Product\ProductTag;
 use App\Services\Product\ProductTagService;
-use App\Http\Dto\Product\ProductTagDto;
 
 class ProductTagController extends Controller
 {

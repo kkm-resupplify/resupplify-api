@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers\BackOffice\Country;
 
-use Illuminate\Http\Request;
-use App\Models\Country\Country;
-use App\Http\Dto\Country\CountryDto;
 use App\Http\Controllers\Controller;
+use App\Http\Dto\Country\CountryDto;
+use App\Models\Country\Country;
 
 class CountryController extends Controller
 {
