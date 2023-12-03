@@ -121,4 +121,24 @@ class ProductService extends Controller
         }
         return 1;
     }
+
+    public function getProductStats()
+    {
+        $user = Auth::user();
+        $company = $user->company;
+        $products = $company->products;
+
+        $productsAwaitingVerification = $products->where('verification_status', ProductVerificationStatusEnum::UNVERIFIED())->count();
+        $verifiedProducts = $products->where('verification_status', ProductVerificationStatusEnum::VERIFIED())->count();
+        $rejectedProducts = $products->where('verification_status', ProductVerificationStatusEnum::REJECTED())->count();
+        $activeProducts = $products->where('verification_status', ProductStatusEnum::ACTIVE())->count();
+        $inactiveProducts = $products->where('verification_status', ProductStatusEnum::INACTIVE())->count();
+        return [
+            'productsAwaitingVerification' => $productsAwaitingVerification,
+            'verifiedProducts' => $verifiedProducts,
+            'rejectedProducts' => $rejectedProducts,
+            'activeProducts' => $activeProducts,
+            'inactiveProducts' => $inactiveProducts
+        ];
+    }
 }
