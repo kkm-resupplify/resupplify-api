@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers\BackOffice\Company;
 
-use App\Models\Company\CompanyCategory;
-use App\Services\Company\CompanyCategoryService;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Services\Company\CompanyCategoryService;
 
 class CompanyCategoryController extends Controller
 {

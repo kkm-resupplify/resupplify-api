@@ -2,20 +2,13 @@
 
 namespace App\Http\Controllers\Portal\Company;
 
-use App\Exceptions\Company\CompanyNameTakenException;
+use App\Http\Controllers\Controller;
 use App\Http\Dto\Company\AddUserDto;
-use App\Models\Company\Company;
 use App\Models\User\User;
 use App\Resources\Company\CompanyMemberCollection;
 use App\Resources\User\UserResource;
-use App\Services\Company\CompanyService;
 use App\Services\Company\CompanyMemberService;
 use Illuminate\Http\JsonResponse;
-use App\Http\Controllers\Controller;
-
-use App\Http\Dto\Company\RegisterCompanyDto;
-use App\Http\Dto\Company\RegisterCompanyDetailsDto;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class CompanyMemberController extends Controller

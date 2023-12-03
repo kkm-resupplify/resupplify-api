@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers\Portal\Company;
 
+use App\Http\Controllers\Controller;
+use App\Http\Dto\Company\RegisterCompanyDetailsDto;
+use App\Http\Dto\Company\RegisterCompanyDto;
 use App\Models\Company\Company;
-use App\Models\User\User;
 use App\Services\Company\CompanyService;
 use Illuminate\Http\JsonResponse;
-use App\Http\Controllers\Controller;
-
-use App\Http\Dto\Company\RegisterCompanyDto;
-use App\Http\Dto\Company\RegisterCompanyDetailsDto;
 use Illuminate\Http\Request;
 
 class CompanyController extends Controller

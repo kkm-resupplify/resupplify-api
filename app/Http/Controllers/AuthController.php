@@ -3,11 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Dto\User\BackOfficeRegisterDto;
-use App\Models\User\User;
-use App\Services\Auth\AuthService;
-use Illuminate\Http\JsonResponse;
 use App\Http\Dto\User\LoginDto;
 use App\Http\Dto\User\PortalRegisterDto;
+use App\Services\Auth\AuthService;
+use Illuminate\Http\JsonResponse;
 
 class AuthController extends Controller
 {

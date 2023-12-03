@@ -2,25 +2,18 @@
 
 namespace App\Models\Product;
 
+use App\Models\Company\Company;
 use App\Models\Language\Language;
+use App\Models\Product\Enums\ProductStatusEnum;
+use App\Models\Product\Enums\ProductVerificationStatusEnum;
 use App\Models\Warehouse\Warehouse;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Relations\HasOneThrough;
-use Spatie\Permission\Traits\HasRoles;
-
-use App\Models\Company\Company;
-use App\Models\Product\ProductTag;
-use App\Models\Product\ProductCategory;
-use App\Models\Product\ProductSubcategory;
-use App\Models\Product\ProductUnit;
-use App\Models\Product\ProductImage;
-
-use App\Models\Product\Enums\ProductStatusEnum;
-use App\Models\Product\Enums\ProductVerificationStatusEnum;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Permission\Traits\HasRoles;
 
 class Product extends Model
 {

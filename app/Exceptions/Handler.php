@@ -3,17 +3,13 @@
 namespace App\Exceptions;
 
 use App\Exceptions\Company\CompanyNotFoundException;
+use App\Exceptions\Filter\FilterNotAllowedException;
 use App\Exceptions\Product\ProductNotFoundException;
 use App\Exceptions\Product\ProductTagNotFoundException;
-use App\Exceptions\Filter\FilterNotAllowedException;
 use App\Exceptions\User\UserNotFoundException;
 use App\Exceptions\Warehouse\WarehouseNotFoundException;
-use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use App\Exceptions\InvalidOrderException;
-use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Http\Client\Request;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Spatie\QueryBuilder\Exceptions\InvalidFilterQuery;
 use Throwable;
 

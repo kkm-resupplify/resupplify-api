@@ -2,8 +2,9 @@
 
 namespace App\Services;
 
-use App\Helpers\ThrowExceptionTrait;
 use App\Helpers\PaginationTrait;
+use App\Helpers\ThrowExceptionTrait;
+
 abstract class BasicService
 {
     use ThrowExceptionTrait, PaginationTrait;

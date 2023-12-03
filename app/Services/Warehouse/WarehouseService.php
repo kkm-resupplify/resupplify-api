@@ -4,14 +4,14 @@ namespace App\Services\Warehouse;
 
 use App\Exceptions\Company\WrongPermissions;
 use App\Exceptions\Warehouse\WarehouseDataNotAccessible;
-use App\Services\BasicService;
+use App\Helpers\PaginationTrait;
 use App\Http\Dto\Warehouse\WarehouseDto;
 use App\Models\Warehouse\Warehouse;
 use App\Resources\Warehouse\WarehouseResource;
+use App\Services\BasicService;
 use Illuminate\Support\Facades\Auth;
-use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
-use App\Helpers\PaginationTrait;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class WarehouseService extends BasicService
 {

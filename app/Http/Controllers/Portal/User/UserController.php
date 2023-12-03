@@ -2,17 +2,13 @@
 
 namespace App\Http\Controllers\Portal\User;
 
-use App\Http\Requests\UserDetailsRequest;
-use App\Models\User\User;
-use App\Services\User\UserDetailsService;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\JsonResponse;
-use App\Http\Dto\User\UserDetailsDto;
 use App\Http\Controllers\Controller;
-use App\Resources\User\UserLoginResource;
+use App\Http\Dto\User\UserDetailsDto;
+use App\Models\User\User;
 use App\Resources\User\UserResource;
-use Laravel\Sanctum\PersonalAccessToken;
+use App\Services\User\UserDetailsService;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {

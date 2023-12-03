@@ -2,16 +2,13 @@
 
 namespace App\Services\Product;
 
-use App\Resources\Product\ProductCategoryAndSubcategoryResource;
-use App\Resources\Product\ProductCategoryResource;
-use Illuminate\Support\Facades\Auth;
 use App\Exceptions\Company\WrongPermissions;
-use App\Services\BasicService;
-use App\Models\Product\ProductCategory;
-use App\Models\Product\ProductTag;
 use App\Http\Dto\Product\ProductTagDto;
-use Illuminate\Support\Str;
+use App\Models\Product\ProductTag;
 use App\Resources\Product\ProductTagResource;
+use App\Services\BasicService;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 
 class ProductTagService extends BasicService

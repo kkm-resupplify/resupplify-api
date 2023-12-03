@@ -12,7 +12,7 @@ class ProductTagDontBelongToThisCompanyException extends BasicException
     {
         $this->errorCode = CustomErrorCodes::PRODUCT_TAG_DONT_BELONG_TO_THIS_COMPANY;
         $this->errorHttpCode = Response::HTTP_NOT_FOUND;
-        $this->errorMsg = $this->__('messages.exception.productTagDontBelongToThisCompany');
+        $this->errorMsg = $this->__('messages.exception.productTagDontBelongToThisCompany').":$this->message";
 
         $errorData = $this->getErrorData();
 
