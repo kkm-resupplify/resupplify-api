@@ -5,6 +5,7 @@ namespace App\Services\Product;
 use App\Exceptions\Company\WrongPermissions;
 use App\Exceptions\Product\ProductNotFoundException;
 use App\Exceptions\Product\ProductTagDontBelongToThisCompanyException;
+use App\Exceptions\Product\ProductTranslationException;
 use App\Filters\Product\ProductCategoryFilter;
 use App\Filters\Product\ProductNameFilter;
 use App\Helpers\PaginationTrait;
@@ -19,7 +20,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
-
+use App\Models\Language\Language;
 class ProductService extends Controller
 {
     use PaginationTrait;
@@ -30,6 +31,19 @@ class ProductService extends Controller
         setPermissionsTeamId($user->company->id);
         if (!$user->can('Owner permissions')) {
             throw (new WrongPermissions());
+        }
+        $languages = Language::all();
+        foreach ($request->translations as $language)
+        {
+            $translationId = $language['languageId'];
+            if($languages->contains($translationId))
+            {
+                throw new ProductTranslationException();
+            }
+        }
+        if($request->translations < Count(Language::all()))
+        {
+            throw (new ProductTranslationException());
         }
         $productData = [
             'producent' => $request->producent,

@@ -35,5 +35,6 @@ return [
         'productAlreadyVerified' => 'Product is already verified',
         'productTagNotFound' => 'Product tag not found',
         'productTagDontBelongToThisCompany' => 'This product tag does not belong to your company',
+        'productTransaction' => 'You need to translate product name for all languages'
     ],
 ];
