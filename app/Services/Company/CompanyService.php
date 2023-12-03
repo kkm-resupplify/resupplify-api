@@ -62,7 +62,7 @@ class CompanyService extends BasicService
         ];
         $createdCompanyDetails = new CompanyDetails($companyDetails);
         $createdCompany->companyDetails()->save($createdCompanyDetails);
-        $companyBalance = new CompanyBalances(['company_id' => $createdCompany->id]);
+        $companyBalance = new CompanyBalances(['company_id' => $createdCompany->id,'balance' => 0]);
         $createdCompany->companyBalances()->save($companyBalance);
         $role = [
             Role::create(['name' => 'Company owner', 'team_id' => $createdCompany->id, 'guard_name' => 'sanctum']),

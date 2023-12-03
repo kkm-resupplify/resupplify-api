@@ -13,6 +13,7 @@ class CompanyBalances extends Model
 
     protected $fillable = [
         'company_id',
+        'balance'
         ];
 
     public function company(): BelongsTo
