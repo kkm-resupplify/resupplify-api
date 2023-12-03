@@ -106,4 +106,9 @@ class Company extends Model
     {
         return $this->hasMany(Order::class);
     }
+
+    public function companyBalances(): HasOne
+    {
+        return $this->hasOne(CompanyBalances::class);
+    }
 }

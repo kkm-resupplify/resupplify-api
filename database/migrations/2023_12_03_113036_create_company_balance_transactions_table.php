@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('orders', function (Blueprint $table) {
+        Schema::create('company_balance_transactions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('company_id')->constrained('companies')->onDelete('cascade');
-            $table->tinyInteger('status')->default(0);
+            $table->foreignId('company_id')->constrained('company_balances')->references('company_id')->onDelete('cascade');
+            $table->float('amount');
+            $table->tinyInteger('type');
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('orders');
+        Schema::dropIfExists('company_balance_transactions');
     }
 };
