@@ -12,8 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('company_balances', function (Blueprint $table) {
-            $table->id('company_id');
+            $table->id();
+            $table->foreignId('company_id')->constrained('companies')->onDelete('cascade');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

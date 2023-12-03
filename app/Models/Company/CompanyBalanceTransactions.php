@@ -9,7 +9,7 @@ class CompanyBalanceTransactions extends Model
 {
     use HasFactory;
 
-    public function belongsTo()
+    public function companyBalance()
     {
         return $this->belongsTo(CompanyBalances::class);
     }

@@ -45,9 +45,8 @@ class CompanyService extends BasicService
             'owner_id' => $user->id,
             'status' => CompanyStatusEnum::UNVERIFIED(),
         ];
-        // TODO: Add CompanyDetails from the request
+
         $createdCompany = new Company($company);
-        $createdCompany->save();
         $createdCompany -> owner()->associate($user)->save();
         $companyDetails = [
             'country_id' => $request->countryId,
@@ -63,7 +62,7 @@ class CompanyService extends BasicService
         ];
         $createdCompanyDetails = new CompanyDetails($companyDetails);
         $createdCompany->companyDetails()->save($createdCompanyDetails);
-        $companyBalance = new CompanyBalances($createdCompany->id);
+        $companyBalance = new CompanyBalances(['company_id' => $createdCompany->id]);
         $createdCompany->companyBalances()->save($companyBalance);
         $role = [
             Role::create(['name' => 'Company owner', 'team_id' => $createdCompany->id, 'guard_name' => 'sanctum']),

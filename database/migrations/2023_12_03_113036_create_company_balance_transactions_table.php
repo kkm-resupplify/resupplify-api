@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('company_balance_transactions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('company_id')->constrained('company_balances')->references('company_id')->onDelete('cascade');
+            $table->foreignId('company_id')->constrained('company_balances')->onDelete('cascade');
             $table->float('amount');
             $table->tinyInteger('type');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
