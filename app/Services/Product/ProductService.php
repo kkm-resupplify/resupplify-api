@@ -131,8 +131,8 @@ class ProductService extends Controller
         $productsAwaitingVerification = $products->where('verification_status', ProductVerificationStatusEnum::UNVERIFIED())->count();
         $verifiedProducts = $products->where('verification_status', ProductVerificationStatusEnum::VERIFIED())->count();
         $rejectedProducts = $products->where('verification_status', ProductVerificationStatusEnum::REJECTED())->count();
-        $activeProducts = $products->where('verification_status', ProductStatusEnum::ACTIVE())->count();
-        $inactiveProducts = $products->where('verification_status', ProductStatusEnum::INACTIVE())->count();
+        $activeProducts = $products->where('status', ProductStatusEnum::ACTIVE())->count();
+        $inactiveProducts = $products->where('status', ProductStatusEnum::INACTIVE())->count();
         return [
             'productsAwaitingVerification' => $productsAwaitingVerification,
             'verifiedProducts' => $verifiedProducts,
