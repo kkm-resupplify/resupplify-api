@@ -133,7 +133,10 @@ class ProductService extends Controller
         $rejectedProducts = $products->where('verification_status', ProductVerificationStatusEnum::REJECTED())->count();
         $activeProducts = $products->where('status', ProductStatusEnum::ACTIVE())->count();
         $inactiveProducts = $products->where('status', ProductStatusEnum::INACTIVE())->count();
+        $productsTotal = $products->count();
+
         return [
+            'productsTotal' => $productsTotal,
             'productsAwaitingVerification' => $productsAwaitingVerification,
             'verifiedProducts' => $verifiedProducts,
             'rejectedProducts' => $rejectedProducts,
