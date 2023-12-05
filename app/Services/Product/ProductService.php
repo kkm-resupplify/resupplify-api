@@ -36,7 +36,7 @@ class ProductService extends Controller
         foreach ($request->translations as $language)
         {
             $translationId = $language['languageId'];
-            if($languages->contains($translationId))
+            if(!$languages->contains($translationId))
             {
                 throw new ProductTranslationException();
             }
