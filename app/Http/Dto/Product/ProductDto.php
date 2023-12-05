@@ -16,6 +16,6 @@ class ProductDto extends BasicDto
     public int $productSubcategoryId;
     public array $translations;
     public ?array $productTagsId;
-    public int $status;
+    public ?int $status;
 
 }
