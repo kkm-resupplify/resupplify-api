@@ -24,7 +24,7 @@ class Product extends Model
         'description',
         'verification_status',
         'product_subcategory_id',
-        'producent',
+        'producer',
         'code',
         'product_unit_id',
         'company_id',

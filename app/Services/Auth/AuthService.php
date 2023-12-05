@@ -27,7 +27,7 @@ class AuthService extends BasicService
         if (isset($user->company)) {
             setPermissionsTeamId($user->company->id);
         }
-        $user->tokens()->delete();
+        // $user->tokens()->delete();
         $token = $user->createToken('marketify-token')->plainTextToken;
         $user->details = UserDetails::where('user_id', '=', $user->id)->first();
         $response = ['user' => $user, 'token' => $token];

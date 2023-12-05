@@ -46,7 +46,7 @@ class ProductService extends Controller
             throw (new ProductTranslationException());
         }
         $productData = [
-            'producent' => $request->producent,
+            'producer' => $request->producer,
             'code' => $request->code,
             'product_unit_id' => $request->productUnitId,
             'product_subcategory_id' => $request->productSubcategoryId,
@@ -127,7 +127,7 @@ class ProductService extends Controller
             throw (new WrongPermissions());
         }
         $productData = [
-            'producent' => $request->producent,
+            'producer' => $request->producer,
             'code' => $request->code,
             'product_unit_id' => $request->productUnitId,
             'product_subcategory_id' => $request->productSubcategoryId,
@@ -157,5 +157,28 @@ class ProductService extends Controller
             $product->update(['status' => $status]);
         }
         return 1;
+    }
+
+    public function getProductStats()
+    {
+        $user = Auth::user();
+        $company = $user->company;
+        $products = $company->products;
+
+        $productsAwaitingVerification = $products->where('verification_status', ProductVerificationStatusEnum::UNVERIFIED())->count();
+        $verifiedProducts = $products->where('verification_status', ProductVerificationStatusEnum::VERIFIED())->count();
+        $rejectedProducts = $products->where('verification_status', ProductVerificationStatusEnum::REJECTED())->count();
+        $activeProducts = $products->where('status', ProductStatusEnum::ACTIVE())->count();
+        $inactiveProducts = $products->where('status', ProductStatusEnum::INACTIVE())->count();
+        $productsTotal = $products->count();
+
+        return [
+            'productsTotal' => $productsTotal,
+            'productsAwaitingVerification' => $productsAwaitingVerification,
+            'verifiedProducts' => $verifiedProducts,
+            'rejectedProducts' => $rejectedProducts,
+            'activeProducts' => $activeProducts,
+            'inactiveProducts' => $inactiveProducts
+        ];
     }
 }
