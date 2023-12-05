@@ -9,7 +9,7 @@ use Spatie\LaravelData\Attributes\Validation\Max;
 class ProductDto extends BasicDto
 {
     #[Max(90)]
-    public string $producent;
+    public string $producer;
     #[Max(90)]
     public string $code;
     public int $productUnitId;
