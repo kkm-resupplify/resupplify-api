@@ -29,6 +29,7 @@ const HAS_COMPANY_MIDDLEWARE = 'hasCompany';
 
 Route::middleware(AUTH_SANCTUM_MIDDLEWARE)->group(function () {
   Route::get('user', [UserController::class, 'index']);
+  Route::post('user/language', [UserController::class, 'language']);
   Route::post('test', [TestController::class, 'test'])->middleware(HAS_COMPANY_MIDDLEWARE);
   Route::get('test', [TestController::class, 'roleTest']);
   Route::get('user/company', [CompanyController::class, 'getLoggedUserCompany'])->middleware(HAS_COMPANY_MIDDLEWARE);
