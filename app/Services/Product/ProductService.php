@@ -132,13 +132,36 @@ class ProductService extends Controller
             'product_unit_id' => $request->productUnitId,
             'product_subcategory_id' => $request->productSubcategoryId,
             'company_id' => $user->company->id,
-            'status' =>  $user->status,
-            'verification_status' => ProductVerificationStatusEnum::UNVERIFIED(),
+            'status' =>  $request->status,
+            'product_tags_id' => $request->productTagsId ?? [],
         ];
+        $productTags = $user->company->load('productTags')->productTags;
+        $invalidTags = "";
+        $productTagsId = Arr::get($productData, 'product_tags_id', []);
         $product->update($productData);
-        foreach ($request->translations as $key => $value) {
-            $product->languages()->updateExistingPivot([$product->id, $key], ['name' => $value['name'], 'description' => $value['description']]);
+        if ($productData['product_tags_id'] != null) {
+            foreach ($productTagsId as $productTagId) {
+                if(!$productTags->contains(function ($productTag) use ($productTagId) {
+                    return $productTag->id == $productTagId;
+                })) {
+                    $invalidTags .= ' '.$productTagId;
+                }
+            }
+            if(strlen($invalidTags) > 0) {
+                throw (new ProductTagDontBelongToThisCompanyException($invalidTags));
+            }
+
+            $product->productTags()->sync($productData['product_tags_id'] ?? []);
         }
+        foreach ($request->translations as $translation) {
+            $product->languages()->syncWithoutDetaching([
+                $translation['languageId'] => [
+                    'name' => $translation['name'],
+                    'description' => $translation['description']
+                ]
+            ]);
+        }
+        $product->save();
         return new ProductResource($product);
     }
 
