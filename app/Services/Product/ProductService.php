@@ -4,6 +4,11 @@ namespace App\Services\Product;
 
 use App\Exceptions\Company\WrongPermissions;
 use App\Exceptions\Product\ProductNotFoundException;
+use App\Exceptions\Product\ProductTagDontBelongToThisCompanyException;
+use App\Exceptions\Product\ProductTranslationException;
+use App\Filters\Product\ProductCategoryFilter;
+use App\Filters\Product\ProductNameFilter;
+use App\Helpers\PaginationTrait;
 use App\Http\Controllers\Controller;
 use App\Http\Dto\Product\ProductDto;
 use App\Models\Product\Enums\ProductStatusEnum;
@@ -12,11 +17,10 @@ use App\Models\Product\Product;
 use App\Resources\Product\ProductResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Helpers\PaginationTrait;
-use App\Filters\Product\ProductNameFilter;
-use App\Filters\Product\ProductCategoryFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
+use App\Models\Language\Language;
+use Illuminate\Support\Arr;
 
 class ProductService extends Controller
 {
@@ -27,8 +31,22 @@ class ProductService extends Controller
         $user = Auth::user();
         setPermissionsTeamId($user->company->id);
         if (!$user->can('Owner permissions')) {
-            throw (new WrongPermissions());
+            throw new WrongPermissions();
         }
+
+        $languages = Language::all();
+
+        foreach ($request->translations as $language) {
+            $translationId = $language['languageId'];
+            if (!$languages->contains($translationId)) {
+                throw new ProductTranslationException();
+            }
+        }
+
+        if ($request->translations < Count(Language::all())) {
+            throw new ProductTranslationException();
+        }
+
         $productData = [
             'producer' => $request->producer,
             'code' => $request->code,
@@ -37,12 +55,34 @@ class ProductService extends Controller
             'company_id' => $user->company->id,
             'status' => ProductStatusEnum::INACTIVE(),
             'verification_status' => ProductVerificationStatusEnum::UNVERIFIED(),
+            'product_tags_id' => $request->productTagsId,
         ];
+
+        $productTags = $user->company->load('productTags')->productTags;
+        $invalidTags = "";
+        $productTagsId = Arr::get($productData, 'product_tags_id', []);
+        if ($productData['product_tags_id'] !== null) {
+            foreach ($productTagsId as $productTagsId) {
+                if (!$productTags->contains(function ($productTag) use ($productTagsId) {
+                    return $productTag->id == $productTagsId;
+                })) {
+                    $invalidTags .= ' ' . $productTagsId;
+                }
+            }
+            if (strlen($invalidTags) > 0) {
+                throw new ProductTagDontBelongToThisCompanyException($invalidTags);
+            }
+        }
 
         $product = new Product($productData);
         $user->company->products()->save($product);
-        foreach ($request->translations as $key => $value) {
-            $product->languages()->attach($value['languageId'], ['name' => $value['name'], 'description' => $value['description']]);
+        $product->productTags()->attach($productData['product_tags_id'] ?? []);
+
+        foreach ($request->translations as $value) {
+            $product->languages()->attach(
+                $value['languageId'],
+                ['name' => $value['name'], 'description' => $value['description']]
+            );
         }
         return new ProductResource($product);
     }
@@ -53,10 +93,10 @@ class ProductService extends Controller
         $company = $user->company->products;
         setPermissionsTeamId($user->company->id);
         if (!$user->can('Owner permissions')) {
-            throw (new WrongPermissions());
+            throw new WrongPermissions();
         }
         if (!$company->contains($product)) {
-            throw (new ProductNotFoundException());
+            throw new ProductNotFoundException();
         }
         $product->delete();
         return 1;
@@ -86,22 +126,52 @@ class ProductService extends Controller
     {
         $user = Auth::user();
         setPermissionsTeamId($user->company->id);
+
         if (!$user->can('Owner permissions')) {
-            throw (new WrongPermissions());
+            throw new WrongPermissions();
         }
+
         $productData = [
             'producer' => $request->producer,
             'code' => $request->code,
             'product_unit_id' => $request->productUnitId,
             'product_subcategory_id' => $request->productSubcategoryId,
             'company_id' => $user->company->id,
-            'status' => ProductStatusEnum::INACTIVE(),
-            'verification_status' => ProductVerificationStatusEnum::UNVERIFIED(),
+            'status' =>  $request->status,
+            'product_tags_id' => $request->productTagsId ?? [],
         ];
+
+        $productTags = $user->company->load('productTags')->productTags;
+        $invalidTags = "";
+        $productTagsId = Arr::get($productData, 'product_tags_id', []);
+
         $product->update($productData);
-        foreach ($request->translations as $key => $value) {
-            $product->languages()->updateExistingPivot([$product->id, $key], ['name' => $value['name'], 'description' => $value['description']]);
+
+        if ($productData['product_tags_id'] != null) {
+            foreach ($productTagsId as $productTagId) {
+                if (!$productTags->contains(function ($productTag) use ($productTagId) {
+                    return $productTag->id == $productTagId;
+                })) {
+                    $invalidTags .= ' ' . $productTagId;
+                }
+            }
+            if (strlen($invalidTags) > 0) {
+                throw new ProductTagDontBelongToThisCompanyException($invalidTags);
+            }
+
+            $product->productTags()->sync($productData['product_tags_id'] ?? []);
         }
+
+        foreach ($request->translations as $translation) {
+            $product->languages()->syncWithoutDetaching([
+                $translation['languageId'] => [
+                    'name' => $translation['name'],
+                    'description' => $translation['description']
+                ]
+            ]);
+        }
+        $product->save();
+
         return new ProductResource($product);
     }
 
@@ -114,7 +184,7 @@ class ProductService extends Controller
         $status = $request->status;
         foreach ($requestProducts as $productId) {
             if (!$companyProducts->contains('id', $productId)) {
-                throw (new ProductNotFoundException());
+                throw new ProductNotFoundException();
             }
             $product = Product::findOrFail($productId);
             $product->update(['status' => $status]);
@@ -128,7 +198,10 @@ class ProductService extends Controller
         $company = $user->company;
         $products = $company->products;
 
-        $productsAwaitingVerification = $products->where('verification_status', ProductVerificationStatusEnum::UNVERIFIED())->count();
+        $productsAwaitingVerification = $products->where(
+            'verification_status',
+            ProductVerificationStatusEnum::UNVERIFIED()
+        )->count();
         $verifiedProducts = $products->where('verification_status', ProductVerificationStatusEnum::VERIFIED())->count();
         $rejectedProducts = $products->where('verification_status', ProductVerificationStatusEnum::REJECTED())->count();
         $activeProducts = $products->where('status', ProductStatusEnum::ACTIVE())->count();
