@@ -31,6 +31,7 @@ Route::middleware(AUTH_SANCTUM_MIDDLEWARE)->group(function () {
   Route::get('user', [UserController::class, 'index']);
   Route::post('test', [TestController::class, 'test'])->middleware(HAS_COMPANY_MIDDLEWARE);
   Route::get('test', [TestController::class, 'roleTest']);
+  Route::post('user/language', [UserController::class, 'language']);
   Route::get('user/company', [CompanyController::class, 'getLoggedUserCompany'])->middleware(HAS_COMPANY_MIDDLEWARE);
   Route::post('user/userDetails', [UserController::class, 'createUserDetails']);
   Route::put('user/userDetails', [UserController::class, 'editUserDetails']);
