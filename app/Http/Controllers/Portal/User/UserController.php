@@ -30,4 +30,9 @@ class UserController extends Controller
     {
         return $this->ok(new UserResource(User::with('userDetails')->findOrFail(Auth::User()->id)));
     }
+
+    public function language(Request $request, UserDetailsService $userDetailsService): JsonResponse
+    {
+        return $this->ok($userDetailsService->changeUserLanguage($request));
+    }
 }
