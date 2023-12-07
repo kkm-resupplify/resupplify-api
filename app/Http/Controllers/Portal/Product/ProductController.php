@@ -19,6 +19,7 @@ class ProductController extends Controller
     {
         return $this->ok($productService->getProduct($product));
     }
+
     public function index(ProductService $productService)
     {
         return $this->ok($productService->getProducts());

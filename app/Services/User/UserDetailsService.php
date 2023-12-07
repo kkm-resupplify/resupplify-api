@@ -3,18 +3,15 @@
 namespace App\Services\User;
 
 use App\Exceptions\General\ValidationFailedException;
-use App\Models\User\Enums\UserTypeEnum;
-use App\Http\Dto\User\LoginDto;
-use App\Http\Dto\User\PortalRegisterDto;
 use App\Http\Dto\User\UserDetailsDto;
-use App\Models\User\User;
 use App\Models\User\UserDetails;
-use Illuminate\Support\Facades\Hash;
-use App\Exceptions\Auth\FailedLoginException;
 use App\Exceptions\User\UserDetailsAlreadyExistsException;
 use App\Services\BasicService;
 use Illuminate\Support\Facades\Auth;
 use App\Resources\User\UserDetailsResource;
+use App\Models\Language\Language;
+use Illuminate\Support\Facades\App;
+use Illuminate\Http\Request;
 
 class UserDetailsService extends BasicService
 {
@@ -42,7 +39,7 @@ class UserDetailsService extends BasicService
     {
         $user = Auth::user();
         $userDetails = UserDetails::where('user_id', $user->id)->first();
-        
+
         if (!isset($userDetails)) {
             throw new ValidationFailedException();
         }
@@ -53,7 +50,17 @@ class UserDetailsService extends BasicService
         $userDetails->birth_date = $request->birthDate;
         $userDetails->sex = $request->sex;
         $userDetails->save();
-        
+
         return new UserDetailsResource($userDetails);
+    }
+
+    public function changeUserLanguage(Request $request)
+    {
+        $user = Auth::user();
+        $language = Language::findOrFail($request->languageId);
+        $user->language_id = $language->id;
+        $user->save();
+        App::setLocale('pl');
+        return $user->language;
     }
 }

@@ -13,7 +13,6 @@ class ProductTranslationResource extends JsonResource
       'languageId' => $this->pivot->language_id,
       'name' => $this->pivot->name,
       'description' => $this->pivot->description,
-
     ];
   }
 }
