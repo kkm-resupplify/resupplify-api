@@ -25,7 +25,10 @@ class ProductService extends BasicService
   public function getUnverifiedProducts()
   {
     return ProductResource::collection(
-      Product::where('verification_status', ProductVerificationStatusEnum::UNVERIFIED())->get()
+      Product::whereIn('verification_status', [
+        ProductVerificationStatusEnum::UNVERIFIED(),
+        ProductVerificationStatusEnum::REJECTED()
+      ])->get()
     );
   }
 
