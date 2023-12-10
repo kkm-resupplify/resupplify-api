@@ -53,7 +53,7 @@ class ProductService extends Controller
             'product_unit_id' => $request->productUnitId,
             'product_subcategory_id' => $request->productSubcategoryId,
             'company_id' => $user->company->id,
-            'status' => ProductStatusEnum::INACTIVE(),
+            'status' => $request->status,
             'verification_status' => ProductVerificationStatusEnum::UNVERIFIED(),
             'product_tags_id' => $request->productTagsId,
         ];
