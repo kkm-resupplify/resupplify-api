@@ -158,9 +158,9 @@ class ProductService extends Controller
             if (strlen($invalidTags) > 0) {
                 throw new ProductTagDontBelongToThisCompanyException($invalidTags);
             }
-
-            $product->productTags()->sync($productData['product_tags_id'] ?? []);
         }
+
+        $product->productTags()->sync($productData['product_tags_id'] ?? []);
 
         foreach ($request->translations as $translation) {
             $product->languages()->syncWithoutDetaching([
@@ -170,6 +170,7 @@ class ProductService extends Controller
                 ]
             ]);
         }
+
         $product->save();
 
         return new ProductResource($product);
