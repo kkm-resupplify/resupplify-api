@@ -8,16 +8,16 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ProductTranslationException extends BasicException
 {
-    protected function init()
-    {
-        $this->errorCode = CustomErrorCodes::PRODUCT_TRANSLATION;
-        $this->errorHttpCode = Response::HTTP_NOT_FOUND;
-        $this->errorMsg = $this->__('messages.exception.productTransaction');
+  protected function init()
+  {
+    $this->errorCode = CustomErrorCodes::PRODUCT_TRANSLATION;
+    $this->errorHttpCode = Response::HTTP_NOT_FOUND;
+    $this->errorMsg = $this->__('messages.exception.productTransaction');
 
-        $errorData = $this->getErrorData();
+    $errorData = $this->getErrorData();
 
-        if (isset($errorData)) {
-            $this->errorData = $errorData;
-        }
+    if (isset($errorData)) {
+      $this->errorData = $errorData;
     }
+  }
 }
