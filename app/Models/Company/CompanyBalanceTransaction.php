@@ -4,7 +4,7 @@ namespace App\Models\Company;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Company\Enums\CompanyBalanceTransactionEnum;
+use App\Models\Company\Enums\CompanyBalanceTransactionTypeEnum;
 
 class CompanyBalanceTransaction extends Model
 {
@@ -12,11 +12,14 @@ class CompanyBalanceTransaction extends Model
     protected $fillable = [
         'company_id',
         'amount',
-        'status'
+        'status',
+        'payment_method_id',
+        'receiver_id',
+        'sender_id'
     ];
 
     protected $cast = [
-        'status' => CompanyBalanceTransactionEnum::class,
+        'status' => CompanyBalanceTransactionTypeEnum::class,
     ];
 
     public function companyBalance()
