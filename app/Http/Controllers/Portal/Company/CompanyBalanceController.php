@@ -3,15 +3,15 @@
 namespace App\Http\Controllers\Portal\Company;
 
 use App\Http\Controllers\Controller;
-use App\Http\Dto\Company\CompanyBalanceTransactionsDto;
+use App\Http\Dto\Company\CompanyBalanceDto;
 use App\Services\Company\CompanyBalanceService;
 
 
 class CompanyBalanceController extends Controller
 {
-    public function store(CompanyBalanceTransactionsDto $request, CompanyBalanceService $companyBalanceService)
+    public function store(CompanyBalanceDto $request, CompanyBalanceService $companyBalanceService)
     {
-        return $this->ok($companyBalanceService->createTransaction);
+        return $this->ok($companyBalanceService->createTransaction($request));
     }
 
 }

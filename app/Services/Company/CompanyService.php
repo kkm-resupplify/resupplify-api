@@ -8,7 +8,7 @@ use App\Exceptions\User\UserAlreadyHaveCompany;
 use App\Http\Dto\Company\RegisterCompanyDetailsDto;
 use App\Http\Dto\Company\RegisterCompanyDto;
 use App\Models\Company\Company;
-use App\Models\Company\CompanyBalances;
+use App\Models\Company\CompanyBalance;
 use App\Models\Company\CompanyDetails;
 use App\Models\Company\CompanyMember;
 use App\Models\Company\Enums\CompanyStatusEnum;
@@ -62,7 +62,7 @@ class CompanyService extends BasicService
         ];
         $createdCompanyDetails = new CompanyDetails($companyDetails);
         $createdCompany->companyDetails()->save($createdCompanyDetails);
-        $companyBalance = new CompanyBalances(['company_id' => $createdCompany->id,'balance' => 0]);
+        $companyBalance = new CompanyBalance(['company_id' => $createdCompany->id,'balance' => 0]);
         $createdCompany->companyBalances()->save($companyBalance);
         $role = [
             Role::create(['name' => 'Company owner', 'team_id' => $createdCompany->id, 'guard_name' => 'sanctum']),

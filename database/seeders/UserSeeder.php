@@ -9,7 +9,7 @@ use App\Models\Product\ProductUnit;
 use App\Models\User\User;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Company\Company;
-use App\Models\Company\CompanyBalances;
+use App\Models\Company\CompanyBalance;
 use App\Models\Company\CompanyDetails;
 use App\Models\Company\CompanyMember;
 use App\Models\Product\ProductTag;
@@ -31,7 +31,7 @@ class UserSeeder extends Seeder
         Company::truncate();
         Company::truncate();
         CompanyDetails::truncate();
-        CompanyBalances::truncate();
+        CompanyBalance::truncate();
         CompanyMember::truncate();
         Role::truncate();
         ProductTag::truncate();
@@ -69,7 +69,7 @@ class UserSeeder extends Seeder
                 'contact_person' => 'Contact Person ' . $i,
             ]);
 
-            $companyBalance = CompanyBalances::create([
+            $companyBalance = CompanyBalance::create([
                 'company_id' => $company->id,
                 'balance' => 0,
             ]);

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('company_id')->constrained('company_balances')->references('company_id')->onDelete('cascade');
             $table->float('amount');
-            $table->tinyInteger('type');
+            $table->tinyInteger('type')->default(1);
             $table->timestamps();
             $table->softDeletes();
         });

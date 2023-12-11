@@ -17,6 +17,7 @@ use App\Http\Controllers\Portal\Product\ProductUnitController;
 use App\Http\Controllers\BackOffice\Country\CountryController as CountryController;
 use App\Http\Controllers\BackOffice\Company\CompanyCategoryController as CompanyCategoryController;
 use App\Http\Controllers\BackOffice\Company\InvitationController as InvitationController;
+use App\Http\Controllers\Portal\Company\CompanyBalanceController as CompanyBalanceController;
 
 Route::post('register', [AuthController::class, 'register'])->name('register');
 Route::post('login', [AuthController::class, 'login']);
@@ -60,6 +61,7 @@ Route::middleware(AUTH_SANCTUM_MIDDLEWARE)->prefix('company')->group(function ()
   Route::post('productMassAssign', [ProductController::class, 'massAssignProductsStatus'])
     ->middleware(HAS_COMPANY_MIDDLEWARE);
   Route::resource('companyCategories', CompanyCategoryController::class);
+  Route::resource('balance', CompanyBalanceController::class);
 });
 
 const WAREHOUSE_PRODUCT_CRUD_ROUTE_SUFFIX = 'warehouse/{warehouse}/product/{product}';
