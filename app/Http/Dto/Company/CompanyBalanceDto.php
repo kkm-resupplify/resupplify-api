@@ -7,7 +7,11 @@ use App\Http\Dto\BasicDto;
 
 class CompanyBalanceDto extends BasicDto
 {
-    public int $companyId;
     public float $amount;
+    public string $currency;
     public int $type;
+    public int $status;
+    public ?int $senderId;
+    public int $receiverId;
+    public int $paymentMethodId;
 }

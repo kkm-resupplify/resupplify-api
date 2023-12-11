@@ -20,7 +20,7 @@ return new class extends Migration
             $table->tinyInteger('status')->default(1);
             $table->foreignId('payment_method_id')->constrained('payment_methods')->onDelete('cascade');
             $table->foreignId('receiver_id')->constrained('companies')->onDelete('cascade');
-            $table->foreignId('sender_id')->constrained('companies')->onDelete('cascade')->nullable();
+            $table->foreignId('sender_id')->nullable()->constrained('companies')->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();
         });
