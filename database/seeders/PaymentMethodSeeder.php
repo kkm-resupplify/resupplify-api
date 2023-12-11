@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Schema;
-use App\Models\PaymentMethod;
+use App\Models\Payment\PaymentMethod;
 class PaymentMethodSeeder extends Seeder
 {
     /**
