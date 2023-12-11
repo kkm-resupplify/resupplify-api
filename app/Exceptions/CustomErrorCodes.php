@@ -40,4 +40,6 @@ class CustomErrorCodes
     public const PRODUCT_TRANSLATION = 'product-0006';
 
     public const FILTER_NOT_ALLOWED = 'filter-0001';
+
+    public const TRANSACTION_ERROR = 'transaction-0001';
 }

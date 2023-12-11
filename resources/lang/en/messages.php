@@ -37,5 +37,6 @@ return [
         'productTagDontBelongToThisCompany' => 'This product tag does not belong to your company',
         'productTransaction' => 'You need to translate product name for all languages',
         'negativeCompanyBalanceException' => 'Your company balance will be negative, you can\'t perform this transaction',
+        'wrongTransaction' => 'You can\'t perform this transaction',
     ],
 ];
