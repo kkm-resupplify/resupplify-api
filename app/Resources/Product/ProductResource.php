@@ -6,6 +6,8 @@ namespace App\Resources\Product;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Auth;
 
+use App\Resources\Product\ProductTranslationResource;
+
 class ProductResource extends JsonResource
 {
     public function toArray($request)
@@ -15,7 +17,7 @@ class ProductResource extends JsonResource
             'id' => $this->id,
             'name' => $this->languages[$languageId]->pivot->name,
             'description' => $this->languages[$languageId]->pivot->description,
-            'producent' => $this->producent,
+            'producer' => $this->producer,
             'code' => $this->code,
             'status' => $this->status,
             'verificationStatus' => $this->verification_status,
@@ -30,6 +32,7 @@ class ProductResource extends JsonResource
                 'name' => $this->productSubcategory->languages[$languageId]->pivot->name,
             ],
             'productTags' => ProductProductTagResource::collection($this->productTags),
+            'translations' => ProductTranslationResource::collection($this->languages),
         ];
     }
 }

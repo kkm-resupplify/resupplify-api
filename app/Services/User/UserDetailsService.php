@@ -3,12 +3,15 @@
 namespace App\Services\User;
 
 use App\Exceptions\General\ValidationFailedException;
-use App\Exceptions\User\UserDetailsAlreadyExistsException;
 use App\Http\Dto\User\UserDetailsDto;
 use App\Models\User\UserDetails;
+use App\Exceptions\User\UserDetailsAlreadyExistsException;
 use App\Resources\User\UserDetailsResource;
 use App\Services\BasicService;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Language\Language;
+use Illuminate\Support\Facades\App;
+use Illuminate\Http\Request;
 
 class UserDetailsService extends BasicService
 {
@@ -49,5 +52,15 @@ class UserDetailsService extends BasicService
         $userDetails->save();
 
         return new UserDetailsResource($userDetails);
+    }
+
+    public function changeUserLanguage(Request $request)
+    {
+        $user = Auth::user();
+        $language = Language::findOrFail($request->languageId);
+        $user->language_id = $language->id;
+        $user->save();
+        App::setLocale('pl');
+        return $user->language;
     }
 }

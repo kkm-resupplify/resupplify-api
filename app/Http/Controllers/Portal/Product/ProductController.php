@@ -19,6 +19,7 @@ class ProductController extends Controller
     {
         return $this->ok($productService->getProduct($product));
     }
+
     public function index(ProductService $productService)
     {
         return $this->ok($productService->getProducts());
@@ -33,8 +34,14 @@ class ProductController extends Controller
     {
         return $this->ok($productService->deleteProduct($product));
     }
+
     public function massAssignProductsStatus(ProductService $productService, Request $product)
     {
         return $this->ok($productService->massAssignProductStatus($product));
+    }
+
+    public function productStats(ProductService $productService)
+    {
+        return $this->ok($productService->getProductStats());
     }
 }
