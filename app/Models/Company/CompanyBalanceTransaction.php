@@ -13,6 +13,7 @@ class CompanyBalanceTransaction extends Model
         'company_balance_id',
         'amount',
         'status',
+        'type',
         'currency',
         'payment_method_id',
         'receiver_id',
