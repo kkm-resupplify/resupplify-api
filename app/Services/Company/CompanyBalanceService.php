@@ -3,64 +3,25 @@
 namespace App\Services\Company;
 
 
-use App\Http\Dto\Company\CompanyTransactionDto;
-use App\Http\Dto\Company\CompanyBalanceDto;
 use App\Services\BasicService;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Company\Company;
+use App\Http\Dto\Company\CompanyBalanceDto;
 use App\Models\Company\CompanyBalanceTransaction;
-use App\Exceptions\Company\NegativeCompanyBalanceException;
+use App\Resources\Company\CompanyBalanceResource;
 use App\Exceptions\Company\WrongTransactionException;
+use App\Resources\Company\CompanyTransactionResource;
+use App\Exceptions\Company\NegativeCompanyBalanceException;
+use App\Models\Company\Enums\CompanyBalanceTransactionTypeEnum;
 
 class CompanyBalanceService extends BasicService
 {
-    public function createTransaction(CompanyTransactionDto $request)
-    {
-        $companySender = Company::findOrFail($request->senderId);
-        $companyReceiver = Company::findOrFail($request->receiverId);
-        if($companySender->id == $companyReceiver->id)
-        {
-            throw(new WrongTransactionException());
-        }
-        $companySenderBalance = $companySender->companyBalances;
-        $companyReceiverBalance = $companyReceiver->companyBalances;
-        $companyBalanceTransactionData = [
-            'company_id' => $companyReceiverBalance->company_id,
-            'currency' => $request->currency,
-            'amount' => $request->amount,
-            'type' => $request->type,
-            'status' => $request->status,
-            'sender_id' => $request->senderId ?? null,
-            'receiver_id' => $request->receiverId,
-            'payment_method_id' => $request->paymentMethodId
-        ];
-        $companyBalanceTransaction = new CompanyBalanceTransaction($companyBalanceTransactionData);
-        $balanceSender = $companySenderBalance->balance - $companyBalanceTransaction->amount;
-        $balanceReceiver = $companyReceiverBalance->balance + $companyBalanceTransaction->amount;
-        if($balanceSender < 0 || $balanceReceiver < 0)
-        {
-            throw(new NegativeCompanyBalanceException());
-        }
-        $transaction = $companyBalanceTransaction->save();
-        $companyReceiverBalanceData = [
-            'balance' => $balanceReceiver,
-        ];
-        $companySenderBalanceData = [
-            'balance' => $balanceSender,
-        ];
-        $companyReceiverBalance->update($companyReceiverBalanceData);
-        $companySenderBalance->update($companySenderBalanceData);
-        return $companyReceiverBalance;
-    }
-
-
-    public function addBalance(CompanyBalanceDto $request)
+    public function balanceOperation(CompanyBalanceDto $request)
     {
         $user = Auth::user();
         $company = $user->company;
         $companyBalance = $company->companyBalances;
         $companyBalanceTransactionData = [
-            'company_id' => $companyBalance->company_id,
+            'company_balance_id' => $companyBalance->company_id,
             'currency' => $request->currency,
             'amount' => $request->amount,
             'type' => $request->type,
@@ -69,16 +30,41 @@ class CompanyBalanceService extends BasicService
             'receiver_id' => $company->id,
             'payment_method_id' => $request->paymentMethodId
         ];
-        if($request->amount < 0)
+        $transaction = new CompanyBalanceTransaction($companyBalanceTransactionData);
+
+        if($companyBalanceTransactionData['type'] == CompanyBalanceTransactionTypeEnum::WITHDRAWAL()->value)
+        {
+            $balance = $companyBalance->balance - $companyBalanceTransactionData['amount'];
+        }
+        else
+        {
+            $balance = $companyBalance->balance + $companyBalanceTransactionData['amount'];
+        }
+        if($balance < 0)
         {
             throw(new NegativeCompanyBalanceException());
         }
-        $balance = $companyBalance->balance + $companyBalanceTransactionData['amount'];
         $companyBalance->balance = $balance;
         $companyBalance->save();
+        $transaction->save();
         return $companyBalance;
     }
 
+    public function showBalance()
+    {
+        $user = Auth::user();
+        $company = $user->company;
+        $companyBalance = $company->companyBalances;
+        return new CompanyBalanceResource($companyBalance);
+    }
+
+    public function showBalanceOperations()
+    {
+        $user = Auth::user();
+        $company = $user->company;
+        $companyBalance = $company->companyBalances;
+        return CompanyTransactionResource::collection($companyBalance->companyBalanceTransactions);
+    }
 }
 
 

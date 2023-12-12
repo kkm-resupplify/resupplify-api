@@ -61,6 +61,7 @@ Route::middleware(AUTH_SANCTUM_MIDDLEWARE)->prefix('company')->group(function ()
   Route::post('productMassAssign', [ProductController::class, 'massAssignProductsStatus'])
     ->middleware(HAS_COMPANY_MIDDLEWARE);
   Route::resource('companyCategories', CompanyCategoryController::class);
+  Route::get('balance/transaction', [CompanyBalanceController::class,'showBalanceOperations']);
   Route::resource('balance', CompanyBalanceController::class);
 });
 

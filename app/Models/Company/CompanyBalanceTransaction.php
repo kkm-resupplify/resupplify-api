@@ -10,9 +10,10 @@ class CompanyBalanceTransaction extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'company_id',
+        'company_balance_id',
         'amount',
         'status',
+        'currency',
         'payment_method_id',
         'receiver_id',
         'sender_id'
