@@ -5,6 +5,7 @@ namespace App\Models\Company;
 use App\Models\Company\Enums\CompanyCategoryEnum;
 use App\Models\Company\Enums\CompanyStatusEnum;
 use App\Models\Country\Country;
+use App\Models\Company\CompanyBalance;
 use App\Models\Order\Order;
 use App\Models\Product\Product;
 use App\Models\Product\ProductCart;
@@ -105,5 +106,10 @@ class Company extends Model
     public function order(): HasMany
     {
         return $this->hasMany(Order::class);
+    }
+
+    public function companyBalances(): HasOne
+    {
+        return $this->hasOne(CompanyBalance::class);
     }
 }

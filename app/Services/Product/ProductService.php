@@ -20,8 +20,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Spatie\QueryBuilder\QueryBuilder;
-use Spatie\QueryBuilder\AllowedFilter;
 use App\Models\Language\Language;
+use Spatie\QueryBuilder\AllowedFilter;
 
 class ProductService extends Controller
 {
@@ -34,7 +34,6 @@ class ProductService extends Controller
         if (!$user->can('Owner permissions')) {
             throw new WrongPermissions();
         }
-
         $languages = Language::all();
 
         foreach ($request->translations as $language) {
@@ -43,11 +42,9 @@ class ProductService extends Controller
                 throw new ProductTranslationException();
             }
         }
-
         if ($request->translations < Count(Language::all())) {
             throw new ProductTranslationException();
         }
-
         $productData = [
             'producer' => $request->producer,
             'code' => $request->code,
@@ -190,7 +187,6 @@ class ProductService extends Controller
                 ]
             ]);
         }
-
         $product->save();
 
         return new ProductResource($product);

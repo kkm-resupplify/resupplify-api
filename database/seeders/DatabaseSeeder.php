@@ -18,8 +18,10 @@ class DatabaseSeeder extends Seeder
             CompanyCategorySeeder::class,
             ProductUnitSeeder::class,
             ProductCategorySeeder::class,
-            ProductSubcategorySeeder::class
+            ProductSubcategorySeeder::class,
+            PaymentMethodSeeder::class,
             //ProductCategoryAndSubcategorySeeder::class,
+            UserSeeder::class
         ]);
     }
 }

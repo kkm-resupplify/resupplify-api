@@ -8,6 +8,7 @@ use App\Exceptions\User\UserAlreadyHaveCompany;
 use App\Http\Dto\Company\RegisterCompanyDetailsDto;
 use App\Http\Dto\Company\RegisterCompanyDto;
 use App\Models\Company\Company;
+use App\Models\Company\CompanyBalance;
 use App\Models\Company\CompanyDetails;
 use App\Models\Company\CompanyMember;
 use App\Models\Company\Enums\CompanyStatusEnum;
@@ -44,9 +45,8 @@ class CompanyService extends BasicService
             'owner_id' => $user->id,
             'status' => CompanyStatusEnum::UNVERIFIED(),
         ];
-        // TODO: Add CompanyDetails from the request
+
         $createdCompany = new Company($company);
-        $createdCompany->save();
         $createdCompany -> owner()->associate($user)->save();
         $companyDetails = [
             'country_id' => $request->countryId,
@@ -61,9 +61,9 @@ class CompanyService extends BasicService
             'contact_person' => $request->contactPerson,
         ];
         $createdCompanyDetails = new CompanyDetails($companyDetails);
-        // $createdCompanyDetails -> company()->associate($createdCompany);
-        // $createdCompanyDetails->save();
         $createdCompany->companyDetails()->save($createdCompanyDetails);
+        $companyBalance = new CompanyBalance(['company_id' => $createdCompany->id,'balance' => 0]);
+        $createdCompany->companyBalances()->save($companyBalance);
         $role = [
             Role::create(['name' => 'Company owner', 'team_id' => $createdCompany->id, 'guard_name' => 'sanctum']),
             Role::create(['name' => 'Company admin', 'team_id' => $createdCompany->id, 'guard_name' => 'sanctum']),

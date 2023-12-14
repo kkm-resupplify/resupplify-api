@@ -9,6 +9,7 @@ use App\Resources\User\UserResource;
 use App\Services\User\UserDetailsService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {

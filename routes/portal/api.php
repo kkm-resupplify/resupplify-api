@@ -17,6 +17,7 @@ use App\Http\Controllers\Portal\Product\ProductUnitController;
 use App\Http\Controllers\BackOffice\Country\CountryController as CountryController;
 use App\Http\Controllers\BackOffice\Company\CompanyCategoryController as CompanyCategoryController;
 use App\Http\Controllers\BackOffice\Company\InvitationController as InvitationController;
+use App\Http\Controllers\Portal\Company\CompanyBalanceController as CompanyBalanceController;
 
 Route::post('register', [AuthController::class, 'register'])->name('register');
 Route::post('login', [AuthController::class, 'login']);
@@ -29,6 +30,7 @@ const HAS_COMPANY_MIDDLEWARE = 'hasCompany';
 
 Route::middleware(AUTH_SANCTUM_MIDDLEWARE)->group(function () {
   Route::get('user', [UserController::class, 'index']);
+  Route::post('user/language', [UserController::class, 'language']);
   Route::post('test', [TestController::class, 'test'])->middleware(HAS_COMPANY_MIDDLEWARE);
   Route::get('test', [TestController::class, 'roleTest']);
   Route::post('user/language', [UserController::class, 'language']);
@@ -59,6 +61,8 @@ Route::middleware(AUTH_SANCTUM_MIDDLEWARE)->prefix('company')->group(function ()
   Route::post('productMassAssign', [ProductController::class, 'massAssignProductsStatus'])
     ->middleware(HAS_COMPANY_MIDDLEWARE);
   Route::resource('companyCategories', CompanyCategoryController::class);
+  Route::get('balance/transaction', [CompanyBalanceController::class,'showBalanceOperations']);
+  Route::resource('balance', CompanyBalanceController::class);
 });
 
 const WAREHOUSE_PRODUCT_CRUD_ROUTE_SUFFIX = 'warehouse/{warehouse}/product/{product}';
