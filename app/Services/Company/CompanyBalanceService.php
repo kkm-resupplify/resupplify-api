@@ -17,6 +17,7 @@ use App\Models\Company\Enums\CompanyBalanceTransactionTypeEnum;
 use App\Helpers\PaginationTrait;
 use App\Models\Company\Company;
 use App\Resources\Company\CompanyResource;
+use App\Resources\Payment\PaymentEntityResource;
 
 class CompanyBalanceService extends BasicService
 {
@@ -76,11 +77,11 @@ class CompanyBalanceService extends BasicService
             $senderId = $transaction->sender_id;
 
             if (isset($receiverId)) {
-                $transaction->receiver = new CompanyResource(Company::find($receiverId));
+                $transaction->receiver = Company::with('companyDetails')->find($receiverId);
             }
 
             if (isset($senderId)) {
-                $transaction->sender = new CompanyResource(Company::find($senderId));
+                $transaction->sender =  Company::with('companyDetails')->find($senderId)->companyDetails;
             }
 
             unset($transaction->receiver_id);

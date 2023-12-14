@@ -2,9 +2,9 @@
 
 namespace App\Resources\Company;
 
-use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Resources\Payment\PaymentEntityResource;
 
 class CompanyTransactionResource extends JsonResource
 {
@@ -23,8 +23,8 @@ class CompanyTransactionResource extends JsonResource
             'type' => $this->type,
             'status' => $this->status,
             'paymentMethodId' => $this->payment_method_id,
-            'receiver' => $this->receiver,
-            'sender' => $this->sender,
+            'receiver' => new PaymentEntityResource($this->receiver),
+            // 'sender' => new PaymentEntityResource($this->sender),
             'createdAt' => $this->created_at->format('d-m-Y H:i:s'),
             'updatedAt' => $this->updated_at->format('d-m-Y H:i:s'),
         ];
