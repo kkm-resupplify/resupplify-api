@@ -15,6 +15,8 @@ use App\Resources\Company\CompanyTransactionResource;
 use App\Exceptions\Company\NegativeCompanyBalanceException;
 use App\Models\Company\Enums\CompanyBalanceTransactionTypeEnum;
 use App\Helpers\PaginationTrait;
+use App\Models\Company\Company;
+use App\Resources\Company\CompanyResource;
 
 class CompanyBalanceService extends BasicService
 {
@@ -36,17 +38,13 @@ class CompanyBalanceService extends BasicService
         ];
         $transaction = new CompanyBalanceTransaction($companyBalanceTransactionData);
 
-        if($companyBalanceTransactionData['type'] == CompanyBalanceTransactionTypeEnum::WITHDRAWAL()->value)
-        {
+        if ($companyBalanceTransactionData['type'] == CompanyBalanceTransactionTypeEnum::WITHDRAWAL()->value) {
             $balance = $companyBalance->balance - $companyBalanceTransactionData['amount'];
-        }
-        else
-        {
+        } else {
             $balance = $companyBalance->balance + $companyBalanceTransactionData['amount'];
         }
-        if($balance < 0)
-        {
-            throw(new NegativeCompanyBalanceException());
+        if ($balance < 0) {
+            throw (new NegativeCompanyBalanceException());
         }
         $companyBalance->balance = $balance;
         $companyBalance->save();
@@ -66,12 +64,31 @@ class CompanyBalanceService extends BasicService
     {
         $user = Auth::user();
         $company = $user->company;
+
         $companyBalance = QueryBuilder::for($company->companyBalances->companyBalanceTransactions())->allowedFilters([
             AllowedFilter::exact('type'),
-        ])->fastPaginate(config('paginationConfig.COMPANY_PRODUCTS'));
+        ])->fastPaginate(config('paginationConfig.COMPANY_TRANSACTIONS'));
+
         $pagination = $this->paginate($companyBalance);
+
+        $companyBalance = $companyBalance->map(function ($transaction) {
+            $receiverId = $transaction->receiver_id;
+            $senderId = $transaction->sender_id;
+
+            if (isset($receiverId)) {
+                $transaction->receiver = new CompanyResource(Company::find($receiverId));
+            }
+
+            if (isset($senderId)) {
+                $transaction->sender = new CompanyResource(Company::find($senderId));
+            }
+
+            unset($transaction->receiver_id);
+            unset($transaction->sender_id);
+
+            return $transaction;
+        });
+
         return array_merge($pagination, CompanyTransactionResource::collection($companyBalance)->toArray(request()));
     }
 }
-
-
