@@ -38,7 +38,7 @@ class UserSeeder extends Seeder
         Product::truncate();
         Schema::enableForeignKeyConstraints();
 
-        for($i = 0; $i < 100; $i++)
+        for($i = 0; $i < 5; $i++)
         {
             $user = User::create([
                 'email' => 'user' . $i . '@gmail.com',
