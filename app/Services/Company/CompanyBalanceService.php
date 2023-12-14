@@ -80,9 +80,9 @@ class CompanyBalanceService extends BasicService
                 $transaction->receiver = Company::with('companyDetails')->find($receiverId);
             }
 
-            // if (isset($senderId)) {
-            //     $transaction->sender =  Company::with('companyDetails')->find($senderId);
-            // }
+            if (isset($senderId)) {
+                $transaction->sender =  Company::with('companyDetails')->find($senderId);
+            }
 
             unset($transaction->receiver_id);
             unset($transaction->sender_id);

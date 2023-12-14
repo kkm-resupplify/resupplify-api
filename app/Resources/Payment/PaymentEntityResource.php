@@ -16,7 +16,7 @@ class PaymentEntityResource extends JsonResource
   {
     return [
       'name' => $this->name,
-      'email' => $this->email,
+      'email' => $this->companyDetails->email,
       'phoneNumber' => $this->companyDetails->phone_number,
       'address' => $this->companyDetails->address,
       'contactPerson' => $this->companyDetails->contact_person,
