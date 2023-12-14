@@ -23,8 +23,8 @@ class CompanyTransactionResource extends JsonResource
             'type' => $this->type,
             'status' => $this->status,
             'paymentMethodId' => $this->payment_method_id,
-            'receiver' => new PaymentEntityResource($this->receiver),
-            'sender' => new PaymentEntityResource($this->sender),
+            'receiver' => isset($this->receiver) ? new PaymentEntityResource($this->receiver) : null,
+            'sender' => isset($this->sender) ? new PaymentEntityResource($this->sender) : null,
             'createdAt' => $this->created_at->format('d-m-Y H:i:s'),
             'updatedAt' => $this->updated_at->format('d-m-Y H:i:s'),
         ];
