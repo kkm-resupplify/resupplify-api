@@ -17,7 +17,7 @@ class UserDetailsService extends BasicService
 {
     public function creatUserData(UserDetailsDto $request)
     {
-        $user = Auth::user();
+        $user = app('authUser');
 
         if (UserDetails::where('user_id', $user->id)->exists()) {
             throw new UserDetailsAlreadyExistsException();
@@ -37,7 +37,7 @@ class UserDetailsService extends BasicService
 
     public function editUserData(UserDetailsDto $request)
     {
-        $user = Auth::user();
+        $user = app('authUser');
         $userDetails = UserDetails::where('user_id', $user->id)->first();
 
         if (!isset($userDetails)) {
@@ -56,7 +56,7 @@ class UserDetailsService extends BasicService
 
     public function changeUserLanguage(Request $request)
     {
-        $user = Auth::user();
+        $user = app('authUser');
         $language = Language::findOrFail($request->languageId);
         $user->language_id = $language->id;
         $user->save();

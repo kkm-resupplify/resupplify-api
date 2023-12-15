@@ -29,7 +29,7 @@ class ProductService extends Controller
 
     public function createProduct(ProductDto $request)
     {
-        $user = Auth::user();
+        $user = app('authUser');
         setPermissionsTeamId($user->company->id);
         if (!$user->can('Owner permissions')) {
             throw new WrongPermissions();
@@ -106,7 +106,7 @@ class ProductService extends Controller
 
     public function deleteProduct(Product $product)
     {
-        $user = Auth::user();
+        $user = app('authUser');
         $company = $user->company->products;
         setPermissionsTeamId($user->company->id);
         if (!$user->can('Owner permissions')) {
@@ -126,7 +126,7 @@ class ProductService extends Controller
 
     public function getProducts()
     {
-        $user = Auth::user();
+        $user = app('authUser');
         $products =  QueryBuilder::for($user->company->products())->allowedFilters([
             AllowedFilter::exact('status'),
             AllowedFilter::exact('verificationStatus', 'verification_status'),
@@ -141,7 +141,7 @@ class ProductService extends Controller
 
     public function editProduct(ProductDto $request, Product $product)
     {
-        $user = Auth::user();
+        $user = app('authUser');
         setPermissionsTeamId($user->company->id);
 
         if (!$user->can('Owner permissions')) {
@@ -194,7 +194,7 @@ class ProductService extends Controller
 
     public function massAssignProductStatus(Request $request)
     {
-        $user = Auth::user();
+        $user = app('authUser');
         setPermissionsTeamId($user->company->id);
         $companyProducts = $user->company->products;
         $requestProducts = $request->productIdList;
@@ -211,7 +211,7 @@ class ProductService extends Controller
 
     public function getProductStats()
     {
-        $user = Auth::user();
+        $user = app('authUser');
         $company = $user->company;
         $products = $company->products;
 

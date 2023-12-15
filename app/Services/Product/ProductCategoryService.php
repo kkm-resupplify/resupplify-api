@@ -11,7 +11,7 @@ class ProductCategoryService extends BasicService
 {
     public function getProductCategories()
     {
-        $user = Auth::user();
+        $user = app('authUser');
         return ProductCategoryResource::collection(ProductCategory::whereHas('languages', function ($query) use (
             $user
         ) {

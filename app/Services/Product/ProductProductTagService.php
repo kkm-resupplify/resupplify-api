@@ -12,7 +12,7 @@ class ProductProductTagService extends BasicService
 {
     public function addProductTagToProduct(ProductProductTagDto $request)
     {
-        $user = Auth::user();
+        $user = app('authUser');
         $product = Product::findOrFail($request->productId);
         $productTag = ProductTag::findOrFail($request->productTagId);
         $company = $user->company->products;
@@ -31,7 +31,7 @@ class ProductProductTagService extends BasicService
 
     public function deleteProductTagFromProduct(ProductProductTagDto $request)
     {
-        $user = Auth::user();
+        $user = app('authUser');
         $product = Product::findOrFail($request->productId);
         $productTag = ProductTag::findOrFail($request->productTagId);
         $company = $user->company->products;

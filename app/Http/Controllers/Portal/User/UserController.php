@@ -25,7 +25,7 @@ class UserController extends Controller
 
     public function index()
     {
-        return $this->ok(new UserResource(User::with('userDetails')->findOrFail(Auth::User()->id)));
+        return $this->ok(new UserResource(User::with('userDetails')->findOrFail(app('authUser')->id)));
     }
 
     public function language(Request $request, UserDetailsService $userDetailsService): JsonResponse

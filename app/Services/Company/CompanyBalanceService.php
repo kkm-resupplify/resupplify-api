@@ -24,7 +24,7 @@ class CompanyBalanceService extends BasicService
     use PaginationTrait;
     public function balanceOperation(CompanyBalanceDto $request)
     {
-        $user = Auth::user();
+        $user = app('authUser');
         $company = $user->company;
         $companyBalance = $company->companyBalances;
         $companyBalanceTransactionData = [
@@ -55,7 +55,7 @@ class CompanyBalanceService extends BasicService
 
     public function showBalance()
     {
-        $user = Auth::user();
+        $user = app('authUser');
         $company = $user->company;
         $companyBalance = $company->companyBalances;
         return new CompanyBalanceResource($companyBalance);
@@ -63,7 +63,7 @@ class CompanyBalanceService extends BasicService
 
     public function showBalanceOperations()
     {
-        $user = Auth::user();
+        $user = app('authUser');
         $company = $user->company;
 
         $companyBalance = QueryBuilder::for($company->companyBalances->companyBalanceTransactions())->allowedFilters([
