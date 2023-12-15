@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Portal\Product;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Dto\Product\ProductOfferDto;
 use App\Services\Product\ProductOfferService;
@@ -22,7 +21,7 @@ class ProductOfferController extends Controller
     /**
      * Store a newly created product offer in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Dto\Product\ProductOfferDto  $request
      * @return \Illuminate\Http\Response
      */
     public function store(ProductOfferDto $request, ProductOfferService $service)

@@ -38,6 +38,8 @@ class CustomErrorCodes
     public const PRODUCT_TAG_NOT_FOUND = 'product-0004';
     public const PRODUCT_TAG_DONT_BELONG_TO_THIS_COMPANY = 'product-0005';
     public const PRODUCT_TRANSLATION = 'product-0006';
+    public const PRODUCT_OFFER_QUANTITY = 'product-0007';
+
 
     public const FILTER_NOT_ALLOWED = 'filter-0001';
 

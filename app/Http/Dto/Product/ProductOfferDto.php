@@ -12,9 +12,10 @@ class ProductOfferDto extends BasicDto
     #[Min(1)]
     public int $productId;
     #[Rule(['required', 'regex:/^(0*[1-9][0-9]*(\.[0-9]+)?|0+\.[0-9]*[1-9][0-9]*)$/'])]
+    public int $warehouseId;
     public float $price;
     #[Min(1)]
-    public int $offertQuantity;
+    public int $productQuantity;
     public int $status;
 
 }

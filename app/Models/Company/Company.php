@@ -112,4 +112,16 @@ class Company extends Model
     {
         return $this->hasOne(CompanyBalance::class);
     }
+
+    public function offers(): HasManyThrough
+    {
+        return $this->hasManyThrough(
+            ProductOffers::class,
+            Product::class,
+            'company_id',
+            'product_id',
+            'id',
+            'id'
+        );
+    }
 }
