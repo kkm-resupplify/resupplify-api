@@ -6,7 +6,7 @@ use App\Http\Dto\BasicDto;
 use Spatie\LaravelData\Attributes\Validation\Max;
 use Spatie\LaravelData\Attributes\Validation\Min;
 
-class OfferDto extends BasicDto
+class ProductOfferDto extends BasicDto
 {
     #[Min(1)]
     public int $productId;

@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Portal\Offer;
+namespace App\Http\Controllers\Portal\Product;
 
-use Illuminate\Http\Request;
-use App\Http\Dto\Product\OfferDto;
 use App\Http\Controllers\Controller;
-use App\Services\Company\OfferService;
+use App\Http\Dto\Product\ProductOfferDto;
+use App\Services\Company\ProductOfferService;
+use Illuminate\Http\Request;
 
-class OfferController extends Controller
+class ProductOfferController extends Controller
 {
     /**
      * Display a listing of the product offers.
@@ -25,7 +25,7 @@ class OfferController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(OfferDto $request, OfferService $service)
+    public function store(ProductOfferDto $request, ProductOfferService $service)
     {
         return $this->ok($service->createOffer($request));
     }

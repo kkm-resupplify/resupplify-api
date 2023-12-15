@@ -5,14 +5,14 @@ namespace App\Services\Company;
 
 use App\Services\BasicService;
 use App\Helpers\PaginationTrait;
-use App\Http\Dto\Product\OfferDto;
+use App\Http\Dto\Product\ProductOfferDto;
 use Illuminate\Support\Facades\Auth;
 
 
-class OfferService extends BasicService
+class ProductOfferService extends BasicService
 {
     use PaginationTrait;
-    public function createOffer(OfferDto $request)
+    public function createOffer(ProductOfferDto $request)
     {
     }
 }
