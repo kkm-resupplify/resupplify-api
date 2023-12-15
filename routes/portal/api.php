@@ -18,7 +18,7 @@ use App\Http\Controllers\BackOffice\Country\CountryController as CountryControll
 use App\Http\Controllers\BackOffice\Company\CompanyCategoryController as CompanyCategoryController;
 use App\Http\Controllers\BackOffice\Company\InvitationController as InvitationController;
 use App\Http\Controllers\Portal\Company\CompanyBalanceController as CompanyBalanceController;
-
+use App\Http\Controllers\Portal\Product\ProductOfferController as ProductOfferController;
 Route::post('register', [AuthController::class, 'register'])->name('register');
 Route::post('login', [AuthController::class, 'login']);
 Route::get('country', [CountryController::class, 'index']);
@@ -63,6 +63,7 @@ Route::middleware(AUTH_SANCTUM_MIDDLEWARE)->prefix('company')->group(function ()
   Route::resource('companyCategories', CompanyCategoryController::class);
   Route::get('balance/transaction', [CompanyBalanceController::class,'showBalanceOperations']);
   Route::resource('balance', CompanyBalanceController::class);
+  Route::resource('productOffer', ProductOfferController::class);
 });
 
 const WAREHOUSE_PRODUCT_CRUD_ROUTE_SUFFIX = 'warehouse/{warehouse}/product/{product}';

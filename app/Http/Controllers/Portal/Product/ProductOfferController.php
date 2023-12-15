@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Portal\Product;
 
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Dto\Product\ProductOfferDto;
-use App\Services\Company\ProductOfferService;
-use Illuminate\Http\Request;
+use App\Services\Product\ProductOfferService;
 
 class ProductOfferController extends Controller
 {
