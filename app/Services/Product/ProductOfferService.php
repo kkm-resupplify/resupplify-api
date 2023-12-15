@@ -8,6 +8,7 @@ use App\Helpers\PaginationTrait;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Product\ProductOffers;
 use App\Http\Dto\Product\ProductOfferDto;
+use App\Resources\Product\ProductOfferResource;
 use App\Exceptions\Product\ProductOfferQuantityException;
 
 
@@ -37,8 +38,6 @@ class ProductOfferService extends BasicService
 
     public function getOffers()
     {
-        $company = app('authUserCompany');
-        $offers = $company->productOffers;
-        return $offers;
+        return ProductOfferResource::collection(app('authUserCompany')->productOffers);
     }
 }
