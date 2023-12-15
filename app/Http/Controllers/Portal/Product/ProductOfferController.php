@@ -13,9 +13,10 @@ class ProductOfferController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(ProductOfferService $service)
     {
         // TODO: Implement index method logic
+        return $this->ok($service->getOffers());
     }
 
     /**

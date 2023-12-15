@@ -34,4 +34,11 @@ class ProductOfferService extends BasicService
         $offer->save();
         return $offer;
     }
+
+    public function getOffers()
+    {
+        $company = app('authUserCompany');
+        $offers = $company->productOffers;
+        return $offers;
+    }
 }

@@ -2,24 +2,25 @@
 
 namespace App\Models\Company;
 
-use App\Models\Company\Enums\CompanyCategoryEnum;
-use App\Models\Company\Enums\CompanyStatusEnum;
-use App\Models\Country\Country;
-use App\Models\Company\CompanyBalance;
-use App\Models\Order\Order;
-use App\Models\Product\Product;
-use App\Models\Product\ProductCart;
-use App\Models\Product\ProductTag;
 use App\Models\User\User;
+use App\Models\Order\Order;
+use App\Models\Country\Country;
+use App\Models\Product\Product;
+use App\Models\Product\ProductTag;
+use App\Models\Product\ProductCart;
 use App\Models\Warehouse\Warehouse;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasManyThrough;
-use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Product\ProductOffers;
+use App\Models\Company\CompanyBalance;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Company\Enums\CompanyStatusEnum;
+use App\Models\Company\Enums\CompanyCategoryEnum;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 
 class Company extends Model
@@ -113,13 +114,13 @@ class Company extends Model
         return $this->hasOne(CompanyBalance::class);
     }
 
-    public function offers(): HasManyThrough
+    public function productOffers(): HasManyThrough
     {
         return $this->hasManyThrough(
             ProductOffers::class,
             Product::class,
             'company_id',
-            'product_id',
+            'company_product_id',
             'id',
             'id'
         );
