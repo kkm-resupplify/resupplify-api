@@ -36,6 +36,9 @@ class WarehouseProductService extends BasicService
         if ($warehouse->products->contains($product)) {
             throw new ProductExistsInWarehouseException();
         }
+        if ($product->company_id != $user->company->id) {
+            throw new ProductNotFoundException();
+        }
         if (isset($request->status)) {
             $warehouseProductData = [
                 'quantity' => $request->quantity,
