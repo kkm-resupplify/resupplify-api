@@ -18,6 +18,8 @@ return new class extends Migration
             $table->integer('product_quantity');
             $table->tinyInteger('status')->default(0);
             $table->timestamps();
+            $table->timestamp('started_at');
+            $table->timestamp('ended_at');
             $table->softDeletes();
         });
     }

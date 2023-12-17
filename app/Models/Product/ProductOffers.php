@@ -18,7 +18,17 @@ class ProductOffers extends Model
         'company_product_id',
         'price',
         'product_quantity',
-        'status'
+        'status',
+        'started_at',
+        'ended_at',
+    ];
+    protected $dates = ['created_at', 'updated_at', 'deleted_at','started_at', 'ended_at'];
+
+    protected $casts = [
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+        'started_at' => 'datetime',
+        'ended_at' => 'datetime',
     ];
 
     public function product(): BelongsTo
