@@ -59,7 +59,7 @@ class ProductOfferService extends BasicService
         {
             throw new ProductOfferQuantityException();
         }
-        if(!empty($companyProductOffersOverlap))
+        if($companyProductOffersOverlap->count() > 0)
         {
            throw new ProductOfferExists();
         }
