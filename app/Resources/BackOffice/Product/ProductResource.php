@@ -2,10 +2,9 @@
 
 namespace App\Resources\BackOffice\Product;
 
-use App\Resources\Product\ProductProductTagResource;
+use App\Resources\Product\ProductTagResource;
 use App\Resources\Product\ProductUnitResource;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Facades\Auth;
 
 class ProductResource extends JsonResource
 {
@@ -31,7 +30,7 @@ class ProductResource extends JsonResource
                 'id' => $this->productSubcategory->id,
                 'name' => $this->productSubcategory->languages[$languageId]->pivot->name,
             ],
-            'productTags' => ProductProductTagResource::collection($this->productTags),
+            'productTags' => ProductTagResource::collection($this->productTags),
         ];
     }
 }
