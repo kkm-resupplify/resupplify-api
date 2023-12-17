@@ -43,37 +43,14 @@ class ProductOfferController extends Controller
         return $this->ok($service->getOffer($offer));
     }
 
-    /**
-     * Show the form for editing the specified product offer.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function deactivateOffer($id, ProductOfferService $service)
     {
-        // TODO: Implement edit method logic
+        $offer = ProductOffer::findOrFail($id);
+        return $this->ok($service->deactivateOffer($offer));
     }
 
-    /**
-     * Update the specified product offer in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function getProductsWithoutOffer(ProductOfferService $service)
     {
-        // TODO: Implement update method logic
-    }
-
-    /**
-     * Remove the specified product offer from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        // TODO: Implement destroy method logic
+        return $this->ok($service->getProductsWithoutOffer());
     }
 }

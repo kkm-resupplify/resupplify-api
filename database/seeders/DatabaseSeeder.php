@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
             ProductSubcategorySeeder::class,
             PaymentMethodSeeder::class,
             //ProductCategoryAndSubcategorySeeder::class,
-            UserSeeder::class
+            //UserSeeder::class
         ]);
     }
 }

@@ -40,5 +40,6 @@ return [
         'wrongTransaction' => 'You can\'t perform this transaction',
         'productOfferQuantity' => 'Not enough quantity in warehouse',
         'productOfferNotFound' => 'Product offer not found',
+        'productOfferExists' => 'Product offer already exists',
     ],
 ];
