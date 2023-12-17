@@ -5,7 +5,7 @@ namespace App\Models\Order;
 use App\Models\Company\Company;
 use App\Models\Offers\Offers;
 use App\Models\Order\Enums\OrderStatusEnum;
-use App\Models\Product\ProductOffers;
+use App\Models\Product\ProductOffer;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -34,7 +34,7 @@ class Order extends Model
 
     public function productOffers(): BelongsToMany
     {
-        return $this->belongsToMany(ProductOffers::class, 'product_warehouse')
+        return $this->belongsToMany(ProductOffer::class, 'product_warehouse')
         ->withPivot(['quantity','safe_quantity','status']);
     }
 

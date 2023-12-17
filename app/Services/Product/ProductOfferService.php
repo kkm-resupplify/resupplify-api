@@ -6,7 +6,7 @@ namespace App\Services\Product;
 use App\Services\BasicService;
 use App\Helpers\PaginationTrait;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Product\ProductOffers;
+use App\Models\Product\ProductOffer;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
 use App\Http\Dto\Product\ProductOfferDto;
@@ -34,7 +34,7 @@ class ProductOfferService extends BasicService
         {
            throw new ProductOfferExists();
         }
-        $offer = new ProductOffers([
+        $offer = new ProductOffer([
             'price' => $request->price,
             'product_quantity' => $request->productQuantity,
             'status' => $request->status,
@@ -51,7 +51,7 @@ class ProductOfferService extends BasicService
 
     public function getOffers()
     {
-        $offers = QueryBuilder::for(ProductOffers::with('product'))->allowedFilters([
+        $offers = QueryBuilder::for(ProductOffer::with('product'))->allowedFilters([
             AllowedFilter::exact('status'),
             AllowedFilter::custom('name', new ProductOfferNameFilter()),
             AllowedFilter::exact('subcategoryId', 'product.product_subcategory_id'),
@@ -61,7 +61,7 @@ class ProductOfferService extends BasicService
         return array_merge($pagination,ProductOfferResource::collection($offers)->toArray(request()));;
     }
 
-    public function getOffer(ProductOffers $offer)
+    public function getOffer(ProductOffer $offer)
     {
         return $offer;
         return new ProductOfferResource($offer);
@@ -70,11 +70,11 @@ class ProductOfferService extends BasicService
     public function changeStatus()
     {
         $currentDate = now();
-        $activeOffers = ProductOffers::where('started_at', '<=', $currentDate)
+        $activeOffers = ProductOffer::where('started_at', '<=', $currentDate)
             ->where('ended_at', '>=', $currentDate)
             ->update(['status' => ProductOfferStatusEnum::ACTIVE()]);
 
-        $inactiveOffers = ProductOffers::where('ended_at', '<', $currentDate)
+        $inactiveOffers = ProductOffer::where('ended_at', '<', $currentDate)
             ->update(['status' => ProductOfferStatusEnum::INACTIVE()]);
         return [$activeOffers,$inactiveOffers];
     }

@@ -9,7 +9,7 @@ use App\Models\Product\Product;
 use App\Models\Product\ProductTag;
 use App\Models\Product\ProductCart;
 use App\Models\Warehouse\Warehouse;
-use App\Models\Product\ProductOffers;
+use App\Models\Product\ProductOffer;
 use App\Models\Company\CompanyBalance;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Model;
@@ -117,7 +117,7 @@ class Company extends Model
     public function productOffers(): HasManyThrough
     {
         return $this->hasManyThrough(
-            ProductOffers::class,
+            ProductOffer::class,
             Product::class,
             'company_id',
             'company_product_id',

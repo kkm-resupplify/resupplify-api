@@ -57,7 +57,7 @@ class Handler extends ExceptionHandler
                 case 'App\Models\Product\ProductTag':
                     throw new ProductTagNotFoundException();
                     break;
-                case 'App\Models\Product\ProductOffers':
+                case 'App\Models\Product\ProductOffer':
                     throw new ProductOfferNotFoundException();
                     break;
                 default:

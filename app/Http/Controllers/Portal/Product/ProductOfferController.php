@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Portal\Product;
 
 use App\Http\Controllers\Controller;
-use App\Models\Product\ProductOffers;
+use App\Models\Product\ProductOffer;
 use App\Http\Dto\Product\ProductOfferDto;
 use App\Services\Product\ProductOfferService;
 
@@ -39,7 +39,7 @@ class ProductOfferController extends Controller
 
     public function show($id, ProductOfferService $service)
     {
-        $offer = ProductOffers::findOrFail($id);
+        $offer = ProductOffer::findOrFail($id);
         return $this->ok($service->getOffer($offer));
     }
 
