@@ -48,4 +48,16 @@ class ProductOfferService extends BasicService
     {
         return ProductOfferResource::collection(app('authUserCompany')->productOffers);
     }
+
+    public function changeStatus()
+    {
+        $currentDate = now();
+        $activeOffers = ProductOffers::where('started_at', '<=', $currentDate)
+            ->where('ended_at', '>=', $currentDate)
+            ->update(['status' => ProductOfferStatusEnum::ACTIVE()]);
+
+        $inactiveOffers = ProductOffers::where('ended_at', '<', $currentDate)
+            ->update(['status' => ProductOfferStatusEnum::INACTIVE()]);
+        return [$activeOffers,$inactiveOffers];
+    }
 }

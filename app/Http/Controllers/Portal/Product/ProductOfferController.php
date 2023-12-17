@@ -30,6 +30,11 @@ class ProductOfferController extends Controller
         return $this->ok($service->createOffer($request));
     }
 
+    public function changeStatus(ProductOfferService $service)
+    {
+        return $this->ok($service->changeStatus());
+    }
+
     /**
      * Display the specified product offer.
      *

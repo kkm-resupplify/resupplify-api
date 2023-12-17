@@ -64,6 +64,7 @@ Route::middleware(AUTH_SANCTUM_MIDDLEWARE)->prefix('company')->group(function ()
   Route::get('balance/transaction', [CompanyBalanceController::class,'showBalanceOperations']);
   Route::resource('balance', CompanyBalanceController::class);
   Route::resource('productOffer', ProductOfferController::class);
+  Route::get('productOfferStatus', [ProductOfferController::class,'changeStatus']);
 });
 
 const WAREHOUSE_PRODUCT_CRUD_ROUTE_SUFFIX = 'warehouse/{warehouse}/product/{product}';
