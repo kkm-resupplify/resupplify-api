@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Portal\Product;
 
 use App\Http\Controllers\Controller;
+use App\Models\Product\ProductOffers;
 use App\Http\Dto\Product\ProductOfferDto;
 use App\Services\Product\ProductOfferService;
 
@@ -35,15 +36,11 @@ class ProductOfferController extends Controller
         return $this->ok($service->changeStatus());
     }
 
-    /**
-     * Display the specified product offer.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+
+    public function show($id, ProductOfferService $service)
     {
-        // TODO: Implement show method logic
+        $offer = ProductOffers::findOrFail($id);
+        return $this->ok($service->getOffer($offer));
     }
 
     /**

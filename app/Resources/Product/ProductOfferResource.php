@@ -10,6 +10,7 @@ class ProductOfferResource extends JsonResource
         return [
             'id' => $this->id,
             'companyProductId' => $this->company_product_id,
+            'product' => new ProductResource($this->whenLoaded('product')),
             'price' => $this->price,
             'productQuantity' => $this->product_quantity,
             'status' => $this->status,

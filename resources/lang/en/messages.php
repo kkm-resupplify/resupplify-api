@@ -39,5 +39,6 @@ return [
         'negativeCompanyBalanceException' => 'Your company balance will be negative, you can\'t perform this transaction',
         'wrongTransaction' => 'You can\'t perform this transaction',
         'productOfferQuantity' => 'Not enough quantity in warehouse',
+        'productOfferNotFound' => 'Product offer not found',
     ],
 ];

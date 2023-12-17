@@ -5,6 +5,7 @@ namespace App\Exceptions;
 use App\Exceptions\Company\CompanyNotFoundException;
 use App\Exceptions\Filter\FilterNotAllowedException;
 use App\Exceptions\Product\ProductNotFoundException;
+use App\Exceptions\Product\ProductOfferNotFoundException;
 use App\Exceptions\Product\ProductTagNotFoundException;
 use App\Exceptions\User\UserNotFoundException;
 use App\Exceptions\Warehouse\WarehouseNotFoundException;
@@ -56,7 +57,9 @@ class Handler extends ExceptionHandler
                 case 'App\Models\Product\ProductTag':
                     throw new ProductTagNotFoundException();
                     break;
-                case 'App\Models\Filter\Filter':
+                case 'App\Models\Product\ProductOffers':
+                    throw new ProductOfferNotFoundException();
+                    break;
                 default:
                     break;
             }
