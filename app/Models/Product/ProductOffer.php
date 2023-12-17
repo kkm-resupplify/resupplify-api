@@ -6,13 +6,15 @@ namespace App\Models\Product;
 use App\Models\Order\Order;
 use App\Models\Company\Company;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class ProductOffer extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
+
     protected $fillable = [
         'id',
         'company_product_id',
@@ -34,11 +36,6 @@ class ProductOffer extends Model
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class,'company_product_id');
-    }
-
-    public function company(): BelongsTo
-    {
-        return $this->belongsTo(Company::class);
     }
 
     public function orders(): BelongsToMany

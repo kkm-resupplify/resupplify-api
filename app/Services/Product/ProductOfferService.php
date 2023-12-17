@@ -13,6 +13,7 @@ use Spatie\QueryBuilder\AllowedFilter;
 use App\Http\Dto\Product\ProductOfferDto;
 use App\Resources\Product\ProductResource;
 use App\Exceptions\Product\ProductOfferExists;
+use App\Exceptions\Product\ProductOfferNotFoundException;
 use App\Filters\Product\ProductOfferNameFilter;
 use App\Resources\Product\ProductOfferResource;
 use App\Filters\Product\ProductOfferCategoryFilter;
@@ -110,7 +111,12 @@ class ProductOfferService extends BasicService
 
     public function deactivateOffer(ProductOffer $offer)
     {
+        if(!self::checkIfOfferIsCreatedByCompany($offer->id, app('authUserCompany')->id))
+        {
+            throw new ProductOfferNotFoundException();
+        }
         $offer->update(['status' => ProductOfferStatusEnum::INACTIVE()]);
+        $offer->delete();
         return new ProductOfferResource($offer);
     }
 
@@ -124,5 +130,15 @@ class ProductOfferService extends BasicService
         }
         $products = collect($products)->collapse();
         return ProductResource::collection($products);
+    }
+
+    public function checkIfOfferIsCreatedByCompany($offerId, $companyId)
+    {
+        $offer = ProductOffer::where('id', $offerId)->first();
+        $offerCompany = $offer->product->company;
+        if ($offerCompany->id == $companyId) {
+            return true;
+        }
+        return false;
     }
 }
