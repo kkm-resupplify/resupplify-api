@@ -13,6 +13,7 @@ use App\Http\Dto\Product\ProductOfferDto;
 use App\Exceptions\Product\ProductOfferExists;
 use App\Filters\Product\ProductOfferNameFilter;
 use App\Resources\Product\ProductOfferResource;
+use App\Filters\Product\ProductOfferCategoryFilter;
 use App\Models\Product\Enums\ProductOfferStatusEnum;
 use App\Exceptions\Product\ProductOfferQuantityException;
 
@@ -53,6 +54,8 @@ class ProductOfferService extends BasicService
         $offers = QueryBuilder::for(ProductOffers::with('product'))->allowedFilters([
             AllowedFilter::exact('status'),
             AllowedFilter::custom('name', new ProductOfferNameFilter()),
+            AllowedFilter::exact('subcategoryId', 'product.product_subcategory_id'),
+            AllowedFilter::custom('categoryId', new ProductOfferCategoryFilter()),
         ])->fastPaginate(config('paginationConfig.COMPANY_PRODUCTS'));
         $pagination = $this->paginate($offers);
         return array_merge($pagination,ProductOfferResource::collection($offers)->toArray(request()));;
