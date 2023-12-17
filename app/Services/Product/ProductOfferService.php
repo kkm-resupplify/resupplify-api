@@ -63,7 +63,6 @@ class ProductOfferService extends BasicService
 
     public function getOffer(ProductOffer $offer)
     {
-        return $offer;
         return new ProductOfferResource($offer);
     }
 

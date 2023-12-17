@@ -4,8 +4,6 @@ namespace App\Resources\Product;
 
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Facades\Auth;
-
 use App\Resources\Product\ProductTranslationResource;
 
 class ProductResource extends JsonResource
@@ -31,7 +29,7 @@ class ProductResource extends JsonResource
                 'id' => $this->productSubcategory->id,
                 'name' => $this->productSubcategory->languages[$languageId]->pivot->name,
             ],
-            'productTags' => ProductProductTagResource::collection($this->productTags),
+            'productTags' => ProductTagResource::collection($this->productTags),
             'translations' => ProductTranslationResource::collection($this->languages),
         ];
     }
