@@ -7,6 +7,8 @@ use App\Services\BasicService;
 use App\Helpers\PaginationTrait;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Product\ProductOffers;
+use Spatie\QueryBuilder\QueryBuilder;
+use Spatie\QueryBuilder\AllowedFilter;
 use App\Http\Dto\Product\ProductOfferDto;
 use App\Exceptions\Product\ProductOfferExists;
 use App\Resources\Product\ProductOfferResource;
@@ -46,7 +48,12 @@ class ProductOfferService extends BasicService
 
     public function getOffers()
     {
-        return ProductOfferResource::collection(app('authUserCompany')->productOffers);
+        $offers = QueryBuilder::for(app('authUserCompany')->productOffers())->allowedFilters([
+            AllowedFilter::exact('status'),
+        ])->fastPaginate(config('paginationConfig.COMPANY_PRODUCTS'));
+        $pagination = $this->paginate($offers);
+
+        return array_merge($pagination,ProductOfferResource::collection($offers)->toArray(request()));;
     }
 
     public function changeStatus()
