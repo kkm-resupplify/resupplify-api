@@ -2,7 +2,6 @@
 
 namespace App\Services\Product;
 
-use App\Exceptions\Product\ProductNotFoundException;
 use App\Services\BasicService;
 use App\Helpers\PaginationTrait;
 use Illuminate\Support\Facades\DB;
@@ -13,11 +12,13 @@ use Spatie\QueryBuilder\AllowedFilter;
 use App\Http\Dto\Product\ProductOfferDto;
 use App\Resources\Product\ProductResource;
 use App\Exceptions\Product\ProductOfferExists;
-use App\Exceptions\Product\ProductOfferNotFoundException;
 use App\Filters\Product\ProductOfferNameFilter;
 use App\Resources\Product\ProductOfferResource;
 use App\Filters\Product\ProductOfferCategoryFilter;
+use App\Exceptions\Product\ProductNotFoundException;
 use App\Models\Product\Enums\ProductOfferStatusEnum;
+use App\Resources\Product\ProductPositionInWarehouse;
+use App\Exceptions\Product\ProductOfferNotFoundException;
 use App\Exceptions\Product\ProductOfferQuantityException;
 
 
@@ -120,16 +121,15 @@ class ProductOfferService extends BasicService
         return new ProductOfferResource($offer);
     }
 
-    public function getProductsWithoutOffer()
+    public function possitions()
     {
         $company = app('authUserCompany');
-        $companyOffers = $company->productOffers()->pluck('company_product_id');
-        $companyWarehouses = $company->warehouses()->with('products')->get();
-        foreach ($companyWarehouses as $warehouse) {
-            $products[] = $warehouse->products()->whereDoesntHave($companyOffers)->get();
-        }
-        $products = collect($products)->collapse();
-        return ProductResource::collection($products);
+        $companyWarehouses = $company->warehouses;
+        $warehouseProduct = DB::table('product_warehouse')
+            ->whereIn('warehouse_id', $companyWarehouses->pluck('id'))
+            ->get();
+        return ProductPositionInWarehouse::collection($warehouseProduct);
+
     }
 
     public function checkIfOfferIsCreatedByCompany($offerId, $companyId)

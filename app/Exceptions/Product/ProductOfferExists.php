@@ -12,7 +12,7 @@ class ProductOfferExists extends BasicException
     {
         $this->errorCode = CustomErrorCodes::PRODUCT_OFFER_EXIST;
         $this->errorHttpCode = Response::HTTP_NOT_FOUND;
-        $this->errorMsg = $this->__('messages.exception.productOfferExists');
+        $this->errorMsg = $this->__('messages.exception.productOfferExists').":$this->message";
 
         $errorData = $this->getErrorData();
 

@@ -49,8 +49,8 @@ class ProductOfferController extends Controller
         return $this->ok($service->deactivateOffer($offer));
     }
 
-    public function getProductsWithoutOffer(ProductOfferService $service)
+    public function possitions(ProductOfferService $service)
     {
-        return $this->ok($service->getProductsWithoutOffer());
+        return $this->ok($service->possitions());
     }
 }
