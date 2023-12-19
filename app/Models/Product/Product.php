@@ -79,4 +79,10 @@ class Product extends Model
     {
         return $this->belongsToMany(Language::class,'language_product')->withPivot(['name', 'description']);
     }
+
+    public function productOffers()
+    {
+        $productWarehouseIds = $this->warehouses()->pluck('product_warehouse.id');
+        return ProductOffer::whereIn('company_product_id', $productWarehouseIds)->get();
+    }
 }
