@@ -12,7 +12,7 @@ class WrongTransactionException extends BasicException
     {
         $this->errorCode = CustomErrorCodes::TRANSACTION_ERROR;
         $this->errorHttpCode = Response::HTTP_UNPROCESSABLE_ENTITY;
-        $this->errorMsg = $this->__('messages.exception.wrongTransaction');
+        $this->errorMsg = $this->__('messages.exception.wrongTransaction').": $this->message";;
 
         $errorData = $this->getErrorData();
 
