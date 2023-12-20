@@ -97,22 +97,30 @@ class CompanyBalanceService extends BasicService
             'payment_method_id' => $data->paymentMethodId
         ];
         $transaction = new CompanyBalanceTransaction($companyBalanceTransactionData);
-        $transaction->save();
         return $transaction;
     }
 
     public static function handleCompanyBalance(CompanyBalance $companyBalance, CompanyBalanceTransaction $transaction)
     {
-        if ($transaction->type == CompanyBalanceTransactionTypeEnum::WITHDRAWAL()->value) {
-            $balance = $companyBalance->balance - $transaction->amount;
-        } else {
-            $balance = $companyBalance->balance + $transaction->amount;
+        switch ($transaction->type) {
+            case CompanyBalanceTransactionTypeEnum::WITHDRAWAL()->value:
+                $companyBalance->balance = $companyBalance->balance - $transaction->amount;
+                break;
+            case CompanyBalanceTransactionTypeEnum::DEPOSIT()->value:
+                $companyBalance->balance = $companyBalance->balance + $transaction->amount;
+                break;
+            case CompanyBalanceTransactionTypeEnum::SALE()->value:
+                $companyBalance->balance = $companyBalance->balance + $transaction->amount;
+                break;
+            case CompanyBalanceTransactionTypeEnum::PURCHASE()->value:
+                $companyBalance->balance = $companyBalance->balance - $transaction->amount;
+                break;
         }
-        if ($balance < 0) {
+        if ($companyBalance->balance < 0) {
             throw (new NegativeCompanyBalanceException());
         }
-        $companyBalance->balance = $balance;
         $companyBalance->save();
+        $transaction->save();
         return $companyBalance;
     }
 }
