@@ -4,16 +4,17 @@ namespace App\Models\Product;
 
 use App\Models\Company\Company;
 use App\Models\Language\Language;
-use App\Models\Product\Enums\ProductStatusEnum;
-use App\Models\Product\Enums\ProductVerificationStatusEnum;
 use App\Models\Warehouse\Warehouse;
+use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Product\Enums\ProductStatusEnum;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use App\Models\Product\Enums\ProductVerificationStatusEnum;
 
 class Product extends Model
 {
@@ -39,12 +40,6 @@ class Product extends Model
     public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class);
-    }
-
-    public function warehouses(): BelongsToMany
-    {
-        return $this->belongsToMany(Warehouse::class, 'product_warehouse')
-        ->withPivot(['quantity','safe_quantity','status']);
     }
 
     public function productTags(): BelongsToMany
@@ -80,9 +75,15 @@ class Product extends Model
         return $this->belongsToMany(Language::class,'language_product')->withPivot(['name', 'description']);
     }
 
-    public function productOffers()
+    public function productOffers(): HasManyThrough
     {
-        $productWarehouseIds = $this->warehouses()->pluck('product_warehouse.id');
-        return ProductOffer::whereIn('company_product_id', $productWarehouseIds)->get();
+        return $this->hasManyThrough(
+            ProductOffer::class,
+            ProductWarehouse::class,
+            'product_id',
+            'company_product_id',
+            'id',
+            'id'
+        );
     }
 }

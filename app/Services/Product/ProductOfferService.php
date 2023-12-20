@@ -69,7 +69,7 @@ class ProductOfferService extends BasicService
             'price' => $request->price,
             'product_quantity' => $request->productQuantity,
             'status' => $request->status,
-            'company_product_id' => $warehouseProduct[0]->product_id,
+            'company_product_id' => $warehouseProduct[0]->id,
             'started_at' => $request->startDate,
             'ended_at' => $request->endDate,
         ]);
@@ -95,6 +95,7 @@ class ProductOfferService extends BasicService
 
     public function getOffer(ProductOffer $offer)
     {
+        $offer->load('product');
         return new ProductOfferResource($offer);
     }
 

@@ -4,7 +4,6 @@ namespace App\Models\Product;
 
 
 use App\Models\Order\Order;
-use App\Models\Company\Company;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -14,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class ProductOffer extends Model
 {
     use HasFactory, SoftDeletes;
+    use \Znck\Eloquent\Traits\BelongsToThrough;
 
     protected $fillable = [
         'id',
@@ -33,9 +33,9 @@ class ProductOffer extends Model
         'ended_at' => 'datetime',
     ];
 
-    public function product(): BelongsTo
+    public function productWarehouse(): BelongsTo
     {
-        return $this->belongsTo(Product::class,'company_product_id');
+        return $this->belongsTo(ProductWarehouse::class,'company_product_id');
     }
 
     public function orders(): BelongsToMany
@@ -48,6 +48,17 @@ class ProductOffer extends Model
     {
         return $this->belongsToMany(ProductCart::class, 'order_product_offer')
         ->withPivot(['offerQuantity']);
+    }
+
+    public function product()
+    {
+        return $this->belongsToThrough(
+            Product::class,
+            ProductWarehouse::class,
+            null,
+            '',
+            [ProductWarehouse::class => 'company_product_id', Product::class => 'product_id']
+        );
     }
 
 }
