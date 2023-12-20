@@ -29,16 +29,6 @@ class CompanyBalanceService extends BasicService
         $user = app('authUser');
         $company = $user->company;
         $companyBalance = $company->companyBalances;
-        $companyBalanceTransactionData = [
-            'company_balance_id' => $companyBalance->company_id,
-            'currency' => $request->currency,
-            'amount' => $request->amount,
-            'type' => $request->type,
-            'status' => $request->status,
-            'sender_id' => null,
-            'receiver_id' => $company->id,
-            'payment_method_id' => $request->paymentMethodId
-        ];
         $transactionDto = new TransactionDto(
             $companyBalanceId = $companyBalance->company_id,
             $currency = $request->currency,
@@ -50,18 +40,7 @@ class CompanyBalanceService extends BasicService
             $paymentMethodId = $request->paymentMethodId
         );
         $transaction = self::createTransaction($transactionDto);
-
-        if ($companyBalanceTransactionData['type'] == CompanyBalanceTransactionTypeEnum::WITHDRAWAL()->value) {
-            $balance = $companyBalance->balance - $companyBalanceTransactionData['amount'];
-        } else {
-            $balance = $companyBalance->balance + $companyBalanceTransactionData['amount'];
-        }
-        if ($balance < 0) {
-            throw (new NegativeCompanyBalanceException());
-        }
-        $companyBalance->balance = $balance;
-        $companyBalance->save();
-        $transaction->save();
+        $companyBalance = self::handleCompanyBalance($companyBalance, $transaction);
         return $companyBalance;
     }
 
@@ -118,6 +97,7 @@ class CompanyBalanceService extends BasicService
             'payment_method_id' => $data->paymentMethodId
         ];
         $transaction = new CompanyBalanceTransaction($companyBalanceTransactionData);
+        $transaction->save();
         return $transaction;
     }
 
