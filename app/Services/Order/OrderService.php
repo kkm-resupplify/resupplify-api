@@ -33,8 +33,18 @@ class OrderService extends BasicService
             //todo: dodać exception
             throw new WrongTransactionException("You can't make this order: not enough products in offer");
         }
+        $companyBalanceTransactionData = [
+            'company_balance_id' => $companyBalance->company_id,
+            'currency' => 'Euro',
+            'amount' => $offerPrice,
+            'type' => $request->type,
+            'status' => $request->status,
+            'sender_id' => null,
+            'receiver_id' => $company->id,
+            'payment_method_id' => $request->paymentMethodId
+        ];
         $offer->product_quantity = $offer->product_quantity - $request->orderQuantity;
-        //$offer->save();
+        $offer->save();
         $companyBalance->balance = $companyBalance->balance - $offerPrice;
         //todo: tworzenie transakcji
         //todo: zmiana statusu
