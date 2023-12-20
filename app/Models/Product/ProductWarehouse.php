@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class ProductWarehouse extends Pivot
 {
-    // ...
     protected $table = 'product_warehouse';
     protected $fillable = [
         'product_id',
