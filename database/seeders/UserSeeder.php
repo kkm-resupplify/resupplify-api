@@ -21,6 +21,7 @@ use App\Http\Dto\Company\TransactionDto;
 use Spatie\Permission\Models\Permission;
 use App\Models\Product\Enums\ProductStatusEnum;
 use App\Services\Company\CompanyBalanceService;
+use App\Models\Company\CompanyBalanceTransaction;
 use App\Models\Product\Enums\ProductVerificationStatusEnum;
 
 class UserSeeder extends Seeder
@@ -40,6 +41,8 @@ class UserSeeder extends Seeder
         Role::truncate();
         ProductTag::truncate();
         Product::truncate();
+        CompanyBalance::truncate();
+        CompanyBalanceTransaction::truncate();
         Schema::enableForeignKeyConstraints();
 
         $json = File::get(__DIR__ . '/userSeederData.json');
@@ -73,6 +76,7 @@ class UserSeeder extends Seeder
                     $product->languages()->attach($translation['languageId'], ['name' => $translation['name'], 'description' => $translation['description']]);
                 }
             }
+
             $transactionDto = new TransactionDto(
                 $companyBalanceId = $companyBalance->company_id,
                 $currency = "Euro",
@@ -83,11 +87,14 @@ class UserSeeder extends Seeder
                 $receiverId = $company->id,
                 $paymentMethodId = 1
             );
+
             $transaction = CompanyBalanceService::createTransaction($transactionDto);
             $companyBalance = CompanyBalanceService::handleCompanyBalance($companyBalance, $transaction);
             $companyProducts = $company->products;
+
             foreach($companyData['warehouses'] as $warehouse){
                 $warehouse = $company->warehouses()->create($warehouse);
+
                 foreach($companyProducts as $product){
                     $safeQuantity = rand(1, 100);
                     $warehouseProductData = [
@@ -95,9 +102,11 @@ class UserSeeder extends Seeder
                         'safe_quantity' => $safeQuantity,
                         'status' => ProductStatusEnum::ACTIVE(),
                     ];
+
                     $product->warehouses()->attach($warehouse->id, $warehouseProductData);
                 }
             }
+
 
         }
     }
