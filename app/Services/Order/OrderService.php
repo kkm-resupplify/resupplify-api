@@ -10,6 +10,9 @@ use App\Models\Product\ProductOffer;
 use App\Http\Dto\Company\TransactionDto;
 use App\Services\Company\CompanyBalanceService;
 use App\Exceptions\Company\WrongTransactionException;
+use App\Exceptions\Order\OrderCantBuyProductException;
+use App\Exceptions\Order\OrderNotEnoughBalanceException;
+use App\Exceptions\Order\OrderNotEnoughProductException;
 use App\Exceptions\Product\ProductOfferNotFoundException;
 use App\Models\Company\Enums\CompanyBalanceTransactionTypeEnum;
 
@@ -24,23 +27,18 @@ class OrderService extends BasicService
         $companyBalance = $company->companyBalances;
         $offer = ProductOffer::findOrFail($request->offerId);
         $offerCompany = $offer->product->company;
-        return $productWarehouse = $offer->product;
-        if ($offer->company_id == $company->id) {
-            throw new ProductOfferNotFoundException();
+
+        if($offerCompany->id == $company->id)
+        {
+            throw new OrderCantBuyProductException();
         }
         $offerPrice = $offer->price*$request->orderQuantity;
         if ($offerPrice > $companyBalance->balance) {
-            //todo: dodać tłumaczenie
-            throw new WrongTransactionException("You don't have enough money to make this offer");
+            throw new OrderNotEnoughBalanceException();
         }
         if($offer->product_quantity < $request->orderQuantity)
         {
-            //todo: dodać exception
-            throw new WrongTransactionException("You can't make this order: not enough products in offer");
-        }
-        if($offerCompany->id == $company->id)
-        {
-            throw new WrongTransactionException("You can't make this order: you can't buy your own products");
+            throw new OrderNotEnoughProductException();
         }
         $transactionDto = new TransactionDto(
             $companyBalanceId = $companyBalance->company_id,

@@ -42,6 +42,11 @@ class CustomErrorCodes
     public const PRODUCT_OFFER_EXIST = 'product-0008';
     public const PRODUCT_OFFER_NOT_FOUND = 'product-0009';
 
+    public const ORDER_NOT_FOUND = 'order-0001';
+    public const ORDER_NOT_ENOUGH_BALANCE = 'order-0002';
+    public const ORDER_NOT_ENOUGH_PRODUCTS = 'order-0003';
+    public const ORDER_CANT_BUY_PRODUCT = 'order-0004';
+
 
     public const FILTER_NOT_ALLOWED = 'filter-0001';
 
