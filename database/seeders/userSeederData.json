@@ -1,0 +1,296 @@
+{
+    "data": {
+        "user": [
+            {
+                "email": "email@gmail.com",
+                "password": "password",
+                "type": 1,
+                "language_id": 1
+            },
+            {
+                "email": "email2@gmail.com",
+                "password": "password",
+                "type": 1,
+                "language_id": 1
+            }
+        ],
+        "company": [
+            {
+                "company":{
+                    "name": "Coffe Company",
+                    "slug": "coffe-company",
+                    "short_description": "Coffe Company with 10 years of experience in coffee market",
+                    "description": "Coffe Company with 10 years of experience in coffee market",
+                    "owner_id": 1,
+                    "status": "UNVERIFIED"
+                },
+                "companyDetails": {
+                    "country_id": 16,
+                    "address": "Al. Niepodległości 61 Szczecin",
+                    "email": "coofeCompany@gmail.com",
+                    "phone_number": "+48604212365",
+                    "external_website": "https://coofeCompany.com",
+                    "logo": "logo.png",
+                    "company_id": 1,
+                    "company_category_id": 1,
+                    "tin": "1159015689",
+                    "contact_person": "Maciej Pokręć"
+                },
+                "companyBalance": {
+                    "balance": 0,
+                    "company_id": 1
+                },
+                "roles": [
+                    {
+                        "name": "Company owner",
+                        "team_id": 1,
+                        "guard_name": "sanctum"
+                    },
+                    {
+                        "name": "Company admin",
+                        "team_id": 1,
+                        "guard_name": "sanctum"
+                    },
+                    {
+                        "name": "Company member",
+                        "team_id": 1,
+                        "guard_name": "sanctum"
+                    }
+                ],
+                "companyMember": [
+                    {
+                        "user_id": 1,
+                        "company_id": 1,
+                        "role_id": 1
+                    }
+                ],
+                "tag": [
+                    {
+                        "name": "Coffe",
+                        "slug": "coffe",
+                        "color": "#fcba03",
+                        "company_id": 1
+                    },
+                    {
+                        "name": "Coffe beans",
+                        "slug": "coffe-beans",
+                        "color": "#007bff",
+                        "company_id": 1
+                    }
+                ],
+                "products": [
+                    {
+                        "translations": [
+                            {
+                                "languageId": 1,
+                                "name": "Brazil coffee beans",
+                                "description": "The best coffee beans from Brazil"
+                            },
+                            {
+                                "languageId": 2,
+                                "name": "Brazyilska kawa ziarnista",
+                                "description": "Najlepsza kawa ziarnista z Brazylii"
+                            }
+                        ],
+                        "product":
+                        {
+                            "company_id": 1,
+                            "product_subcategory_id": 2,
+                            "product_unit_id": 1,
+                            "producer": "Brazil Coffee Company",
+                            "code": "coffee/grains",
+                            "status": "INACTIVE",
+                            "verification_status": "UNVERIFIED"
+                        }
+                    },
+                    {
+                        "translations": [
+                            {
+                                "languageId": 1,
+                                "name": "Premium Espresso Blend",
+                                "description": "Indulge in our premium espresso blend for a rich and aromatic experience."
+                            },
+                            {
+                                "languageId": 2,
+                                "name": "Ekskluzywny blend espresso",
+                                "description": "Rozkoszuj się naszym ekskluzywnym blendem espresso o bogatym i aromatycznym doświadczeniu."
+                            }
+                        ],
+                        "product":
+                        {
+                            "company_id": 1,
+                            "product_subcategory_id": 2,
+                            "product_unit_id": 1,
+                            "producer": "Global Roasters",
+                            "code": "coffee/espresso",
+                            "status": "ACTIVE",
+                            "verification_status": "VERIFIED"
+                        }
+                    },
+                    {
+                        "translations": [
+                            {
+                                "languageId": 1,
+                                "name": "Organic Fair Trade Coffee",
+                                "description": "Enjoy our organic fair trade coffee, ethically sourced for a sustainable and delicious cup."
+                            },
+                            {
+                                "languageId": 2,
+                                "name": "Organiczna kawa fair trade",
+                                "description": "Rozkoszuj się naszą organiczną kawą fair trade, pozyskiwaną etycznie dla zrównoważonej i pysznej filiżanki."
+                            }
+                        ],
+                        "product":
+                        {
+                            "company_id": 2,
+                            "product_subcategory_id": 2,
+                            "product_unit_id": 1,
+                            "producer": "Green Harvest Co.",
+                            "code": "coffee/organic",
+                            "status": "ACTIVE",
+                            "verification_status": "VERIFIED"
+                        }
+                    },
+                    {
+                        "translations": [
+                            {
+                                "languageId": 1,
+                                "name": "Bold Dark Roast Coffee",
+                                "description": "Experience the boldness of our dark roast coffee, perfect for those who love intense flavors."
+                            },
+                            {
+                                "languageId": 2,
+                                "name": "Mocna kawa ciemno palona",
+                                "description": "Poczuj intensywność naszej mocno palonej kawy, idealnej dla tych, którzy kochają intensywne smaki."
+                            }
+                        ],
+                        "product":
+                        {
+                            "company_id": 3,
+                            "product_subcategory_id": 2,
+                            "product_unit_id": 1,
+                            "producer": "Dark Elegance Roasters",
+                            "code": "coffee/dark-roast",
+                            "status": "INACTIVE",
+                            "verification_status": "UNVERIFIED"
+                        }
+                    }
+                ]
+            },
+            {
+                "company": {
+                    "name": "Cookie Company",
+                    "slug": "cookie-company",
+                    "short_description": "Cookie Company with 10 years of experience in cookie market",
+                    "description": "Cookie Company with 10 years of experience in cookie market",
+                    "owner_id": 2,
+                    "status": "UNVERIFIED"
+                },
+                "companyDetails": {
+                    "country_id": 16,
+                    "address": "ul. Jelskiego Konstantego 92 Kraków",
+                    "email": "cookieCompan@gmail.com",
+                    "phone_number": "+48664658651",
+                    "external_website": "https://cookieCompany.com",
+                    "logo": "logo.png",
+                    "company_id": 2,
+                    "company_category_id": 6,
+                    "tin": "1160249134",
+                    "contact_person": "Karol Wrak"
+                },
+                "companyBalance": {
+                    "balance": 0,
+                    "company_id": 2
+                },
+                "roles": [
+                    {
+                        "name": "Company owner",
+                        "team_id": 2,
+                        "guard_name": "sanctum"
+                    },
+                    {
+                        "name": "Company admin",
+                        "team_id": 2,
+                        "guard_name": "sanctum"
+                    },
+                    {
+                        "name": "Company member",
+                        "team_id": 2,
+                        "guard_name": "sanctum"
+                    }
+                ],
+                "companyMember": [
+                    {
+                        "user_id": 2,
+                        "company_id": 2,
+                        "role_id": 1
+                    }
+                ],
+                "tag": [
+                    {
+                        "name": "Cookies",
+                        "slug": "cookies",
+                        "color": "#ff6600",
+                        "company_id": 2
+                    },
+                    {
+                        "name": "Cookie Delights",
+                        "slug": "cookie-delights",
+                        "color": "#99cc00",
+                        "company_id": 2
+                    }
+                ],
+                "products": [
+                    {
+                        "translations": [
+                            {
+                                "languageId": 1,
+                                "name": "Chocolate Chip Cookies",
+                                "description": "Classic chocolate chip cookies for a delightful treat."
+                            },
+                            {
+                                "languageId": 2,
+                                "name": "Ciasteczka z kawałkami czekolady",
+                                "description": "Klasyczne ciasteczka z kawałkami czekolady na pyszny poczęstunek."
+                            }
+                        ],
+                        "product":
+                        {
+                            "company_id": 2,
+                            "product_subcategory_id": 6,
+                            "product_unit_id": 3,
+                            "producer": "Cookie Delights",
+                            "code": "cookies/chocolate-chip",
+                            "status": "ACTIVE",
+                            "verification_status": "VERIFIED"
+                        }
+                    },
+                    {
+                        "translations": [
+                            {
+                                "languageId": 1,
+                                "name": "Oatmeal Raisin Cookies",
+                                "description": "Healthy and delicious oatmeal raisin cookies for a guilt-free treat."
+                            },
+                            {
+                                "languageId": 2,
+                                "name": "Ciasteczka owsiano-rodzinne",
+                                "description": "Zdrowe i pyszne ciasteczka owsiano-rodzinne na bezwzględny poczęstunek."
+                            }
+                        ],
+                        "product":
+                        {
+                            "company_id": 2,
+                            "product_subcategory_id": 6,
+                            "product_unit_id": 3,
+                            "producer": "Cookie Delights",
+                            "code": "cookies/oatmeal-raisin",
+                            "status": "INACTIVE",
+                            "verification_status": "UNVERIFIED"
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+}

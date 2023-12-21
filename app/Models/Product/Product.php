@@ -86,4 +86,10 @@ class Product extends Model
             'id'
         );
     }
+
+    public function warehouses(): BelongsToMany
+    {
+        return $this->belongsToMany(Warehouse::class, 'product_warehouse')
+        ->withPivot(['quantity','safe_quantity','status']);
+    }
 }
