@@ -142,7 +142,7 @@
                         ],
                         "product":
                         {
-                            "company_id": 2,
+                            "company_id": 1,
                             "product_subcategory_id": 2,
                             "product_unit_id": 1,
                             "producer": "Green Harvest Co.",
@@ -166,7 +166,7 @@
                         ],
                         "product":
                         {
-                            "company_id": 3,
+                            "company_id": 1,
                             "product_subcategory_id": 2,
                             "product_unit_id": 1,
                             "producer": "Dark Elegance Roasters",

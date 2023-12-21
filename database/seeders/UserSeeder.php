@@ -2,24 +2,27 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Schema;
-use App\Models\User\Enums\UserTypeEnum;
-use App\Models\Product\ProductUnit;
 use App\Models\User\User;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use App\Models\Company\Company;
+use App\Models\Product\Product;
+use Illuminate\Database\Seeder;
+use App\Models\Product\ProductTag;
+use Spatie\Permission\Models\Role;
+use App\Models\Product\ProductUnit;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Hash;
+use App\Models\Company\CompanyMember;
 use App\Models\Company\CompanyBalance;
 use App\Models\Company\CompanyDetails;
-use App\Models\Company\CompanyMember;
-use App\Models\Product\ProductTag;
-use Illuminate\Support\Str;
-use App\Models\Product\Product;
-use App\Models\Product\Enums\ProductStatusEnum;
-use App\Models\Product\Enums\ProductVerificationStatusEnum;
+use Illuminate\Support\Facades\Schema;
+use App\Models\User\Enums\UserTypeEnum;
+use App\Http\Dto\Company\TransactionDto;
 use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
-use Illuminate\Support\Facades\File;
+use App\Models\Product\Enums\ProductStatusEnum;
+use App\Services\Company\CompanyBalanceService;
+use App\Models\Product\Enums\ProductVerificationStatusEnum;
+
 class UserSeeder extends Seeder
 {
     /**
@@ -48,10 +51,9 @@ class UserSeeder extends Seeder
 
         foreach ($data['data']['company'] as $companyData) {
             $company = Company::create($companyData['company']);
-            var_dump($company);
 
             CompanyDetails::create($companyData['companyDetails']);
-            CompanyBalance::create($companyData['companyBalance']);
+            $companyBalance = CompanyBalance::create($companyData['companyBalance']);
 
             foreach ($companyData['roles'] as $role) {
                 Role::create($role);
@@ -71,6 +73,19 @@ class UserSeeder extends Seeder
                     $product->languages()->attach($translation['languageId'], ['name' => $translation['name'], 'description' => $translation['description']]);
                 }
             }
+            $transactionDto = new TransactionDto(
+                $companyBalanceId = $companyBalance->company_id,
+                $currency = "Euro",
+                $amount = 10000,
+                $type = 2,
+                $status = 1,
+                $senderId = null,
+                $receiverId = $company->id,
+                $paymentMethodId = 1
+            );
+            $transaction = CompanyBalanceService::createTransaction($transactionDto);
+            $companyBalance = CompanyBalanceService::handleCompanyBalance($companyBalance, $transaction);
+
         }
     }
 }
