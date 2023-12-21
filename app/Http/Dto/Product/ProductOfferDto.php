@@ -10,7 +10,7 @@ use Spatie\LaravelData\Attributes\Validation\Rule;
 class ProductOfferDto extends BasicDto
 {
     #[Min(1)]
-    public int $productInWarehouseId;
+    public int $stockItemId;
     #[Rule(['required', 'regex:/^(0*[1-9][0-9]*(\.[0-9]+)?|0+\.[0-9]*[1-9][0-9]*)$/'])]
     public float $price;
     #[Min(1)]

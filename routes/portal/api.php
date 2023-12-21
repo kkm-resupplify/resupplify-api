@@ -65,7 +65,7 @@ Route::middleware(AUTH_SANCTUM_MIDDLEWARE)->prefix('company')->group(function ()
   Route::get('balance/transaction', [CompanyBalanceController::class,'showBalanceOperations']);
   Route::resource('balance', CompanyBalanceController::class);
   Route::get('productOffer/deactivateOffer/{id}', [ProductOfferController::class,'deactivateOffer']);
-  Route::get('productOffer/possitions', [ProductOfferController::class,'possitions']);
+  Route::get('productOffer/stockItems', [ProductOfferController::class,'possitions']);
   Route::resource('productOffer', ProductOfferController::class);
   Route::get('productOfferStatus', [ProductOfferController::class,'changeStatus']);
   Route::resource('order', OrderController::class);

@@ -28,7 +28,7 @@ class ProductOfferService extends BasicService
     public function createOffer(ProductOfferDto $request)
     {
         $company = app('authUserCompany');
-        $warehouseProduct = DB::table('product_warehouse')->where('id', $request->productInWarehouseId)->get();
+        $warehouseProduct = DB::table('product_warehouse')->where('id', $request->stockItemId)->get();
         if ($warehouseProduct->isEmpty()) {
             throw new ProductNotFoundException();
         }
