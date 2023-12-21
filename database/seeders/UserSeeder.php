@@ -3,28 +3,24 @@
 namespace Database\Seeders;
 
 use App\Models\User\User;
-use Illuminate\Support\Str;
 use App\Models\Company\Company;
 use App\Models\Product\Product;
 use Illuminate\Database\Seeder;
 use App\Models\Product\ProductTag;
 use Spatie\Permission\Models\Role;
-use App\Models\Product\ProductUnit;
 use App\Models\Product\ProductOffer;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Hash;
 use App\Models\Company\CompanyMember;
 use App\Models\Company\CompanyBalance;
 use App\Models\Company\CompanyDetails;
 use Illuminate\Support\Facades\Schema;
-use App\Models\User\Enums\UserTypeEnum;
+use App\Models\Product\LanguageProduct;
 use App\Http\Dto\Company\TransactionDto;
 use App\Models\Product\ProductWarehouse;
-use Spatie\Permission\Models\Permission;
 use App\Models\Product\Enums\ProductStatusEnum;
 use App\Services\Company\CompanyBalanceService;
 use App\Models\Company\CompanyBalanceTransaction;
-use App\Models\Product\Enums\ProductVerificationStatusEnum;
+
 
 class UserSeeder extends Seeder
 {
@@ -47,6 +43,7 @@ class UserSeeder extends Seeder
         CompanyBalanceTransaction::truncate();
         ProductWarehouse::truncate();
         ProductOffer::truncate();
+        LanguageProduct::truncate();
         Schema::enableForeignKeyConstraints();
 
         $json = File::get(__DIR__ . '/userSeederData.json');

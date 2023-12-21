@@ -53,4 +53,9 @@ class ProductOfferController extends Controller
     {
         return $this->ok($service->possitions());
     }
+
+    public function getCompanyOffers(ProductOfferService $service)
+    {
+        return $this->ok($service->getCompanyOffers());
+    }
 }

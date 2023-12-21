@@ -107,6 +107,21 @@ class ProductOfferService extends BasicService
         return new ProductOfferResource($offer);
     }
 
+    public function getCompanyOffers()
+    {
+        $company = app('authUserCompany');
+        $offers = QueryBuilder::for($company->productOffers()->with('product'))->allowedFilters([
+            AllowedFilter::exact('status'),
+            AllowedFilter::custom('name', new ProductOfferNameFilter()),
+            AllowedFilter::exact('subcategoryId', 'product.product_subcategory_id'),
+            AllowedFilter::custom('categoryId', new ProductOfferCategoryFilter()),
+        ])->fastPaginate(config('paginationConfig.COMPANY_PRODUCTS'));
+
+        $pagination = $this->paginate($offers);
+
+        return array_merge($pagination, ProductOfferResource::collection($offers)->toArray(request()));;
+    }
+
     public function changeStatus()
     {
         $currentDate = now();
