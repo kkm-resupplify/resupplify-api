@@ -175,6 +175,28 @@
                             "verification_status": "UNVERIFIED"
                         }
                     }
+                ],
+                "warehouses": [
+                    {
+                        "name": "Coffe Lublin Warehouse",
+                        "description": "Lublin coffe warehouse",
+                        "company_id": 1
+                    },
+                    {
+                        "name": "Coffe Kraków Warehouse",
+                        "description": "Kraków coffe warehouse",
+                        "company_id": 1
+                    },
+                    {
+                        "name": "Coffe Warszawa Warehouse",
+                        "description": "Warszawa coffe warehouse",
+                        "company_id": 1
+                    },
+                    {
+                        "name": "Coffe Wrocław Warehouse",
+                        "description": "Wrocław coffe warehouse",
+                        "company_id": 1
+                    }
                 ]
             },
             {
@@ -288,6 +310,28 @@
                             "status": "INACTIVE",
                             "verification_status": "UNVERIFIED"
                         }
+                    }
+                ],
+                "warehouses": [
+                    {
+                        "name": "Cookie Lublin Warehouse",
+                        "description": "Lublin cookie warehouse",
+                        "company_id": 1
+                    },
+                    {
+                        "name": "Cookie Kraków Warehouse",
+                        "description": "Kraków cookie warehouse",
+                        "company_id": 1
+                    },
+                    {
+                        "name": "Cookie Warszawa Warehouse",
+                        "description": "Warszawa cookie warehouse",
+                        "company_id": 1
+                    },
+                    {
+                        "name": "Cookie Wrocław Warehouse",
+                        "description": "Wrocław cookie warehouse",
+                        "company_id": 1
                     }
                 ]
             }
