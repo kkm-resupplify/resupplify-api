@@ -10,6 +10,7 @@ use Illuminate\Database\Seeder;
 use App\Models\Product\ProductTag;
 use Spatie\Permission\Models\Role;
 use App\Models\Product\ProductUnit;
+use App\Models\Product\ProductOffer;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Company\CompanyMember;
@@ -18,6 +19,7 @@ use App\Models\Company\CompanyDetails;
 use Illuminate\Support\Facades\Schema;
 use App\Models\User\Enums\UserTypeEnum;
 use App\Http\Dto\Company\TransactionDto;
+use App\Models\Product\ProductWarehouse;
 use Spatie\Permission\Models\Permission;
 use App\Models\Product\Enums\ProductStatusEnum;
 use App\Services\Company\CompanyBalanceService;
@@ -43,6 +45,8 @@ class UserSeeder extends Seeder
         Product::truncate();
         CompanyBalance::truncate();
         CompanyBalanceTransaction::truncate();
+        ProductWarehouse::truncate();
+        ProductOffer::truncate();
         Schema::enableForeignKeyConstraints();
 
         $json = File::get(__DIR__ . '/userSeederData.json');
@@ -102,8 +106,19 @@ class UserSeeder extends Seeder
                         'safe_quantity' => $safeQuantity,
                         'status' => ProductStatusEnum::ACTIVE(),
                     ];
-
                     $product->warehouses()->attach($warehouse->id, $warehouseProductData);
+                    $productWarehouse = $product->warehouses()->find($warehouse->id)->products()->find($product->id);
+                    $startDate = date('Y-m-d H:i:s');
+                    $endDate = date('Y-m-d H:i:s', strtotime('+2 days'));
+                    $offer = new ProductOffer([
+                        'price' => rand(1, 10),
+                        'product_quantity' => $safeQuantity/2,
+                        'status' => 1,
+                        'company_product_id' => $productWarehouse->id,
+                        'started_at' => $startDate,
+                        'ended_at' => $endDate,
+                    ]);
+                    $offer->save();
                 }
             }
 
