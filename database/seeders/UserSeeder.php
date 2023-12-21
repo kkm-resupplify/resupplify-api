@@ -85,6 +85,19 @@ class UserSeeder extends Seeder
             );
             $transaction = CompanyBalanceService::createTransaction($transactionDto);
             $companyBalance = CompanyBalanceService::handleCompanyBalance($companyBalance, $transaction);
+            $companyProducts = $company->products;
+            foreach($companyData['warehouses'] as $warehouse){
+                $warehouse = $company->warehouses()->create($warehouse);
+                foreach($companyProducts as $product){
+                    $safeQuantity = rand(1, 100);
+                    $warehouseProductData = [
+                        'quantity' => $safeQuantity*2,
+                        'safe_quantity' => $safeQuantity,
+                        'status' => ProductStatusEnum::ACTIVE(),
+                    ];
+                    $product->warehouses()->attach($warehouse->id, $warehouseProductData);
+                }
+            }
 
         }
     }
