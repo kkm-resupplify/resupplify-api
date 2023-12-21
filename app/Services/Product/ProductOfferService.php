@@ -41,6 +41,7 @@ class ProductOfferService extends BasicService
         $request->endDate = date('Y-m-d H:i:s', strtotime($request->endDate));
 
         $companyProductOffersOverlap = $company->productOffers()
+            ->where('product_offers.company_product_id', $request->stockItemId)
             ->where(function ($query) use ($request) {
                 $query->where(function ($query) use ($request) {
                     $query->where('product_offers.started_at', '>=', $request->startDate)
