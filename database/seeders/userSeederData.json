@@ -25,7 +25,7 @@
                     "status": "UNVERIFIED"
                 },
                 "companyDetails": {
-                    "country_id": 16,
+                    "country_id": 42,
                     "address": "Al. Niepodległości 61 Szczecin",
                     "email": "coofeCompany@gmail.com",
                     "phone_number": "+48604212365",
@@ -209,7 +209,7 @@
                     "status": "UNVERIFIED"
                 },
                 "companyDetails": {
-                    "country_id": 16,
+                    "country_id": 42,
                     "address": "ul. Jelskiego Konstantego 92 Kraków",
                     "email": "cookieCompan@gmail.com",
                     "phone_number": "+48664658651",
