@@ -25,7 +25,7 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Company extends Model
 {
-    use HasFactory, HasRoles, SoftDeletes;
+    use HasFactory, HasRoles, SoftDeletes, \Staudenmeir\EloquentHasManyDeep\HasRelationships;
 
     protected $fillable = [
         'name',
@@ -114,15 +114,8 @@ class Company extends Model
         return $this->hasOne(CompanyBalance::class);
     }
 
-    public function productOffers(): HasManyThrough
+    public function productOffers()
     {
-        return $this->hasManyThrough(
-            ProductOffer::class,
-            Product::class,
-            'company_id',
-            'company_product_id',
-            'id',
-            'id'
-        );
+        return $this->hasManyDeepFromRelations($this->products(), (new Product())->productOffers());
     }
 }

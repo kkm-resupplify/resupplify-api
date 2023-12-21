@@ -32,7 +32,7 @@ class Warehouse extends Model
     public function products(): BelongsToMany
     {
         return $this->belongsToMany(Product::class, 'product_warehouse')
-        ->withPivot(['quantity','safe_quantity','status']);
+            ->withPivot(['quantity', 'safe_quantity', 'status']);
     }
 
     public function productOffers(): HasManyThrough
@@ -40,11 +40,10 @@ class Warehouse extends Model
         return $this->hasManyThrough(
             ProductOffer::class,
             ProductWarehouse::class,
-            'warehouse_id',  
-            'company_product_id', 
-            'id', 
-            'id' 
+            'warehouse_id',
+            'company_product_id',
+            'id',
+            'id'
         );
     }
-
 }

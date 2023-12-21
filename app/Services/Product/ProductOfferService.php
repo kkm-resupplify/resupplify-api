@@ -29,42 +29,48 @@ class ProductOfferService extends BasicService
     {
         $company = app('authUserCompany');
         $warehouseProduct = DB::table('product_warehouse')->where('id', $request->stockItemId)->get();
+
         if ($warehouseProduct->isEmpty()) {
             throw new ProductNotFoundException();
         }
+
+        // return $company->productOffers()->get();
+
         $companyWarehouses = $company->warehouses()->findOrFail($warehouseProduct[0]->warehouse_id);
         $productInCompanyWarehouses = $companyWarehouses->products()->findOrFail($warehouseProduct[0]->product_id);
+
         $request->startDate = date('Y-m-d H:i:s', strtotime($request->startDate));
         $request->endDate = date('Y-m-d H:i:s', strtotime($request->endDate));
+
         $companyProductOffersOverlap = $company->productOffers()
-        ->where('product_offers.status', ProductOfferStatusEnum::ACTIVE())
-        ->where(function ($query) use ($request) {
-            $query->where(function ($query) use ($request) {
-                $query->where('product_offers.started_at', '>=', $request->startDate)
-                    ->where('product_offers.started_at', '<', $request->endDate);
+            ->where(function ($query) use ($request) {
+                $query->where(function ($query) use ($request) {
+                    $query->where('product_offers.started_at', '>=', $request->startDate)
+                        ->where('product_offers.started_at', '<', $request->endDate);
+                })
+                    ->orWhere(function ($query) use ($request) {
+                        $query->where('product_offers.ended_at', '>', $request->startDate)
+                            ->where('product_offers.ended_at', '<=', $request->endDate);
+                    })
+                    ->orWhere(function ($query) use ($request) {
+                        $query->where('product_offers.started_at', '<=', $request->startDate)
+                            ->where('product_offers.ended_at', '>=', $request->endDate);
+                    })
+                    ->orWhere(function ($query) use ($request) {
+                        $query->where('product_offers.started_at', '>=', $request->startDate)
+                            ->where('product_offers.ended_at', '<=', $request->endDate);
+                    });
             })
-            ->orWhere(function ($query) use ($request) {
-                $query->where('product_offers.ended_at', '>', $request->startDate)
-                    ->where('product_offers.ended_at', '<=', $request->endDate);
-            })
-            ->orWhere(function ($query) use ($request) {
-                $query->where('product_offers.started_at', '<=', $request->startDate)
-                    ->where('product_offers.ended_at', '>=', $request->endDate);
-            })
-            ->orWhere(function ($query) use ($request) {
-                $query->where('product_offers.started_at', '>=', $request->startDate)
-                    ->where('product_offers.ended_at', '<=', $request->endDate);
-            });
-        })
-        ->get();
-        if($request->productQuantity > $productInCompanyWarehouses->pivot->quantity)
-        {
+            ->get();
+
+        if ($request->productQuantity > $productInCompanyWarehouses->pivot->quantity) {
             throw new ProductOfferQuantityException();
         }
-        if($companyProductOffersOverlap->count() > 0)
-        {
-           throw new ProductOfferExists();
+
+        if ($companyProductOffersOverlap->count() > 0) {
+            throw new ProductOfferExists();
         }
+
         $offer = new ProductOffer([
             'price' => $request->price,
             'product_quantity' => $request->productQuantity,
@@ -75,7 +81,9 @@ class ProductOfferService extends BasicService
         ]);
         // $companyWarehouses->products()->updateExistingPivot($request->productId,
         // ['quantity' => $productInCompanyWarehouses->pivot->quantity - $request->productQuantity]);
+
         $productInCompanyWarehouses->pivot->quantity - $request->productQuantity;
+
         $offer->save();
         $offer->load('product');
         return new ProductOfferResource($offer);
@@ -89,8 +97,10 @@ class ProductOfferService extends BasicService
             AllowedFilter::exact('subcategoryId', 'product.product_subcategory_id'),
             AllowedFilter::custom('categoryId', new ProductOfferCategoryFilter()),
         ])->fastPaginate(config('paginationConfig.COMPANY_PRODUCTS'));
+
         $pagination = $this->paginate($offers);
-        return array_merge($pagination,ProductOfferResource::collection($offers)->toArray(request()));;
+
+        return array_merge($pagination, ProductOfferResource::collection($offers)->toArray(request()));;
     }
 
     public function getOffer(ProductOffer $offer)
@@ -108,13 +118,12 @@ class ProductOfferService extends BasicService
 
         $inactiveOffers = ProductOffer::where('ended_at', '<', $currentDate)
             ->update(['status' => ProductOfferStatusEnum::INACTIVE()]);
-        return [$activeOffers,$inactiveOffers];
+        return [$activeOffers, $inactiveOffers];
     }
 
     public function deactivateOffer(ProductOffer $offer)
     {
-        if(!self::checkIfOfferIsCreatedByCompany($offer->id, app('authUserCompany')->id))
-        {
+        if (!self::checkIfOfferIsCreatedByCompany($offer->id, app('authUserCompany')->id)) {
             throw new ProductOfferNotFoundException();
         }
         $offer->update(['status' => ProductOfferStatusEnum::INACTIVE()]);
@@ -130,7 +139,6 @@ class ProductOfferService extends BasicService
             ->whereIn('warehouse_id', $companyWarehouses->pluck('id'))
             ->get();
         return ProductPositionInWarehouse::collection($warehouseProduct);
-
     }
 
     public function checkIfOfferIsCreatedByCompany($offerId, $companyId)
