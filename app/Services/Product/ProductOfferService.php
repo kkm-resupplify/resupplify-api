@@ -34,8 +34,6 @@ class ProductOfferService extends BasicService
             throw new ProductNotFoundException();
         }
 
-        // return $company->productOffers()->get();
-
         $companyWarehouses = $company->warehouses()->findOrFail($warehouseProduct[0]->warehouse_id);
         $productInCompanyWarehouses = $companyWarehouses->products()->findOrFail($warehouseProduct[0]->product_id);
 
