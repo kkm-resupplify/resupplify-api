@@ -12,7 +12,7 @@ class OrderNotEnoughProductException extends BasicException
     {
         $this->errorCode = CustomErrorCodes::ORDER_NOT_ENOUGH_PRODUCTS;
         $this->errorHttpCode = Response::HTTP_UNPROCESSABLE_ENTITY;
-        $this->errorMsg = $this->__('messages.exception.order.product');
+        $this->errorMsg = $this->__('messages.exception.order.productQuantity');
 
         $errorData = $this->getErrorData();
 

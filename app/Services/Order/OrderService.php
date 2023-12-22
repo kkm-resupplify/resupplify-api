@@ -3,11 +3,13 @@
 namespace App\Services\Order;
 
 
+use App\Models\Order\Order;
 use App\Services\BasicService;
 use App\Helpers\PaginationTrait;
 use App\Http\Dto\Order\OrderDto;
 use App\Models\Product\ProductOffer;
 use App\Http\Dto\Company\TransactionDto;
+use App\Models\Order\Enums\OrderStatusEnum;
 use App\Services\Company\CompanyBalanceService;
 use App\Exceptions\Company\WrongTransactionException;
 use App\Exceptions\Order\OrderCantBuyProductException;
@@ -31,7 +33,7 @@ class OrderService extends BasicService
             throw new ProductOfferNotFoundException();
         }
         $offerCompany = $offer->product->company;
-
+        $offerCompanyBalance = $offerCompany->companyBalances;
         if($offerCompany->id == $company->id)
         {
             throw new OrderCantBuyProductException();
@@ -45,7 +47,7 @@ class OrderService extends BasicService
             throw new OrderNotEnoughProductException();
         }
         $transactionDto = new TransactionDto(
-            $companyBalanceId = $companyBalance->company_id,
+            $companyBalanceId = $offerCompanyBalance -> company_id,
             $currency = 'Euro',
             $amount = $offerPrice,
             $type = CompanyBalanceTransactionTypeEnum::SALE()->value,
@@ -55,7 +57,7 @@ class OrderService extends BasicService
             $paymentMethodId = 1
         );
         $sellerTransaction = CompanyBalanceService::createTransaction($transactionDto);
-        $sellerCompanyBalance = CompanyBalanceService::handleCompanyBalance($companyBalance, $sellerTransaction);
+        $sellerCompanyBalance = CompanyBalanceService::handleCompanyBalance($offerCompanyBalance, $sellerTransaction);
         $transactionDto = new TransactionDto(
             $companyBalanceId = $companyBalance->company_id,
             $currency = 'Euro',
@@ -69,12 +71,20 @@ class OrderService extends BasicService
         $buyerTransaction = CompanyBalanceService::createTransaction($transactionDto);
         $buyerCompanyBalance = CompanyBalanceService::handleCompanyBalance($companyBalance, $buyerTransaction);
         $offer->product_quantity = $offer->product_quantity - $request->orderQuantity;
-        $productWarehouse = $offerCompany = $offer->product->warehouse;
+        $productWarehouse = $offer->productWarehouse()->get();
+        $productWarehouse->quantity = $offerCompany->quantity - $request->orderQuantity;
         if($offer->product_quantity == 0)
         {
             $offer->status = 0;
         }
         $offer->save();
-        return $offer;
+        $order = new Order([
+            'company_id' => $company->id,
+            'status' => OrderStatusEnum::COMPLETED(),
+        ]);
+        $order->save();
+        $order->productOffers()->attach($offer->id, ['offer_quantity' => $request->orderQuantity]);
+        $order->load('productOffers');
+        return $order;
     }
 }
