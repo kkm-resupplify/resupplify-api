@@ -3,10 +3,14 @@
 namespace App\Models\Order\Enums;
 
 use Spatie\Enum\Laravel\Enum;
-
 /**
- * @method static self UNVERIFIED()
- * @method static self VERIFIED()
+ * @method static self PLACED()
+ * @method static self PROCESSING()
+ * @method static self SHIPPED()
+ * @method static self INTRANSIT()
+ * @method static self COMPLETED()
+ * @method static self CANCELLED()
+ * @method static self REFUNDED()
  * @method static self REJECTED()
  * @method static self SUSPENDED()
  * @method static self INACTIVE()

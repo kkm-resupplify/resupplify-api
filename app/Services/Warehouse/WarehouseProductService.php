@@ -24,17 +24,20 @@ class WarehouseProductService extends BasicService
     use PaginationTrait;
     public function createWarehouseProduct(WarehouseProductDto $request, Warehouse $warehouse, Product $product)
     {
-        $user = Auth::user();
+        $user = app('authUser');
         setPermissionsTeamId($user->company->id);
         if (!$user->can('Owner permissions')) {
             throw new WrongPermissions();
         }
-        $warehouses = Auth::user()->company->warehouses;
+        $warehouses = app('authUser')->company->warehouses;
         if (!$warehouses->contains($warehouse)) {
             throw new WarehouseDataNotAccessible();
         }
         if ($warehouse->products->contains($product)) {
             throw new ProductExistsInWarehouseException();
+        }
+        if ($product->company_id != $user->company->id) {
+            throw new ProductNotFoundException();
         }
         if (isset($request->status)) {
             $warehouseProductData = [
@@ -56,14 +59,14 @@ class WarehouseProductService extends BasicService
 
     public function getAllWarehouseProducts(Warehouse $warehouse)
     {
-        $user = Auth::user();
+        $user = app('authUser');
         setPermissionsTeamId($user->company->id);
 
         if (!$user->can('Owner permissions')) {
             throw new WrongPermissions();
         }
 
-        $warehouses = Auth::user()->company->warehouses;
+        $warehouses = app('authUser')->company->warehouses;
 
         if (!$warehouses->contains($warehouse)) {
             throw new WarehouseDataNotAccessible();
@@ -81,12 +84,12 @@ class WarehouseProductService extends BasicService
 
     public function getWarehouseProduct(Warehouse $warehouse, Product $product)
     {
-        $user = Auth::user();
+        $user = app('authUser');
         setPermissionsTeamId($user->company->id);
         if (!$user->can('Owner permissions')) {
             throw new WrongPermissions();
         }
-        $warehouses = Auth::user()->company->warehouses;
+        $warehouses = app('authUser')->company->warehouses;
         if (!$warehouses->contains($warehouse)) {
             throw new WarehouseDataNotAccessible();
         }
@@ -99,13 +102,13 @@ class WarehouseProductService extends BasicService
 
     public function updateWarehouseProduct(WarehouseProductDto $request, Warehouse $warehouse, Product $product)
     {
-        $user = Auth::user();
+        $user = app('authUser');
         setPermissionsTeamId($user->company->id);
         if (!$user->can('Owner permissions')) {
             throw new WrongPermissions();
         }
 
-        $warehouses = Auth::user()->company->warehouses;
+        $warehouses = app('authUser')->company->warehouses;
         if (!$warehouses->contains($warehouse)) {
             throw new WarehouseDataNotAccessible();
         }
@@ -125,12 +128,12 @@ class WarehouseProductService extends BasicService
 
     public function detachWarehouseProduct(Warehouse $warehouse, Product $product)
     {
-        $user = Auth::user();
+        $user = app('authUser');
         setPermissionsTeamId($user->company->id);
         if (!$user->can('Owner permissions')) {
             throw new WrongPermissions();
         }
-        $warehouses = Auth::user()->company->warehouses;
+        $warehouses = app('authUser')->company->warehouses;
         if (!$warehouses->contains($warehouse)) {
             throw new WarehouseDataNotAccessible();
         }
@@ -144,12 +147,12 @@ class WarehouseProductService extends BasicService
 
     public function getProductsNotInWarehouse(Warehouse $warehouse)
     {
-        $user = Auth::user();
+        $user = app('authUser');
         setPermissionsTeamId($user->company->id);
         if (!$user->can('Owner permissions')) {
             throw new WrongPermissions();
         }
-        $warehouses = Auth::user()->company->warehouses;
+        $warehouses = app('authUser')->company->warehouses;
         if (!$warehouses->contains($warehouse)) {
             throw new WarehouseDataNotAccessible();
         }

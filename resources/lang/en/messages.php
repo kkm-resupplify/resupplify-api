@@ -38,5 +38,15 @@ return [
         'productTransaction' => 'You need to translate product name for all languages',
         'negativeCompanyBalanceException' => 'Your company balance will be negative, you can\'t perform this transaction',
         'wrongTransaction' => 'You can\'t perform this transaction',
+        'productOfferQuantity' => 'Not enough quantity in warehouse',
+        'productOfferNotFound' => 'Product offer not found',
+        'productOfferExists' => 'Product offer already exists',
+        'order' => [
+            'balance' => 'Not enough money to buy this product',
+            'productQuantity' => 'Not enough products in offer',
+            'productOfferNotFound' => 'Product offer not found',
+            'wrongTransaction' => 'You can\'t perform this transaction',
+            'cantBuyCompanyProduct' => 'You can\'t buy your own products',
+        ]
     ],
 ];

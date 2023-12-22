@@ -11,7 +11,7 @@ class ProductSubcategoryService extends BasicService
 {
     public function getProductSubcategories()
     {
-        $user = Auth::user();
+        $user = app('authUser');
 
         return ProductSubcategoryResource::collection(ProductSubcategory::whereHas('languages', function ($query) use (
             $user

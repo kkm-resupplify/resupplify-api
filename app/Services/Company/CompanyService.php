@@ -27,7 +27,7 @@ class CompanyService extends BasicService
 {
     public function createCompany(RegisterCompanyDto $request)
     {
-        $user = Auth::user();
+        $user = app('authUser');
 
         if (Company::where('name', '=', $request->name)->exists()) {
             throw(new CompanyNameTakenException());
@@ -96,13 +96,13 @@ class CompanyService extends BasicService
     }
     public function getUserCompany()
     {
-        $company = Auth::user()->company;
+        $company = app('authUserCompany');
         return new CompanyResource(Company::with("companyDetails")->findOrFail($company->id));
     }
 
     public function getCompanyRoles()
     {
-        return RoleResource::collection(Role::where('team_id', '=', Auth::user()->company->id)->get());
+        return RoleResource::collection(Role::where('team_id', '=', app('authUserCompany')->id)->get());
     }
 
     public function getCompanyRolesPermissions()
@@ -113,8 +113,8 @@ class CompanyService extends BasicService
     public function editCompany(RegisterCompanyDetailsDto $companyDetailsRequest, RegisterCompanyDto $companyRequest, Request $request)
     {
 
-        $user = Auth::user();
-        $company = Auth::user()->company;
+        $user = app('authUser');
+        $company = app('authUserCompany');
         $companyDetails = $company->companyDetails;
         if (Company::where('name', '=', $company->name)->where('id', '<>', $company->id)->exists()) {
             throw(new CompanyNameTakenException());

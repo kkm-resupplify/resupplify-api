@@ -2,23 +2,27 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Schema;
-use App\Models\User\Enums\UserTypeEnum;
-use App\Models\Product\ProductUnit;
 use App\Models\User\User;
-use Illuminate\Support\Facades\Hash;
 use App\Models\Company\Company;
+use App\Models\Product\Product;
+use Illuminate\Database\Seeder;
+use App\Models\Product\ProductTag;
+use Spatie\Permission\Models\Role;
+use App\Models\Warehouse\Warehouse;
+use App\Models\Product\ProductOffer;
+use Illuminate\Support\Facades\File;
+use App\Models\Company\CompanyMember;
 use App\Models\Company\CompanyBalance;
 use App\Models\Company\CompanyDetails;
-use App\Models\Company\CompanyMember;
-use App\Models\Product\ProductTag;
-use Illuminate\Support\Str;
-use App\Models\Product\Product;
+use Illuminate\Support\Facades\Schema;
+use App\Models\Product\LanguageProduct;
+use App\Http\Dto\Company\TransactionDto;
+use App\Models\Product\ProductWarehouse;
 use App\Models\Product\Enums\ProductStatusEnum;
-use App\Models\Product\Enums\ProductVerificationStatusEnum;
-use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
+use App\Services\Company\CompanyBalanceService;
+use App\Models\Company\CompanyBalanceTransaction;
+
+
 class UserSeeder extends Seeder
 {
     /**
@@ -36,109 +40,87 @@ class UserSeeder extends Seeder
         Role::truncate();
         ProductTag::truncate();
         Product::truncate();
+        CompanyBalance::truncate();
+        CompanyBalanceTransaction::truncate();
+        Warehouse::truncate();
+        ProductWarehouse::truncate();
+        ProductOffer::truncate();
+        LanguageProduct::truncate();
         Schema::enableForeignKeyConstraints();
 
-        for($i = 0; $i < 5; $i++)
-        {
-            $user = User::create([
-                'email' => 'user' . $i . '@gmail.com',
-                'password' => Hash::make('password'),
-                'type' => UserTypeEnum::BACK_OFFICE(),
-                'language_id' => 1,
-            ]);
+        $json = File::get(__DIR__ . '/userSeederData.json');
+        $data = json_decode($json, true);
 
-            $company = Company::create([
-                'name' => 'Company ' . $i,
-                'short_description' => 'Short description for company ' . $i,
-                'description' => 'Description for company ' . $i,
-                'slug' => Str::slug('Company ' . $i),
-                'owner_id' => $user->id,
-                'status' => 'UNVERIFIED',
-            ]);
+        foreach ($data['data']['user'] as $userData) {
+            User::create($userData);
+        }
 
-            $companyDetails = CompanyDetails::create([
-                'country_id' => 16,
-                'address' => 'Address for company ' . $i,
-                'email' => 'company' . $i . '@gmail.com',
-                'phone_number' => '+48536123700',
-                'external_website' => 'https://company' . $i . '.com',
-                'logo' => 'logo.png',
-                'company_id' => $company->id,
-                'company_category_id' => 1,
-                'tin' => '1234567890',
-                'contact_person' => 'Contact Person ' . $i,
-            ]);
+        foreach ($data['data']['company'] as $companyData) {
+            $company = Company::create($companyData['company']);
 
-            $companyBalance = CompanyBalance::create([
-                'company_id' => $company->id,
-                'balance' => 0,
-            ]);
+            CompanyDetails::create($companyData['companyDetails']);
+            $companyBalance = CompanyBalance::create($companyData['companyBalance']);
 
-            $roles = [
-                Role::create(['name' => 'Company owner', 'team_id' => $company->id, 'guard_name' => 'sanctum']),
-                Role::create(['name' => 'Company admin', 'team_id' => $company->id, 'guard_name' => 'sanctum']),
-                Role::create(['name' => 'Company member', 'team_id' => $company->id, 'guard_name' => 'sanctum']),
-            ];
-
-            $companyMember = CompanyMember::create([
-                'user_id' => $user->id,
-                'company_id' => $company->id,
-                'role_id' => $roles[0]->id,
-            ]);
-            $colors = [
-                'black',
-                'yellow',
-                'blue',
-                'red',
-                'green'
-            ];
-            $tags = [];
-            for($j = 0; $j< 5; $j++)
-            {
-                $tagData = [
-                    'name' => 'tag'.$j,
-                    'slug' => Str::slug('tag'.$j),
-                    'color' => $colors[$j],
-                    'company_id' => $company->id,
-                ];
-                $tag = ProductTag::create($tagData);
-                $tags[] = $tag->id;
+            foreach ($companyData['roles'] as $role) {
+                Role::create($role);
             }
-            for($k = 0; $k < 10; $k++)
-            {
-                $productData = [
-                    'producer' => 'producer'.$k,
-                    'code' => 'code/'.$k,
-                    'product_unit_id' => 1,
-                    'product_subcategory_id' => 1,
-                    'company_id' => $company->id,
-                    'status' => ProductStatusEnum::INACTIVE(),
-                    'verification_status' => ProductVerificationStatusEnum::UNVERIFIED()
-                ];
-                $json = '{
-                    "translations": [
-                        {
-                            "languageId": 1,
-                            "name": "Product name",
-                            "description": "Product description"
-                        },
-                        {
-                            "languageId": 2,
-                            "name": "Nazwa produktu",
-                            "description": "Opis produktu"
-                        }
-                    ]
-                  }';
-                 $array = json_decode($json, true);
-                 $product = new Product($productData);
-                 $user->company->products()->save($product);
-                 $product->productTags()->attach($tags ?? []);
-                 foreach ($array as $translations) {
-                    foreach ($translations as $translation) {
-                        $product->languages()->attach($translation['languageId'], ['name' => $translation['name'], 'description' => $translation['description']]);
-                    }
-                 }
+
+            foreach ($companyData['companyMember'] as $companyMember) {
+                CompanyMember::create($companyMember);
             }
+
+            foreach ($companyData['tag'] as $tag) {
+                ProductTag::create($tag);
+            }
+
+            foreach ($companyData['products'] as $productData) {
+                $product = Product::create($productData['product']);
+                foreach ($productData['translations'] as $translation) {
+                    $product->languages()->attach($translation['languageId'], ['name' => $translation['name'], 'description' => $translation['description']]);
+                }
+            }
+
+            $transactionDto = new TransactionDto(
+                $companyBalanceId = $companyBalance->company_id,
+                $currency = "Euro",
+                $amount = 10000,
+                $type = 2,
+                $status = 1,
+                $senderId = null,
+                $receiverId = $company->id,
+                $paymentMethodId = 1
+            );
+
+            $transaction = CompanyBalanceService::createTransaction($transactionDto);
+            $companyBalance = CompanyBalanceService::handleCompanyBalance($companyBalance, $transaction);
+            $companyProducts = $company->products;
+
+            foreach($companyData['warehouses'] as $warehouse){
+                $warehouse = $company->warehouses()->create($warehouse);
+                foreach($companyProducts as $product){
+                    $safeQuantity = rand(1, 100);
+                    $warehouseProductData = [
+                        'quantity' => $safeQuantity*2,
+                        'safe_quantity' => $safeQuantity,
+                        'status' => ProductStatusEnum::ACTIVE(),
+                    ];
+                    $product->warehouses()->attach($warehouse->id, $warehouseProductData);
+                    $productWarehouse = ProductWarehouse::where('warehouse_id', $warehouse->id)->where('product_id', $product->id)->first();
+                    $startDate = date('Y-m-d H:i:s');
+                    $endDate = date('Y-m-d H:i:s', strtotime('+2 days'));
+                    $offer = new ProductOffer([
+                        'price' => rand(1, 10),
+                        'product_quantity' => $safeQuantity/2,
+                        'status' => 1,
+                        'company_product_id' => $productWarehouse->id,
+                        'started_at' => $startDate,
+                        'ended_at' => $endDate,
+                    ]);
+                    $offer->save();
+                }
+            }
+
+
         }
     }
 }

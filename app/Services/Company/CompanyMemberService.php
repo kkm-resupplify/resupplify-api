@@ -34,7 +34,7 @@ class CompanyMemberService extends BasicService
         if ($invitationCode['is_used'] == 1) {
             throw new UserInviteCodeUsedException();
         }
-        $user = Auth::user();
+        $user = app('authUser');
         if (isset($user->companyMember)) {
             throw new UserAlreadyHaveCompany();
         }
@@ -68,7 +68,7 @@ class CompanyMemberService extends BasicService
     public function deleteCompanyMember(User $user)
     {
         $company = $user->company;
-        $loggedUser = Auth::user();
+        $loggedUser = app('authUser');
 
         if (!isset($company)) {
             throw new CompanyNotFoundException();
@@ -95,7 +95,7 @@ class CompanyMemberService extends BasicService
 
     public function leaveCompany()
     {
-        $user = Auth::user();
+        $user = app('authUser');
         $company = $user->company;
         if (!isset($company)) {
             throw new CompanyNotFoundException();

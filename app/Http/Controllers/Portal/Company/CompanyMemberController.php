@@ -22,9 +22,9 @@ class CompanyMemberController extends Controller
 
     public function getUserCompanyMembers()
     {
-        setPermissionsTeamId(Auth::User()->company->id);
+        setPermissionsTeamId(app('authUser')->company->id);
 
-        $companyMembers = Auth::user()
+        $companyMembers = app('authUser')
             ->company->users()
             ->with('userDetails')
             ->get();
