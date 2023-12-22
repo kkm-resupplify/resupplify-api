@@ -81,8 +81,6 @@ class ProductOfferService extends BasicService
         // $companyWarehouses->products()->updateExistingPivot($request->productId,
         // ['quantity' => $productInCompanyWarehouses->pivot->quantity - $request->productQuantity]);
 
-        $productInCompanyWarehouses->pivot->quantity - $request->productQuantity;
-
         $offer->save();
         $offer->load('product');
         return new ProductOfferResource($offer);
@@ -90,7 +88,12 @@ class ProductOfferService extends BasicService
 
     public function getOffers()
     {
-        $offers = QueryBuilder::for(ProductOffer::with('product'))->allowedFilters([
+        $company = app('authUserCompany');
+        $productOffers = ProductOffer::with('product')
+        ->whereDoesntHave('product', function ($query) use ($company) {
+            $query->where('company_id', $company->id);
+        });
+        $offers = QueryBuilder::for($productOffers)->allowedFilters([
             AllowedFilter::exact('status'),
             AllowedFilter::custom('name', new ProductOfferNameFilter()),
             AllowedFilter::exact('subcategoryId', 'product.product_subcategory_id'),

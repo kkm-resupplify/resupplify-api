@@ -99,8 +99,8 @@
                             "product_unit_id": 1,
                             "producer": "Brazil Coffee Company",
                             "code": "coffee/grains",
-                            "status": "INACTIVE",
-                            "verification_status": "UNVERIFIED"
+                            "status": "ACTIVE",
+                            "verification_status": "VERIFIED"
                         }
                     },
                     {
@@ -171,8 +171,8 @@
                             "product_unit_id": 1,
                             "producer": "Dark Elegance Roasters",
                             "code": "coffee/dark-roast",
-                            "status": "INACTIVE",
-                            "verification_status": "UNVERIFIED"
+                            "status": "ACTIVE",
+                            "verification_status": "VERIFIED"
                         }
                     }
                 ],
@@ -307,8 +307,8 @@
                             "product_unit_id": 3,
                             "producer": "Cookie Delights",
                             "code": "cookies/oatmeal-raisin",
-                            "status": "INACTIVE",
-                            "verification_status": "UNVERIFIED"
+                            "status": "ACTIVE",
+                            "verification_status": "VERIFIED"
                         }
                     }
                 ],
@@ -316,22 +316,22 @@
                     {
                         "name": "Cookie Lublin Warehouse",
                         "description": "Lublin cookie warehouse",
-                        "company_id": 1
+                        "company_id": 2
                     },
                     {
                         "name": "Cookie Kraków Warehouse",
                         "description": "Kraków cookie warehouse",
-                        "company_id": 1
+                        "company_id": 2
                     },
                     {
                         "name": "Cookie Warszawa Warehouse",
                         "description": "Warszawa cookie warehouse",
-                        "company_id": 1
+                        "company_id": 2
                     },
                     {
                         "name": "Cookie Wrocław Warehouse",
                         "description": "Wrocław cookie warehouse",
-                        "company_id": 1
+                        "company_id": 2
                     }
                 ]
             }

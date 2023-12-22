@@ -26,6 +26,10 @@ class OrderService extends BasicService
         $company = $user->company;
         $companyBalance = $company->companyBalances;
         $offer = ProductOffer::findOrFail($request->offerId);
+        if($offer->status == 0)
+        {
+            throw new ProductOfferNotFoundException();
+        }
         $offerCompany = $offer->product->company;
 
         if($offerCompany->id == $company->id)

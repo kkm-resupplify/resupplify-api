@@ -15,6 +15,7 @@ class ProductWarehouse extends Pivot
         'warehouse_id',
         'quantity',
         'status',
+        'safe_quantity',
     ];
     protected $casts = [
         'status' => ProductStatusEnum::class,

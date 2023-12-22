@@ -8,6 +8,7 @@ use App\Models\Product\Product;
 use Illuminate\Database\Seeder;
 use App\Models\Product\ProductTag;
 use Spatie\Permission\Models\Role;
+use App\Models\Warehouse\Warehouse;
 use App\Models\Product\ProductOffer;
 use Illuminate\Support\Facades\File;
 use App\Models\Company\CompanyMember;
@@ -41,6 +42,7 @@ class UserSeeder extends Seeder
         Product::truncate();
         CompanyBalance::truncate();
         CompanyBalanceTransaction::truncate();
+        Warehouse::truncate();
         ProductWarehouse::truncate();
         ProductOffer::truncate();
         LanguageProduct::truncate();
@@ -95,7 +97,6 @@ class UserSeeder extends Seeder
 
             foreach($companyData['warehouses'] as $warehouse){
                 $warehouse = $company->warehouses()->create($warehouse);
-
                 foreach($companyProducts as $product){
                     $safeQuantity = rand(1, 100);
                     $warehouseProductData = [
@@ -104,7 +105,7 @@ class UserSeeder extends Seeder
                         'status' => ProductStatusEnum::ACTIVE(),
                     ];
                     $product->warehouses()->attach($warehouse->id, $warehouseProductData);
-                    $productWarehouse = $product->warehouses()->find($warehouse->id)->products()->find($product->id);
+                    $productWarehouse = ProductWarehouse::where('warehouse_id', $warehouse->id)->where('product_id', $product->id)->first();
                     $startDate = date('Y-m-d H:i:s');
                     $endDate = date('Y-m-d H:i:s', strtotime('+2 days'));
                     $offer = new ProductOffer([
