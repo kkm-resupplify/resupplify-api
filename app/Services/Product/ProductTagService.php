@@ -2,28 +2,25 @@
 
 namespace App\Services\Product;
 
-use App\Resources\Product\ProductCategoryAndSubcategoryResource;
-use App\Resources\Product\ProductCategoryResource;
-use Illuminate\Support\Facades\Auth;
 use App\Exceptions\Company\WrongPermissions;
-use App\Services\BasicService;
-use App\Models\Product\ProductCategory;
-use App\Models\Product\ProductTag;
 use App\Http\Dto\Product\ProductTagDto;
-use Illuminate\Support\Str;
+use App\Models\Product\ProductTag;
 use App\Resources\Product\ProductTagResource;
+use App\Services\BasicService;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 
 class ProductTagService extends BasicService
 {
     public function getProductTags()
     {
-        return ProductTagResource::collection(Auth::user()->company->productTags);
+        return ProductTagResource::collection(app('authUser')->company->productTags);
     }
 
     public function createProductTag(ProductTagDto $request)
     {
-        $user = Auth::user();
+        $user = app('authUser');
         setPermissionsTeamId($user->company->id);
         if (!$user->can('Owner permissions')) {
             throw (new WrongPermissions());
@@ -32,7 +29,7 @@ class ProductTagService extends BasicService
             'name' => $request->name,
             'slug' => Str::slug($request->name),
             'color' => $request->color,
-            'company_id' => Auth::user()->company->id,
+            'company_id' => app('authUser')->company->id,
         ];
         $tag = ProductTag::create($tagData);
         return $tag;
@@ -40,12 +37,12 @@ class ProductTagService extends BasicService
 
     public function updateProductTag(ProductTagDto $request, ProductTag $productTag)
     {
-        $user = Auth::user();
+        $user = app('authUser');
         setPermissionsTeamId($user->company->id);
         if (!$user->can('Owner permissions')) {
             throw (new WrongPermissions());
         }
-        if ($productTag->company_id != Auth::user()->company->id) {
+        if ($productTag->company_id != app('authUser')->company->id) {
             throw (new WrongPermissions());
         }
         $productTag->name = $request->name;
@@ -56,12 +53,12 @@ class ProductTagService extends BasicService
     }
     public function deleteProductTag(ProductTag $productTag)
     {
-        $user = Auth::user();
+        $user = app('authUser');
         setPermissionsTeamId($user->company->id);
         if (!$user->can('Owner permissions')) {
             throw (new WrongPermissions());
         }
-        if ($productTag->company_id != Auth::user()->company->id) {
+        if ($productTag->company_id != app('authUser')->company->id) {
             throw (new WrongPermissions());
         }
         $productTag->delete();

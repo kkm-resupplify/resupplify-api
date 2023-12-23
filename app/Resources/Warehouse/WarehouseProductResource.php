@@ -3,10 +3,6 @@
 namespace App\Resources\Warehouse;
 
 use App\Models\Product\Product;
-use App\Resources\BasicResource;
-use App\Resources\Product\ProductResource;
-use App\Resources\Roles\RoleResource;
-use App\Resources\User\UserDetailsResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Auth;
 
@@ -17,7 +13,7 @@ class WarehouseProductResource extends JsonResource
         return [
             'id' => $this->id,
             'product' => [
-                'name' => Product::find($this['pivot']->product_id)->languages[Auth::user()->language->id-1]->pivot->name,
+                'name' => Product::find($this['pivot']->product_id)->languages[app('authUser')->language->id-1]->pivot->name,
                 'status' => $this->status,
                 'verificationStatus' => $this->verification_status,
                 'code' => $this->code,

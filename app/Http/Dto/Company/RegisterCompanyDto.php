@@ -3,11 +3,10 @@
 namespace App\Http\Dto\Company;
 
 use App\Http\Dto\BasicDto;
-
-use Spatie\LaravelData\Attributes\Validation\Max;
 use Spatie\LaravelData\Attributes\Validation\Email;
-use Spatie\LaravelData\Attributes\Validation\Numeric;
+use Spatie\LaravelData\Attributes\Validation\Max;
 use Spatie\LaravelData\Attributes\Validation\Nullable;
+use Spatie\LaravelData\Attributes\Validation\Numeric;
 use Spatie\LaravelData\Attributes\Validation\Required;
 
 
@@ -47,7 +46,7 @@ class RegisterCompanyDto extends BasicDto
 
     #[Required]
     public string $tin;
-    
+
     #[Nullable]
     public string $contactPerson;
 

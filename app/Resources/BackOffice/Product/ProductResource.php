@@ -2,17 +2,15 @@
 
 namespace App\Resources\BackOffice\Product;
 
-use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Facades\Auth;
-
-use App\Resources\Product\ProductProductTagResource;
+use App\Resources\Product\ProductTagResource;
 use App\Resources\Product\ProductUnitResource;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class ProductResource extends JsonResource
 {
     public function toArray($request)
     {
-        $languageId = Auth::user()->language->id - 1;
+        $languageId = app('authUser')->language->id - 1;
 
         return [
             'id' => $this->id,
@@ -32,7 +30,7 @@ class ProductResource extends JsonResource
                 'id' => $this->productSubcategory->id,
                 'name' => $this->productSubcategory->languages[$languageId]->pivot->name,
             ],
-            'productTags' => ProductProductTagResource::collection($this->productTags),
+            'productTags' => ProductTagResource::collection($this->productTags),
         ];
     }
 }

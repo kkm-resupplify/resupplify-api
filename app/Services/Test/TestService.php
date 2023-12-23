@@ -5,16 +5,14 @@ namespace App\Services\Test;
 
 
 use App\Services\BasicService;
-use App\Models\User\User;
 use Illuminate\Support\Facades\Auth;
-use Spatie\Permission\Models\Role;
 
 
 class TestService extends BasicService
 {
     public function roleTest()
     {
-        $user = Auth::user();
+        $user = app('authUser');
         setPermissionsTeamId($user->company->id);
         // return $user->hasRole('Company owner');
         //return $all_users_with_all_their_roles = User::with('roles')->get();
@@ -32,7 +30,7 @@ class TestService extends BasicService
         // {
         //     throw new CantCreateUserInvitationException();
         // }
-        // $company = Auth::user()->company;
+        // $company = app('authUser')->company;
         // $roles = DB::table('roles')->where('team_id', '=', $company->id)->get();
     }
     public function langTest()

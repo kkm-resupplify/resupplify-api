@@ -2,13 +2,11 @@
 
 namespace App\Models\Product;
 
+use App\Models\Company\Company;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Spatie\Permission\Traits\HasRoles;
-
-use App\Models\Company\Company;
-use App\Models\Product\Product;
 
 class ProductTag extends Model
 {

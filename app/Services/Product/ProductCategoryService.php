@@ -1,18 +1,17 @@
 <?php
 
 namespace App\Services\Product;
+use App\Models\Product\ProductCategory;
 use App\Resources\Product\ProductCategoryAndSubcategoryResource;
 use App\Resources\Product\ProductCategoryResource;
-use Illuminate\Support\Facades\Auth;
-
 use App\Services\BasicService;
-use App\Models\Product\ProductCategory;
+use Illuminate\Support\Facades\Auth;
 
 class ProductCategoryService extends BasicService
 {
     public function getProductCategories()
     {
-        $user = Auth::user();
+        $user = app('authUser');
         return ProductCategoryResource::collection(ProductCategory::whereHas('languages', function ($query) use (
             $user
         ) {
@@ -25,7 +24,7 @@ class ProductCategoryService extends BasicService
             ])
             ->get());
     }
-    
+
     public function getProductCategory(ProductCategory $productCategory)
     {
         return new ProductCategoryAndSubcategoryResource($productCategory);

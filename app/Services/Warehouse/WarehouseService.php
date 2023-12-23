@@ -4,21 +4,21 @@ namespace App\Services\Warehouse;
 
 use App\Exceptions\Company\WrongPermissions;
 use App\Exceptions\Warehouse\WarehouseDataNotAccessible;
-use App\Services\BasicService;
+use App\Helpers\PaginationTrait;
 use App\Http\Dto\Warehouse\WarehouseDto;
 use App\Models\Warehouse\Warehouse;
 use App\Resources\Warehouse\WarehouseResource;
+use App\Services\BasicService;
 use Illuminate\Support\Facades\Auth;
-use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
-use App\Helpers\PaginationTrait;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class WarehouseService extends BasicService
 {
     use PaginationTrait;
     public function createWarehouse(WarehouseDto $request)
     {
-        $user = Auth::user();
+        $user = app('authUser');
         setPermissionsTeamId($user->company->id);
         if(!$user->can('Owner permissions')) {
             throw(new WrongPermissions());
@@ -35,7 +35,7 @@ class WarehouseService extends BasicService
 
     public function getWarehouse(Warehouse $warehouse)
     {
-        $warehouses = Auth::user()->company->warehouses;
+        $warehouses = app('authUser')->company->warehouses;
         if (!$warehouses->contains($warehouse))
         {
             throw(new WarehouseDataNotAccessible());
@@ -45,7 +45,7 @@ class WarehouseService extends BasicService
 
     public function getWarehouses()
     {
-        $warehouses= QueryBuilder::for(Warehouse::where('company_id', '=', Auth::user()->company->id))
+        $warehouses= QueryBuilder::for(Warehouse::where('company_id', '=', app('authUser')->company->id))
             ->allowedFilters(AllowedFilter::partial('name'))->fastPaginate(config('paginationConfig.WAREHOUSES'));
         $pagination = $this->paginate($warehouses);
         return array_merge($pagination, WarehouseResource::collection($warehouses)->toArray(request()));
@@ -53,12 +53,12 @@ class WarehouseService extends BasicService
 
     public function editWarehouse(WarehouseDto $request, Warehouse $warehouse)
     {
-        $user = Auth::user();
+        $user = app('authUser');
         setPermissionsTeamId($user->company->id);
         if(!$user->can('Owner permissions')) {
             throw(new WrongPermissions());
         }
-        $warehouses = Auth::user()->company->warehouses;
+        $warehouses = app('authUser')->company->warehouses;
         if (!$warehouses->contains($warehouse))
         {
             throw(new WarehouseDataNotAccessible());
@@ -72,12 +72,12 @@ class WarehouseService extends BasicService
 
     public function deleteWarehouse(Warehouse $warehouse)
     {
-        $user = Auth::user();
+        $user = app('authUser');
         setPermissionsTeamId($user->company->id);
         if(!$user->can('Owner permissions')) {
             throw(new WrongPermissions());
         }
-        $warehouses = Auth::user()->company->warehouses;
+        $warehouses = app('authUser')->company->warehouses;
         if (!$warehouses->contains($warehouse))
         {
             throw(new WarehouseDataNotAccessible());

@@ -2,6 +2,7 @@
 
 namespace App\Services\Product;
 
+
 use App\Exceptions\Company\WrongPermissions;
 use App\Exceptions\Product\ProductNotFoundException;
 use App\Exceptions\Product\ProductTagDontBelongToThisCompanyException;
@@ -16,11 +17,11 @@ use App\Models\Product\Enums\ProductVerificationStatusEnum;
 use App\Models\Product\Product;
 use App\Resources\Product\ProductResource;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Spatie\QueryBuilder\QueryBuilder;
-use Spatie\QueryBuilder\AllowedFilter;
 use App\Models\Language\Language;
-use Illuminate\Support\Arr;
+use Spatie\QueryBuilder\AllowedFilter;
 
 class ProductService extends Controller
 {
@@ -28,12 +29,11 @@ class ProductService extends Controller
 
     public function createProduct(ProductDto $request)
     {
-        $user = Auth::user();
+        $user = app('authUser');
         setPermissionsTeamId($user->company->id);
         if (!$user->can('Owner permissions')) {
             throw new WrongPermissions();
         }
-
         $languages = Language::all();
 
         foreach ($request->translations as $language) {
@@ -42,11 +42,9 @@ class ProductService extends Controller
                 throw new ProductTranslationException();
             }
         }
-
         if ($request->translations < Count(Language::all())) {
             throw new ProductTranslationException();
         }
-
         $productData = [
             'producer' => $request->producer,
             'code' => $request->code,
@@ -57,6 +55,24 @@ class ProductService extends Controller
             'verification_status' => ProductVerificationStatusEnum::UNVERIFIED(),
             'product_tags_id' => $request->productTagsId,
         ];
+        $productTags = $user->company->load('productTags')->productTags;
+        $invalidTags = "";
+        $productTagsId = Arr::get($productData, 'product_tags_id', []);
+        if ($productData['product_tags_id'] !== null) {
+        foreach ($productTagsId as $productTagsId)
+        {
+          if(!$productTags->contains(function ($productTag) use ($productTagsId) {
+              return $productTag->id == $productTagsId;
+          }))
+          {
+            $invalidTags .= ' '.$productTagsId;
+          }
+        }
+        if(strlen($invalidTags) > 0)
+        {
+            throw (new ProductTagDontBelongToThisCompanyException($invalidTags));
+        }
+        }
 
         $productTags = $user->company->load('productTags')->productTags;
         $invalidTags = "";
@@ -84,12 +100,13 @@ class ProductService extends Controller
                 ['name' => $value['name'], 'description' => $value['description']]
             );
         }
+
         return new ProductResource($product);
     }
 
     public function deleteProduct(Product $product)
     {
-        $user = Auth::user();
+        $user = app('authUser');
         $company = $user->company->products;
         setPermissionsTeamId($user->company->id);
         if (!$user->can('Owner permissions')) {
@@ -109,7 +126,7 @@ class ProductService extends Controller
 
     public function getProducts()
     {
-        $user = Auth::user();
+        $user = app('authUser');
         $products =  QueryBuilder::for($user->company->products())->allowedFilters([
             AllowedFilter::exact('status'),
             AllowedFilter::exact('verificationStatus', 'verification_status'),
@@ -124,7 +141,7 @@ class ProductService extends Controller
 
     public function editProduct(ProductDto $request, Product $product)
     {
-        $user = Auth::user();
+        $user = app('authUser');
         setPermissionsTeamId($user->company->id);
 
         if (!$user->can('Owner permissions')) {
@@ -170,7 +187,6 @@ class ProductService extends Controller
                 ]
             ]);
         }
-
         $product->save();
 
         return new ProductResource($product);
@@ -178,7 +194,7 @@ class ProductService extends Controller
 
     public function massAssignProductStatus(Request $request)
     {
-        $user = Auth::user();
+        $user = app('authUser');
         setPermissionsTeamId($user->company->id);
         $companyProducts = $user->company->products;
         $requestProducts = $request->productIdList;
@@ -195,7 +211,7 @@ class ProductService extends Controller
 
     public function getProductStats()
     {
-        $user = Auth::user();
+        $user = app('authUser');
         $company = $user->company;
         $products = $company->products;
 

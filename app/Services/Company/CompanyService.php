@@ -2,36 +2,32 @@
 
 namespace App\Services\Company;
 
-use App\Exceptions\Company\CantDeleteThisUserException;
 use App\Exceptions\Company\CompanyNameTakenException;
-use App\Exceptions\Company\CompanyNotFoundException;
 use App\Exceptions\Company\WrongPermissions;
 use App\Exceptions\User\UserAlreadyHaveCompany;
-use App\Http\Dto\Company\RegisterCompanyDto;
 use App\Http\Dto\Company\RegisterCompanyDetailsDto;
+use App\Http\Dto\Company\RegisterCompanyDto;
 use App\Models\Company\Company;
+use App\Models\Company\CompanyBalance;
 use App\Models\Company\CompanyDetails;
 use App\Models\Company\CompanyMember;
+use App\Models\Company\Enums\CompanyStatusEnum;
 use App\Resources\Company\CompanyCollection;
-use App\Resources\Roles\PermissionResource;
+use App\Resources\Company\CompanyResource;
 use App\Resources\Roles\RoleResource;
 use App\Services\BasicService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
-use App\Models\Company\Enums\CompanyStatusEnum;
-use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
-use App\Resources\Company\CompanyResource;
-use App\Resources\Roles\PermissionCollection;
-
+use Spatie\Permission\Models\Role;
 
 
 class CompanyService extends BasicService
 {
     public function createCompany(RegisterCompanyDto $request)
     {
-        $user = Auth::user();
+        $user = app('authUser');
 
         if (Company::where('name', '=', $request->name)->exists()) {
             throw(new CompanyNameTakenException());
@@ -49,9 +45,8 @@ class CompanyService extends BasicService
             'owner_id' => $user->id,
             'status' => CompanyStatusEnum::UNVERIFIED(),
         ];
-        // TODO: Add CompanyDetails from the request
+
         $createdCompany = new Company($company);
-        $createdCompany->save();
         $createdCompany -> owner()->associate($user)->save();
         $companyDetails = [
             'country_id' => $request->countryId,
@@ -66,9 +61,9 @@ class CompanyService extends BasicService
             'contact_person' => $request->contactPerson,
         ];
         $createdCompanyDetails = new CompanyDetails($companyDetails);
-        // $createdCompanyDetails -> company()->associate($createdCompany);
-        // $createdCompanyDetails->save();
         $createdCompany->companyDetails()->save($createdCompanyDetails);
+        $companyBalance = new CompanyBalance(['company_id' => $createdCompany->id,'balance' => 0]);
+        $createdCompany->companyBalances()->save($companyBalance);
         $role = [
             Role::create(['name' => 'Company owner', 'team_id' => $createdCompany->id, 'guard_name' => 'sanctum']),
             Role::create(['name' => 'Company admin', 'team_id' => $createdCompany->id, 'guard_name' => 'sanctum']),
@@ -101,13 +96,13 @@ class CompanyService extends BasicService
     }
     public function getUserCompany()
     {
-        $company = Auth::user()->company;
+        $company = app('authUserCompany');
         return new CompanyResource(Company::with("companyDetails")->findOrFail($company->id));
     }
 
     public function getCompanyRoles()
     {
-        return RoleResource::collection(Role::where('team_id', '=', Auth::user()->company->id)->get());
+        return RoleResource::collection(Role::where('team_id', '=', app('authUserCompany')->id)->get());
     }
 
     public function getCompanyRolesPermissions()
@@ -118,8 +113,8 @@ class CompanyService extends BasicService
     public function editCompany(RegisterCompanyDetailsDto $companyDetailsRequest, RegisterCompanyDto $companyRequest, Request $request)
     {
 
-        $user = Auth::user();
-        $company = Auth::user()->company;
+        $user = app('authUser');
+        $company = app('authUserCompany');
         $companyDetails = $company->companyDetails;
         if (Company::where('name', '=', $company->name)->where('id', '<>', $company->id)->exists()) {
             throw(new CompanyNameTakenException());

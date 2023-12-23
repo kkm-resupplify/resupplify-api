@@ -6,9 +6,9 @@ use App\Exceptions\General\ValidationFailedException;
 use App\Http\Dto\User\UserDetailsDto;
 use App\Models\User\UserDetails;
 use App\Exceptions\User\UserDetailsAlreadyExistsException;
+use App\Resources\User\UserDetailsResource;
 use App\Services\BasicService;
 use Illuminate\Support\Facades\Auth;
-use App\Resources\User\UserDetailsResource;
 use App\Models\Language\Language;
 use Illuminate\Support\Facades\App;
 use Illuminate\Http\Request;
@@ -17,7 +17,7 @@ class UserDetailsService extends BasicService
 {
     public function creatUserData(UserDetailsDto $request)
     {
-        $user = Auth::user();
+        $user = app('authUser');
 
         if (UserDetails::where('user_id', $user->id)->exists()) {
             throw new UserDetailsAlreadyExistsException();
@@ -37,7 +37,7 @@ class UserDetailsService extends BasicService
 
     public function editUserData(UserDetailsDto $request)
     {
-        $user = Auth::user();
+        $user = app('authUser');
         $userDetails = UserDetails::where('user_id', $user->id)->first();
 
         if (!isset($userDetails)) {
@@ -56,7 +56,7 @@ class UserDetailsService extends BasicService
 
     public function changeUserLanguage(Request $request)
     {
-        $user = Auth::user();
+        $user = app('authUser');
         $language = Language::findOrFail($request->languageId);
         $user->language_id = $language->id;
         $user->save();

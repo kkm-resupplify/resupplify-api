@@ -2,23 +2,18 @@
 
 namespace App\Services\Auth;
 
-use App\Models\User\Enums\UserTypeEnum;
-use Illuminate\Support\Facades\Hash;
-
-use App\Http\Dto\User\LoginDto;
-use App\Http\Dto\User\PortalRegisterDto;
-
 use App\Exceptions\Auth\FailedLoginException;
 use App\Exceptions\User\UserAlreadyExistsException;
-
+use App\Http\Dto\User\BackOfficeRegisterDto;
+use App\Http\Dto\User\LoginDto;
+use App\Http\Dto\User\PortalRegisterDto;
+use App\Models\User\Enums\UserTypeEnum;
 use App\Models\User\User;
 use App\Models\User\UserDetails;
-use App\Http\Dto\User\BackOfficeRegisterDto;
-
-use App\Services\BasicService;
-
-use App\Resources\User\UserLoginResource;
 use App\Resources\User\AdminLoginResource;
+use App\Resources\User\UserLoginResource;
+use App\Services\BasicService;
+use Illuminate\Support\Facades\Hash;
 
 class AuthService extends BasicService
 {
@@ -95,7 +90,7 @@ class AuthService extends BasicService
 
         $user->details = UserDetails::where('user_id', '=', $user->id)->first();
         $token = $user->createToken('resupplify-token')->plainTextToken;
-        
+
         return new AdminLoginResource(['user' => $user, 'token' => $token]);
     }
 }

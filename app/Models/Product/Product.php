@@ -2,25 +2,19 @@
 
 namespace App\Models\Product;
 
+use App\Models\Company\Company;
 use App\Models\Language\Language;
 use App\Models\Warehouse\Warehouse;
+use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Product\Enums\ProductStatusEnum;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
-use Spatie\Permission\Traits\HasRoles;
-
-use App\Models\Company\Company;
-use App\Models\Product\ProductTag;
-use App\Models\Product\ProductCategory;
-use App\Models\Product\ProductSubcategory;
-use App\Models\Product\ProductUnit;
-use App\Models\Product\ProductImage;
-
-use App\Models\Product\Enums\ProductStatusEnum;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use App\Models\Product\Enums\ProductVerificationStatusEnum;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Product extends Model
 {
@@ -46,12 +40,6 @@ class Product extends Model
     public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class);
-    }
-
-    public function warehouses(): BelongsToMany
-    {
-        return $this->belongsToMany(Warehouse::class, 'product_warehouse')
-        ->withPivot(['quantity','safe_quantity','status']);
     }
 
     public function productTags(): BelongsToMany
@@ -85,5 +73,23 @@ class Product extends Model
     public function languages(): BelongsToMany
     {
         return $this->belongsToMany(Language::class,'language_product')->withPivot(['name', 'description']);
+    }
+
+    public function productOffers(): HasManyThrough
+    {
+        return $this->hasManyThrough(
+            ProductOffer::class,
+            ProductWarehouse::class,
+            'product_id',
+            'company_product_id',
+            'id',
+            'id'
+        );
+    }
+
+    public function warehouses(): BelongsToMany
+    {
+        return $this->belongsToMany(Warehouse::class, 'product_warehouse')
+        ->withPivot(['quantity','safe_quantity','status']);
     }
 }

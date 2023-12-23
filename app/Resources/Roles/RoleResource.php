@@ -4,8 +4,6 @@ namespace App\Resources\Roles;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Resources\Company\CompanyDetailsResource;
-use App\Resources\Roles\PermissionResource;
 
 
 class RoleResource extends JsonResource

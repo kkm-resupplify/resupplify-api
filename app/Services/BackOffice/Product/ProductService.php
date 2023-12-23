@@ -2,18 +2,13 @@
 
 namespace App\Services\BackOffice\Product;
 
-use App\Exceptions\Product\ProductNotFoundException;
 use App\Exceptions\Product\ProductAlreadyVerifiedException;
-
-use App\Services\BasicService;
-
-use App\Models\Product\Enums\ProductVerificationStatusEnum;
-
-use App\Resources\BackOffice\Product\ProductResource;
-
+use App\Exceptions\Product\ProductNotFoundException;
 use App\Http\Dto\Product\ProductMassVerifyDto;
-
+use App\Models\Product\Enums\ProductVerificationStatusEnum;
 use App\Models\Product\Product;
+use App\Resources\BackOffice\Product\ProductResource;
+use App\Services\BasicService;
 
 class ProductService extends BasicService
 {

@@ -2,13 +2,10 @@
 
 namespace App\Http\Controllers\BackOffice\Company;
 
-use Illuminate\Http\JsonResponse;
-
-use App\Services\BackOffice\Company\CompanyService;
-
 use App\Http\Controllers\Controller;
-
 use App\Http\Dto\Company\CompanyMassVerifyDto;
+use App\Services\BackOffice\Company\CompanyService;
+use Illuminate\Http\JsonResponse;
 
 class CompanyController extends Controller
 {

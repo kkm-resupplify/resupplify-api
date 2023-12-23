@@ -3,8 +3,8 @@
 namespace App\Http\Dto\Product;
 
 use App\Http\Dto\BasicDto;
-
 use Spatie\LaravelData\Attributes\Validation\Max;
+
 
 class ProductDto extends BasicDto
 {

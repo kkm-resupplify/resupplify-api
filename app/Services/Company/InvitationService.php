@@ -6,11 +6,11 @@ use App\Exceptions\Company\CantCreateUserInvitationRoleException;
 use App\Exceptions\Role\RoleNotFoundException;
 use App\Http\Dto\Company\UserInvitationCodes;
 use App\Models\Company\UserInvitationCode;
+use App\Services\BasicService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use App\Services\BasicService;
-use Spatie\Permission\Models\Role;
 use Ramsey\Uuid\Uuid;
+use Spatie\Permission\Models\Role;
 
 
 class InvitationService extends BasicService
@@ -18,9 +18,9 @@ class InvitationService extends BasicService
     //TODO: Sprawdzenie czy user ma uprawnienia żeby stworzyć zaproszenie
     public function createUserInvitation(UserInvitationCodes $request)
     {
-        $user = Auth::user();
+        $user = app('authUser');
         setPermissionsTeamId($user->company->id);
-        $company = Auth::user()->company;
+        $company = app('authUser')->company;
         $roles = DB::table('roles')->where('team_id', '=', $company->id)->get();
         if (in_array($request->roleId, $roles->pluck('id')->toArray())) {
             $role = Role::find($request->roleId);

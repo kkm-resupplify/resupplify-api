@@ -8,7 +8,6 @@ use App\Http\Dto\Warehouse\WarehouseProductMassStatusUpdateDto;
 use App\Models\Product\Product;
 use App\Models\Warehouse\Warehouse;
 use App\Services\Warehouse\WarehouseProductService;
-use Illuminate\Http\Request;
 
 
 class WarehouseProductController extends Controller

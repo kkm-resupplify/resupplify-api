@@ -1,23 +1,25 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Portal\Order\OrderController;
+use App\Http\Controllers\AuthController as AuthController;
+use App\Http\Controllers\Portal\Company\CompanyController;
+use App\Http\Controllers\Portal\Product\ProductController;
+use App\Http\Controllers\Portal\Product\ProductTagController;
+use App\Http\Controllers\Portal\Product\ProductUnitController;
+use App\Http\Controllers\Portal\Warehouse\WarehouseController;
+use App\Http\Controllers\Test\TestController as TestController;
 use App\Http\Controllers\Portal\Company\CompanyMemberController;
 use App\Http\Controllers\Portal\Product\ProductCategoryController;
-use App\Http\Controllers\Portal\Product\ProductSubcategoryController;
-use App\Http\Controllers\Portal\Product\ProductController;
-use App\Http\Controllers\Portal\Warehouse\WarehouseController;
-use App\Http\Controllers\Portal\Warehouse\WarehouseProductController;
-use App\Http\Controllers\Test\TestController as TestController;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController as AuthController;
-use App\Http\Controllers\Portal\User\UserController as UserController;
-use App\Http\Controllers\Portal\Company\CompanyController;
-use App\Http\Controllers\Portal\Product\ProductTagController;
 use App\Http\Controllers\Portal\Product\ProductProductTagController;
-use App\Http\Controllers\Portal\Product\ProductUnitController;
+use App\Http\Controllers\Portal\Product\ProductSubcategoryController;
+use App\Http\Controllers\Portal\Warehouse\WarehouseProductController;
+use App\Http\Controllers\Portal\User\UserController as UserController;
 use App\Http\Controllers\BackOffice\Country\CountryController as CountryController;
-use App\Http\Controllers\BackOffice\Company\CompanyCategoryController as CompanyCategoryController;
 use App\Http\Controllers\BackOffice\Company\InvitationController as InvitationController;
-
+use App\Http\Controllers\Portal\Product\ProductOfferController as ProductOfferController;
+use App\Http\Controllers\Portal\Company\CompanyBalanceController as CompanyBalanceController;
+use App\Http\Controllers\BackOffice\Company\CompanyCategoryController as CompanyCategoryController;
 Route::post('register', [AuthController::class, 'register'])->name('register');
 Route::post('login', [AuthController::class, 'login']);
 Route::get('country', [CountryController::class, 'index']);
@@ -29,6 +31,7 @@ const HAS_COMPANY_MIDDLEWARE = 'hasCompany';
 
 Route::middleware(AUTH_SANCTUM_MIDDLEWARE)->group(function () {
   Route::get('user', [UserController::class, 'index']);
+  Route::post('user/language', [UserController::class, 'language']);
   Route::post('test', [TestController::class, 'test'])->middleware(HAS_COMPANY_MIDDLEWARE);
   Route::get('test', [TestController::class, 'roleTest']);
   Route::post('user/language', [UserController::class, 'language']);
@@ -59,6 +62,14 @@ Route::middleware(AUTH_SANCTUM_MIDDLEWARE)->prefix('company')->group(function ()
   Route::post('productMassAssign', [ProductController::class, 'massAssignProductsStatus'])
     ->middleware(HAS_COMPANY_MIDDLEWARE);
   Route::resource('companyCategories', CompanyCategoryController::class);
+  Route::get('balance/transaction', [CompanyBalanceController::class,'showBalanceOperations']);
+  Route::resource('balance', CompanyBalanceController::class);
+  Route::get('productOffer/deactivateOffer/{id}', [ProductOfferController::class,'deactivateOffer']);
+  Route::get('productOffer/stockItems', [ProductOfferController::class,'possitions']);
+  Route::get('productOffer/companyOffers', [ProductOfferController::class,'getCompanyOffers']);
+  Route::resource('productOffer', ProductOfferController::class);
+  Route::get('productOfferStatus', [ProductOfferController::class,'changeStatus']);
+  Route::resource('order', OrderController::class);
 });
 
 const WAREHOUSE_PRODUCT_CRUD_ROUTE_SUFFIX = 'warehouse/{warehouse}/product/{product}';

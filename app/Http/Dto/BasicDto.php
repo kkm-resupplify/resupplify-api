@@ -2,10 +2,10 @@
 
 namespace App\Http\Dto;
 
-use App\Helpers\ThrowExceptionTrait;
-use Spatie\LaravelData\Data;
-use Illuminate\Validation\Validator;
 use App\Exceptions\General\ValidationFailedException;
+use App\Helpers\ThrowExceptionTrait;
+use Illuminate\Validation\Validator;
+use Spatie\LaravelData\Data;
 
 class BasicDto extends Data
 {

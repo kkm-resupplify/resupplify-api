@@ -3,15 +3,12 @@
 namespace App\Models\Product;
 
 
+use App\Models\Language\Language;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
-
-use App\Models\Product\ProductSubcategory;
-use App\Models\Product\Product;
-use App\Models\Language\Language;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ProductCategory extends Model
 {
