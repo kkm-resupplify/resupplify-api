@@ -30,6 +30,7 @@ class ProductResource extends JsonResource
                 'id' => $this->productSubcategory->id,
                 'name' => $this->productSubcategory->languages[$languageId]->pivot->name,
             ],
+            'logoSrc' => 'https://via.placeholder.com/120',
             'productTags' => ProductTagResource::collection($this->productTags),
             'translations' => ProductTranslationResource::collection($this->languages),
         ];
