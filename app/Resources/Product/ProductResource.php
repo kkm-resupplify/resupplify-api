@@ -26,6 +26,7 @@ class ProductResource extends JsonResource
                 'name' => $this->productSubcategory->productCategory->languages[$languageId]->pivot->name,
             ],
             'productSubcategory' => [
+                'categoryId' => $this->productSubcategory->product_category_id,
                 'id' => $this->productSubcategory->id,
                 'name' => $this->productSubcategory->languages[$languageId]->pivot->name,
             ],
