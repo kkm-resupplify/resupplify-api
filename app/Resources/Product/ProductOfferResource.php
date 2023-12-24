@@ -1,7 +1,9 @@
 <?php
 
 namespace App\Resources\Product;
+
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Enums\DateFormatEnum;
 
 class ProductOfferResource extends JsonResource
 {
@@ -9,14 +11,15 @@ class ProductOfferResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'product' => new ProductResource($this->whenLoaded('product')),
             'price' => $this->price,
             'productQuantity' => $this->product_quantity,
+            'warehouseQuantity' => $this->productWarehouse->quantity,
             'status' => $this->status,
-            'createdAt' => $this->created_at->format('d-m-Y H:i:s'),
-            'updatedAt' => $this->updated_at->format('d-m-Y H:i:s'),
-            'startsAt' => $this->started_at->format('d-m-Y H:i:s'),
-            'endsAt' => $this->ended_at->format('d-m-Y H:i:s'),
+            'createdAt' => $this->created_at->format(DateFormatEnum::LONG()),
+            'updatedAt' => $this->updated_at->format(DateFormatEnum::LONG()),
+            'startsAt' => $this->started_at->format(DateFormatEnum::LONG()),
+            'endsAt' => $this->ended_at->format(DateFormatEnum::LONG()),
+            'product' => new ProductResource($this->whenLoaded('product')),
         ];
     }
 }

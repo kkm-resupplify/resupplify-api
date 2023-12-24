@@ -6,7 +6,6 @@ use App\Services\BasicService;
 use App\Helpers\PaginationTrait;
 use Illuminate\Support\Facades\DB;
 use App\Models\Product\ProductOffer;
-use Illuminate\Support\Facades\Auth;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
 use App\Http\Dto\Product\ProductOfferDto;
@@ -78,21 +77,25 @@ class ProductOfferService extends BasicService
             'started_at' => $request->startDate,
             'ended_at' => $request->endDate,
         ]);
-        // $companyWarehouses->products()->updateExistingPivot($request->productId,
-        // ['quantity' => $productInCompanyWarehouses->pivot->quantity - $request->productQuantity]);
 
         $offer->save();
         $offer->load('product');
+
         return new ProductOfferResource($offer);
     }
 
     public function getOffers()
     {
-        $company = app('authUserCompany');
-        $productOffers = ProductOffer::with('product')
-        ->whereDoesntHave('product', function ($query) use ($company) {
-            $query->where('company_id', $company->id);
-        });
+        // We prolly should fetch all products regardless -> in case one wants to see their own offers
+        // on the page with all offers
+
+        // $company = app('authUserCompany');
+        $productOffers = ProductOffer::with('product', 'productWarehouse');
+
+        // ->whereDoesntHave('product', function ($query) use ($company) {
+        //     $query->where('company_id', $company->id);
+        // });
+
         $offers = QueryBuilder::for($productOffers)->allowedFilters([
             AllowedFilter::exact('status'),
             AllowedFilter::custom('name', new ProductOfferNameFilter()),
@@ -102,19 +105,18 @@ class ProductOfferService extends BasicService
 
         $pagination = $this->paginate($offers);
 
-        return array_merge($pagination, ProductOfferResource::collection($offers)->toArray(request()));;
+        return array_merge($pagination, ProductOfferResource::collection($offers)->toArray(request()));
     }
 
     public function getOffer(ProductOffer $offer)
     {
-        $offer->load('product');
-        return new ProductOfferResource($offer);
+        return new ProductOfferResource($offer->load('product'));
     }
 
     public function getCompanyOffers()
     {
         $company = app('authUserCompany');
-        $offers = QueryBuilder::for($company->productOffers()->with('product'))->allowedFilters([
+        $offers = QueryBuilder::for($company->productOffers()->with('product', 'productWarehouse'))->allowedFilters([
             AllowedFilter::exact('status'),
             AllowedFilter::custom('name', new ProductOfferNameFilter()),
             AllowedFilter::exact('subcategoryId', 'product.product_subcategory_id'),
@@ -123,18 +125,19 @@ class ProductOfferService extends BasicService
 
         $pagination = $this->paginate($offers);
 
-        return array_merge($pagination, ProductOfferResource::collection($offers)->toArray(request()));;
+        return array_merge($pagination, ProductOfferResource::collection($offers)->toArray(request()));
     }
 
     public function changeStatus()
     {
         $currentDate = now();
+
         $activeOffers = ProductOffer::where('started_at', '<=', $currentDate)
             ->where('ended_at', '>=', $currentDate)
             ->update(['status' => ProductOfferStatusEnum::ACTIVE()]);
-
         $inactiveOffers = ProductOffer::where('ended_at', '<', $currentDate)
             ->update(['status' => ProductOfferStatusEnum::INACTIVE()]);
+
         return [$activeOffers, $inactiveOffers];
     }
 
@@ -143,8 +146,10 @@ class ProductOfferService extends BasicService
         if (!self::checkIfOfferIsCreatedByCompany($offer->id, app('authUserCompany')->id)) {
             throw new ProductOfferNotFoundException();
         }
+
         $offer->update(['status' => ProductOfferStatusEnum::INACTIVE()]);
         $offer->delete();
+
         return new ProductOfferResource($offer);
     }
 
@@ -155,6 +160,7 @@ class ProductOfferService extends BasicService
         $warehouseProduct = DB::table('product_warehouse')
             ->whereIn('warehouse_id', $companyWarehouses->pluck('id'))
             ->get();
+
         return ProductPositionInWarehouse::collection($warehouseProduct);
     }
 
@@ -162,9 +168,7 @@ class ProductOfferService extends BasicService
     {
         $offer = ProductOffer::where('id', $offerId)->first();
         $offerCompany = $offer->product->company;
-        if ($offerCompany->id == $companyId) {
-            return true;
-        }
-        return false;
+
+        return $offerCompany->id == $companyId;
     }
 }
