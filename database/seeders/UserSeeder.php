@@ -113,6 +113,7 @@ class UserSeeder extends Seeder
                         'product_quantity' => $safeQuantity/2,
                         'status' => 1,
                         'company_product_id' => $productWarehouse->id,
+                        'company_id' => $company->id,
                         'started_at' => $startDate,
                         'ended_at' => $endDate,
                     ]);

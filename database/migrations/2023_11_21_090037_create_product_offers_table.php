@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('product_offers', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('company_id')->constrained('companies')->onDelete('cascade')->onDelete('cascade');
             $table->foreignId('company_product_id')->constrained('product_warehouse')->onDelete('cascade')->onDelete('cascade');
             $table->float('price');
             $table->integer('product_quantity');

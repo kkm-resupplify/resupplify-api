@@ -75,6 +75,7 @@ class ProductOfferService extends BasicService
             'status' => $request->status,
             'company_product_id' => $warehouseProduct[0]->id,
             'started_at' => $request->startDate,
+            'company_id' => $company->id,
             'ended_at' => $request->endDate,
         ]);
 
