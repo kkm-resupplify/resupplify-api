@@ -5,13 +5,16 @@ namespace App\Resources\Product;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Enums\DateFormatEnum;
 use App\Resources\Company\CompanyResource;
+
 class ProductOfferResource extends JsonResource
 {
     public function toArray($request)
     {
         return [
             'id' => $this->id,
-            'company' => new CompanyResource($this->company),
+            'company' => $this->whenLoaded('company', function () {
+                return new CompanyResource($this->company);
+            }),
             'price' => $this->price,
             'productQuantity' => $this->product_quantity,
             'warehouseQuantity' => $this->productWarehouse->quantity,

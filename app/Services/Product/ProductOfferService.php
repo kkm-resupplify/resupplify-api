@@ -91,7 +91,7 @@ class ProductOfferService extends BasicService
         // on the page with all offers
 
         // $company = app('authUserCompany');
-        $productOffers = ProductOffer::with('product', 'productWarehouse');
+        $productOffers = ProductOffer::with('product', 'productWarehouse', 'company');
 
         // ->whereDoesntHave('product', function ($query) use ($company) {
         //     $query->where('company_id', $company->id);
