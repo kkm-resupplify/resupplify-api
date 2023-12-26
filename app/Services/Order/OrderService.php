@@ -79,12 +79,21 @@ class OrderService extends BasicService
         }
         $offer->save();
         $order = new Order([
-            'company_id' => $company->id,
+            'buyer_id' => $company->id,
+            'seller_id' => $offerCompanyBalance -> company_id,
             'status' => OrderStatusEnum::COMPLETED(),
         ]);
         $order->save();
         $order->productOffers()->attach($offer->id, ['offer_quantity' => $request->orderQuantity]);
         $order->load('productOffers');
         return $order;
+    }
+
+    public function getListOfOrdersPlacedByAuthCompany()
+    {
+        $user = app('authUser');
+        $company = $user->company;
+        $orders = Order::with('orderProductOffer')->get();
+        return $orders;
     }
 }

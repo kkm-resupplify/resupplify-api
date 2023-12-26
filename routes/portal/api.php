@@ -79,7 +79,7 @@ Route::middleware(AUTH_SANCTUM_MIDDLEWARE)->prefix('company')->group(function ()
 
   Route::post('productOffer', [ProductOfferController::class, 'store']);
   Route::get('productOffer', [ProductOfferController::class, 'index']);
-  
+
   Route::get('productOffer/deactivateOffer/{id}', [ProductOfferController::class,'deactivateOffer']);
   Route::get('productOffer/stockItems', [ProductOfferController::class,'possitions']);
   Route::get('productOffer/companyOffers', [ProductOfferController::class, 'getUserCompanyOffers']);
@@ -87,6 +87,7 @@ Route::middleware(AUTH_SANCTUM_MIDDLEWARE)->prefix('company')->group(function ()
   Route::get('productOfferStatus', [ProductOfferController::class,'changeStatus']);
 
   Route::resource('order', OrderController::class);
+  Route::get('companyOrders', [OrderController::class, 'getListOfOrdersPlacedByAuthCompany']);
 });
 
 const WAREHOUSE_PRODUCT_CRUD_ROUTE_SUFFIX = 'warehouse/{warehouse}/product/{product}';
