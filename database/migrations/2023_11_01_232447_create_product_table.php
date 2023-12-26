@@ -14,6 +14,8 @@ return new class extends Migration {
             $table->id();
             $table->string('producer');
             $table->string('code');
+            $table->string('image');
+            $table->string('image_alt')->nullable();
             $table->tinyInteger('status')->default(0);
             $table->tinyInteger('verification_status')->default(0);
             $table->foreignId('company_id')->constrained();

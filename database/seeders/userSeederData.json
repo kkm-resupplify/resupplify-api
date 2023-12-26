@@ -100,7 +100,9 @@
                             "producer": "Brazil Coffee Company",
                             "code": "coffee/grains",
                             "status": "ACTIVE",
-                            "verification_status": "VERIFIED"
+                            "verification_status": "VERIFIED",
+                            "image": "https://kkm-file-upload.s3.eu-north-1.amazonaws.com/uploads/1703623484_4x.webp",
+                            "image_alt": "Image alt"
                         }
                     },
                     {
@@ -124,7 +126,9 @@
                             "producer": "Global Roasters",
                             "code": "coffee/espresso",
                             "status": "ACTIVE",
-                            "verification_status": "VERIFIED"
+                            "verification_status": "VERIFIED",
+                            "image": "https://kkm-file-upload.s3.eu-north-1.amazonaws.com/uploads/1703623484_4x.webp",
+                            "image_alt": "Image alt"
                         }
                     },
                     {
@@ -148,7 +152,9 @@
                             "producer": "Green Harvest Co.",
                             "code": "coffee/organic",
                             "status": "ACTIVE",
-                            "verification_status": "VERIFIED"
+                            "verification_status": "VERIFIED",
+                            "image": "https://kkm-file-upload.s3.eu-north-1.amazonaws.com/uploads/1703623484_4x.webp",
+                            "image_alt": "Image alt"
                         }
                     },
                     {
@@ -172,7 +178,9 @@
                             "producer": "Dark Elegance Roasters",
                             "code": "coffee/dark-roast",
                             "status": "ACTIVE",
-                            "verification_status": "VERIFIED"
+                            "verification_status": "VERIFIED",
+                            "image": "https://kkm-file-upload.s3.eu-north-1.amazonaws.com/uploads/1703623484_4x.webp",
+                            "image_alt": "Image alt"
                         }
                     }
                 ],
@@ -284,7 +292,9 @@
                             "producer": "Cookie Delights",
                             "code": "cookies/chocolate-chip",
                             "status": "ACTIVE",
-                            "verification_status": "VERIFIED"
+                            "verification_status": "VERIFIED",
+                            "image": "https://kkm-file-upload.s3.eu-north-1.amazonaws.com/uploads/1703623484_4x.webp",
+                            "image_alt": "Image alt"
                         }
                     },
                     {
@@ -308,7 +318,9 @@
                             "producer": "Cookie Delights",
                             "code": "cookies/oatmeal-raisin",
                             "status": "ACTIVE",
-                            "verification_status": "VERIFIED"
+                            "verification_status": "VERIFIED",
+                            "image": "https://kkm-file-upload.s3.eu-north-1.amazonaws.com/uploads/1703623484_4x.webp",
+                            "image_alt": "Image alt"
                         }
                     }
                 ],

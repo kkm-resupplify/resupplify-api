@@ -3,25 +3,26 @@
 namespace App\Services\Product;
 
 
-use App\Exceptions\Company\WrongPermissions;
-use App\Exceptions\Product\ProductNotFoundException;
-use App\Exceptions\Product\ProductTagDontBelongToThisCompanyException;
-use App\Exceptions\Product\ProductTranslationException;
-use App\Filters\Product\ProductCategoryFilter;
-use App\Filters\Product\ProductNameFilter;
+use Illuminate\Support\Arr;
+use Illuminate\Http\Request;
+use App\Models\Product\Product;
 use App\Helpers\PaginationTrait;
+use App\Models\Language\Language;
 use App\Http\Controllers\Controller;
 use App\Http\Dto\Product\ProductDto;
-use App\Models\Product\Enums\ProductStatusEnum;
-use App\Models\Product\Enums\ProductVerificationStatusEnum;
-use App\Models\Product\Product;
-use App\Resources\Product\ProductResource;
-use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Spatie\QueryBuilder\QueryBuilder;
-use App\Models\Language\Language;
 use Spatie\QueryBuilder\AllowedFilter;
+use Illuminate\Support\Facades\Storage;
+use App\Filters\Product\ProductNameFilter;
+use App\Resources\Product\ProductResource;
+use App\Exceptions\Company\WrongPermissions;
+use App\Filters\Product\ProductCategoryFilter;
+use App\Models\Product\Enums\ProductStatusEnum;
+use App\Exceptions\Product\ProductNotFoundException;
+use App\Exceptions\Product\ProductTranslationException;
+use App\Models\Product\Enums\ProductVerificationStatusEnum;
+use App\Exceptions\Product\ProductTagDontBelongToThisCompanyException;
 
 class ProductService extends Controller
 {
@@ -31,9 +32,9 @@ class ProductService extends Controller
     {
         $user = app('authUser');
         setPermissionsTeamId($user->company->id);
-        if (!$user->can('Owner permissions')) {
-            throw new WrongPermissions();
-        }
+        // if (!$user->can('Owner permissions')) {
+        //     throw new WrongPermissions();
+        // }
         $languages = Language::all();
 
         foreach ($request->translations as $language) {
@@ -54,6 +55,8 @@ class ProductService extends Controller
             'status' => $request->status,
             'verification_status' => ProductVerificationStatusEnum::UNVERIFIED(),
             'product_tags_id' => $request->productTagsId,
+            'image' => '',
+            'image_alt'=>$request->imageAlt
         ];
         $productTags = $user->company->load('productTags')->productTags;
         $invalidTags = "";
@@ -88,6 +91,14 @@ class ProductService extends Controller
             if (strlen($invalidTags) > 0) {
                 throw new ProductTagDontBelongToThisCompanyException($invalidTags);
             }
+        }
+        if($request->image) {
+            $fileName = time().'_'.$request->image->getClientOriginalName();
+            $filePath = $request->image->storeAs('uploads', $fileName, 's3');
+
+            Storage::disk('s3')->setVisibility($filePath, 'public');
+
+            $productData['image'] = Storage::disk('s3')->url($filePath);
         }
 
         $product = new Product($productData);
@@ -144,9 +155,9 @@ class ProductService extends Controller
         $user = app('authUser');
         setPermissionsTeamId($user->company->id);
 
-        if (!$user->can('Owner permissions')) {
-            throw new WrongPermissions();
-        }
+        // if (!$user->can('Owner permissions')) {
+        //     throw new WrongPermissions();
+        // }
 
         $productData = [
             'producer' => $request->producer,
@@ -156,12 +167,22 @@ class ProductService extends Controller
             'company_id' => $user->company->id,
             'status' =>  $request->status,
             'product_tags_id' => $request->productTagsId ?? [],
+            'image' => $request->imageAlt,
+            'image_alt'=>$request->imageAlt
         ];
 
         $productTags = $user->company->load('productTags')->productTags;
         $invalidTags = "";
         $productTagsId = Arr::get($productData, 'product_tags_id', []);
+        if($request->image) {
 
+            $fileName = time().'_'.$request->image->getClientOriginalName();
+            $filePath = $request->image->storeAs('uploads', $fileName, 's3');
+
+            Storage::disk('s3')->setVisibility($filePath, 'public');
+
+            $productData['image'] = Storage::disk('s3')->url($filePath);
+        }
         $product->update($productData);
 
         if ($productData['product_tags_id'] != null) {
