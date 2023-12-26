@@ -55,6 +55,7 @@ Route::middleware(AUTH_SANCTUM_MIDDLEWARE)->prefix('preview')->group(function ()
     });
     Route::get('company/{slug}', [CompanyController::class, 'show']);
     Route::get('product/{slug}', [ProductController::class, 'show']);
+    Route::get('productOffer/{id}', [ProductOfferController::class, 'show']);
     });
 
 Route::middleware(AUTH_SANCTUM_MIDDLEWARE)->prefix('company')->group(function () {
@@ -77,6 +78,8 @@ Route::middleware(AUTH_SANCTUM_MIDDLEWARE)->prefix('company')->group(function ()
   Route::resource('balance', CompanyBalanceController::class);
 
   Route::post('productOffer', [ProductOfferController::class, 'store']);
+  Route::get('productOffer', [ProductOfferController::class, 'index']);
+  
   Route::get('productOffer/deactivateOffer/{id}', [ProductOfferController::class,'deactivateOffer']);
   Route::get('productOffer/stockItems', [ProductOfferController::class,'possitions']);
   Route::get('productOffer/companyOffers', [ProductOfferController::class, 'getUserCompanyOffers']);
