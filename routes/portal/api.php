@@ -58,7 +58,6 @@ Route::middleware(AUTH_SANCTUM_MIDDLEWARE)->prefix('preview')->group(function ()
     });
 
 Route::middleware(AUTH_SANCTUM_MIDDLEWARE)->prefix('company')->group(function () {
-  Route::resource('productOffer', ProductOfferController::class);
   Route::post('', [CompanyController::class, 'store']);
   Route::put('', [CompanyController::class, 'editCompany'])->middleware(HAS_COMPANY_MIDDLEWARE);
   Route::resource('productTag', ProductTagController::class)->middleware(HAS_COMPANY_MIDDLEWARE);
@@ -76,11 +75,14 @@ Route::middleware(AUTH_SANCTUM_MIDDLEWARE)->prefix('company')->group(function ()
   Route::resource('companyCategories', CompanyCategoryController::class);
   Route::get('balance/transaction', [CompanyBalanceController::class,'showBalanceOperations']);
   Route::resource('balance', CompanyBalanceController::class);
+
+  Route::post('productOffer', [ProductOfferController::class, 'store']);
   Route::get('productOffer/deactivateOffer/{id}', [ProductOfferController::class,'deactivateOffer']);
   Route::get('productOffer/stockItems', [ProductOfferController::class,'possitions']);
   Route::get('productOffer/companyOffers', [ProductOfferController::class, 'getUserCompanyOffers']);
   Route::get('productOffer/company/{slugOrId}', [ProductOfferController::class, 'getCompanyOffers']);
   Route::get('productOfferStatus', [ProductOfferController::class,'changeStatus']);
+
   Route::resource('order', OrderController::class);
 });
 
