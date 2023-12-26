@@ -12,6 +12,7 @@ use App\Models\Company\CompanyMember;
 use App\Resources\Roles\RoleResource;
 use App\Models\Company\CompanyBalance;
 use App\Models\Company\CompanyDetails;
+use Illuminate\Support\Facades\Storage;
 use Spatie\Permission\Models\Permission;
 use App\Resources\Company\CompanyResource;
 use App\Exceptions\Company\WrongPermissions;
@@ -22,6 +23,7 @@ use App\Models\Company\Enums\CompanyStatusEnum;
 use App\Http\Dto\Company\RegisterCompanyDetailsDto;
 use App\Exceptions\Company\CompanyNotFoundException;
 use App\Exceptions\Company\CompanyNameTakenException;
+use App\Http\Controllers\Portal\File\FileUploadController;
 
 
 class CompanyService extends BasicService
@@ -61,6 +63,14 @@ class CompanyService extends BasicService
             'tin' => $request->tin,
             'contact_person' => $request->contactPerson,
         ];
+        if($request->logo) {
+            $fileName = time().'_'.$request->logo->getClientOriginalName();
+            $filePath = $request->logo->storeAs('uploads', $fileName, 's3');
+
+            Storage::disk('s3')->setVisibility($filePath, 'public');
+
+            $companyDetails['logo'] = Storage::disk('s3')->url($filePath);
+        }
         $createdCompanyDetails = new CompanyDetails($companyDetails);
         $createdCompany->companyDetails()->save($createdCompanyDetails);
         $companyBalance = new CompanyBalance(['company_id' => $createdCompany->id,'balance' => 0]);

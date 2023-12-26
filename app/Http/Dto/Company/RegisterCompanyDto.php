@@ -3,11 +3,14 @@
 namespace App\Http\Dto\Company;
 
 use App\Http\Dto\BasicDto;
-use Spatie\LaravelData\Attributes\Validation\Email;
 use Spatie\LaravelData\Attributes\Validation\Max;
-use Spatie\LaravelData\Attributes\Validation\Nullable;
+use Spatie\LaravelData\Attributes\Validation\Size;
+use Spatie\LaravelData\Attributes\Validation\Email;
 use Spatie\LaravelData\Attributes\Validation\Numeric;
+use Spatie\LaravelData\Attributes\Validation\Nullable;
 use Spatie\LaravelData\Attributes\Validation\Required;
+use Spatie\LaravelData\Attributes\Validation\MimeTypes;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 
 class RegisterCompanyDto extends BasicDto
@@ -31,8 +34,9 @@ class RegisterCompanyDto extends BasicDto
     public string $phoneNumber;
 
     #[Nullable]
-    #[Max(300)]
-    public string $logo;
+    #[MimeTypes('image/png')]
+    #[Max(100)]
+    public UploadedFile $logo;
 
     #[Max(60)]
     public string $externalWebsite;

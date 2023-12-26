@@ -8,12 +8,8 @@ use App\Http\Controllers\Controller;
 
 class FileUploadController extends Controller
 {
-    public function upload(Request $request)
+    public function __invoke(Request $request)
     {
-        $request->validate([
-            'file' => 'required|mimes:jpg,png,jpeg|max:200',
-        ]);
-
         if($request->file()) {
             $fileName = time().'_'.$request->file->getClientOriginalName();
             $filePath = $request->file('file')->storeAs('uploads', $fileName, 's3');
