@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Portal\Order\OrderController;
 use App\Http\Controllers\AuthController as AuthController;
 use App\Http\Controllers\Portal\Company\CompanyController;
+use App\Http\Controllers\Portal\File\FileUploadController;
 use App\Http\Controllers\Portal\Product\ProductController;
 use App\Http\Controllers\Portal\Product\ProductTagController;
 use App\Http\Controllers\Portal\Product\ProductUnitController;
@@ -44,6 +45,7 @@ Route::middleware(AUTH_SANCTUM_MIDDLEWARE)->group(function () {
   Route::resource('productCategory', ProductCategoryController::class);
   Route::get('productSubcategory', [ProductSubcategoryController::class, 'index']);
   Route::get('productUnit', [ProductUnitController::class, 'index']);
+  Route::post('uploadFile', [FileUploadController::class, 'upload']);
 });
 
 Route::middleware(AUTH_SANCTUM_MIDDLEWARE)->prefix('company')->group(function () {
