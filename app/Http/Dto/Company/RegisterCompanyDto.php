@@ -34,7 +34,7 @@ class RegisterCompanyDto extends BasicDto
     public string $phoneNumber;
 
     #[Nullable]
-    #[MimeTypes('image/png')]
+    #[MimeTypes('image/webp')]
     #[Max(100)]
     public UploadedFile $logo;
 
