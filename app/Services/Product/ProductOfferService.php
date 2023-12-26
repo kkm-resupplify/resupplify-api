@@ -97,7 +97,7 @@ class ProductOfferService extends BasicService
         //     $query->where('company_id', $company->id);
         // });
 
-        return $offers = QueryBuilder::for($productOffers)->allowedFilters([
+        $offers = QueryBuilder::for($productOffers)->allowedFilters([
             AllowedFilter::exact('status'),
             AllowedFilter::custom('name', new ProductOfferNameFilter()),
             AllowedFilter::exact('subcategoryId', 'product.product_subcategory_id'),
