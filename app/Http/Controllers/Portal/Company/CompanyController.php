@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\Portal\Company;
 
-use App\Http\Controllers\Controller;
-use App\Http\Dto\Company\RegisterCompanyDetailsDto;
-use App\Http\Dto\Company\RegisterCompanyDto;
-use App\Models\Company\Company;
-use App\Services\Company\CompanyService;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use App\Models\Company\Company;
+use Illuminate\Http\JsonResponse;
+use App\Http\Controllers\Controller;
+use App\Services\Company\CompanyService;
+use App\Resources\Company\CompanyResource;
+use App\Http\Dto\Company\RegisterCompanyDto;
+use App\Http\Dto\Company\RegisterCompanyDetailsDto;
 
 class CompanyController extends Controller
 {
@@ -20,11 +21,6 @@ class CompanyController extends Controller
     public function index(CompanyService $companyService): JsonResponse
     {
         return $this->ok($companyService->getCompanies());
-    }
-
-    public function show(Company $company, CompanyService $companyService)
-    {
-        return $this->ok($companyService->getCompany($company));
     }
 
     public function getCompanyRoles(CompanyService $companyService)
@@ -45,5 +41,14 @@ class CompanyController extends Controller
     public function editCompany(RegisterCompanyDetailsDto $companyDetailsRequest, RegisterCompanyDto $companyRequest, CompanyService $companyService, Request $request): JsonResponse
     {
         return $this->ok($companyService->editCompany($companyDetailsRequest, $companyRequest, $request));
+    }
+
+    public function show($slugOrId): JsonResponse
+    {
+        $company = Company::where('id', $slugOrId)
+        ->orWhere('slug', $slugOrId)
+        ->firstOrFail();
+        $company->load('companyDetails');
+        return $this->ok(new CompanyResource($company));
     }
 }

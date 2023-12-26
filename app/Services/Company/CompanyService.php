@@ -2,25 +2,26 @@
 
 namespace App\Services\Company;
 
-use App\Exceptions\Company\CompanyNameTakenException;
-use App\Exceptions\Company\WrongPermissions;
-use App\Exceptions\User\UserAlreadyHaveCompany;
-use App\Http\Dto\Company\RegisterCompanyDetailsDto;
-use App\Http\Dto\Company\RegisterCompanyDto;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use App\Services\BasicService;
 use App\Models\Company\Company;
+use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Company\CompanyMember;
+use App\Resources\Roles\RoleResource;
 use App\Models\Company\CompanyBalance;
 use App\Models\Company\CompanyDetails;
-use App\Models\Company\CompanyMember;
-use App\Models\Company\Enums\CompanyStatusEnum;
-use App\Resources\Company\CompanyCollection;
-use App\Resources\Company\CompanyResource;
-use App\Resources\Roles\RoleResource;
-use App\Services\BasicService;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
 use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
+use App\Resources\Company\CompanyResource;
+use App\Exceptions\Company\WrongPermissions;
+use App\Http\Dto\Company\RegisterCompanyDto;
+use App\Resources\Company\CompanyCollection;
+use App\Exceptions\User\UserAlreadyHaveCompany;
+use App\Models\Company\Enums\CompanyStatusEnum;
+use App\Http\Dto\Company\RegisterCompanyDetailsDto;
+use App\Exceptions\Company\CompanyNotFoundException;
+use App\Exceptions\Company\CompanyNameTakenException;
 
 
 class CompanyService extends BasicService
@@ -83,11 +84,6 @@ class CompanyService extends BasicService
         $user->save();
         $user->companyMember()->save($companyMember);
         return new CompanyResource($createdCompany);
-    }
-
-    public function getCompany(Company $company)
-    {
-        return new CompanyResource($company->with("companyDetails")->first());
     }
 
     public function getCompanies()

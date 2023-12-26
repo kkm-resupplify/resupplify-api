@@ -49,12 +49,14 @@ Route::middleware(AUTH_SANCTUM_MIDDLEWARE)->group(function () {
 });
 
 Route::middleware(AUTH_SANCTUM_MIDDLEWARE)->prefix('company')->group(function () {
+  Route::resource('productOffer', ProductOfferController::class);
   Route::put('', [CompanyController::class, 'editCompany'])->middleware(HAS_COMPANY_MIDDLEWARE);
-  Route::resource('productTag', ProductTagController::class)->middleware('hasCompany');
+  Route::resource('productTag', ProductTagController::class)->middleware(HAS_COMPANY_MIDDLEWARE);
+  Route::get('/{slug}', [CompanyController::class, 'show'])->middleware(HAS_COMPANY_MIDDLEWARE);
   Route::resource('', CompanyController::class);
-  Route::resource('productTag/product', ProductProductTagController::class)->middleware('hasCompany');
-  Route::post('productTag/product' , [ProductProductTagController::class, 'store'])->middleware('hasCompany');
-  Route::delete('productTag/product', [ProductProductTagController::class, 'destroy'])->middleware('hasCompany');
+  Route::resource('productTag/product', ProductProductTagController::class)->middleware(HAS_COMPANY_MIDDLEWARE);
+  Route::post('productTag/product' , [ProductProductTagController::class, 'store'])->middleware(HAS_COMPANY_MIDDLEWARE);
+  Route::delete('productTag/product', [ProductProductTagController::class, 'destroy'])->middleware(HAS_COMPANY_MIDDLEWARE);
   Route::post('createInvitationCode', [InvitationController::class, 'createInvitationCode'])
     ->middleware(HAS_COMPANY_MIDDLEWARE);
   Route::post('join', [CompanyMemberController::class, 'addUserToCompany']);
@@ -68,8 +70,8 @@ Route::middleware(AUTH_SANCTUM_MIDDLEWARE)->prefix('company')->group(function ()
   Route::resource('balance', CompanyBalanceController::class);
   Route::get('productOffer/deactivateOffer/{id}', [ProductOfferController::class,'deactivateOffer']);
   Route::get('productOffer/stockItems', [ProductOfferController::class,'possitions']);
-  Route::get('productOffer/companyOffers', [ProductOfferController::class,'getCompanyOffers']);
-  Route::resource('productOffer', ProductOfferController::class);
+  Route::get('productOffer/companyOffers', [ProductOfferController::class, 'getUserCompanyOffers']);
+  Route::get('productOffer/company/{slugOrId}', [ProductOfferController::class, 'getCompanyOffers']);
   Route::get('productOfferStatus', [ProductOfferController::class,'changeStatus']);
   Route::resource('order', OrderController::class);
 });

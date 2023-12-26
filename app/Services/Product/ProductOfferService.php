@@ -97,13 +97,14 @@ class ProductOfferService extends BasicService
         //     $query->where('company_id', $company->id);
         // });
 
-        $offers = QueryBuilder::for($productOffers)->allowedFilters([
+        return $offers = QueryBuilder::for($productOffers)->allowedFilters([
             AllowedFilter::exact('status'),
             AllowedFilter::custom('name', new ProductOfferNameFilter()),
             AllowedFilter::exact('subcategoryId', 'product.product_subcategory_id'),
             AllowedFilter::custom('categoryId', new ProductOfferCategoryFilter()),
-        ])->fastPaginate(config('paginationConfig.COMPANY_PRODUCTS'));
-
+        ])
+        ->allowedSorts(['price','ended_at'])
+        ->fastPaginate(config('paginationConfig.COMPANY_PRODUCTS'));
         $pagination = $this->paginate($offers);
 
         return array_merge($pagination, ProductOfferResource::collection($offers)->toArray(request()));
@@ -114,7 +115,7 @@ class ProductOfferService extends BasicService
         return new ProductOfferResource($offer->load('product'));
     }
 
-    public function getCompanyOffers()
+    public function getUserCompanyOffers()
     {
         $company = app('authUserCompany');
         $offers = QueryBuilder::for($company->productOffers()->with('product', 'productWarehouse'))->allowedFilters([
@@ -122,7 +123,9 @@ class ProductOfferService extends BasicService
             AllowedFilter::custom('name', new ProductOfferNameFilter()),
             AllowedFilter::exact('subcategoryId', 'product.product_subcategory_id'),
             AllowedFilter::custom('categoryId', new ProductOfferCategoryFilter()),
-        ])->fastPaginate(config('paginationConfig.COMPANY_PRODUCTS'));
+        ])
+        ->allowedSorts(['price','ended_at'])
+        ->fastPaginate(config('paginationConfig.COMPANY_PRODUCTS'));
 
         $pagination = $this->paginate($offers);
 
@@ -171,5 +174,21 @@ class ProductOfferService extends BasicService
         $offerCompany = $offer->product->company;
 
         return $offerCompany->id == $companyId;
+    }
+
+    public function getCompanyOffers($company)
+    {
+        $offers = QueryBuilder::for($company->productOffers()->with('product', 'productWarehouse'))->allowedFilters([
+            AllowedFilter::exact('status'),
+            AllowedFilter::custom('name', new ProductOfferNameFilter()),
+            AllowedFilter::exact('subcategoryId', 'product.product_subcategory_id'),
+            AllowedFilter::custom('categoryId', new ProductOfferCategoryFilter()),
+        ])
+        ->allowedSorts(['price','ended_at'])
+        ->fastPaginate(config('paginationConfig.COMPANY_PRODUCTS'));
+
+        $pagination = $this->paginate($offers);
+
+        return array_merge($pagination, ProductOfferResource::collection($offers)->toArray(request()));
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Portal\Product;
 
+use App\Models\Company\Company;
 use App\Http\Controllers\Controller;
 use App\Models\Product\ProductOffer;
 use App\Http\Dto\Product\ProductOfferDto;
@@ -9,23 +10,11 @@ use App\Services\Product\ProductOfferService;
 
 class ProductOfferController extends Controller
 {
-    /**
-     * Display a listing of the product offers.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index(ProductOfferService $service)
     {
-        // TODO: Implement index method logic
         return $this->ok($service->getOffers());
     }
 
-    /**
-     * Store a newly created product offer in storage.
-     *
-     * @param  \App\Http\Dto\Product\ProductOfferDto  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(ProductOfferDto $request, ProductOfferService $service)
     {
         return $this->ok($service->createOffer($request));
@@ -54,8 +43,16 @@ class ProductOfferController extends Controller
         return $this->ok($service->possitions());
     }
 
-    public function getCompanyOffers(ProductOfferService $service)
+    public function getUserCompanyOffers(ProductOfferService $service)
     {
-        return $this->ok($service->getCompanyOffers());
+        return $this->ok($service->getUserCompanyOffers());
+    }
+
+    public function getCompanyOffers($slugOrId, ProductOfferService $service)
+    {
+        $company = Company::where('id', $slugOrId)
+            ->orWhere('slug', $slugOrId)
+            ->firstOrFail();
+        return $this->ok($service->getCompanyOffers($company));
     }
 }
