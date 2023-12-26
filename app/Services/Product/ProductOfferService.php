@@ -75,6 +75,7 @@ class ProductOfferService extends BasicService
             'status' => $request->status,
             'company_product_id' => $warehouseProduct[0]->id,
             'started_at' => $request->startDate,
+            'company_id' => $company->id,
             'ended_at' => $request->endDate,
         ]);
 
@@ -90,7 +91,7 @@ class ProductOfferService extends BasicService
         // on the page with all offers
 
         // $company = app('authUserCompany');
-        $productOffers = ProductOffer::with('product', 'productWarehouse');
+        $productOffers = ProductOffer::with('product', 'productWarehouse', 'company');
 
         // ->whereDoesntHave('product', function ($query) use ($company) {
         //     $query->where('company_id', $company->id);

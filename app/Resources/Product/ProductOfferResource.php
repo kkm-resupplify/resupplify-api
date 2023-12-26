@@ -4,6 +4,7 @@ namespace App\Resources\Product;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Enums\DateFormatEnum;
+use App\Resources\Company\CompanyResource;
 
 class ProductOfferResource extends JsonResource
 {
@@ -11,6 +12,9 @@ class ProductOfferResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'company' => $this->whenLoaded('company', function () {
+                return new CompanyResource($this->company);
+            }),
             'price' => $this->price,
             'productQuantity' => $this->product_quantity,
             'warehouseQuantity' => $this->productWarehouse->quantity,
