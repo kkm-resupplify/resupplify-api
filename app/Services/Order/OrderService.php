@@ -39,6 +39,7 @@ class OrderService extends BasicService
 
         foreach ($request->order as $orderItem) {
             $offer = ProductOffer::findOrFail($orderItem['offerId']);
+            $offerWarehouse = $offer->productWarehouse()->first();
 
             if ($offer->status == 0) {
                 throw new ProductOfferNotFoundException();
@@ -51,9 +52,14 @@ class OrderService extends BasicService
             }
 
 
-            if ($offer->product_quantity < $orderItem['orderQuantity']) {
+            if (
+                $offer->product_quantity < $orderItem['orderQuantity']
+                || $offerWarehouse['quantity'] < $orderItem['orderQuantity']
+            ) {
                 throw new OrderNotEnoughProductException();
             }
+
+
 
             $offerPrice = $offer->price * $orderItem['orderQuantity'];
             $orderCost += $offerPrice;
@@ -78,7 +84,7 @@ class OrderService extends BasicService
 
         foreach ($request->order as $idx => $orderItem) {
             $orderQuantity = $orderItem['orderQuantity'];
-            $order->orderItems()->attach($order->id, ['offer_quantity' => $orderQuantity]);
+            $order->orderItems()->attach($orderItem['offerId'], ['offer_quantity' => $orderQuantity]);
 
             $offer = $orderOffers[$idx];
             $offer->product_quantity -= $orderQuantity;
