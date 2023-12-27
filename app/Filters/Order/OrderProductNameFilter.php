@@ -12,7 +12,7 @@ class OrderProductNameFilter implements Filter
     {
         $language_id = app('authUser')->language_id;
 
-        return $query->whereHas('productOffers', function (Builder $query) use ($value, $language_id) {
+        return $query->whereHas('orderItems', function (Builder $query) use ($value, $language_id) {
             $query->whereHas('product', function (Builder $query) use ($language_id, $value) {
                 $query->whereHas('languages', function (Builder $query) use ($value, $language_id) {
                     $query->where('language_product.name', 'like', "%{$value}%")

@@ -78,7 +78,7 @@ class OrderService extends BasicService
 
         foreach ($request->order as $idx => $orderItem) {
             $orderQuantity = $orderItem['orderQuantity'];
-            $order->productOffers()->attach($order->id, ['offer_quantity' => $orderQuantity]);
+            $order->orderItems()->attach($order->id, ['offer_quantity' => $orderQuantity]);
 
             $offer = $orderOffers[$idx];
             $offer->product_quantity -= $orderQuantity;
@@ -132,7 +132,7 @@ class OrderService extends BasicService
     public function getListOfOrdersPlacedByAuthCompany()
     {
         $company = app('authUserCompany');
-        $orders = Order::with('productOffers', 'buyer')->where(function ($order) use ($company) {
+        $orders = Order::with('orderItems', 'buyer')->where(function ($order) use ($company) {
             $order->where('seller_id', $company->id);
         });
 
@@ -151,7 +151,7 @@ class OrderService extends BasicService
     public function getListOfOrdersBoughtByAuthCompany()
     {
         $company = app('authUserCompany');
-        $orders = Order::with('productOffers', 'seller')->where(function ($order) use ($company) {
+        $orders = Order::with('orderItems', 'seller')->where(function ($order) use ($company) {
             $order->where('buyer_id', $company->id);
         });
 
