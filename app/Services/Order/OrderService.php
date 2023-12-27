@@ -33,17 +33,22 @@ class OrderService extends BasicService
         $company = $user->company;
         $companyBalance = $company->companyBalances;
         $offer = ProductOffer::findOrFail($request->offerId);
+
         if($offer->status == 0)
         {
             throw new ProductOfferNotFoundException();
         }
+
         $offerCompany = $offer->product->company;
         $offerCompanyBalance = $offerCompany->companyBalances;
+
         if($offerCompany->id == $company->id)
         {
             throw new OrderCantBuyProductException();
         }
+
         $offerPrice = $offer->price*$request->orderQuantity;
+
         if ($offerPrice > $companyBalance->balance) {
             throw new OrderNotEnoughBalanceException();
         }
@@ -61,8 +66,10 @@ class OrderService extends BasicService
             $receiverId = $offerCompany->id,
             $paymentMethodId = 1
         );
+
         $sellerTransaction = CompanyBalanceService::createTransaction($transactionDto);
         $sellerCompanyBalance = CompanyBalanceService::handleCompanyBalance($offerCompanyBalance, $sellerTransaction);
+
         $transactionDto = new TransactionDto(
             $companyBalanceId = $companyBalance->company_id,
             $currency = 'Euro',
@@ -73,24 +80,30 @@ class OrderService extends BasicService
             $receiverId = $offerCompany->id,
             $paymentMethodId = 1
         );
+
         $buyerTransaction = CompanyBalanceService::createTransaction($transactionDto);
         $buyerCompanyBalance = CompanyBalanceService::handleCompanyBalance($companyBalance, $buyerTransaction);
+
         $offer->product_quantity = $offer->product_quantity - $request->orderQuantity;
         $productWarehouse = $offer->productWarehouse()->get();
         $productWarehouse->quantity = $offerCompany->quantity - $request->orderQuantity;
+
         if($offer->product_quantity == 0)
         {
             $offer->status = 0;
         }
+
         $offer->save();
         $order = new Order([
             'buyer_id' => $company->id,
             'seller_id' => $offerCompanyBalance -> company_id,
             'status' => OrderStatusEnum::COMPLETED(),
         ]);
+
         $order->save();
         $order->productOffers()->attach($offer->id, ['offer_quantity' => $request->orderQuantity]);
         $order->load('productOffers');
+
         return $order;
     }
 
@@ -101,6 +114,7 @@ class OrderService extends BasicService
         {
             $order->where('seller_id', $company->id);
         });
+
         $orders = QueryBuilder::for($orders)->allowedFilters([
             AllowedFilter::exact('status'),
             AllowedFilter::custom('name', new OrderProductNameFilter()),
@@ -111,7 +125,6 @@ class OrderService extends BasicService
         $pagination = $this->paginate($orders);
 
         return array_merge($pagination, OrderResource::collection($orders)->toArray(request()));
-        return OrderResource::collection($orders);
     }
 
     public function getListOfOrdersBoughtByAuthCompany()
@@ -120,7 +133,17 @@ class OrderService extends BasicService
         $orders = Order::with('productOffers')->where(function($order) use ($company)
         {
             $order->where('buyer_id', $company->id);
-        })->get();
-        return OrderResource::collection($orders);
+        });
+
+        $orders = QueryBuilder::for($orders)->allowedFilters([
+            AllowedFilter::exact('status'),
+            AllowedFilter::custom('name', new OrderProductNameFilter()),
+            AllowedFilter::custom('categoryId', new OrderProductCategoryFilter()),
+            AllowedFilter::custom('subcategoryId', new OrderProductCategoryFilter()),
+        ])
+        ->fastPaginate(config('paginationConfig.COMPANY_PRODUCTS'));
+        $pagination = $this->paginate($orders);
+
+        return array_merge($pagination, OrderResource::collection($orders)->toArray(request()));
     }
 }
