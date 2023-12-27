@@ -19,12 +19,15 @@ class OrderResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $company = Company::find(1);
-        $company ->load('companyDetails');
         $this->load('productOffers');
         return [
             'id' => $this->id,
-            'company' => new CompanyResource($company),
+            'seller' => $this->whenLoaded('seller', function () {
+                return new CompanyResource($this->seller);
+            }),
+            'buyer' => $this->whenLoaded('buyer', function () {
+                return new CompanyResource($this->buyer);
+            }),
             'offers' => ProductOfferResource::collection($this->whenLoaded('productOffers')),
             'status' => $this->status,
             'createdAt' => $this->created_at->format(DateFormatEnum::LONG()),
