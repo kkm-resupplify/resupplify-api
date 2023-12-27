@@ -17,6 +17,7 @@ use App\Exceptions\Order\OrderNotEnoughBalanceException;
 use App\Exceptions\Order\OrderNotEnoughProductException;
 use App\Exceptions\Product\ProductOfferNotFoundException;
 use App\Models\Company\Enums\CompanyBalanceTransactionTypeEnum;
+use App\Resources\Order\OrderResource;
 
 class OrderService extends BasicService
 {
@@ -91,9 +92,21 @@ class OrderService extends BasicService
 
     public function getListOfOrdersPlacedByAuthCompany()
     {
-        $user = app('authUser');
-        $company = $user->company;
-        $orders = Order::with('orderProductOffer')->get();
-        return $orders;
+        $company = app('authUserCompany');
+        $orders = Order::with('productOffers')->where(function($order) use ($company)
+        {
+            $order->where('seller_id', $company->id);
+        })->get();
+        return OrderResource::collection($orders);
+    }
+
+    public function getListOfOrdersBoughtByAuthCompany()
+    {
+        $company = app('authUserCompany');
+        $orders = Order::with('productOffers')->where(function($order) use ($company)
+        {
+            $order->where('buyer_id', $company->id);
+        })->get();
+        return OrderResource::collection($orders);
     }
 }

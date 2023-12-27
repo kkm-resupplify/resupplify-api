@@ -17,4 +17,9 @@ class OrderController extends Controller
     {
         return $this->ok($service->getListOfOrdersPlacedByAuthCompany());
     }
+
+    public function getListOfOrdersBoughtByAuthCompany(OrderService $service)
+    {
+        return $this->ok($service->getListOfOrdersBoughtByAuthCompany());
+    }
 }

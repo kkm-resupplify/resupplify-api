@@ -87,7 +87,8 @@ Route::middleware(AUTH_SANCTUM_MIDDLEWARE)->prefix('company')->group(function ()
   Route::get('productOfferStatus', [ProductOfferController::class,'changeStatus']);
 
   Route::resource('order', OrderController::class);
-  Route::get('companyOrders', [OrderController::class, 'getListOfOrdersPlacedByAuthCompany']);
+  Route::get('companyOrders/seller', [OrderController::class, 'getListOfOrdersPlacedByAuthCompany']);
+  Route::get('companyOrders/buyer', [OrderController::class, 'getListOfOrdersBoughtByAuthCompany']);
 });
 
 const WAREHOUSE_PRODUCT_CRUD_ROUTE_SUFFIX = 'warehouse/{warehouse}/product/{product}';
