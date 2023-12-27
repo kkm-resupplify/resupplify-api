@@ -2,7 +2,6 @@
 
 namespace App\Services\Product;
 
-use App\Models\Product\Enums\ProductStatusEnum;
 use App\Services\BasicService;
 use App\Helpers\PaginationTrait;
 use Illuminate\Support\Facades\DB;
@@ -13,6 +12,7 @@ use App\Http\Dto\Product\ProductOfferDto;
 use App\Resources\Product\ProductResource;
 use App\Exceptions\Product\ProductOfferExists;
 use App\Filters\Product\ProductOfferNameFilter;
+use App\Models\Product\Enums\ProductStatusEnum;
 use App\Resources\Product\ProductOfferResource;
 use App\Filters\Product\ProductOfferCategoryFilter;
 use App\Exceptions\Product\ProductNotFoundException;
@@ -20,6 +20,7 @@ use App\Models\Product\Enums\ProductOfferStatusEnum;
 use App\Resources\Product\ProductPositionInWarehouse;
 use App\Exceptions\Product\ProductOfferNotFoundException;
 use App\Exceptions\Product\ProductOfferQuantityException;
+use App\Models\Product\Enums\ProductVerificationStatusEnum;
 
 
 class ProductOfferService extends BasicService
@@ -95,7 +96,7 @@ class ProductOfferService extends BasicService
         $productOffers = ProductOffer::with('product', 'productWarehouse', 'company')->where(function ($query) {
             $query->whereHas('productWarehouse', function ($query) {
                 $query->whereHas('product', function ($query) {
-                    $query->where('status','!=', ProductStatusEnum::INACTIVE());
+                    $query->where('verification_status', ProductVerificationStatusEnum::Verified());
                 });
             });
         });
