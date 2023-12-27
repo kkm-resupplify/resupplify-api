@@ -2,6 +2,7 @@
 
 namespace App\Services\Product;
 
+use App\Models\Product\Enums\ProductStatusEnum;
 use App\Services\BasicService;
 use App\Helpers\PaginationTrait;
 use Illuminate\Support\Facades\DB;
@@ -91,7 +92,13 @@ class ProductOfferService extends BasicService
         // on the page with all offers
 
         // $company = app('authUserCompany');
-        $productOffers = ProductOffer::with('product', 'productWarehouse', 'company');
+        $productOffers = ProductOffer::with('product', 'productWarehouse', 'company')->where(function ($query) {
+            $query->whereHas('productWarehouse', function ($query) {
+                $query->whereHas('product', function ($query) {
+                    $query->where('status','!=', ProductStatusEnum::INACTIVE());
+                });
+            });
+        });
 
         // ->whereDoesntHave('product', function ($query) use ($company) {
         //     $query->where('company_id', $company->id);
