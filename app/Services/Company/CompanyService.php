@@ -106,6 +106,7 @@ class CompanyService extends BasicService
         $companies = QueryBuilder::for(Company::with("companyDetails"))->allowedFilters([
             AllowedFilter::exact('status'),
             AllowedFilter::custom('name', new CompanyNameFilter()),
+            AllowedFilter::exact('categoryId', 'companyDetails.company_category_id'),
         ])->fastPaginate(config('paginationConfig.COMPANY_PRODUCTS'));
         $pagination = $this->paginate($companies);
 
