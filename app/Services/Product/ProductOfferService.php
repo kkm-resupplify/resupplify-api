@@ -12,6 +12,7 @@ use App\Http\Dto\Product\ProductOfferDto;
 use App\Resources\Product\ProductResource;
 use App\Exceptions\Product\ProductOfferExists;
 use App\Filters\Product\ProductOfferNameFilter;
+use App\Models\Product\Enums\ProductStatusEnum;
 use App\Resources\Product\ProductOfferResource;
 use App\Filters\Product\ProductOfferCategoryFilter;
 use App\Exceptions\Product\ProductNotFoundException;
@@ -19,6 +20,7 @@ use App\Models\Product\Enums\ProductOfferStatusEnum;
 use App\Resources\Product\ProductPositionInWarehouse;
 use App\Exceptions\Product\ProductOfferNotFoundException;
 use App\Exceptions\Product\ProductOfferQuantityException;
+use App\Models\Product\Enums\ProductVerificationStatusEnum;
 
 
 class ProductOfferService extends BasicService
@@ -91,7 +93,13 @@ class ProductOfferService extends BasicService
         // on the page with all offers
 
         // $company = app('authUserCompany');
-        $productOffers = ProductOffer::with('product', 'productWarehouse', 'company');
+        $productOffers = ProductOffer::with('product', 'productWarehouse', 'company')->where(function ($query) {
+            $query->whereHas('productWarehouse', function ($query) {
+                $query->whereHas('product', function ($query) {
+                    $query->where('verification_status', ProductVerificationStatusEnum::Verified());
+                });
+            });
+        });
 
         // ->whereDoesntHave('product', function ($query) use ($company) {
         //     $query->where('company_id', $company->id);
