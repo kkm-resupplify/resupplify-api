@@ -12,7 +12,7 @@ class OrderProductCategoryFilter implements Filter
     {
         return $query->whereHas('productOffers', function (Builder $query) use ($value) {
             $query->whereHas('product', function (Builder $query) use ($value) {
-                return $query->whereHas('productcategory', function (Builder $query) use ($value) {
+                return $query->whereHas('productSubcategory', function (Builder $query) use ($value) {
                     $query->where('product_category_id', $value);
                 });
             });
