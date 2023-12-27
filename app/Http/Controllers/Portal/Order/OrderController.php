@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Portal\Order;
 use App\Http\Dto\Order\OrderDto;
 use App\Http\Controllers\Controller;
 use App\Services\Order\OrderService;
+use App\Http\Dto\Order\OrderStatusDto;
 
 class OrderController extends Controller
 {
@@ -21,5 +22,10 @@ class OrderController extends Controller
     public function getListOfOrdersBoughtByAuthCompany(OrderService $service)
     {
         return $this->ok($service->getListOfOrdersBoughtByAuthCompany());
+    }
+
+    public function changeOrderStatus(OrderService $service, OrderStatusDto $request)
+    {
+        return $this->ok($service->changeOrderStatus($request));
     }
 }

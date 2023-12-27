@@ -9,6 +9,7 @@ use App\Helpers\PaginationTrait;
 use App\Http\Dto\Order\OrderDto;
 use App\Models\Product\ProductOffer;
 use Spatie\QueryBuilder\QueryBuilder;
+use App\Http\Dto\Order\OrderStatusDto;
 use App\Resources\Order\OrderResource;
 use Spatie\QueryBuilder\AllowedFilter;
 use App\Http\Dto\Company\TransactionDto;
@@ -145,5 +146,27 @@ class OrderService extends BasicService
         $pagination = $this->paginate($orders);
 
         return array_merge($pagination, OrderResource::collection($orders)->toArray(request()));
+    }
+
+    public function changeOrderStatus(OrderStatusDto $request)
+    {
+        $company = app('authUserCompany');
+        $order = Order::findOrFail($request->orderId)->where('seller_id', $company->id)->first();
+        $order->status = match ($request->status) {
+            0 => OrderStatusEnum::PLACED(),
+            1 => OrderStatusEnum::PROCESSING(),
+            2 => OrderStatusEnum::SHIPPED(),
+            3 => OrderStatusEnum::INTRANSIT(),
+            4 => OrderStatusEnum::COMPLETED(),
+            5 => OrderStatusEnum::CANCELLED(),
+            6 => OrderStatusEnum::REFUNDED(),
+            7 => OrderStatusEnum::REJECTED(),
+            8 => OrderStatusEnum::SUSPENDED(),
+            9 => OrderStatusEnum::INACTIVE(),
+            default => OrderStatusEnum::COMPLETED(),
+        };
+        $order->save();
+
+        return new OrderResource($order);
     }
 }
