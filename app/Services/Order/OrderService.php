@@ -132,7 +132,7 @@ class OrderService extends BasicService
     public function getListOfOrdersPlacedByAuthCompany()
     {
         $company = app('authUserCompany');
-        $orders = Order::with('productOffers')->where(function ($order) use ($company) {
+        $orders = Order::with('productOffers', 'buyer')->where(function ($order) use ($company) {
             $order->where('seller_id', $company->id);
         });
 
@@ -151,7 +151,7 @@ class OrderService extends BasicService
     public function getListOfOrdersBoughtByAuthCompany()
     {
         $company = app('authUserCompany');
-        $orders = Order::with('productOffers')->where(function ($order) use ($company) {
+        $orders = Order::with('productOffers', 'seller')->where(function ($order) use ($company) {
             $order->where('buyer_id', $company->id);
         });
 

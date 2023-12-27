@@ -26,7 +26,7 @@ class Order extends Model
     ];
 
     protected $casts = [
-      'status' => OrderStatusEnum::class,
+        'status' => OrderStatusEnum::class,
     ];
 
     public function company(): BelongsTo
@@ -37,7 +37,16 @@ class Order extends Model
     public function productOffers(): BelongsToMany
     {
         return $this->belongsToMany(ProductOffer::class, 'order_product_offer')
-        ->withPivot(['offer_quantity']);
+            ->withPivot(['offer_quantity']);
     }
 
+    public function seller(): BelongsTo
+    {
+        return $this->belongsTo(Company::class, 'seller_id');
+    }
+
+    public function buyer(): BelongsTo
+    {
+        return $this->belongsTo(Company::class, 'buyer_id');
+    }
 }
