@@ -111,8 +111,8 @@ class ProductOfferService extends BasicService
             AllowedFilter::exact('subcategoryId', 'product.product_subcategory_id'),
             AllowedFilter::custom('categoryId', new ProductOfferCategoryFilter()),
         ])
-        ->allowedSorts(['price','ended_at'])
-        ->fastPaginate(config('paginationConfig.COMPANY_PRODUCTS'));
+            ->allowedSorts(['price', 'ended_at'])
+            ->fastPaginate(config('paginationConfig.COMPANY_PRODUCTS'));
         $pagination = $this->paginate($offers);
 
         return array_merge($pagination, ProductOfferResource::collection($offers)->toArray(request()));
@@ -120,7 +120,7 @@ class ProductOfferService extends BasicService
 
     public function getOffer(ProductOffer $offer)
     {
-        return new ProductOfferResource($offer->load('product'));
+        return new ProductOfferResource($offer->load('product', 'company'));
     }
 
     public function getUserCompanyOffers()
@@ -132,8 +132,8 @@ class ProductOfferService extends BasicService
             AllowedFilter::exact('subcategoryId', 'product.product_subcategory_id'),
             AllowedFilter::custom('categoryId', new ProductOfferCategoryFilter()),
         ])
-        ->allowedSorts(['price','ended_at'])
-        ->fastPaginate(config('paginationConfig.COMPANY_PRODUCTS'));
+            ->allowedSorts(['price', 'ended_at'])
+            ->fastPaginate(config('paginationConfig.COMPANY_PRODUCTS'));
 
         $pagination = $this->paginate($offers);
 
@@ -192,8 +192,8 @@ class ProductOfferService extends BasicService
             AllowedFilter::exact('subcategoryId', 'product.product_subcategory_id'),
             AllowedFilter::custom('categoryId', new ProductOfferCategoryFilter()),
         ])
-        ->allowedSorts(['price','ended_at'])
-        ->fastPaginate(config('paginationConfig.COMPANY_PRODUCTS'));
+            ->allowedSorts(['price', 'ended_at'])
+            ->fastPaginate(config('paginationConfig.COMPANY_PRODUCTS'));
 
         $pagination = $this->paginate($offers);
 
