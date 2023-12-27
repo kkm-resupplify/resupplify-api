@@ -21,6 +21,8 @@ class Order extends Model
         'id',
         'status',
         'company_id',
+        'buyer_id',
+        'seller_id',
     ];
 
     protected $casts = [
