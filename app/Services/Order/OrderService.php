@@ -31,105 +31,108 @@ class OrderService extends BasicService
     public function createOrder(OrderDto $request)
     {
         $user = app('authUser');
-        $company = $user->company;
-        $companyBalance = $company->companyBalances;
-        $orders = [];
-        foreach($request -> order as $order)
-        {
-            $offer = ProductOffer::find($order['offerId']);
-            if($offer == null)
-            {
-                throw new ProductOfferNotFoundException($order['offerId']);
-            }
+        $buyerCompany = $user->company;
+        $buyerCompanyBalance = $buyerCompany->companyBalances;
+        $orderOffers = [];
 
-            if($offer->status == 0)
-            {
-                throw new ProductOfferNotFoundException('status for this order: '.$order['offerId'].' is '.$offer->status);
+        $orderCost = 0;
+
+        foreach ($request->order as $orderItem) {
+            $offer = ProductOffer::findOrFail($orderItem['offerId']);
+
+            if ($offer->status == 0) {
+                throw new ProductOfferNotFoundException();
             }
 
             $offerCompany = $offer->product->company;
-            $offerCompanyBalance = $offerCompany->companyBalances;
 
-            if($offerCompany->id == $company->id)
-            {
+            if ($offerCompany->id == $buyerCompany->id) {
                 throw new OrderCantBuyProductException();
             }
 
-            $offerPrice = $offer->price*$order['orderQuantity'];
 
-            if ($offerPrice > $companyBalance->balance) {
-                throw new OrderNotEnoughBalanceException();
-            }
-            if($offer->product_quantity < $order['orderQuantity'])
-            {
+            if ($offer->product_quantity < $orderItem['orderQuantity']) {
                 throw new OrderNotEnoughProductException();
             }
+
+            $offerPrice = $offer->price * $orderItem['orderQuantity'];
+            $orderCost += $offerPrice;
+            $orderOffers[] = $offer;
         }
 
-        foreach($request -> order as $orderData)
-        {
-            $offer = ProductOffer::findOrFail($orderData['offerId']);
-            $offerCompany = $offer->product->company;
-            $offerCompanyBalance = $offerCompany->companyBalances;
-            $offerPrice = $offer->price*$orderData['orderQuantity'];
+        if ($orderCost > $buyerCompanyBalance->balance) {
+            throw new OrderNotEnoughBalanceException();
+        }
 
-            $transactionDto = new TransactionDto(
-                $companyBalanceId = $offerCompanyBalance -> company_id,
-                $currency = 'Euro',
-                $amount = $offerPrice,
-                $type = CompanyBalanceTransactionTypeEnum::SALE()->value,
-                $status = 1,
-                $senderId = $company->id,
-                $receiverId = $offerCompany->id,
-                $paymentMethodId = 1
-            );
 
-            $sellerTransaction = CompanyBalanceService::createTransaction($transactionDto);
-            $sellerCompanyBalance = CompanyBalanceService::handleCompanyBalance($offerCompanyBalance, $sellerTransaction);
+        $sellerCompany = $offer->product->company;
+        $sellerCompanyBalance = $sellerCompany->companyBalances;
 
-            $transactionDto = new TransactionDto(
-                $companyBalanceId = $companyBalance->company_id,
-                $currency = 'Euro',
-                $amount = $offerPrice,
-                $type = CompanyBalanceTransactionTypeEnum::PURCHASE()->value,
-                $status = 1,
-                $senderId = $company->id,
-                $receiverId = $offerCompany->id,
-                $paymentMethodId = 1
-            );
+        $order = new Order([
+            'buyer_id' => $buyerCompany->id,
+            'seller_id' => $sellerCompany->id,
+            'status' => OrderStatusEnum::PLACED(),
+        ]);
 
-            $buyerTransaction = CompanyBalanceService::createTransaction($transactionDto);
-            $buyerCompanyBalance = CompanyBalanceService::handleCompanyBalance($companyBalance, $buyerTransaction);
+        $order->save();
 
-            $offer->product_quantity = $offer->product_quantity - $orderData['orderQuantity'];
-            $productWarehouse = $offer->productWarehouse()->get();
-            $productWarehouse->quantity = $offerCompany->quantity - $orderData['orderQuantity'];
+        foreach ($request->order as $idx => $orderItem) {
+            $orderQuantity = $orderItem['orderQuantity'];
+            $order->productOffers()->attach($order->id, ['offer_quantity' => $orderQuantity]);
 
-            if($offer->product_quantity == 0)
-            {
+            $offer = $orderOffers[$idx];
+            $offer->product_quantity -= $orderQuantity;
+
+            $productWarehouse = $offer->productWarehouse()->first();
+            $productWarehouse->quantity -= $orderQuantity;
+
+            if ($offer->product_quantity == 0) {
                 $offer->status = 0;
             }
 
-            $offer->save();
-            $order = new Order([
-                'buyer_id' => $company->id,
-                'seller_id' => $offerCompanyBalance -> company_id,
-                'status' => OrderStatusEnum::COMPLETED(),
-            ]);
+            if ($productWarehouse->quantity == 0) {
+                $productWarehouse->status = 0;
+            }
 
-            $order->save();
-            $order->productOffers()->attach($offer->id, ['offer_quantity' => $orderData['orderQuantity']]);
-            $order->load('productOffers');
-            $orders[] = $order;
+            $offer->save();
+            $productWarehouse->save();
         }
-        return $orders;
+
+        $sellerTransactionDto = new TransactionDto(
+            $sellerCompanyBalance->id,
+            'Euro',
+            $orderCost,
+            CompanyBalanceTransactionTypeEnum::SALE()->value,
+            1,
+            $buyerCompany->id,
+            $sellerCompany->id,
+            1
+        );
+
+        $sellerTransaction = CompanyBalanceService::createTransaction($sellerTransactionDto);
+        CompanyBalanceService::handleCompanyBalance($sellerCompanyBalance, $sellerTransaction);
+
+        $buyerTransactionDto = new TransactionDto(
+            $buyerCompanyBalance->id,
+            'Euro',
+            $orderCost,
+            CompanyBalanceTransactionTypeEnum::PURCHASE()->value,
+            1,
+            $buyerCompany->id,
+            $sellerCompany->id,
+            1
+        );
+
+        $buyerTransaction = CompanyBalanceService::createTransaction($buyerTransactionDto);
+        CompanyBalanceService::handleCompanyBalance($buyerCompanyBalance, $buyerTransaction);
+
+        return new OrderResource($order);
     }
 
     public function getListOfOrdersPlacedByAuthCompany()
     {
         $company = app('authUserCompany');
-        $orders = Order::with('productOffers')->where(function($order) use ($company)
-        {
+        $orders = Order::with('productOffers')->where(function ($order) use ($company) {
             $order->where('seller_id', $company->id);
         });
 
@@ -139,7 +142,7 @@ class OrderService extends BasicService
             AllowedFilter::custom('categoryId', new OrderProductCategoryFilter()),
             AllowedFilter::custom('subcategoryId', new OrderProductCategoryFilter()),
         ])
-        ->fastPaginate(config('paginationConfig.COMPANY_PRODUCTS'));
+            ->fastPaginate(config('paginationConfig.COMPANY_PRODUCTS'));
         $pagination = $this->paginate($orders);
 
         return array_merge($pagination, OrderResource::collection($orders)->toArray(request()));
@@ -148,8 +151,7 @@ class OrderService extends BasicService
     public function getListOfOrdersBoughtByAuthCompany()
     {
         $company = app('authUserCompany');
-        $orders = Order::with('productOffers')->where(function($order) use ($company)
-        {
+        $orders = Order::with('productOffers')->where(function ($order) use ($company) {
             $order->where('buyer_id', $company->id);
         });
 
@@ -159,7 +161,7 @@ class OrderService extends BasicService
             AllowedFilter::custom('categoryId', new OrderProductCategoryFilter()),
             AllowedFilter::custom('subcategoryId', new OrderProductCategoryFilter()),
         ])
-        ->fastPaginate(config('paginationConfig.COMPANY_PRODUCTS'));
+            ->fastPaginate(config('paginationConfig.COMPANY_PRODUCTS'));
         $pagination = $this->paginate($orders);
 
         return array_merge($pagination, OrderResource::collection($orders)->toArray(request()));
