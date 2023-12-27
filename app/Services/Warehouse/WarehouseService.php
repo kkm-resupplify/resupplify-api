@@ -20,9 +20,9 @@ class WarehouseService extends BasicService
     {
         $user = app('authUser');
         setPermissionsTeamId($user->company->id);
-        if(!$user->can('Owner permissions')) {
-            throw(new WrongPermissions());
-        }
+        // if(!$user->can('Owner permissions')) {
+        //     throw(new WrongPermissions());
+        // }
         $warehouseData = [
             'name' => $request->name,
             'description' =>$request->description,
@@ -55,9 +55,9 @@ class WarehouseService extends BasicService
     {
         $user = app('authUser');
         setPermissionsTeamId($user->company->id);
-        if(!$user->can('Owner permissions')) {
-            throw(new WrongPermissions());
-        }
+        // if(!$user->can('Owner permissions')) {
+        //     throw(new WrongPermissions());
+        // }
         $warehouses = app('authUser')->company->warehouses;
         if (!$warehouses->contains($warehouse))
         {
@@ -74,9 +74,9 @@ class WarehouseService extends BasicService
     {
         $user = app('authUser');
         setPermissionsTeamId($user->company->id);
-        if(!$user->can('Owner permissions')) {
-            throw(new WrongPermissions());
-        }
+        // if(!$user->can('Owner permissions')) {
+        //     throw(new WrongPermissions());
+        // }
         $warehouses = app('authUser')->company->warehouses;
         if (!$warehouses->contains($warehouse))
         {

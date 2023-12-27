@@ -56,7 +56,6 @@ class ProductService extends Controller
             'verification_status' => ProductVerificationStatusEnum::UNVERIFIED(),
             'product_tags_id' => $request->productTagsId,
             'image' => '',
-            'image_alt'=>$request->imageAlt
         ];
         $productTags = $user->company->load('productTags')->productTags;
         $invalidTags = "";
@@ -120,9 +119,9 @@ class ProductService extends Controller
         $user = app('authUser');
         $company = $user->company->products;
         setPermissionsTeamId($user->company->id);
-        if (!$user->can('Owner permissions')) {
-            throw new WrongPermissions();
-        }
+        // if (!$user->can('Owner permissions')) {
+        //     throw new WrongPermissions();
+        // }
         if (!$company->contains($product)) {
             throw new ProductNotFoundException();
         }

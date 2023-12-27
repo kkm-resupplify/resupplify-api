@@ -26,9 +26,9 @@ class WarehouseProductService extends BasicService
     {
         $user = app('authUser');
         setPermissionsTeamId($user->company->id);
-        if (!$user->can('Owner permissions')) {
-            throw new WrongPermissions();
-        }
+        // if (!$user->can('Owner permissions')) {
+        //     throw new WrongPermissions();
+        // }
         $warehouses = app('authUser')->company->warehouses;
         if (!$warehouses->contains($warehouse)) {
             throw new WarehouseDataNotAccessible();
@@ -62,9 +62,9 @@ class WarehouseProductService extends BasicService
         $user = app('authUser');
         setPermissionsTeamId($user->company->id);
 
-        if (!$user->can('Owner permissions')) {
-            throw new WrongPermissions();
-        }
+        // if (!$user->can('Owner permissions')) {
+        //     throw new WrongPermissions();
+        // }
 
         $warehouses = app('authUser')->company->warehouses;
 
@@ -86,9 +86,9 @@ class WarehouseProductService extends BasicService
     {
         $user = app('authUser');
         setPermissionsTeamId($user->company->id);
-        if (!$user->can('Owner permissions')) {
-            throw new WrongPermissions();
-        }
+        // if (!$user->can('Owner permissions')) {
+        //     throw new WrongPermissions();
+        // }
         $warehouses = app('authUser')->company->warehouses;
         if (!$warehouses->contains($warehouse)) {
             throw new WarehouseDataNotAccessible();
@@ -104,9 +104,9 @@ class WarehouseProductService extends BasicService
     {
         $user = app('authUser');
         setPermissionsTeamId($user->company->id);
-        if (!$user->can('Owner permissions')) {
-            throw new WrongPermissions();
-        }
+        // if (!$user->can('Owner permissions')) {
+        //     throw new WrongPermissions();
+        // }
 
         $warehouses = app('authUser')->company->warehouses;
         if (!$warehouses->contains($warehouse)) {
@@ -130,9 +130,9 @@ class WarehouseProductService extends BasicService
     {
         $user = app('authUser');
         setPermissionsTeamId($user->company->id);
-        if (!$user->can('Owner permissions')) {
-            throw new WrongPermissions();
-        }
+        // if (!$user->can('Owner permissions')) {
+        //     throw new WrongPermissions();
+        // }
         $warehouses = app('authUser')->company->warehouses;
         if (!$warehouses->contains($warehouse)) {
             throw new WarehouseDataNotAccessible();
@@ -149,9 +149,9 @@ class WarehouseProductService extends BasicService
     {
         $user = app('authUser');
         setPermissionsTeamId($user->company->id);
-        if (!$user->can('Owner permissions')) {
-            throw new WrongPermissions();
-        }
+        // if (!$user->can('Owner permissions')) {
+        //     throw new WrongPermissions();
+        // }
         $warehouses = app('authUser')->company->warehouses;
         if (!$warehouses->contains($warehouse)) {
             throw new WarehouseDataNotAccessible();
