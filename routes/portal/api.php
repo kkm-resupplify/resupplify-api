@@ -45,7 +45,6 @@ Route::middleware(AUTH_SANCTUM_MIDDLEWARE)->group(function () {
   Route::resource('productCategory', ProductCategoryController::class);
   Route::get('productSubcategory', [ProductSubcategoryController::class, 'index']);
   Route::get('productUnit', [ProductUnitController::class, 'index']);
-  Route::post('uploadFile', [FileUploadController::class, 'upload']);
 });
 
 Route::middleware(AUTH_SANCTUM_MIDDLEWARE)->prefix('preview')->group(function () {
