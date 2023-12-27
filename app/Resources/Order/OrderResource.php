@@ -21,7 +21,7 @@ class OrderResource extends JsonResource
     {
         $company = Company::find(1);
         $company ->load('companyDetails');
-
+        $this->load('productOffers');
         return [
             'id' => $this->id,
             'company' => new CompanyResource($company),

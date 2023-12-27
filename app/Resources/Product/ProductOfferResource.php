@@ -10,6 +10,7 @@ class ProductOfferResource extends JsonResource
 {
     public function toArray($request)
     {
+        $this->load('product');
         return [
             'id' => $this->id,
             'company' => $this->whenLoaded('company', function () {

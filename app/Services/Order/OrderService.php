@@ -8,16 +8,20 @@ use App\Services\BasicService;
 use App\Helpers\PaginationTrait;
 use App\Http\Dto\Order\OrderDto;
 use App\Models\Product\ProductOffer;
+use Spatie\QueryBuilder\QueryBuilder;
+use App\Resources\Order\OrderResource;
+use Spatie\QueryBuilder\AllowedFilter;
 use App\Http\Dto\Company\TransactionDto;
 use App\Models\Order\Enums\OrderStatusEnum;
+use App\Filters\Order\OrderProductNameFilter;
 use App\Services\Company\CompanyBalanceService;
-use App\Exceptions\Company\WrongTransactionException;
+use App\Filters\Order\OrderProductCategoryFilter;
+use App\Filters\Order\OrderProductSubcategoryFilter;
 use App\Exceptions\Order\OrderCantBuyProductException;
 use App\Exceptions\Order\OrderNotEnoughBalanceException;
 use App\Exceptions\Order\OrderNotEnoughProductException;
 use App\Exceptions\Product\ProductOfferNotFoundException;
 use App\Models\Company\Enums\CompanyBalanceTransactionTypeEnum;
-use App\Resources\Order\OrderResource;
 
 class OrderService extends BasicService
 {
@@ -96,7 +100,17 @@ class OrderService extends BasicService
         $orders = Order::with('productOffers')->where(function($order) use ($company)
         {
             $order->where('seller_id', $company->id);
-        })->get();
+        });
+        $orders = QueryBuilder::for($orders)->allowedFilters([
+            AllowedFilter::exact('status'),
+            AllowedFilter::custom('name', new OrderProductNameFilter()),
+            AllowedFilter::custom('categoryId', new OrderProductCategoryFilter()),
+            AllowedFilter::custom('subcategoryId', new OrderProductCategoryFilter()),
+        ])
+        ->fastPaginate(config('paginationConfig.COMPANY_PRODUCTS'));
+        $pagination = $this->paginate($orders);
+
+        return array_merge($pagination, OrderResource::collection($orders)->toArray(request()));
         return OrderResource::collection($orders);
     }
 
