@@ -8,9 +8,5 @@ use Spatie\LaravelData\Attributes\Validation\Min;
 
 class OrderDto extends BasicDto
 {
-    #[Min(1)]
-    public int $offerId;
-    #[Min(1)]
-    public int $orderQuantity;
-
+    public array $order;
 }

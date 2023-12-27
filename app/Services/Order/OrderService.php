@@ -33,79 +33,96 @@ class OrderService extends BasicService
         $user = app('authUser');
         $company = $user->company;
         $companyBalance = $company->companyBalances;
-        $offer = ProductOffer::findOrFail($request->offerId);
-
-        if($offer->status == 0)
+        $orders = [];
+        foreach($request -> order as $order)
         {
-            throw new ProductOfferNotFoundException();
+            $offer = ProductOffer::find($order['offerId']);
+            if($offer == null)
+            {
+                throw new ProductOfferNotFoundException($order['offerId']);
+            }
+
+            if($offer->status == 0)
+            {
+                throw new ProductOfferNotFoundException('status for this order: '.$order['offerId'].' is '.$offer->status);
+            }
+
+            $offerCompany = $offer->product->company;
+            $offerCompanyBalance = $offerCompany->companyBalances;
+
+            if($offerCompany->id == $company->id)
+            {
+                throw new OrderCantBuyProductException();
+            }
+
+            $offerPrice = $offer->price*$order['orderQuantity'];
+
+            if ($offerPrice > $companyBalance->balance) {
+                throw new OrderNotEnoughBalanceException();
+            }
+            if($offer->product_quantity < $order['orderQuantity'])
+            {
+                throw new OrderNotEnoughProductException();
+            }
         }
 
-        $offerCompany = $offer->product->company;
-        $offerCompanyBalance = $offerCompany->companyBalances;
-
-        if($offerCompany->id == $company->id)
+        foreach($request -> order as $orderData)
         {
-            throw new OrderCantBuyProductException();
+            $offer = ProductOffer::findOrFail($orderData['offerId']);
+            $offerCompany = $offer->product->company;
+            $offerCompanyBalance = $offerCompany->companyBalances;
+            $offerPrice = $offer->price*$orderData['orderQuantity'];
+
+            $transactionDto = new TransactionDto(
+                $companyBalanceId = $offerCompanyBalance -> company_id,
+                $currency = 'Euro',
+                $amount = $offerPrice,
+                $type = CompanyBalanceTransactionTypeEnum::SALE()->value,
+                $status = 1,
+                $senderId = $company->id,
+                $receiverId = $offerCompany->id,
+                $paymentMethodId = 1
+            );
+
+            $sellerTransaction = CompanyBalanceService::createTransaction($transactionDto);
+            $sellerCompanyBalance = CompanyBalanceService::handleCompanyBalance($offerCompanyBalance, $sellerTransaction);
+
+            $transactionDto = new TransactionDto(
+                $companyBalanceId = $companyBalance->company_id,
+                $currency = 'Euro',
+                $amount = $offerPrice,
+                $type = CompanyBalanceTransactionTypeEnum::PURCHASE()->value,
+                $status = 1,
+                $senderId = $company->id,
+                $receiverId = $offerCompany->id,
+                $paymentMethodId = 1
+            );
+
+            $buyerTransaction = CompanyBalanceService::createTransaction($transactionDto);
+            $buyerCompanyBalance = CompanyBalanceService::handleCompanyBalance($companyBalance, $buyerTransaction);
+
+            $offer->product_quantity = $offer->product_quantity - $orderData['orderQuantity'];
+            $productWarehouse = $offer->productWarehouse()->get();
+            $productWarehouse->quantity = $offerCompany->quantity - $orderData['orderQuantity'];
+
+            if($offer->product_quantity == 0)
+            {
+                $offer->status = 0;
+            }
+
+            $offer->save();
+            $order = new Order([
+                'buyer_id' => $company->id,
+                'seller_id' => $offerCompanyBalance -> company_id,
+                'status' => OrderStatusEnum::COMPLETED(),
+            ]);
+
+            $order->save();
+            $order->productOffers()->attach($offer->id, ['offer_quantity' => $orderData['orderQuantity']]);
+            $order->load('productOffers');
+            $orders[] = $order;
         }
-
-        $offerPrice = $offer->price*$request->orderQuantity;
-
-        if ($offerPrice > $companyBalance->balance) {
-            throw new OrderNotEnoughBalanceException();
-        }
-        if($offer->product_quantity < $request->orderQuantity)
-        {
-            throw new OrderNotEnoughProductException();
-        }
-        $transactionDto = new TransactionDto(
-            $companyBalanceId = $offerCompanyBalance -> company_id,
-            $currency = 'Euro',
-            $amount = $offerPrice,
-            $type = CompanyBalanceTransactionTypeEnum::SALE()->value,
-            $status = 1,
-            $senderId = $company->id,
-            $receiverId = $offerCompany->id,
-            $paymentMethodId = 1
-        );
-
-        $sellerTransaction = CompanyBalanceService::createTransaction($transactionDto);
-        $sellerCompanyBalance = CompanyBalanceService::handleCompanyBalance($offerCompanyBalance, $sellerTransaction);
-
-        $transactionDto = new TransactionDto(
-            $companyBalanceId = $companyBalance->company_id,
-            $currency = 'Euro',
-            $amount = $offerPrice,
-            $type = CompanyBalanceTransactionTypeEnum::PURCHASE()->value,
-            $status = 1,
-            $senderId = $company->id,
-            $receiverId = $offerCompany->id,
-            $paymentMethodId = 1
-        );
-
-        $buyerTransaction = CompanyBalanceService::createTransaction($transactionDto);
-        $buyerCompanyBalance = CompanyBalanceService::handleCompanyBalance($companyBalance, $buyerTransaction);
-
-        $offer->product_quantity = $offer->product_quantity - $request->orderQuantity;
-        $productWarehouse = $offer->productWarehouse()->get();
-        $productWarehouse->quantity = $offerCompany->quantity - $request->orderQuantity;
-
-        if($offer->product_quantity == 0)
-        {
-            $offer->status = 0;
-        }
-
-        $offer->save();
-        $order = new Order([
-            'buyer_id' => $company->id,
-            'seller_id' => $offerCompanyBalance -> company_id,
-            'status' => OrderStatusEnum::COMPLETED(),
-        ]);
-
-        $order->save();
-        $order->productOffers()->attach($offer->id, ['offer_quantity' => $request->orderQuantity]);
-        $order->load('productOffers');
-
-        return $order;
+        return $orders;
     }
 
     public function getListOfOrdersPlacedByAuthCompany()
