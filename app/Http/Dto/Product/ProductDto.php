@@ -21,11 +21,6 @@ class ProductDto extends BasicDto
     public ?array $productTagsId;
     public ?int $status;
     #[Nullable]
-    #[MimeTypes('image/webp')]
     #[Max(100)]
     public UploadedFile $image;
-    #[Nullable]
-    #[Max(256)]
-    public string $imageAlt;
-
 }
