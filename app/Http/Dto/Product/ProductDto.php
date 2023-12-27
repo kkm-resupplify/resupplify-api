@@ -22,5 +22,5 @@ class ProductDto extends BasicDto
     public ?int $status;
     #[Nullable]
     #[Max(100)]
-    public UploadedFile $image;
+    public ?UploadedFile $image = null;
 }
