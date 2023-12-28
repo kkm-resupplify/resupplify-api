@@ -133,6 +133,7 @@ class CompanyCategorySeeder extends Seeder
         ];
 
         foreach ($categories as $category) {
+            $category['name'] = strtoupper(str_replace(' ', '_', $category['name']));
             CompanyCategory::create($category);
         }
     }
