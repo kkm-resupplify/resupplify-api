@@ -51,7 +51,6 @@ class OrderService extends BasicService
                 throw new OrderCantBuyProductException();
             }
 
-
             if (
                 $offer->product_quantity < $orderItem['orderQuantity']
                 || $offerWarehouse['quantity'] < $orderItem['orderQuantity']
