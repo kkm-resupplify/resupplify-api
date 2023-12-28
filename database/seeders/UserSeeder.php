@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Schema;
 use App\Models\Product\LanguageProduct;
 use App\Http\Dto\Company\TransactionDto;
 use App\Models\Product\ProductWarehouse;
+use App\Models\Company\Enums\CompanyStatusEnum;
 use App\Models\Product\Enums\ProductStatusEnum;
 use App\Services\Company\CompanyBalanceService;
 use App\Models\Company\CompanyBalanceTransaction;
@@ -57,6 +58,8 @@ class UserSeeder extends Seeder
 
         foreach ($data['data']['company'] as $companyData) {
             $company = Company::create($companyData['company']);
+            $company->status = CompanyStatusEnum::VERIFIED();
+            $company->save();
 
             CompanyDetails::create($companyData['companyDetails']);
             $companyBalance = CompanyBalance::create($companyData['companyBalance']);
