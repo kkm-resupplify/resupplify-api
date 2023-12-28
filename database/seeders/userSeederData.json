@@ -5,7 +5,15 @@
                 "email": "email@gmail.com",
                 "password": "password",
                 "type": 1,
-                "language_id": 1
+                "language_id": 1,
+                "userDetails": {
+                    "first_name": "Maciej",
+                    "last_name": "Potręć",
+                    "phone_number": "+48536123708",
+                    "birth_date": "2001-10-26",
+                    "sex": "Male",
+                    "user_id": 1
+                }
             },
             {
                 "email": "email2@gmail.com",

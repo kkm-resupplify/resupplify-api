@@ -6,6 +6,7 @@ use App\Models\User\User;
 use App\Models\Company\Company;
 use App\Models\Product\Product;
 use Illuminate\Database\Seeder;
+use App\Models\User\UserDetails;
 use App\Models\Product\ProductTag;
 use Spatie\Permission\Models\Role;
 use App\Models\Warehouse\Warehouse;
@@ -54,6 +55,14 @@ class UserSeeder extends Seeder
 
         foreach ($data['data']['user'] as $userData) {
             User::create($userData);
+            // $userDetails = UserDetails::create([
+            //     'first_name' => $request->firstName,
+            //     'last_name' => $request->lastName,
+            //     'phone_number' => $request->phoneNumber,
+            //     'birth_date' => $request->birthDate,
+            //     'sex' => $request->sex,
+            //     'user_id' => $user->id,
+            // ]);
         }
 
         foreach ($data['data']['company'] as $companyData) {
@@ -100,29 +109,31 @@ class UserSeeder extends Seeder
             $created = false;
             foreach($companyData['warehouses'] as $warehouse){
                 $warehouse = $company->warehouses()->create($warehouse);
-                foreach($companyProducts as $product){
-                    $safeQuantity = rand(1, 100);
-                    $warehouseProductData = [
-                        'quantity' => $safeQuantity*2,
-                        'safe_quantity' => $safeQuantity,
-                        'status' => ProductStatusEnum::ACTIVE(),
-                    ];
-                    $productTag = $company->productTags()->get();
-                    $product->warehouses()->attach($warehouse->id, $warehouseProductData);
-                    $product->productTags()->attach($productData['product_tags_id'] ?? []);
-                    $productWarehouse = ProductWarehouse::where('warehouse_id', $warehouse->id)->where('product_id', $product->id)->first();
-                    $startDate = date('Y-m-d H:i:s');
-                    $endDate = date('Y-m-d H:i:s', strtotime('+2 days'));
-                    $offer = new ProductOffer([
-                        'price' => rand(1, 10),
-                        'product_quantity' => $safeQuantity/2,
-                        'status' => 1,
-                        'company_product_id' => $productWarehouse->id,
-                        'company_id' => $company->id,
-                        'started_at' => $startDate,
-                        'ended_at' => $endDate,
-                    ]);
-                    $offer->save();
+                if($created == false){
+                    foreach($companyProducts as $product){
+                        $safeQuantity = rand(1, 100);
+                        $warehouseProductData = [
+                            'quantity' => $safeQuantity*2,
+                            'safe_quantity' => $safeQuantity,
+                            'status' => ProductStatusEnum::ACTIVE(),
+                        ];
+                        $productTag = $company->productTags()->get();
+                        $product->warehouses()->attach($warehouse->id, $warehouseProductData);
+                        $product->productTags()->attach($productData['product_tags_id'] ?? []);
+                        $productWarehouse = ProductWarehouse::where('warehouse_id', $warehouse->id)->where('product_id', $product->id)->first();
+                        $startDate = date('Y-m-d H:i:s');
+                        $endDate = date('Y-m-d H:i:s', strtotime('+2 days'));
+                        $offer = new ProductOffer([
+                            'price' => rand(1, 10),
+                            'product_quantity' => $safeQuantity/2,
+                            'status' => 1,
+                            'company_product_id' => $productWarehouse->id,
+                            'company_id' => $company->id,
+                            'started_at' => $startDate,
+                            'ended_at' => $endDate,
+                        ]);
+                        $offer->save();
+                    }
                 }
                 $created = true;
             }
