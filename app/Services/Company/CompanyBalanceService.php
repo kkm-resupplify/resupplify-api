@@ -96,8 +96,8 @@ class CompanyBalanceService extends BasicService
             'receiver_id' => $data->receiverId,
             'payment_method_id' => $data->paymentMethodId
         ];
-        $transaction = new CompanyBalanceTransaction($companyBalanceTransactionData);
-        return $transaction;
+
+        return new CompanyBalanceTransaction($companyBalanceTransactionData);
     }
 
     public static function handleCompanyBalance(CompanyBalance $companyBalance, CompanyBalanceTransaction $transaction)

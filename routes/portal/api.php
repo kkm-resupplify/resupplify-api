@@ -45,15 +45,22 @@ Route::middleware(AUTH_SANCTUM_MIDDLEWARE)->group(function () {
   Route::resource('productCategory', ProductCategoryController::class);
   Route::get('productSubcategory', [ProductSubcategoryController::class, 'index']);
   Route::get('productUnit', [ProductUnitController::class, 'index']);
-  Route::post('uploadFile', [FileUploadController::class, 'upload']);
 });
 
+Route::middleware(AUTH_SANCTUM_MIDDLEWARE)->prefix('preview')->group(function () {
+    Route::middleware(AUTH_SANCTUM_MIDDLEWARE)->prefix('company')->group(function () {
+        Route::get('/{slug}', [CompanyController::class, 'show'])->middleware(HAS_COMPANY_MIDDLEWARE);
+        Route::get('', [CompanyController::class, 'index'])->middleware(HAS_COMPANY_MIDDLEWARE);
+    });
+    Route::get('company/{slug}', [CompanyController::class, 'show']);
+    Route::get('product/{slug}', [ProductController::class, 'show']);
+    Route::get('productOffer/{id}', [ProductOfferController::class, 'show']);
+    });
+
 Route::middleware(AUTH_SANCTUM_MIDDLEWARE)->prefix('company')->group(function () {
-  Route::resource('productOffer', ProductOfferController::class);
+  Route::post('', [CompanyController::class, 'store']);
   Route::put('', [CompanyController::class, 'editCompany'])->middleware(HAS_COMPANY_MIDDLEWARE);
   Route::resource('productTag', ProductTagController::class)->middleware(HAS_COMPANY_MIDDLEWARE);
-  Route::get('/{slug}', [CompanyController::class, 'show'])->middleware(HAS_COMPANY_MIDDLEWARE);
-  Route::resource('', CompanyController::class);
   Route::resource('productTag/product', ProductProductTagController::class)->middleware(HAS_COMPANY_MIDDLEWARE);
   Route::post('productTag/product' , [ProductProductTagController::class, 'store'])->middleware(HAS_COMPANY_MIDDLEWARE);
   Route::delete('productTag/product', [ProductProductTagController::class, 'destroy'])->middleware(HAS_COMPANY_MIDDLEWARE);
@@ -68,12 +75,20 @@ Route::middleware(AUTH_SANCTUM_MIDDLEWARE)->prefix('company')->group(function ()
   Route::resource('companyCategories', CompanyCategoryController::class);
   Route::get('balance/transaction', [CompanyBalanceController::class,'showBalanceOperations']);
   Route::resource('balance', CompanyBalanceController::class);
+
+  Route::post('productOffer', [ProductOfferController::class, 'store']);
+  Route::get('productOffer', [ProductOfferController::class, 'index']);
+
   Route::get('productOffer/deactivateOffer/{id}', [ProductOfferController::class,'deactivateOffer']);
   Route::get('productOffer/stockItems', [ProductOfferController::class,'possitions']);
   Route::get('productOffer/companyOffers', [ProductOfferController::class, 'getUserCompanyOffers']);
   Route::get('productOffer/company/{slugOrId}', [ProductOfferController::class, 'getCompanyOffers']);
   Route::get('productOfferStatus', [ProductOfferController::class,'changeStatus']);
+
   Route::resource('order', OrderController::class);
+  Route::get('companyOrders/seller', [OrderController::class, 'getListOfOrdersPlacedByAuthCompany']);
+  Route::get('companyOrders/buyer', [OrderController::class, 'getListOfOrdersBoughtByAuthCompany']);
+  Route::put('order', [OrderController::class, 'changeOrderStatus']);
 });
 
 const WAREHOUSE_PRODUCT_CRUD_ROUTE_SUFFIX = 'warehouse/{warehouse}/product/{product}';

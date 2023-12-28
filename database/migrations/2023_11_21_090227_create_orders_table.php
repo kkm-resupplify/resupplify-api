@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('company_id')->constrained('companies')->onDelete('cascade');
+            $table->foreignId('buyer_id')->constrained('companies')->onDelete('cascade');
+            $table->foreignId('seller_id')->constrained('companies')->onDelete('cascade');
             $table->tinyInteger('status')->default(0);
             $table->timestamps();
             $table->softDeletes();

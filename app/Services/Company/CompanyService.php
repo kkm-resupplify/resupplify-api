@@ -6,13 +6,18 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Services\BasicService;
 use App\Models\Company\Company;
+use App\Helpers\PaginationTrait;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Company\CompanyMember;
 use App\Resources\Roles\RoleResource;
+use Spatie\QueryBuilder\QueryBuilder;
 use App\Models\Company\CompanyBalance;
 use App\Models\Company\CompanyDetails;
+use Spatie\QueryBuilder\AllowedFilter;
+use Illuminate\Support\Facades\Storage;
 use Spatie\Permission\Models\Permission;
+use App\Filters\Company\CompanyNameFilter;
 use App\Resources\Company\CompanyResource;
 use App\Exceptions\Company\WrongPermissions;
 use App\Http\Dto\Company\RegisterCompanyDto;
@@ -22,10 +27,12 @@ use App\Models\Company\Enums\CompanyStatusEnum;
 use App\Http\Dto\Company\RegisterCompanyDetailsDto;
 use App\Exceptions\Company\CompanyNotFoundException;
 use App\Exceptions\Company\CompanyNameTakenException;
+use App\Http\Controllers\Portal\File\FileUploadController;
 
 
 class CompanyService extends BasicService
 {
+    use PaginationTrait;
     public function createCompany(RegisterCompanyDto $request)
     {
         $user = app('authUser');
@@ -61,6 +68,14 @@ class CompanyService extends BasicService
             'tin' => $request->tin,
             'contact_person' => $request->contactPerson,
         ];
+        if($request->logo) {
+            $fileName = time().'_'.$request->logo->getClientOriginalName();
+            $filePath = $request->logo->storeAs('uploads', $fileName, 's3');
+
+            Storage::disk('s3')->setVisibility($filePath, 'public');
+
+            $companyDetails['logo'] = Storage::disk('s3')->url($filePath);
+        }
         $createdCompanyDetails = new CompanyDetails($companyDetails);
         $createdCompany->companyDetails()->save($createdCompanyDetails);
         $companyBalance = new CompanyBalance(['company_id' => $createdCompany->id,'balance' => 0]);
@@ -88,7 +103,14 @@ class CompanyService extends BasicService
 
     public function getCompanies()
     {
-        return new CompanyCollection(Company::with("companyDetails")->get());
+        $companies = QueryBuilder::for(Company::with("companyDetails"))->allowedFilters([
+            AllowedFilter::exact('status'),
+            AllowedFilter::custom('name', new CompanyNameFilter()),
+            AllowedFilter::exact('categoryId', 'companyDetails.company_category_id'),
+        ])->fastPaginate(config('paginationConfig.COMPANY_PRODUCTS'));
+        $pagination = $this->paginate($companies);
+
+        return array_merge($pagination, CompanyResource::collection($companies)->toArray(request()));
     }
     public function getUserCompany()
     {

@@ -22,9 +22,9 @@ class ProductTagService extends BasicService
     {
         $user = app('authUser');
         setPermissionsTeamId($user->company->id);
-        if (!$user->can('Owner permissions')) {
-            throw (new WrongPermissions());
-        }
+        // if (!$user->can('Owner permissions')) {
+        //     throw (new WrongPermissions());
+        // }
         $tagData = [
             'name' => $request->name,
             'slug' => Str::slug($request->name),
@@ -39,9 +39,9 @@ class ProductTagService extends BasicService
     {
         $user = app('authUser');
         setPermissionsTeamId($user->company->id);
-        if (!$user->can('Owner permissions')) {
-            throw (new WrongPermissions());
-        }
+        // if (!$user->can('Owner permissions')) {
+        //     throw (new WrongPermissions());
+        // }
         if ($productTag->company_id != app('authUser')->company->id) {
             throw (new WrongPermissions());
         }
@@ -55,9 +55,9 @@ class ProductTagService extends BasicService
     {
         $user = app('authUser');
         setPermissionsTeamId($user->company->id);
-        if (!$user->can('Owner permissions')) {
-            throw (new WrongPermissions());
-        }
+        // if (!$user->can('Owner permissions')) {
+        //     throw (new WrongPermissions());
+        // }
         if ($productTag->company_id != app('authUser')->company->id) {
             throw (new WrongPermissions());
         }

@@ -30,6 +30,8 @@ class Product extends Model
         'product_unit_id',
         'company_id',
         'status',
+        'image',
+        'image_alt',
     ];
 
     protected $casts = [
