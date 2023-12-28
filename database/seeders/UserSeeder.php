@@ -97,7 +97,7 @@ class UserSeeder extends Seeder
             $transaction = CompanyBalanceService::createTransaction($transactionDto);
             $companyBalance = CompanyBalanceService::handleCompanyBalance($companyBalance, $transaction);
             $companyProducts = $company->products;
-
+            $created = false;
             foreach($companyData['warehouses'] as $warehouse){
                 $warehouse = $company->warehouses()->create($warehouse);
                 foreach($companyProducts as $product){
@@ -107,7 +107,9 @@ class UserSeeder extends Seeder
                         'safe_quantity' => $safeQuantity,
                         'status' => ProductStatusEnum::ACTIVE(),
                     ];
+                    $productTag = $company->productTags()->get();
                     $product->warehouses()->attach($warehouse->id, $warehouseProductData);
+                    $product->productTags()->attach($productData['product_tags_id'] ?? []);
                     $productWarehouse = ProductWarehouse::where('warehouse_id', $warehouse->id)->where('product_id', $product->id)->first();
                     $startDate = date('Y-m-d H:i:s');
                     $endDate = date('Y-m-d H:i:s', strtotime('+2 days'));
@@ -122,6 +124,7 @@ class UserSeeder extends Seeder
                     ]);
                     $offer->save();
                 }
+                $created = true;
             }
 
 
