@@ -2,6 +2,7 @@
 
 namespace App\Services\Product;
 
+use App\Models\Company\Enums\CompanyStatusEnum;
 use App\Services\BasicService;
 use App\Helpers\PaginationTrait;
 use Illuminate\Support\Facades\DB;
@@ -21,7 +22,7 @@ use App\Resources\Product\ProductPositionInWarehouse;
 use App\Exceptions\Product\ProductOfferNotFoundException;
 use App\Exceptions\Product\ProductOfferQuantityException;
 use App\Models\Product\Enums\ProductVerificationStatusEnum;
-
+use App\Models\Product\ProductWarehouse;
 
 class ProductOfferService extends BasicService
 {
@@ -95,10 +96,16 @@ class ProductOfferService extends BasicService
         // $company = app('authUserCompany');
         $productOffers = ProductOffer::with('product', 'productWarehouse', 'company')->where(function ($query) {
             $query->whereHas('productWarehouse', function ($query) {
+                $query->where('status', ProductStatusEnum::ACTIVE());
                 $query->whereHas('product', function ($query) {
                     $query->where('verification_status', ProductVerificationStatusEnum::Verified());
+                    $query->where('status', ProductStatusEnum::ACTIVE());
                 });
             });
+            $query->whereHas('company', function ($query) {
+                $query->where('status', CompanyStatusEnum::VERIFIED());
+            });
+            $query->where('status', ProductOfferStatusEnum::ACTIVE());
         });
 
         // ->whereDoesntHave('product', function ($query) use ($company) {
