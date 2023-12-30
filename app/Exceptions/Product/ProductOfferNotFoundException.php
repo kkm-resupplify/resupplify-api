@@ -12,7 +12,7 @@ class ProductOfferNotFoundException extends BasicException
     {
         $this->errorCode = CustomErrorCodes::PRODUCT_OFFER_NOT_FOUND;
         $this->errorHttpCode = Response::HTTP_NOT_FOUND;
-        $this->errorMsg = $this->__('messages.exception.productOfferNotFound').":$this->message";
+        $this->errorMsg = $this->__('messages.exception.productOfferNotFound')." $this->message";
 
         $errorData = $this->getErrorData();
 
