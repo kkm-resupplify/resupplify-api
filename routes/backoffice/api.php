@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController as AuthController;
 
+use App\Http\Controllers\BackOffice\Language\LanguageController;
 use App\Http\Controllers\BackOffice\Company\CompanyController as BOCompanyController;
 use App\Http\Controllers\BackOffice\Product\ProductController as BOProductController;
 
@@ -14,6 +15,7 @@ Route::prefix('back-office')->group(function () {
 
 Route::middleware('auth:sanctum', 'isBackOfficeAdmin')->prefix('back-office')->group(function () {
   Route::post('/logout', [AuthController::class, 'logout']);
+  Route::get('/language', [LanguageController::class, 'index']);
 
   Route::get('/company', [BOCompanyController::class, 'index']);
   Route::get('/company/verify', [BOCompanyController::class, 'unverifiedCompanies']);
