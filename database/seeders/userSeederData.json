@@ -2,24 +2,36 @@
     "data": {
         "user": [
             {
-                "email": "email@gmail.com",
-                "password": "password",
-                "type": 1,
-                "language_id": 1,
+                "account": {
+                    "email": "email@gmail.com",
+                    "password": "password",
+                    "type": 1,
+                    "language_id": 1
+                },
                 "userDetails": {
                     "first_name": "Maciej",
                     "last_name": "Potręć",
                     "phone_number": "+48536123708",
-                    "birth_date": "2001-10-26",
+                    "birth_date": "26-10-2001",
                     "sex": "Male",
                     "user_id": 1
                 }
             },
             {
-                "email": "email2@gmail.com",
-                "password": "password",
-                "type": 1,
-                "language_id": 1
+                "account": {
+                    "email": "email2@gmail.com",
+                    "password": "password",
+                    "type": 1,
+                    "language_id": 1
+                },
+                "userDetails": {
+                    "first_name": "Kamil",
+                    "last_name": "Puła",
+                    "phone_number": "+48536123708",
+                    "birth_date": "20-05-2001",
+                    "sex": "Male",
+                    "user_id": 2
+                }
             }
         ],
         "company": [

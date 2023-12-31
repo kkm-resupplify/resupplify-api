@@ -54,15 +54,8 @@ class UserSeeder extends Seeder
         $data = json_decode($json, true);
 
         foreach ($data['data']['user'] as $userData) {
-            User::create($userData);
-            // $userDetails = UserDetails::create([
-            //     'first_name' => $request->firstName,
-            //     'last_name' => $request->lastName,
-            //     'phone_number' => $request->phoneNumber,
-            //     'birth_date' => $request->birthDate,
-            //     'sex' => $request->sex,
-            //     'user_id' => $user->id,
-            // ]);
+            $user = User::create($userData['account']);
+            $userDetails = UserDetails::create($userData['userDetails']);
         }
 
         foreach ($data['data']['company'] as $companyData) {
