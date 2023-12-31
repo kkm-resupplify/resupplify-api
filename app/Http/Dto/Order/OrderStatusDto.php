@@ -11,7 +11,7 @@ class OrderStatusDto extends BasicDto
 {
     #[Min(1)]
     public int $orderId;
-    #[Min(1)]
+    #[Min(0)]
     public int $status;
 
 }
