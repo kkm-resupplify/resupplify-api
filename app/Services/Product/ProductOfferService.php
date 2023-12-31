@@ -10,7 +10,6 @@ use App\Models\Product\ProductOffer;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
 use App\Http\Dto\Product\ProductOfferDto;
-use App\Resources\Product\ProductResource;
 use App\Exceptions\Product\ProductOfferExists;
 use App\Filters\Product\ProductOfferNameFilter;
 use App\Models\Product\Enums\ProductStatusEnum;
@@ -22,11 +21,12 @@ use App\Resources\Product\ProductPositionInWarehouse;
 use App\Exceptions\Product\ProductOfferNotFoundException;
 use App\Exceptions\Product\ProductOfferQuantityException;
 use App\Models\Product\Enums\ProductVerificationStatusEnum;
-use App\Models\Product\ProductWarehouse;
+use Illuminate\Http\Request;
 
 class ProductOfferService extends BasicService
 {
     use PaginationTrait;
+
     public function createOffer(ProductOfferDto $request)
     {
         $company = app('authUserCompany');
@@ -88,12 +88,8 @@ class ProductOfferService extends BasicService
         return new ProductOfferResource($offer);
     }
 
-    public function getOffers()
+    public function getOffers(Request $request)
     {
-        // We prolly should fetch all products regardless -> in case one wants to see their own offers
-        // on the page with all offers
-
-        // $company = app('authUserCompany');
         $productOffers = ProductOffer::with('product', 'productWarehouse', 'company')->where(function ($query) {
             $query->whereHas('productWarehouse', function ($query) {
                 $query->where('status', ProductStatusEnum::ACTIVE());
@@ -108,18 +104,32 @@ class ProductOfferService extends BasicService
             $query->where('status', ProductOfferStatusEnum::ACTIVE());
         });
 
-        // ->whereDoesntHave('product', function ($query) use ($company) {
-        //     $query->where('company_id', $company->id);
-        // });
-
         $offers = QueryBuilder::for($productOffers)->allowedFilters([
             AllowedFilter::exact('status'),
             AllowedFilter::custom('name', new ProductOfferNameFilter()),
             AllowedFilter::exact('subcategoryId', 'product.product_subcategory_id'),
             AllowedFilter::custom('categoryId', new ProductOfferCategoryFilter()),
-        ])
-            ->allowedSorts(['price', 'ended_at'])
-            ->fastPaginate(config('paginationConfig.COMPANY_PRODUCTS'));
+        ]);
+
+        $sortPrice = $request->get('price');
+        $sortEndedAt = $request->get('ended_at');
+
+        if ($sortPrice) {
+            $sortPrice = strtolower($sortPrice);
+            if (in_array($sortPrice, ['asc', 'desc'])) {
+                $offers->orderBy('price', $sortPrice);
+            }
+        }
+
+        if ($sortEndedAt) {
+            $sortEndedAt = strtolower($sortEndedAt);
+            if (in_array($sortEndedAt, ['asc', 'desc'])) {
+                $offers->orderBy('ended_at', $sortEndedAt);
+            }
+        }
+
+        $offers = $offers->fastPaginate(config('paginationConfig.COMPANY_PRODUCTS'));
+
         $pagination = $this->paginate($offers);
 
         return array_merge($pagination, ProductOfferResource::collection($offers)->toArray(request()));
@@ -130,7 +140,7 @@ class ProductOfferService extends BasicService
         return new ProductOfferResource($offer->load('product', 'company'));
     }
 
-    public function getUserCompanyOffers()
+    public function getUserCompanyOffers(Request $request)
     {
         $company = app('authUserCompany');
         $offers = QueryBuilder::for($company->productOffers()->with('product', 'productWarehouse'))->allowedFilters([
@@ -138,9 +148,26 @@ class ProductOfferService extends BasicService
             AllowedFilter::custom('name', new ProductOfferNameFilter()),
             AllowedFilter::exact('subcategoryId', 'product.product_subcategory_id'),
             AllowedFilter::custom('categoryId', new ProductOfferCategoryFilter()),
-        ])
-            ->allowedSorts(['price', 'ended_at'])
-            ->fastPaginate(config('paginationConfig.COMPANY_PRODUCTS'));
+        ]);
+
+        $sortPrice = $request->get('price');
+        $sortEndedAt = $request->get('ended_at');
+
+        if ($sortPrice) {
+            $sortPrice = strtolower($sortPrice);
+            if (in_array($sortPrice, ['asc', 'desc'])) {
+                $offers->orderBy('price', $sortPrice);
+            }
+        }
+
+        if ($sortEndedAt) {
+            $sortEndedAt = strtolower($sortEndedAt);
+            if (in_array($sortEndedAt, ['asc', 'desc'])) {
+                $offers->orderBy('ended_at', $sortEndedAt);
+            }
+        }
+
+        $offers = $offers->fastPaginate(config('paginationConfig.COMPANY_PRODUCTS'));
 
         $pagination = $this->paginate($offers);
 
@@ -191,16 +218,33 @@ class ProductOfferService extends BasicService
         return $offerCompany->id == $companyId;
     }
 
-    public function getCompanyOffers($company)
+    public function getCompanyOffers(Request $request, $company)
     {
         $offers = QueryBuilder::for($company->productOffers()->with('product', 'productWarehouse'))->allowedFilters([
             AllowedFilter::exact('status'),
             AllowedFilter::custom('name', new ProductOfferNameFilter()),
             AllowedFilter::exact('subcategoryId', 'product.product_subcategory_id'),
             AllowedFilter::custom('categoryId', new ProductOfferCategoryFilter()),
-        ])
-            ->allowedSorts(['price', 'ended_at'])
-            ->fastPaginate(config('paginationConfig.COMPANY_PRODUCTS'));
+        ]);
+
+        $sortPrice = $request->get('price');
+        $sortEndedAt = $request->get('ended_at');
+
+        if ($sortPrice) {
+            $sortPrice = strtolower($sortPrice);
+            if (in_array($sortPrice, ['asc', 'desc'])) {
+                $offers->orderBy('price', $sortPrice);
+            }
+        }
+
+        if ($sortEndedAt) {
+            $sortEndedAt = strtolower($sortEndedAt);
+            if (in_array($sortEndedAt, ['asc', 'desc'])) {
+                $offers->orderBy('ended_at', $sortEndedAt);
+            }
+        }
+
+        $offers = $offers->fastPaginate(config('paginationConfig.COMPANY_PRODUCTS'));
 
         $pagination = $this->paginate($offers);
 

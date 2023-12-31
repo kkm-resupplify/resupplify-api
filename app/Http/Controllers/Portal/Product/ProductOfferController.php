@@ -7,12 +7,13 @@ use App\Http\Controllers\Controller;
 use App\Models\Product\ProductOffer;
 use App\Http\Dto\Product\ProductOfferDto;
 use App\Services\Product\ProductOfferService;
+use Illuminate\Http\Request;
 
 class ProductOfferController extends Controller
 {
-    public function index(ProductOfferService $service)
+    public function index(Request $request, ProductOfferService $service)
     {
-        return $this->ok($service->getOffers());
+        return $this->ok($service->getOffers($request));
     }
 
     public function store(ProductOfferDto $request, ProductOfferService $service)
@@ -43,16 +44,16 @@ class ProductOfferController extends Controller
         return $this->ok($service->possitions());
     }
 
-    public function getUserCompanyOffers(ProductOfferService $service)
+    public function getUserCompanyOffers(Request $request, ProductOfferService $service)
     {
-        return $this->ok($service->getUserCompanyOffers());
+        return $this->ok($service->getUserCompanyOffers($request));
     }
 
-    public function getCompanyOffers($slugOrId, ProductOfferService $service)
+    public function getCompanyOffers(Request $request, $slugOrId, ProductOfferService $service)
     {
         $company = Company::where('id', $slugOrId)
             ->orWhere('slug', $slugOrId)
             ->firstOrFail();
-        return $this->ok($service->getCompanyOffers($company));
+        return $this->ok($service->getCompanyOffers($request, $company));
     }
 }
