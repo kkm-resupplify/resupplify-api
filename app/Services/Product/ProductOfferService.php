@@ -90,94 +90,32 @@ class ProductOfferService extends BasicService
 
     public function getOffers(Request $request)
     {
-        $productOffers = ProductOffer::with('product', 'productWarehouse', 'company')->where(function ($query) {
-            $query->whereHas('productWarehouse', function ($query) {
-                $query->where('status', ProductStatusEnum::ACTIVE());
-                $query->whereHas('product', function ($query) {
-                    $query->where('verification_status', ProductVerificationStatusEnum::Verified());
-                    $query->where('status', ProductStatusEnum::ACTIVE());
-                });
-            });
-            $query->whereHas('company', function ($query) {
-                $query->where('status', CompanyStatusEnum::VERIFIED());
-            });
-            $query->where('status', ProductOfferStatusEnum::ACTIVE());
-        });
+        $productOffers = $this->getProductOffersQuery();
+        $offers = $this->applyFiltersAndSorting($productOffers, $request);
 
-        $offers = QueryBuilder::for($productOffers)->allowedFilters([
-            AllowedFilter::exact('status'),
-            AllowedFilter::custom('name', new ProductOfferNameFilter()),
-            AllowedFilter::exact('subcategoryId', 'product.product_subcategory_id'),
-            AllowedFilter::custom('categoryId', new ProductOfferCategoryFilter()),
-        ]);
-
-        $sortPrice = $request->get('price');
-        $sortEndedAt = $request->get('ended_at');
-
-        if ($sortPrice) {
-            $sortPrice = strtolower($sortPrice);
-            if (in_array($sortPrice, ['asc', 'desc'])) {
-                $offers->orderBy('price', $sortPrice);
-            }
-        }
-
-        if ($sortEndedAt) {
-            $sortEndedAt = strtolower($sortEndedAt);
-            if (in_array($sortEndedAt, ['asc', 'desc'])) {
-                $offers->orderBy('ended_at', $sortEndedAt);
-            }
-        }
-
-        $offers = $offers->fastPaginate(config('paginationConfig.COMPANY_PRODUCTS'));
-
-        $pagination = $this->paginate($offers);
-
-        return array_merge($pagination, ProductOfferResource::collection($offers)->toArray(request()));
-    }
-
-    public function getOffer(ProductOffer $offer)
-    {
-        return new ProductOfferResource($offer->load('product', 'company'));
+        return $this->paginateAndReturn($offers);
     }
 
     public function getUserCompanyOffers(Request $request)
     {
         $company = app('authUserCompany');
-        $offers = QueryBuilder::for($company->productOffers()->with('product', 'productWarehouse'))->allowedFilters([
-            AllowedFilter::exact('status'),
-            AllowedFilter::custom('name', new ProductOfferNameFilter()),
-            AllowedFilter::exact('subcategoryId', 'product.product_subcategory_id'),
-            AllowedFilter::custom('categoryId', new ProductOfferCategoryFilter()),
-        ]);
+        $offers = $this->applyFiltersAndSorting($company->productOffers()
+            ->with('product', 'productWarehouse'), $request);
 
-        $sortPrice = $request->get('price');
-        $sortEndedAt = $request->get('ended_at');
+        return $this->paginateAndReturn($offers);
+    }
 
-        if ($sortPrice) {
-            $sortPrice = strtolower($sortPrice);
-            if (in_array($sortPrice, ['asc', 'desc'])) {
-                $offers->orderBy('price', $sortPrice);
-            }
-        }
+    public function getCompanyOffers(Request $request, $company)
+    {
+        $offers = $this->applyFiltersAndSorting($company->productOffers()
+            ->with('product', 'productWarehouse'), $request);
 
-        if ($sortEndedAt) {
-            $sortEndedAt = strtolower($sortEndedAt);
-            if (in_array($sortEndedAt, ['asc', 'desc'])) {
-                $offers->orderBy('ended_at', $sortEndedAt);
-            }
-        }
-
-        $offers = $offers->fastPaginate(config('paginationConfig.COMPANY_PRODUCTS'));
-
-        $pagination = $this->paginate($offers);
-
-        return array_merge($pagination, ProductOfferResource::collection($offers)->toArray(request()));
+        return $this->paginateAndReturn($offers);
     }
 
     public function changeStatus()
     {
         $currentDate = now();
-
         $activeOffers = ProductOffer::where('started_at', '<=', $currentDate)
             ->where('ended_at', '>=', $currentDate)
             ->update(['status' => ProductOfferStatusEnum::ACTIVE()]);
@@ -192,7 +130,6 @@ class ProductOfferService extends BasicService
         if (!self::checkIfOfferIsCreatedByCompany($offer->id, app('authUserCompany')->id)) {
             throw new ProductOfferNotFoundException();
         }
-
         $offer->update(['status' => ProductOfferStatusEnum::INACTIVE()]);
         $offer->delete();
 
@@ -214,13 +151,29 @@ class ProductOfferService extends BasicService
     {
         $offer = ProductOffer::where('id', $offerId)->first();
         $offerCompany = $offer->product->company;
-
         return $offerCompany->id == $companyId;
     }
 
-    public function getCompanyOffers(Request $request, $company)
+    private function getProductOffersQuery()
     {
-        $offers = QueryBuilder::for($company->productOffers()->with('product', 'productWarehouse'))->allowedFilters([
+        return ProductOffer::with('product', 'productWarehouse', 'company')->where(function ($query) {
+            $query->whereHas('productWarehouse', function ($query) {
+                $query->where('status', ProductStatusEnum::ACTIVE());
+                $query->whereHas('product', function ($query) {
+                    $query->where('verification_status', ProductVerificationStatusEnum::Verified());
+                    $query->where('status', ProductStatusEnum::ACTIVE());
+                });
+            });
+            $query->whereHas('company', function ($query) {
+                $query->where('status', CompanyStatusEnum::VERIFIED());
+            });
+            $query->where('status', ProductOfferStatusEnum::ACTIVE());
+        });
+    }
+
+    private function applyFiltersAndSorting($query, Request $request)
+    {
+        $offers = QueryBuilder::for($query)->allowedFilters([
             AllowedFilter::exact('status'),
             AllowedFilter::custom('name', new ProductOfferNameFilter()),
             AllowedFilter::exact('subcategoryId', 'product.product_subcategory_id'),
@@ -230,22 +183,20 @@ class ProductOfferService extends BasicService
         $sortPrice = $request->get('price');
         $sortEndedAt = $request->get('ended_at');
 
-        if ($sortPrice) {
-            $sortPrice = strtolower($sortPrice);
-            if (in_array($sortPrice, ['asc', 'desc'])) {
-                $offers->orderBy('price', $sortPrice);
-            }
+        if ($sortPrice && in_array(strtolower($sortPrice), ['asc', 'desc'])) {
+            $offers->orderBy('price', $sortPrice);
         }
 
-        if ($sortEndedAt) {
-            $sortEndedAt = strtolower($sortEndedAt);
-            if (in_array($sortEndedAt, ['asc', 'desc'])) {
-                $offers->orderBy('ended_at', $sortEndedAt);
-            }
+        if ($sortEndedAt && in_array(strtolower($sortEndedAt), ['asc', 'desc'])) {
+            $offers->orderBy('ended_at', $sortEndedAt);
         }
 
+        return $offers;
+    }
+
+    private function paginateAndReturn($offers)
+    {
         $offers = $offers->fastPaginate(config('paginationConfig.COMPANY_PRODUCTS'));
-
         $pagination = $this->paginate($offers);
 
         return array_merge($pagination, ProductOfferResource::collection($offers)->toArray(request()));
