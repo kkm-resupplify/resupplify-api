@@ -21,6 +21,7 @@ use App\Http\Controllers\BackOffice\Company\InvitationController as InvitationCo
 use App\Http\Controllers\Portal\Product\ProductOfferController as ProductOfferController;
 use App\Http\Controllers\Portal\Company\CompanyBalanceController as CompanyBalanceController;
 use App\Http\Controllers\BackOffice\Company\CompanyCategoryController as CompanyCategoryController;
+
 Route::post('register', [AuthController::class, 'register'])->name('register');
 Route::post('login', [AuthController::class, 'login']);
 Route::get('country', [CountryController::class, 'index']);

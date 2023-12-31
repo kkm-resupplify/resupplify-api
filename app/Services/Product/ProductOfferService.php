@@ -151,6 +151,7 @@ class ProductOfferService extends BasicService
     {
         $offer = ProductOffer::where('id', $offerId)->first();
         $offerCompany = $offer->product->company;
+
         return $offerCompany->id == $companyId;
     }
 
@@ -180,8 +181,8 @@ class ProductOfferService extends BasicService
             AllowedFilter::custom('categoryId', new ProductOfferCategoryFilter()),
         ]);
 
-        $sortPrice = $request->get('price');
-        $sortEndedAt = $request->get('ended_at');
+        $sortPrice = $request->get('sortPrice');
+        $sortEndedAt = $request->get('sortEndsAt');
 
         if ($sortPrice && in_array(strtolower($sortPrice), ['asc', 'desc'])) {
             $offers->orderBy('price', $sortPrice);

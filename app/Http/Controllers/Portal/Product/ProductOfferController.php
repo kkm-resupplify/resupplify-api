@@ -30,7 +30,7 @@ class ProductOfferController extends Controller
     public function show($id, ProductOfferService $service)
     {
         $offer = ProductOffer::findOrFail($id);
-        return $this->ok($service->getOffer($offer));
+        return $this->ok($service->getOffers($offer));
     }
 
     public function deactivateOffer($id, ProductOfferService $service)
@@ -54,6 +54,7 @@ class ProductOfferController extends Controller
         $company = Company::where('id', $slugOrId)
             ->orWhere('slug', $slugOrId)
             ->firstOrFail();
+
         return $this->ok($service->getCompanyOffers($request, $company));
     }
 }
