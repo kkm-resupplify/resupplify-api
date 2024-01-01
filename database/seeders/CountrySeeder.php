@@ -20,7 +20,6 @@ class CountrySeeder extends Seeder
         Schema::enableForeignKeyConstraints();
 
         $countries = [
-            ['name' => 'Åland Islands', 'code' => 'AX'],
             ['name' => 'Albania', 'code' => 'AL'],
             ['name' => 'Andorra', 'code' => 'AD'],
             ['name' => 'Austria', 'code' => 'AT'],
@@ -40,15 +39,11 @@ class CountrySeeder extends Seeder
             ['name' => 'Germany', 'code' => 'DE'],
             ['name' => 'Gibraltar', 'code' => 'GI'],
             ['name' => 'Greece', 'code' => 'GR'],
-            ['name' => 'Guernsey', 'code' => 'GG'],
             ['name' => 'Holy See (Vatican City State)', 'code' => 'VA'],
             ['name' => 'Hungary', 'code' => 'HU'],
             ['name' => 'Iceland', 'code' => 'IS'],
             ['name' => 'Ireland', 'code' => 'IE'],
-            ['name' => 'Isle of Man', 'code' => 'IM'],
             ['name' => 'Italy', 'code' => 'IT'],
-            ['name' => 'Jersey', 'code' => 'JE'],
-            ['name' => 'Kazakhstan', 'code' => 'KZ'],
             ['name' => 'Kosovo', 'code' => 'XK'],
             ['name' => 'Latvia', 'code' => 'LV'],
             ['name' => 'Liechtenstein', 'code' => 'LI'],
@@ -70,7 +65,6 @@ class CountrySeeder extends Seeder
             ['name' => 'Slovakia', 'code' => 'SK'],
             ['name' => 'Slovenia', 'code' => 'SI'],
             ['name' => 'Spain', 'code' => 'ES'],
-            ['name' => 'Svalbard and Jan Mayen', 'code' => 'SJ'],
             ['name' => 'Sweden', 'code' => 'SE'],
             ['name' => 'Switzerland', 'code' => 'CH'],
             ['name' => 'Ukraine', 'code' => 'UA'],
