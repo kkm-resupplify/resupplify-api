@@ -34,9 +34,8 @@ class RegisterCompanyDto extends BasicDto
     public string $phoneNumber;
 
     #[Nullable]
-    #[MimeTypes('image/webp')]
     #[Max(100)]
-    public UploadedFile $logo;
+    public ?UploadedFile $logo = null;
 
     #[Max(60)]
     public string $externalWebsite;
@@ -53,5 +52,4 @@ class RegisterCompanyDto extends BasicDto
 
     #[Nullable]
     public string $contactPerson;
-
 }
