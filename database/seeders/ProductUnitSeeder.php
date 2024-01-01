@@ -27,12 +27,10 @@ class ProductUnitSeeder extends Seeder
             ['code' => 'CAN'],
             ['code' => 'BOTTLE'],
             ['code' => 'CARTON'],
-            ['code' => 'DOZEN'],
-            ['code' => 'POUND'],
-            ['code' => 'OUNCE'],
             ['code' => 'METER'],
+            ['code' => 'METER_SQUARE'],
+            ['code' => 'METER_CUBE'],
             ['code' => 'SHEET'],
-            ['code' => 'PIECES_PER_PACK'],
         ];
 
         foreach ($productUnits as $unit) {
