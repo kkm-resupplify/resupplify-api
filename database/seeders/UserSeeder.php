@@ -39,6 +39,7 @@ class UserSeeder extends Seeder
         CompanyDetails::truncate();
         CompanyBalance::truncate();
         CompanyMember::truncate();
+        UserDetails::truncate();
         Role::truncate();
         ProductTag::truncate();
         Product::truncate();
