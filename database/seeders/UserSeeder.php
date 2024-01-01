@@ -113,7 +113,7 @@ class UserSeeder extends Seeder
                         ];
                         $productTag = $company->productTags()->get();
                         $product->warehouses()->attach($warehouse->id, $warehouseProductData);
-                        $product->productTags()->attach($productData['product_tags_id'] ?? []);
+                        $product->productTags()->attach($productData['products']['tag_id'] ?? []);
                         $productWarehouse = ProductWarehouse::where('warehouse_id', $warehouse->id)->where('product_id', $product->id)->first();
                         $startDate = date('Y-m-d H:i:s');
                         $endDate = date('Y-m-d H:i:s', strtotime('+2 days'));

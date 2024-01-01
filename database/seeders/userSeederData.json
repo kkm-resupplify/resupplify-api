@@ -96,6 +96,36 @@
                         "slug": "coffe-beans",
                         "color": "#007bff",
                         "company_id": 1
+                    },
+                    {
+                        "name": "Coffe grains",
+                        "slug": "coffe-grains",
+                        "color": "#ff6600",
+                        "company_id": 1
+                    },
+                    {
+                        "name": "Sweet",
+                        "slug": "sweet",
+                        "color": "#99cc00",
+                        "company_id": 1
+                    },
+                    {
+                        "name": "Barista",
+                        "slug": "barista",
+                        "color": "#eb4513",
+                        "company_id": 1
+                    }
+                    {
+                        "name": "Caffeine",
+                        "slug": "caffeine",
+                        "color": "#9bba13",
+                        "company_id": 1
+                    },
+                    {
+                        "name": "Bitter",
+                        "slug": "bitter",
+                        "color": "#32a852",
+                        "company_id": 1
                     }
                 ],
                 "products": [
@@ -123,7 +153,8 @@
                             "verification_status": "VERIFIED",
                             "image": "https://kkm-file-upload.s3.eu-north-1.amazonaws.com/uploads/coffe-1.webp",
                             "image_alt": "Image alt"
-                        }
+                        },
+                        "tag_id": [1,2,3,4,5,6,7]
                     },
                     {
                         "translations": [
@@ -149,7 +180,8 @@
                             "verification_status": "VERIFIED",
                             "image": "https://kkm-file-upload.s3.eu-north-1.amazonaws.com/uploads/coffe-2.webp",
                             "image_alt": "Image alt"
-                        }
+                        },
+                        "tag_id": [1,2,3,4,5,6,7]
                     },
                     {
                         "translations": [
@@ -175,7 +207,8 @@
                             "verification_status": "VERIFIED",
                             "image": "https://kkm-file-upload.s3.eu-north-1.amazonaws.com/uploads/coffe-3.webp",
                             "image_alt": "Image alt"
-                        }
+                        },
+                        "tag_id": [1,2,3,4,5,6,7]
                     },
                     {
                         "translations": [
@@ -201,7 +234,8 @@
                             "verification_status": "VERIFIED",
                             "image": "https://kkm-file-upload.s3.eu-north-1.amazonaws.com/uploads/coffe-4.webp",
                             "image_alt": "Image alt"
-                        }
+                        },
+                        "tag_id": [1,2,3,4,5,6,7]
                     }
                 ],
                 "warehouses": [
@@ -288,6 +322,36 @@
                         "slug": "cookie-delights",
                         "color": "#99cc00",
                         "company_id": 2
+                    },
+                    {
+                        "name": "Cookie",
+                        "slug": "cookie",
+                        "color": "#eb4513",
+                        "company_id": 2
+                    },
+                    {
+                        "name": "Chocolate",
+                        "slug": "chocolate",
+                        "color": "#9bba13",
+                        "company_id": 2
+                    },
+                    {
+                        "name": "Sweet",
+                        "slug": "sweet",
+                        "color": "#32a852",
+                        "company_id": 2
+                    },
+                    {
+                        "name": "Bitter",
+                        "slug": "bitter",
+                        "color": "#fcba03",
+                        "company_id": 2
+                    },
+                    {
+                        "name": "Oatmeal",
+                        "slug": "oatmeal",
+                        "color": "#007bff",
+                        "company_id": 2
                     }
                 ],
                 "products": [
@@ -315,7 +379,8 @@
                             "verification_status": "VERIFIED",
                             "image": "https://kkm-file-upload.s3.eu-north-1.amazonaws.com/uploads/cookies-1.webp",
                             "image_alt": "Image alt"
-                        }
+                        },
+                        "tag_id": [8,9,10,11,12,13,14]
                     },
                     {
                         "translations": [
@@ -341,7 +406,8 @@
                             "verification_status": "VERIFIED",
                             "image": "https://kkm-file-upload.s3.eu-north-1.amazonaws.com/uploads/cookies-2.webp",
                             "image_alt": "Image alt"
-                        }
+                        },
+                        "tag_id": [8,9,10,11,12,13,14]
                     }
                 ],
                 "warehouses": [
