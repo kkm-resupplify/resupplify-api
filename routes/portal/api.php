@@ -33,6 +33,7 @@ const HAS_COMPANY_MIDDLEWARE = 'hasCompany';
 
 Route::middleware(AUTH_SANCTUM_MIDDLEWARE)->group(function () {
   Route::get('homePage', [HomePageController::class, 'index']);
+  Route::get('homePage/randomCompanies', [HomePageController::class, 'returnRandomCompanies']);
   Route::get('user', [UserController::class, 'index']);
   Route::post('user/language', [UserController::class, 'language']);
   Route::get('user/company', [CompanyController::class, 'getLoggedUserCompany'])->middleware(HAS_COMPANY_MIDDLEWARE);

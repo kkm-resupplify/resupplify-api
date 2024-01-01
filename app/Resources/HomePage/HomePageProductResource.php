@@ -3,6 +3,7 @@
 namespace App\Resources\HomePage;
 
 
+use App\Models\Company\Company;
 use App\Models\Product\ProductOffer;
 use Illuminate\Support\Facades\Auth;
 use App\Resources\Product\ProductTagResource;
@@ -21,11 +22,12 @@ class HomePageProductResource extends JsonResource
         })->get()->sortByDesc(function ($productOffer) {
             return $productOffer->product_quantity;
         })->first();
+        $company = Company::find($this->company_id);
         return [
             'id' => $this->id,
             'name' => $this->languages[$languageId]->pivot->name,
             'description' => $this->languages[$languageId]->pivot->description,
-            'companyId' => $this->company_id,
+            'companyName' => $company->name,
             'productUnit' => new ProductUnitResource($this->productUnit),
             'productCategory' => [
                 'id' => $this->productSubcategory->productCategory->id,
