@@ -83,6 +83,7 @@ class UserSeeder extends Seeder
                 $product = Product::create($productData['product']);
                 foreach ($productData['translations'] as $translation) {
                     $product->languages()->attach($translation['languageId'], ['name' => $translation['name'], 'description' => $translation['description']]);
+                    $product->productTags()->attach($productData['tag_id'] ?? []);
                 }
             }
 
@@ -113,7 +114,6 @@ class UserSeeder extends Seeder
                         ];
                         $productTag = $company->productTags()->get();
                         $product->warehouses()->attach($warehouse->id, $warehouseProductData);
-                        $product->productTags()->attach($productData['products']['tag_id'] ?? []);
                         $productWarehouse = ProductWarehouse::where('warehouse_id', $warehouse->id)->where('product_id', $product->id)->first();
                         $startDate = date('Y-m-d H:i:s');
                         $endDate = date('Y-m-d H:i:s', strtotime('+2 days'));
