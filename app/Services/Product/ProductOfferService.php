@@ -27,6 +27,14 @@ class ProductOfferService extends BasicService
 {
     use PaginationTrait;
 
+
+    public function getOffer($id)
+    {
+        $offer = ProductOffer::findOrFail($id)->load('product', 'productWarehouse', 'company');
+
+        return new ProductOfferResource($offer);
+    }
+
     public function createOffer(ProductOfferDto $request)
     {
         $company = app('authUserCompany');

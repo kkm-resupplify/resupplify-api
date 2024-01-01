@@ -29,8 +29,7 @@ class ProductOfferController extends Controller
 
     public function show($id, ProductOfferService $service)
     {
-        $offer = ProductOffer::findOrFail($id);
-        return $this->ok($service->getOffers($offer));
+        return $this->ok($service->getOffer($id));
     }
 
     public function deactivateOffer($id, ProductOfferService $service)
