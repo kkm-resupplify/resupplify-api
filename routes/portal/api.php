@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController as AuthController;
 use App\Http\Controllers\Portal\Company\CompanyController;
 use App\Http\Controllers\Portal\File\FileUploadController;
 use App\Http\Controllers\Portal\Product\ProductController;
+use App\Http\Controllers\Portal\HomePage\HomePageController;
 use App\Http\Controllers\Portal\Product\ProductTagController;
 use App\Http\Controllers\Portal\Product\ProductUnitController;
 use App\Http\Controllers\Portal\Warehouse\WarehouseController;
@@ -26,16 +27,14 @@ Route::post('register', [AuthController::class, 'register'])->name('register');
 Route::post('login', [AuthController::class, 'login']);
 Route::get('country', [CountryController::class, 'index']);
 Route::get('country/{country}', [CountryController::class, 'show']);
-Route::get('test/lang', [TestController::class, 'langTest']);
 
 const AUTH_SANCTUM_MIDDLEWARE = 'auth:sanctum';
 const HAS_COMPANY_MIDDLEWARE = 'hasCompany';
 
 Route::middleware(AUTH_SANCTUM_MIDDLEWARE)->group(function () {
+  Route::get('homePage', [HomePageController::class, 'index']);
   Route::get('user', [UserController::class, 'index']);
   Route::post('user/language', [UserController::class, 'language']);
-  Route::post('test', [TestController::class, 'test'])->middleware(HAS_COMPANY_MIDDLEWARE);
-  Route::get('test', [TestController::class, 'roleTest']);
   Route::get('user/company', [CompanyController::class, 'getLoggedUserCompany'])->middleware(HAS_COMPANY_MIDDLEWARE);
   Route::post('user/userDetails', [UserController::class, 'createUserDetails']);
   Route::put('user/userDetails', [UserController::class, 'editUserDetails']);

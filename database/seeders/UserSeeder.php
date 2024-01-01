@@ -104,7 +104,7 @@ class UserSeeder extends Seeder
                 $warehouse = $company->warehouses()->create($warehouse);
                 if($created == false){
                     foreach($companyProducts as $product){
-                        $safeQuantity = rand(1, 100);
+                        $safeQuantity = rand(100, 5000);
                         $warehouseProductData = [
                             'quantity' => $safeQuantity*2,
                             'safe_quantity' => $safeQuantity,

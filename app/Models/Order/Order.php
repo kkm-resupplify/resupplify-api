@@ -2,16 +2,17 @@
 
 namespace App\Models\Order;
 
-use App\Models\Company\Company;
 use App\Models\Offers\Offers;
-use App\Models\Order\Enums\OrderStatusEnum;
+use App\Models\Company\Company;
 use App\Models\Product\ProductOffer;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Database\Eloquent\Model;
+use App\Models\Order\Enums\OrderStatusEnum;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Order extends Model
 {
@@ -48,5 +49,10 @@ class Order extends Model
     public function buyer(): BelongsTo
     {
         return $this->belongsTo(Company::class, 'buyer_id');
+    }
+    
+    public function orderProductOffers(): HasMany
+    {
+        return $this->hasMany(OrderProductOffer::class, 'order_id');
     }
 }
