@@ -15,7 +15,7 @@ class HomePageService extends BasicService
 {
     use PaginationTrait;
 
-    public function returPopularProducts()
+    public function returnPopularProducts()
     {
         $query = Product::join('product_warehouse', 'products.id', '=', 'product_warehouse.product_id')
                 ->join('product_offers', 'product_warehouse.id', '=', 'product_offers.company_product_id')

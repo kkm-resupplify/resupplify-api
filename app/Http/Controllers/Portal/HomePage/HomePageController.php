@@ -13,7 +13,7 @@ class HomePageController extends Controller
 
     public function index(HomePageService $service)
     {
-        return $this->ok($service->returPopularProducts());
+        return $this->ok($service->returnPopularProducts());
     }
 
 }
