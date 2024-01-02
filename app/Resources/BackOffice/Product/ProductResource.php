@@ -10,7 +10,7 @@ class ProductResource extends JsonResource
 {
     public function toArray($request)
     {
-        $languageId = app('authUser') ? app('authUser')->language->id - 1 : 1;
+        $languageId = (app('authUser')->language->id ?? 1) - 1;
 
         return [
             'id' => $this->id,

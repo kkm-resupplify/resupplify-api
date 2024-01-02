@@ -15,13 +15,15 @@ class HomePageProductResource extends JsonResource
 {
     public function toArray($request)
     {
-        $languageId = app('authUser') ? app('authUser')->language->id - 1 : 1;
+        $languageId = (app('authUser')->language->id ?? 1) - 1;
         $id = $this->id;
+
         $productOffer = ProductOffer::whereHas('productWarehouse', function ($query) use ($id) {
             $query->where('product_id', $id);
         })->get()->sortByDesc(function ($productOffer) {
             return $productOffer->product_quantity;
         })->first();
+
         $company = Company::find($this->company_id);
         return [
             'id' => $this->id,
