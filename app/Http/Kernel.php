@@ -21,6 +21,7 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
+
     ];
 
     /**
@@ -40,7 +41,7 @@ class Kernel extends HttpKernel
 
         'api' => [
             // \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
-            \Illuminate\Routing\Middleware\ThrottleRequests::class.':api',
+            \Illuminate\Routing\Middleware\ThrottleRequests::class . ':api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
     ];
@@ -69,5 +70,6 @@ class Kernel extends HttpKernel
     protected $routeMiddleware = [
         'hasCompany' => \App\Http\Middleware\Company\CheckUserCompany::class,
         'isBackOfficeAdmin' => \App\Http\Middleware\BackOfficeMiddleware::class,
+        'optionalAuth' => \App\Http\Middleware\OptionalAuth::class,
     ];
 }
