@@ -21,7 +21,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(BOCompanyService::class, fn() => new BOCompanyService());
         $this->app->singleton(BOProductService::class, fn() => new BOProductService());
         $this->app->singleton('authUser', function ($app) {
-            return Auth::user();
+            return Auth::user() ?? request()->user();
         });
         $this->app->singleton('authUserCompany', function ($app) {
             return Auth::user()->company;
