@@ -18,11 +18,20 @@ class HomePageService extends BasicService
     public function returnPopularProducts()
     {
         $query = Product::join('product_warehouse', 'products.id', '=', 'product_warehouse.product_id')
-                ->join('product_offers', 'product_warehouse.id', '=', 'product_offers.company_product_id')
-                ->join('order_product_offer', 'product_offers.id', '=', 'order_product_offer.product_offer_id');
+            ->join('product_offers', 'product_warehouse.id', '=', 'product_offers.company_product_id')
+            ->join('order_product_offer', 'product_offers.id', '=', 'order_product_offer.product_offer_id');
         $query->select('products.*', DB::raw('SUM(order_product_offer.offer_quantity) as total_quantity'));
         $query->groupBy('products.id');
         $query->orderBy('total_quantity', 'desc')->take(10);
-        return HomePageProductResource::collection($query->get());
+
+        $products = $query->get();
+
+        if ($products->count() < 10) {
+            $missingProductsCount = 10 - $products->count();
+            $missingProducts = Product::inRandomOrder()->take($missingProductsCount)->get();
+            $products = $products->concat($missingProducts);
+        }
+
+        return HomePageProductResource::collection($products);
     }
 }
