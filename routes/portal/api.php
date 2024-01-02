@@ -31,9 +31,32 @@ Route::get('country/{country}', [CountryController::class, 'show']);
 const AUTH_SANCTUM_MIDDLEWARE = 'auth:sanctum';
 const HAS_COMPANY_MIDDLEWARE = 'hasCompany';
 
+
+// Public routes
+Route::get('homePage', [HomePageController::class, 'index']);
+Route::get('homePage/randomCompanies', [HomePageController::class, 'returnRandomCompanies']);
+
+Route::get('productCategory', [ProductCategoryController::class, 'index']);
+Route::get('productSubcategory', [ProductSubcategoryController::class, 'index']);
+Route::get('productUnit', [ProductUnitController::class, 'index']);
+
+Route::get('/company/productOffer', [ProductOfferController::class, 'index']);
+Route::get('companyCategories', [CompanyCategoryController::class, 'index']);
+Route::get('company/productOffer/company/{slugOrId}', [ProductOfferController::class, 'getCompanyOffers']);
+
+Route::prefix('preview')->group(function () {
+  Route::prefix('company')->group(function () {
+    Route::get('/{slug}', [CompanyController::class, 'show']);
+    Route::get('', [CompanyController::class, 'index']);
+  });
+
+  Route::get('product/{slug}', [ProductController::class, 'show']);
+  Route::get('productOffer/{id}', [ProductOfferController::class, 'show']);
+});
+
+
+// Private routes
 Route::middleware(AUTH_SANCTUM_MIDDLEWARE)->group(function () {
-  Route::get('homePage', [HomePageController::class, 'index']);
-  Route::get('homePage/randomCompanies', [HomePageController::class, 'returnRandomCompanies']);
   Route::get('user', [UserController::class, 'index']);
   Route::post('user/language', [UserController::class, 'language']);
   Route::get('user/company', [CompanyController::class, 'getLoggedUserCompany'])->middleware(HAS_COMPANY_MIDDLEWARE);
@@ -42,27 +65,14 @@ Route::middleware(AUTH_SANCTUM_MIDDLEWARE)->group(function () {
   Route::post('logout', [AuthController::class, 'logout']);
   Route::post('country', [CountryController::class, 'create']);
   Route::post('companyDetails', [CompanyController::class, 'createCompanyDetails']);
-  Route::resource('productCategory', ProductCategoryController::class);
-  Route::get('productSubcategory', [ProductSubcategoryController::class, 'index']);
-  Route::get('productUnit', [ProductUnitController::class, 'index']);
 });
-
-Route::middleware(AUTH_SANCTUM_MIDDLEWARE)->prefix('preview')->group(function () {
-    Route::middleware(AUTH_SANCTUM_MIDDLEWARE)->prefix('company')->group(function () {
-        Route::get('/{slug}', [CompanyController::class, 'show'])->middleware(HAS_COMPANY_MIDDLEWARE);
-        Route::get('', [CompanyController::class, 'index'])->middleware(HAS_COMPANY_MIDDLEWARE);
-    });
-    Route::get('company/{slug}', [CompanyController::class, 'show']);
-    Route::get('product/{slug}', [ProductController::class, 'show']);
-    Route::get('productOffer/{id}', [ProductOfferController::class, 'show']);
-    });
 
 Route::middleware(AUTH_SANCTUM_MIDDLEWARE)->prefix('company')->group(function () {
   Route::post('', [CompanyController::class, 'store']);
   Route::put('', [CompanyController::class, 'editCompany'])->middleware(HAS_COMPANY_MIDDLEWARE);
   Route::resource('productTag', ProductTagController::class)->middleware(HAS_COMPANY_MIDDLEWARE);
   Route::resource('productTag/product', ProductProductTagController::class)->middleware(HAS_COMPANY_MIDDLEWARE);
-  Route::post('productTag/product' , [ProductProductTagController::class, 'store'])->middleware(HAS_COMPANY_MIDDLEWARE);
+  Route::post('productTag/product', [ProductProductTagController::class, 'store'])->middleware(HAS_COMPANY_MIDDLEWARE);
   Route::delete('productTag/product', [ProductProductTagController::class, 'destroy'])->middleware(HAS_COMPANY_MIDDLEWARE);
   Route::post('createInvitationCode', [InvitationController::class, 'createInvitationCode'])
     ->middleware(HAS_COMPANY_MIDDLEWARE);
@@ -72,18 +82,17 @@ Route::middleware(AUTH_SANCTUM_MIDDLEWARE)->prefix('company')->group(function ()
   Route::get('roles/permissions', [CompanyController::class, 'getCompanyRolesPermissions']);
   Route::post('productMassAssign', [ProductController::class, 'massAssignProductsStatus'])
     ->middleware(HAS_COMPANY_MIDDLEWARE);
-  Route::resource('companyCategories', CompanyCategoryController::class);
-  Route::get('balance/transaction', [CompanyBalanceController::class,'showBalanceOperations']);
+
+  Route::get('balance/transaction', [CompanyBalanceController::class, 'showBalanceOperations']);
   Route::resource('balance', CompanyBalanceController::class);
 
   Route::post('productOffer', [ProductOfferController::class, 'store']);
-  Route::get('productOffer', [ProductOfferController::class, 'index']);
 
-  Route::get('productOffer/deactivateOffer/{id}', [ProductOfferController::class,'deactivateOffer']);
-  Route::get('productOffer/stockItems', [ProductOfferController::class,'possitions']);
+  Route::get('productOffer/deactivateOffer/{id}', [ProductOfferController::class, 'deactivateOffer']);
+  Route::get('productOffer/stockItems', [ProductOfferController::class, 'possitions']);
   Route::get('productOffer/companyOffers', [ProductOfferController::class, 'getUserCompanyOffers']);
-  Route::get('productOffer/company/{slugOrId}', [ProductOfferController::class, 'getCompanyOffers']);
-  Route::get('productOfferStatus', [ProductOfferController::class,'changeStatus']);
+
+  Route::get('productOfferStatus', [ProductOfferController::class, 'changeStatus']);
 
   Route::resource('order', OrderController::class);
   Route::get('companyOrders/seller', [OrderController::class, 'getListOfOrdersPlacedByAuthCompany']);
