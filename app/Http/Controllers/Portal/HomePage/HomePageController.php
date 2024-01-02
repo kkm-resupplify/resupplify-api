@@ -18,10 +18,9 @@ class HomePageController extends Controller
         return $this->ok($service->returnPopularProducts());
     }
 
-    public function returnRandomCompanies()
+    public function returnRandomCompanies(HomePageService $service)
     {
-        $companies = Company::inRandomOrder()->take(10)->get();
-        return $this->ok(CompanyResource::collection($companies));
+        return $this->ok($service->returnCompanies());
     }
 
 }

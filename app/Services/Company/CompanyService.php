@@ -2,11 +2,14 @@
 
 namespace App\Services\Company;
 
+use App\Models\Order\Order;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Services\BasicService;
 use App\Models\Company\Company;
+use App\Models\Product\Product;
 use App\Helpers\PaginationTrait;
+use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Company\CompanyMember;
@@ -24,11 +27,12 @@ use App\Http\Dto\Company\RegisterCompanyDto;
 use App\Resources\Company\CompanyCollection;
 use App\Exceptions\User\UserAlreadyHaveCompany;
 use App\Models\Company\Enums\CompanyStatusEnum;
+use App\Models\Product\Enums\ProductStatusEnum;
 use App\Http\Dto\Company\RegisterCompanyDetailsDto;
 use App\Exceptions\Company\CompanyNotFoundException;
+use App\Models\Product\Enums\ProductOfferStatusEnum;
 use App\Exceptions\Company\CompanyNameTakenException;
 use App\Http\Controllers\Portal\File\FileUploadController;
-
 
 class CompanyService extends BasicService
 {
@@ -163,6 +167,11 @@ class CompanyService extends BasicService
             'tin' => $companyDetailsRequest->tin,
             'contact_person' => $request->contactPerson,
         ]);
+        return new CompanyResource($company);
+    }
+
+    public function returnCompany(Company $company)
+    {
         return new CompanyResource($company);
     }
 }
