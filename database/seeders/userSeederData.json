@@ -154,7 +154,7 @@
                             "image": "https://kkm-file-upload.s3.eu-north-1.amazonaws.com/uploads/coffe-1.webp",
                             "image_alt": "Image alt"
                         },
-                        "tag_id": [1,2,3,4,5,6,7]
+                        "tag_id": [4,5,7]
                     },
                     {
                         "translations": [
@@ -181,7 +181,7 @@
                             "image": "https://kkm-file-upload.s3.eu-north-1.amazonaws.com/uploads/coffe-2.webp",
                             "image_alt": "Image alt"
                         },
-                        "tag_id": [1,2,3,4,5,6,7]
+                        "tag_id": [1,2,4]
                     },
                     {
                         "translations": [
@@ -208,7 +208,7 @@
                             "image": "https://kkm-file-upload.s3.eu-north-1.amazonaws.com/uploads/coffe-3.webp",
                             "image_alt": "Image alt"
                         },
-                        "tag_id": [1,2,3,4,5,6,7]
+                        "tag_id": [2,3,6,7]
                     },
                     {
                         "translations": [
@@ -235,7 +235,7 @@
                             "image": "https://kkm-file-upload.s3.eu-north-1.amazonaws.com/uploads/coffe-4.webp",
                             "image_alt": "Image alt"
                         },
-                        "tag_id": [1,2,3,4,5,6,7]
+                        "tag_id": [1,2,3]
                     }
                 ],
                 "warehouses": [
@@ -312,18 +312,6 @@
                 ],
                 "tag": [
                     {
-                        "name": "Cookies",
-                        "slug": "cookies",
-                        "color": "#ff6600",
-                        "company_id": 2
-                    },
-                    {
-                        "name": "Cookie Delights",
-                        "slug": "cookie-delights",
-                        "color": "#99cc00",
-                        "company_id": 2
-                    },
-                    {
                         "name": "Cookie",
                         "slug": "cookie",
                         "color": "#eb4513",
@@ -339,12 +327,6 @@
                         "name": "Sweet",
                         "slug": "sweet",
                         "color": "#32a852",
-                        "company_id": 2
-                    },
-                    {
-                        "name": "Bitter",
-                        "slug": "bitter",
-                        "color": "#fcba03",
                         "company_id": 2
                     },
                     {
@@ -380,7 +362,7 @@
                             "image": "https://kkm-file-upload.s3.eu-north-1.amazonaws.com/uploads/cookies-1.webp",
                             "image_alt": "Image alt"
                         },
-                        "tag_id": [8,9,10,11,12,13,14]
+                        "tag_id": [8,9,10]
                     },
                     {
                         "translations": [
@@ -407,7 +389,7 @@
                             "image": "https://kkm-file-upload.s3.eu-north-1.amazonaws.com/uploads/cookies-2.webp",
                             "image_alt": "Image alt"
                         },
-                        "tag_id": [8,9,10,11,12,13,14]
+                        "tag_id": [8,9,11]
                     }
                 ],
                 "warehouses": [

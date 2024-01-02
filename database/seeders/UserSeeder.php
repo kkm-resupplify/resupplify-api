@@ -8,6 +8,7 @@ use App\Models\Product\Product;
 use Illuminate\Database\Seeder;
 use App\Models\User\UserDetails;
 use App\Models\Product\ProductTag;
+use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use App\Models\Warehouse\Warehouse;
 use App\Models\Product\ProductOffer;
@@ -49,8 +50,8 @@ class UserSeeder extends Seeder
         ProductWarehouse::truncate();
         ProductOffer::truncate();
         LanguageProduct::truncate();
+        DB::table('product_product_tag')->truncate();
         Schema::enableForeignKeyConstraints();
-
         $json = File::get(__DIR__ . '/userSeederData.json');
         $data = json_decode($json, true);
 
@@ -81,9 +82,9 @@ class UserSeeder extends Seeder
 
             foreach ($companyData['products'] as $productData) {
                 $product = Product::create($productData['product']);
+                $product->productTags()->attach($productData['tag_id'] ?? []);
                 foreach ($productData['translations'] as $translation) {
                     $product->languages()->attach($translation['languageId'], ['name' => $translation['name'], 'description' => $translation['description']]);
-                    $product->productTags()->attach($productData['tag_id'] ?? []);
                 }
             }
 
@@ -112,7 +113,6 @@ class UserSeeder extends Seeder
                             'safe_quantity' => $safeQuantity,
                             'status' => ProductStatusEnum::ACTIVE(),
                         ];
-                        $productTag = $company->productTags()->get();
                         $product->warehouses()->attach($warehouse->id, $warehouseProductData);
                         $productWarehouse = ProductWarehouse::where('warehouse_id', $warehouse->id)->where('product_id', $product->id)->first();
                         $startDate = date('Y-m-d H:i:s');
