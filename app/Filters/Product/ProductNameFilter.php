@@ -10,7 +10,7 @@ class ProductNameFilter implements Filter
 {
     public function __invoke(Builder $query, $value, string $property): Builder
     {
-        $language_id = app('authUser')->language_id;
+        $language_id = app('authUser')->language_id ?? 1;
 
         return $query->whereHas('languages', function (Builder $query) use ($value, $language_id) {
             $query->where('language_product.name', 'like', "%{$value}%")
