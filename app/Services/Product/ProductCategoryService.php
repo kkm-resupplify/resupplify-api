@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Services\Product;
+
 use App\Models\Product\ProductCategory;
 use App\Resources\Product\ProductCategoryAndSubcategoryResource;
 use App\Resources\Product\ProductCategoryResource;
@@ -12,14 +13,15 @@ class ProductCategoryService extends BasicService
     public function getProductCategories()
     {
         $user = app('authUser');
+
         return ProductCategoryResource::collection(ProductCategory::whereHas('languages', function ($query) use (
             $user
         ) {
-            $query->where('languages.id', $user->language->id);
+            $query->where('languages.id', $user->language->id ?? 1);
         })
             ->with([
                 'languages' => function ($query) use ($user) {
-                    $query->where('languages.id', $user->language->id);
+                    $query->where('languages.id', $user->language->id ?? 1);
                 },
             ])
             ->get());

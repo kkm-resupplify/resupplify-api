@@ -16,11 +16,11 @@ class ProductSubcategoryService extends BasicService
         return ProductSubcategoryResource::collection(ProductSubcategory::whereHas('languages', function ($query) use (
             $user
         ) {
-            $query->where('languages.id', $user->language->id);
+            $query->where('languages.id', $user->language->id ?? 1);
         })
             ->with([
                 'languages' => function ($query) use ($user) {
-                    $query->where('languages.id', $user->language->id);
+                    $query->where('languages.id', $user->language->id ?? 1);
                 },
             ])
             ->get());
