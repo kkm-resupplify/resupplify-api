@@ -19,8 +19,9 @@ class RegisterCompanyDetailsDto extends BasicDto
   #[Numeric]
   public string $phoneNumber;
 
-  #[Max(300)]
-  public string $logo;
+  #[Nullable]
+  #[Max(100)]
+  public ?UploadedFile $logo = null;
 
   #[Max(60)]
   public string $externalWebsite;
@@ -34,7 +35,4 @@ class RegisterCompanyDetailsDto extends BasicDto
 
   #[Numeric]
   public string $tin;
-
 }
-
-
