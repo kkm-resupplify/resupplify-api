@@ -116,7 +116,7 @@ class ProductOfferService extends BasicService
     public function getCompanyOffers(Request $request, $company)
     {
         $offers = $this->applyFiltersAndSorting($company->productOffers()
-            ->with('product', 'productWarehouse'), $request);
+            ->with('product', 'productWarehouse', 'company'), $request);
 
         return $this->paginateAndReturn($offers);
     }
