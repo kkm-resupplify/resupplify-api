@@ -141,11 +141,6 @@ class CompanyService extends BasicService
         if (Company::where('name', '=', $company->name)->where('id', '<>', $company->id)->exists()) {
             throw(new CompanyNameTakenException());
         }
-        setPermissionsTeamId($company->id);
-        if(!$user->can('Owner permissions'))
-        {
-            throw(new WrongPermissions());
-        }
         $company->update([
             'name' => $companyRequest->name,
             'short_description' => $companyRequest->shortDescription,
