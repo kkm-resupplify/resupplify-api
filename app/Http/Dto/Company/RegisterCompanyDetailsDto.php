@@ -6,7 +6,8 @@ use App\Http\Dto\BasicDto;
 use Spatie\LaravelData\Attributes\Validation\Email;
 use Spatie\LaravelData\Attributes\Validation\Max;
 use Spatie\LaravelData\Attributes\Validation\Numeric;
-
+use Spatie\LaravelData\Attributes\Validation\Nullable;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class RegisterCompanyDetailsDto extends BasicDto
 {
