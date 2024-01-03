@@ -32,7 +32,7 @@ class HomePageService extends BasicService
 
         if ($products->count() < 10) {
             $missingProductsCount = 10 - $products->count();
-            $missingProducts = Product::inRandomOrder()->take($missingProductsCount)->get();
+            $missingProducts = Product::whereNotIn('id', $products->pluck('id'))->inRandomOrder()->take($missingProductsCount)->get();
             $products = $products->concat($missingProducts);
         }
 
