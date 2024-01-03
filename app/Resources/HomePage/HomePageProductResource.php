@@ -8,6 +8,7 @@ use App\Models\Product\ProductOffer;
 use Illuminate\Support\Facades\Auth;
 use App\Resources\Product\ProductTagResource;
 use App\Resources\Product\ProductUnitResource;
+use App\Resources\Product\ProductOfferResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Resources\Product\ProductTranslationResource;
 
@@ -44,7 +45,7 @@ class HomePageProductResource extends JsonResource
             'productTags' => ProductTagResource::collection($this->productTags),
             'translations' => ProductTranslationResource::collection($this->languages),
             'soldQuantity' => (int) $this->total_quantity,
-            'productOffer' => $productOffer,
+            'productOffer' => new ProductOfferResource($productOffer),
         ];
     }
 }
