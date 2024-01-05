@@ -22,6 +22,7 @@ use App\Exceptions\Product\ProductOfferNotFoundException;
 use App\Exceptions\Product\ProductOfferQuantityException;
 use App\Models\Product\Enums\ProductVerificationStatusEnum;
 use Illuminate\Http\Request;
+use App\Exceptions\Product\ProductOfferExistInThisTime;
 
 class ProductOfferService extends BasicService
 {
@@ -77,7 +78,7 @@ class ProductOfferService extends BasicService
         }
 
         if ($companyProductOffersOverlap->count() > 0) {
-            throw new ProductOfferExists();
+            throw new ProductOfferExistInThisTime();
         }
 
         $offer = new ProductOffer([

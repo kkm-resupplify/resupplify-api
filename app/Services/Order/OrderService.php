@@ -22,6 +22,7 @@ use App\Exceptions\Order\OrderCantBuyProductException;
 use App\Exceptions\Order\OrderNotEnoughBalanceException;
 use App\Exceptions\Order\OrderNotEnoughProductException;
 use App\Exceptions\Product\ProductOfferNotFoundException;
+use App\Exceptions\Order\OrderCantButProductQuantityException;
 use App\Models\Company\Enums\CompanyBalanceTransactionTypeEnum;
 
 class OrderService extends BasicService
@@ -55,12 +56,16 @@ class OrderService extends BasicService
                 $offer->product_quantity < $orderItem['orderQuantity']
                 || $offerWarehouse['quantity'] < $orderItem['orderQuantity']
             ) {
-                throw new OrderNotEnoughProductException();
+                throw new OrderCantButProductQuantityException();
             }
 
 
 
             $offerPrice = $offer->price * $orderItem['orderQuantity'];
+            if($offerPrice <= 0)
+            {
+                throw new OrderCantBuyProductException();
+            }
             $orderCost += $offerPrice;
             $orderOffers[] = $offer;
         }
