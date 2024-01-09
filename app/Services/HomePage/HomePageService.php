@@ -4,16 +4,18 @@ namespace App\Services\HomePage;
 
 
 use App\Models\Order\Order;
+use App\Models\Product\Enums\ProductVerificationStatusEnum;
 use App\Services\BasicService;
 use App\Models\Company\Company;
 use App\Models\Product\Product;
 use App\Helpers\PaginationTrait;
+use App\Models\Company\Enums\CompanyStatusEnum;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Resources\HomePage\HomePageCompanyResource;
 use App\Resources\HomePage\HomePageProductResource;
 use App\Models\Product\Enums\ProductOfferStatusEnum;
-
+use App\Models\Product\Enums\ProductStatusEnum;
 
 class HomePageService extends BasicService
 {
@@ -21,7 +23,7 @@ class HomePageService extends BasicService
 
     public function returnPopularProducts()
     {
-        $query = Product::join('product_warehouse', 'products.id', '=', 'product_warehouse.product_id')
+        $query = Product::where('verification_status',ProductVerificationStatusEnum::VERIFIED())->where('status',ProductStatusEnum::ACTIVE())->join('product_warehouse', 'products.id', '=', 'product_warehouse.product_id')
             ->join('product_offers', 'product_warehouse.id', '=', 'product_offers.company_product_id')
             ->join('order_product_offer', 'product_offers.id', '=', 'order_product_offer.product_offer_id');
         $query->select('products.*', DB::raw('SUM(order_product_offer.offer_quantity) as total_quantity'));
@@ -41,7 +43,7 @@ class HomePageService extends BasicService
 
     public function returnCompanies()
     {
-        $companies = Company::inRandomOrder()->take(10)->get();
+        $companies = Company::where('status', CompanyStatusEnum::VERIFIED())->inRandomOrder()->take(10)->get();
         foreach ($companies as $company) {
             $query = Product::join('product_warehouse', 'products.id', '=', 'product_warehouse.product_id')
                 ->join('product_offers', 'product_warehouse.id', '=', 'product_offers.company_product_id')

@@ -64,7 +64,7 @@ class OrderService extends BasicService
             $offerPrice = $offer->price * $orderItem['orderQuantity'];
             if($offerPrice <= 0)
             {
-                throw new OrderCantBuyProductException();
+                throw new OrderCantButProductQuantityException();
             }
             $orderCost += $offerPrice;
             $orderOffers[] = $offer;

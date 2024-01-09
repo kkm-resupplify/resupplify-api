@@ -12,7 +12,7 @@ class OrderCantButProductQuantityException extends BasicException
     {
         $this->errorCode = CustomErrorCodes::ORDER_CANT_BUY_PRODUCT;
         $this->errorHttpCode = Response::HTTP_UNPROCESSABLE_ENTITY;
-        $this->errorMsg = $this->__('messages.exception.order.cantBuyCompanyProductQuantity');
+        $this->errorMsg = $this->__('messages.exception.order.cantBuyProductQuantity');
 
         $errorData = $this->getErrorData();
 
