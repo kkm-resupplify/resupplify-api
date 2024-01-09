@@ -23,7 +23,7 @@ class HomePageService extends BasicService
 
     public function returnPopularProducts()
     {
-        $query = Product::where('verification_status',ProductVerificationStatusEnum::VERIFIED())->where('status',ProductStatusEnum::ACTIVE())->join('product_warehouse', 'products.id', '=', 'product_warehouse.product_id')
+        $query = Product::where('verification_status', ProductVerificationStatusEnum::VERIFIED())->where('products.status', ProductStatusEnum::ACTIVE())->where('product_warehouse.status', ProductStatusEnum::ACTIVE())->join('product_warehouse', 'products.id', '=', 'product_warehouse.product_id')
             ->join('product_offers', 'product_warehouse.id', '=', 'product_offers.company_product_id')
             ->join('order_product_offer', 'product_offers.id', '=', 'order_product_offer.product_offer_id');
         $query->select('products.*', DB::raw('SUM(order_product_offer.offer_quantity) as total_quantity'));
