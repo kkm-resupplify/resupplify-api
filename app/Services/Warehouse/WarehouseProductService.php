@@ -2,22 +2,23 @@
 
 namespace App\Services\Warehouse;
 
-use App\Exceptions\Company\WrongPermissions;
-use App\Exceptions\Product\ProductExistsInWarehouseException;
-use App\Exceptions\Product\ProductNotFoundException;
-use App\Exceptions\Warehouse\WarehouseDataNotAccessible;
-use App\Filters\Product\ProductNameFilter;
-use App\Helpers\PaginationTrait;
-use App\Http\Dto\Warehouse\WarehouseProductDto;
-use App\Http\Dto\Warehouse\WarehouseProductMassStatusUpdateDto;
-use App\Models\Product\Product;
-use App\Models\Warehouse\Warehouse;
-use App\Resources\Product\ProductResource;
-use App\Resources\Warehouse\WarehouseProductResource;
 use App\Services\BasicService;
+use App\Models\Product\Product;
+use App\Helpers\PaginationTrait;
+use App\Models\Warehouse\Warehouse;
 use Illuminate\Support\Facades\Auth;
-use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
+use Spatie\QueryBuilder\AllowedFilter;
+use App\Filters\Product\ProductNameFilter;
+use App\Resources\Product\ProductResource;
+use App\Exceptions\Company\WrongPermissions;
+use App\Http\Dto\Warehouse\WarehouseProductDto;
+use App\Exceptions\Product\ProductNotFoundException;
+use App\Resources\Warehouse\WarehouseProductResource;
+use App\Exceptions\Warehouse\WarehouseDataNotAccessible;
+use App\Exceptions\Product\ProductExistsInWarehouseException;
+use App\Exceptions\Warehouse\WarehouseProductQuantityException;
+use App\Http\Dto\Warehouse\WarehouseProductMassStatusUpdateDto;
 
 class WarehouseProductService extends BasicService
 {
@@ -38,6 +39,10 @@ class WarehouseProductService extends BasicService
         }
         if ($product->company_id != $user->company->id) {
             throw new ProductNotFoundException();
+        }
+        if($request->quantity < 0)
+        {
+            throw new WarehouseProductQuantityException();
         }
         if (isset($request->status)) {
             $warehouseProductData = [
