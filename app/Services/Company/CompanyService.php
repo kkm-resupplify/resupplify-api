@@ -42,11 +42,10 @@ class CompanyService extends BasicService
         $user = app('authUser');
 
         if (Company::where('name', '=', $request->name)->exists()) {
-            throw(new CompanyNameTakenException());
+            throw (new CompanyNameTakenException());
         }
-        if(isset($user -> companyMember))
-        {
-            throw(new UserAlreadyHaveCompany());
+        if (isset($user->companyMember)) {
+            throw (new UserAlreadyHaveCompany());
         }
 
         $company = [
@@ -59,7 +58,7 @@ class CompanyService extends BasicService
         ];
 
         $createdCompany = new Company($company);
-        $createdCompany -> owner()->associate($user)->save();
+        $createdCompany->owner()->associate($user)->save();
         $companyDetails = [
             'country_id' => $request->countryId,
             'address' => $request->address,
@@ -72,8 +71,8 @@ class CompanyService extends BasicService
             'tin' => $request->tin,
             'contact_person' => $request->contactPerson,
         ];
-        if($request->logo) {
-            $fileName = time().'_'.$request->logo->getClientOriginalName();
+        if ($request->logo) {
+            $fileName = time() . '_' . $request->logo->getClientOriginalName();
             $filePath = $request->logo->storeAs('uploads', $fileName, 's3');
 
             Storage::disk('s3')->setVisibility($filePath, 'public');
@@ -82,7 +81,7 @@ class CompanyService extends BasicService
         }
         $createdCompanyDetails = new CompanyDetails($companyDetails);
         $createdCompany->companyDetails()->save($createdCompanyDetails);
-        $companyBalance = new CompanyBalance(['company_id' => $createdCompany->id,'balance' => 0]);
+        $companyBalance = new CompanyBalance(['company_id' => $createdCompany->id, 'balance' => 0]);
         $createdCompany->companyBalances()->save($companyBalance);
         $role = [
             Role::create(['name' => 'Company owner', 'team_id' => $createdCompany->id, 'guard_name' => 'sanctum']),
@@ -107,11 +106,12 @@ class CompanyService extends BasicService
 
     public function getCompanies()
     {
-        $companies = QueryBuilder::for(Company::with("companyDetails"))->allowedFilters([
-            AllowedFilter::exact('status'),
-            AllowedFilter::custom('name', new CompanyNameFilter()),
-            AllowedFilter::exact('categoryId', 'companyDetails.company_category_id'),
-        ])->fastPaginate(config('paginationConfig.COMPANY_PRODUCTS'));
+        $companies = QueryBuilder::for(Company::with("companyDetails"))->where('status', CompanyStatusEnum::VERIFIED())
+            ->allowedFilters([
+                AllowedFilter::exact('status'),
+                AllowedFilter::custom('name', new CompanyNameFilter()),
+                AllowedFilter::exact('categoryId', 'companyDetails.company_category_id'),
+            ])->fastPaginate(config('paginationConfig.COMPANY_PRODUCTS'));
         $pagination = $this->paginate($companies);
 
         return array_merge($pagination, CompanyResource::collection($companies)->toArray(request()));
@@ -139,7 +139,7 @@ class CompanyService extends BasicService
         $company = app('authUserCompany');
         $companyDetails = $company->companyDetails;
         if (Company::where('name', '=', $company->name)->where('id', '<>', $company->id)->exists()) {
-            throw(new CompanyNameTakenException());
+            throw new CompanyNameTakenException();
         }
         $company->update([
             'name' => $companyRequest->name,
@@ -167,6 +167,10 @@ class CompanyService extends BasicService
 
     public function returnCompany(Company $company)
     {
+        if ($company->status != CompanyStatusEnum::VERIFIED()) {
+            throw new CompanyNotFoundException();
+        }
+
         return new CompanyResource($company);
     }
 }
