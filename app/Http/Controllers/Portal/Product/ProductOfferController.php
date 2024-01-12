@@ -48,10 +48,9 @@ class ProductOfferController extends Controller
         return $this->ok($service->getUserCompanyOffers($request));
     }
 
-    public function getCompanyOffers(Request $request, $slugOrId, ProductOfferService $service)
+    public function getCompanyOffers(Request $request, $slug, ProductOfferService $service)
     {
-        $company = Company::where('id', $slugOrId)
-            ->orWhere('slug', $slugOrId)
+        $company = Company::where('slug', $slug)
             ->firstOrFail();
 
         return $this->ok($service->getCompanyOffers($request, $company));

@@ -38,17 +38,19 @@ class CompanyController extends Controller
         return $this->ok($companyService->getCompanyRolesPermissions());
     }
 
-    public function editCompany(RegisterCompanyDetailsDto $companyDetailsRequest,
-     RegisterCompanyDto $companyRequest, CompanyService $companyService, Request $request): JsonResponse
-    {
+    public function editCompany(
+        RegisterCompanyDetailsDto $companyDetailsRequest,
+        RegisterCompanyDto $companyRequest,
+        CompanyService $companyService,
+        Request $request
+    ): JsonResponse {
         return $this->ok($companyService->editCompany($companyDetailsRequest, $companyRequest, $request));
     }
 
-    public function show($slugOrId, CompanyService $companyService): JsonResponse
+    public function show($slug, CompanyService $companyService): JsonResponse
     {
-        $company = Company::where('id', $slugOrId)
-        ->orWhere('slug', $slugOrId)
-        ->firstOrFail();
+        $company = Company::where('slug', $slug)
+            ->firstOrFail();
 
         return $this->ok($companyService->returnCompany($company));
     }

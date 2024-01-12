@@ -46,7 +46,7 @@ Route::middleware(OptionalAuth::class)->group(function () {
   Route::prefix('company')->group(function () {
     Route::get('productOffer', [ProductOfferController::class, 'index']);
     Route::get('companyCategories', [CompanyCategoryController::class, 'index']);
-    Route::get('productOffer/company/{slugOrId}', [ProductOfferController::class, 'getCompanyOffers']);
+    Route::get('productOffer/company/{slug}', [ProductOfferController::class, 'getCompanyOffers']);
   });
 
   Route::prefix('preview')->group(function () {
