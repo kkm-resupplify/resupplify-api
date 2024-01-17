@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('company_id')->constrained('companies')->onDelete('cascade')->onDelete('cascade');
             $table->foreignId('company_product_id')->constrained('product_warehouse')->onDelete('cascade')->onDelete('cascade');
-            $table->float('price');
+            $table->decimal('price', 16, 2);
             $table->integer('product_quantity');
             $table->tinyInteger('status')->default(0);
             $table->timestamps();

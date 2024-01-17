@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('company_balance_transactions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('company_balance_id')->constrained('company_balances')->onDelete('cascade');
-            $table->float('amount');
+            $table->decimal('amount', 16, 2);
             $table->string('currency')->default("Euro");
             $table->tinyInteger('type')->default(1);
             $table->tinyInteger('status')->default(1);
