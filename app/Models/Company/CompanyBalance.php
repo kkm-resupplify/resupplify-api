@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Models\Company\CompanyBalanceTransaction;
+
 class CompanyBalance extends Model
 {
     use HasFactory;
@@ -14,7 +15,11 @@ class CompanyBalance extends Model
     protected $fillable = [
         'company_id',
         'balance'
-        ];
+    ];
+
+    protected $casts = [
+        'balance' => 'float'
+    ];
 
     public function company(): BelongsTo
     {
@@ -25,5 +30,4 @@ class CompanyBalance extends Model
     {
         return $this->hasMany(CompanyBalanceTransaction::class);
     }
-
 }

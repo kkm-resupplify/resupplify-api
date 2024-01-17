@@ -34,6 +34,7 @@ class ProductOffer extends Model
         'updated_at' => 'datetime',
         'started_at' => 'datetime',
         'ended_at' => 'datetime',
+        'price' => 'float'
     ];
 
     public function productWarehouse(): BelongsTo

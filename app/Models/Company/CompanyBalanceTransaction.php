@@ -22,6 +22,7 @@ class CompanyBalanceTransaction extends Model
 
     protected $cast = [
         'status' => CompanyBalanceTransactionTypeEnum::class,
+        'amount' => 'float'
     ];
 
     public function companyBalance()
