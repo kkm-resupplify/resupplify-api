@@ -20,7 +20,7 @@ class CompanyBalanceTransaction extends Model
         'sender_id'
     ];
 
-    protected $cast = [
+    protected $casts = [
         'status' => CompanyBalanceTransactionTypeEnum::class,
         'amount' => 'float'
     ];
