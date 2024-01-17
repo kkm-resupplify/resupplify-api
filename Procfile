@@ -1,2 +1,2 @@
-release: php artisan migrate:fresh && php artisan db:seed
+release: php artisan migrate:fresh --force && php artisan db:seed --force
 web: vendor/bin/heroku-php-apache2 public/
