@@ -118,7 +118,7 @@ class UserSeeder extends Seeder
                         $startDate = date('Y-m-d H:i:s');
                         $endDate = date('Y-m-d H:i:s', strtotime('+2 days'));
                         $offer = new ProductOffer([
-                            'price' => rand(1, 10),
+                            'price' => round(rand(1, 1000) / 100, 2),
                             'product_quantity' => floor($safeQuantity/2),
                             'status' => 1,
                             'company_product_id' => $productWarehouse->id,
